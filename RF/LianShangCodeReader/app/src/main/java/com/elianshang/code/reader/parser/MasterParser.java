@@ -1,0 +1,162 @@
+package com.elianshang.code.reader.parser;
+
+import com.elianshang.tools.DateTool;
+import com.elianshang.yougong.tool.TimestampTool;
+import com.xue.http.hook.BaseBean;
+import com.xue.http.parse.MainParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+/**
+ * 移动端接口，解析器父类 ｛ header:{status:"x"}, body:{...} ｝ 针对返回模式这样的解析
+ */
+public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSONObject> {
+
+    /**
+     * 接口返回状态 0正常
+     */
+    protected final String RET = "ret";
+
+    /**
+     * 接口返回的信息
+     */
+    protected final String MSG = "msg";
+
+    /**
+     * 接口数据key
+     */
+    protected final String DATA_KEY = "datakey";
+
+    /**
+     * 接口返回数据节点
+     */
+    protected final String CONTENT = "content";
+
+    /**
+     * 时间戳
+     */
+    protected final String TIMESTAMP = "timestamp";
+
+    /**
+     * 区域ID
+     */
+    protected final String ZONEID = "zone_id";
+
+    /**
+     * 接口状态类型
+     */
+    public interface STATE {
+
+        /**
+         * 接口正常返回
+         */
+        int NORMAL = 0;
+
+        /**
+         * 接口无更新
+         */
+        int NOUPDATE = 2;
+
+        /**
+         * 无数据
+         */
+        int NODATA = 3;
+
+        /**
+         * 数据异常
+         */
+        int DATAEXCEPTION = 4;
+
+        /**
+         * 参数错误
+         */
+        int PARAMETERSERR = 5;
+
+        /**
+         * 系统异常
+         */
+        int SYSTEMEXCEPTION = 6;
+
+        /**
+         * token非法
+         */
+        int TOKENILLEGAL = 7;
+    }
+
+    private String zoneId;
+
+    public MasterParser() {
+        super();
+    }
+
+    @Override
+    protected JSONObject initData(String data) throws Exception {
+        JSONObject jsonObject = new JSONObject(data);
+        return jsonObject;
+    }
+
+    @Override
+    protected final boolean canParse(JSONObject data) {
+        try {
+            if (!data.has(RET)) {
+                return false;
+            }
+
+            setStatus(getInt(data, RET));
+
+            if (has(data, TIMESTAMP)) {
+                long timestamp = getLong(data, TIMESTAMP);
+                long cur = DateTool.getDateLong();
+                TimestampTool.timeOffset = timestamp * 1000 - cur;
+            }
+
+            setMessage(getString(data, MSG));
+
+            if (has(data, ZONEID)) {
+                zoneId = getString(data, ZONEID);
+            }
+
+            if (isNormalData()) {
+                if (has(data, DATA_KEY)) {
+                    setDataKey(getString(data, DATA_KEY));
+                }
+                return true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    protected JSONObject getData(String data) throws JSONException {
+        JSONObject object = null;
+        if (getStatus() == STATE.NORMAL) {
+            object = new JSONObject(data);
+            object = getJSONObject(object, CONTENT);
+        }
+
+        return object;
+    }
+
+    /**
+     * 获取区域ID
+     * */
+    public String getZoneId() {
+        return zoneId;
+    }
+
+    @Override
+    public boolean hasUpdate() {
+        return getStatus() != STATE.NOUPDATE;
+    }
+
+    /**
+     * 是否是正常
+     */
+    public boolean isNormalData() {
+        return getStatus() == STATE.NORMAL;
+    }
+}
