@@ -23,35 +23,37 @@ public class MainActivity extends BaseActivity {
 
     public void openBCR()
     {
-        try {
-            if(mBarCode.open()) {
-                BarCodeManager.BCR_TYPE bcr_type = mBarCode.getBarCodeReaderType();
-            }
-        }
-        catch(Exception e) {
-        }
+//        try {
+//            if(mBarCode.open()) {
+//                BarCodeManager.BCR_TYPE bcr_type = mBarCode.getBarCodeReaderType();
+//            }
+//        }
+//        catch(Exception e) {
+//            e.printStackTrace();
+//        }
 
         mListener = new BarCodeManager.OnBarCodeReceivedListener() {
 
             @Override
             public void OnBarCodeReceived(String arg0) {
-                try {
-
-                    if(mBarCode.getAPIVersion() >= 0x14) {
-
-                        // Prefer: fastest method (KBE Method 1:) for general case
-                        mBarCode.setBarCodeToFocusView(arg0);
-
-//						Test: KBE Method 3: Send key events used in special purpose (eg. Remote desktop application)
-//						mBarCode.sendString(arg0+"\n");// Added in API v1.04 and higher
-                    }
-                    else {
-                        // Prefer: fastest method (KBE Method 1:) for general case
-                        mBarCode.setBarCodeToFocusView(arg0);
-                    }
-                }
-                catch (Exception e) {
-                }
+                Log.e("xue" , "arg0 == " + arg0);
+//                try {
+//
+//                    if(mBarCode.getAPIVersion() >= 0x14) {
+//
+//                        // Prefer: fastest method (KBE Method 1:) for general case
+//                        mBarCode.setBarCodeToFocusView(arg0);
+//
+////						Test: KBE Method 3: Send key events used in special purpose (eg. Remote desktop application)
+////						mBarCode.sendString(arg0+"\n");// Added in API v1.04 and higher
+//                    }
+//                    else {
+//                        // Prefer: fastest method (KBE Method 1:) for general case
+//                        mBarCode.setBarCodeToFocusView(arg0);
+//                    }
+//                }
+//                catch (Exception e) {
+//                }
             }
         };
 

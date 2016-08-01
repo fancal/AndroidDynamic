@@ -1,5 +1,6 @@
 package com.elianshang.code.reader.ui.activity;
 
+import android.barcode.BarCodeManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
@@ -9,11 +10,14 @@ import android.widget.EditText;
 
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.ui.BaseActivity;
+import com.elianshang.tools.ToastTool;
 
 /**
  * Created by xfilshy on 16/8/1.
  */
-public class CheckinActivity extends BaseActivity {
+public class CheckinActivity extends BaseActivity implements BarCodeManager.OnBarCodeReceivedListener {
+
+    private BarCodeManager mBarCode;
 
     private EditText orderidEditText;
     private EditText tuoidEditText;
@@ -23,6 +27,9 @@ public class CheckinActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mBarCode = (BarCodeManager) getSystemService("barcode");
+        mBarCode.addListener(this);
 
         setContentView(R.layout.activity_checkin);
 
@@ -35,23 +42,28 @@ public class CheckinActivity extends BaseActivity {
         orderidEditText.setInputType(InputType.TYPE_NULL);
         tuoidEditText.setInputType(InputType.TYPE_NULL);
         productidEditText.setInputType(InputType.TYPE_NULL);
+    }
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View fv = getCurrentFocus();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBarCode.removeListener(this);
+    }
 
-                if (fv == orderidEditText) {
-                    orderidEditText.clearFocus();
-                    tuoidEditText.requestFocus();
-                } else if (fv == tuoidEditText) {
-                    tuoidEditText.clearFocus();
-                    productidEditText.requestFocus();
-                } else if (fv == productidEditText) {
-                    productidEditText.clearFocus();
-                    button.requestFocus();
-                }
-            }
-        });
+    @Override
+    public void OnBarCodeReceived(String s) {
+        View fv = getCurrentFocus();
+        if (fv == orderidEditText) {
+            orderidEditText.setText(s);
+            orderidEditText.clearFocus();
+            tuoidEditText.requestFocus();
+        } else if (fv == tuoidEditText) {
+            tuoidEditText.setText(s);
+            tuoidEditText.clearFocus();
+            productidEditText.requestFocus();
+        } else if (fv == productidEditText) {
+            productidEditText.setText(s);
+            ToastTool.show(this, "扫描完成提交数据");
+        }
     }
 }
