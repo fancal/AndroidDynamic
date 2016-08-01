@@ -1,7 +1,7 @@
 package com.elianshang.code.reader.parser;
 
+import com.elianshang.code.reader.tool.TimestampTool;
 import com.elianshang.tools.DateTool;
-import com.elianshang.yougong.tool.TimestampTool;
 import com.xue.http.hook.BaseBean;
 import com.xue.http.parse.MainParser;
 

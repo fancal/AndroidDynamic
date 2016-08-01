@@ -153,11 +153,11 @@ android {
      * */
     productFlavors {
         tttt {}//测试包
-        official {}//官网
-        qihu360 {}//360
-        baidu {}//百度
-        yingyongbao {}//应用宝
-        xiaomi {}//小米
+//        official {}//官网
+//        qihu360 {}//360
+//        baidu {}//百度
+//        yingyongbao {}//应用宝
+//        xiaomi {}//小米
         //lakala {}//拉卡拉
     }
 
