@@ -14,11 +14,8 @@ public class PreferencesManager {
 
     private static PreferencesManager mInstance;
     private Context mContext;
-    private static String USER = "user";
 
     private static String DEVICE = "device";
-
-    private static String TACTIC = "tactic";
 
     public static PreferencesManager get() {
         if (null == mInstance) {
