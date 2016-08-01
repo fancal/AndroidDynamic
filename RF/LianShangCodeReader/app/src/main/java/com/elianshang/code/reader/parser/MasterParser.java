@@ -1,7 +1,7 @@
 package com.elianshang.code.reader.parser;
 
+import com.elianshang.code.reader.tool.TimestampTool;
 import com.elianshang.tools.DateTool;
-import com.elianshang.yougong.tool.TimestampTool;
 import com.xue.http.hook.BaseBean;
 import com.xue.http.parse.MainParser;
 
@@ -38,11 +38,6 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
      * 时间戳
      */
     protected final String TIMESTAMP = "timestamp";
-
-    /**
-     * 区域ID
-     */
-    protected final String ZONEID = "zone_id";
 
     /**
      * 接口状态类型
@@ -85,8 +80,6 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
         int TOKENILLEGAL = 7;
     }
 
-    private String zoneId;
-
     public MasterParser() {
         super();
     }
@@ -114,10 +107,6 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
 
             setMessage(getString(data, MSG));
 
-            if (has(data, ZONEID)) {
-                zoneId = getString(data, ZONEID);
-            }
-
             if (isNormalData()) {
                 if (has(data, DATA_KEY)) {
                     setDataKey(getString(data, DATA_KEY));
@@ -141,12 +130,6 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
         return object;
     }
 
-    /**
-     * 获取区域ID
-     * */
-    public String getZoneId() {
-        return zoneId;
-    }
 
     @Override
     public boolean hasUpdate() {
