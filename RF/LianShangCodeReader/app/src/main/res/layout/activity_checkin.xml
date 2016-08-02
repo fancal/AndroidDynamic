@@ -58,6 +58,18 @@
             android:inputType="none"
             android:textSize="20dip" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试:"
+            android:textSize="20dip" />
+
+        <com.elianshang.code.reader.ui.view.ContentEditText
+            android:id="@+id/ceshi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dip" />
+
     </LinearLayout>
 
 

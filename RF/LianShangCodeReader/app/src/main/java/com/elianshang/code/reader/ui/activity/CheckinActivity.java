@@ -7,10 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.ui.BaseActivity;
+import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
 
@@ -24,6 +26,7 @@ public class CheckinActivity extends BaseActivity implements BarCodeManager.OnBa
     private ScanEditText orderidEditText;
     private ScanEditText tuoidEditText;
     private ScanEditText productidEditText;
+    private ContentEditText ceshi;
     private Button button;
     private Toolbar mToolbar;
 
@@ -45,6 +48,7 @@ public class CheckinActivity extends BaseActivity implements BarCodeManager.OnBa
         orderidEditText = (ScanEditText) findViewById(R.id.orderid_edittext);
         tuoidEditText = (ScanEditText) findViewById(R.id.tuoid_edittext);
         productidEditText = (ScanEditText) findViewById(R.id.productid_edittext);
+        ceshi = (ContentEditText)findViewById(R.id.ceshi);
         button = (Button) findViewById(R.id.button);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -55,7 +59,7 @@ public class CheckinActivity extends BaseActivity implements BarCodeManager.OnBa
 
         button.setEnabled(false);
         button.setClickable(false);
-        scanEditTextTool = new ScanEditTextTool(this, orderidEditText, tuoidEditText, productidEditText);
+        scanEditTextTool = new ScanEditTextTool(this, orderidEditText, tuoidEditText, productidEditText, ceshi);
         scanEditTextTool.setComplete(this);
 
         button.setOnClickListener(new View.OnClickListener() {

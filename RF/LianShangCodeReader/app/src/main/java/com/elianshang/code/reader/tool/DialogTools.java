@@ -5,7 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.elianshang.code.reader.R;
@@ -158,6 +163,46 @@ public class DialogTools {
         alertDialog.show();
 
         return alertDialog;
+    }
+
+    /**
+     * 显示带输入框的dialog（带title）
+     */
+    public static AlertDialog showEditViewDialog(Activity context, String tile, String textHint, String button1Text, String button2Text, final DialogInterface.OnClickListener clickListener1,
+                                                 final OnEditViewPositiveButtonClick clickListener2, boolean cancelable) {
+
+        if (context == null || context.isFinishing()) {
+            return null;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+
+        LayoutInflater inflater = context.getLayoutInflater();
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_editview, null);
+        final AppCompatEditText editText = (AppCompatEditText) layout.findViewById(R.id.edittext);
+        AppCompatTextView titleView = (AppCompatTextView) layout.findViewById(R.id.title);
+        titleView.setText(tile);
+        if (!TextUtils.isEmpty(textHint)) {
+            editText.setHint(textHint);
+        }
+        builder.setNegativeButton(button1Text, clickListener1).setPositiveButton(button2Text, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (null != clickListener2) {
+                    clickListener2.onClick(editText.getText().toString());
+                }
+            }
+        });
+        builder.setCancelable(cancelable);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.setView(layout);
+        //强制弹出键盘
+        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+        return alertDialog;
+
     }
 
     public interface OnEditViewPositiveButtonClick {
