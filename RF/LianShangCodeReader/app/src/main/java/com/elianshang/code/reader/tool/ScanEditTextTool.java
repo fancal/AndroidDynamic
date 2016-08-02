@@ -62,6 +62,12 @@ public class ScanEditTextTool {
             text.addTextChangedListener(textWatcher);
             if(text instanceof ScanEditText){
                 ((ScanEditText) text).setOnLongClickListener(activity);
+                ((ScanEditText) text).setInputEnd(new ScanEditText.OnSetInputEnd() {
+                    @Override
+                    public void onSetInputEnd(String s) {
+                        setScanText(s);
+                    }
+                });
             }
         }
     }

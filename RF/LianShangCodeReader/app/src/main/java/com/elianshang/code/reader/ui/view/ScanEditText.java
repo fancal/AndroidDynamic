@@ -13,6 +13,8 @@ import com.elianshang.code.reader.tool.DialogTools;
  */
 public class ScanEditText extends ContentEditText {
 
+    private OnSetInputEnd inputEnd;
+
     public ScanEditText(Context context) {
         super(context);
         init();
@@ -47,13 +49,27 @@ public class ScanEditText extends ContentEditText {
                 DialogTools.showEditViewDialog(activity, "请入码值", "", "取消", "确认", null, new DialogTools.OnEditViewPositiveButtonClick() {
                     @Override
                     public void onClick(String editText) {
-                        setText(editText);
+                        if (inputEnd != null) {
+                            inputEnd.onSetInputEnd(editText);
+                        }
                     }
                 }, false);
 
                 return false;
             }
         });
+    }
+
+    public void setInputEnd (OnSetInputEnd inputEnd){
+        this.inputEnd = inputEnd;
+    }
+
+
+    /**
+     * 输入完成的接口
+     */
+    public interface OnSetInputEnd {
+        void onSetInputEnd(String s);
     }
 
 //    public boolean isRight(){
