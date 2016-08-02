@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:layout_alignParentTop="true"
-        android:background="#ffff0000">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="收货" />
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIcon="@drawable/toolbar_back"
+        app:title="收货" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +26,7 @@
             android:text="订单号:"
             android:textSize="20dip" />
 
-        <EditText
+        <com.elianshang.code.reader.ui.view.ScanEditText
             android:id="@+id/orderid_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +38,7 @@
             android:text="托盘号:"
             android:textSize="20dip" />
 
-        <EditText
+        <com.elianshang.code.reader.ui.view.ScanEditText
             android:id="@+id/tuoid_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +51,7 @@
             android:text="商品国条码:"
             android:textSize="20dip" />
 
-        <EditText
+        <com.elianshang.code.reader.ui.view.ScanEditText
             android:id="@+id/productid_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

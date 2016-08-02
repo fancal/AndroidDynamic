@@ -2,23 +2,21 @@ package com.elianshang.code.reader.tool;
 
 import android.content.Context;
 
-import com.umeng.analytics.MobclickAgent;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class UMengEventTool {
 
     private static void onEvent(Context context, String eventId) {
-        MobclickAgent.onEvent(context, eventId);
+//        MobclickAgent.onEvent(context, eventId);
     }
 
     private static void onEvent(Context context, String eventId, Map<String, String> map) {
-        MobclickAgent.onEvent(context, eventId, map);
+//        MobclickAgent.onEvent(context, eventId, map);
     }
 
     private static void onEventValue(Context context, String eventId, Map<String, String> map, int du) {
-        MobclickAgent.onEventValue(context, eventId, map, du);
+//        MobclickAgent.onEventValue(context, eventId, map, du);
     }
 
     public static void onRequest(Context context, String action, String state, String function, int du) {
