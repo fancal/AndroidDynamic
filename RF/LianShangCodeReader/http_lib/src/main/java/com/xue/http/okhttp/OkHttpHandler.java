@@ -1,5 +1,7 @@
 package com.xue.http.okhttp;
 
+import android.util.Log;
+
 import com.xue.http.HttpLogTool;
 import com.xue.http.exception.ResponseException;
 import com.xue.http.hook.BaseBean;
@@ -61,12 +63,14 @@ public final class OkHttpHandler<B extends BaseBean> extends HttpHandler<OkHttpP
 
         Response response = okHttpClient.newCall(requestBuilder.build()).execute();
         if (response.isSuccessful()) {
+            Log.e("www","success");
             String data = response.body().string();
             response.body().close();
             return data;
         }
 
         code = response.code();
+        Log.e("www","code "+code);
 
         throw new ResponseException();
     }

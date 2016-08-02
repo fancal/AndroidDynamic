@@ -3,6 +3,7 @@ package com.elianshang.code.reader;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.elianshang.code.reader.bean.User;
 import com.elianshang.code.reader.db.PreferencesManager;
 
 public class BaseApplication extends Application {
@@ -12,6 +13,8 @@ public class BaseApplication extends Application {
     private String deviceId;
 
     private String imei;
+
+    private User mUser;
 
     @Override
     public void onCreate() {
@@ -41,5 +44,21 @@ public class BaseApplication extends Application {
         if (!TextUtils.isEmpty(imei)) {
             PreferencesManager.get().writeIMEI(imei);
         }
+    }
+
+    public void setUser(User user) {
+        mUser = user;
+    }
+
+    public User getUser() {
+        return mUser;
+    }
+
+    public String getUserId() {
+        return getUser().getUid();
+    }
+
+    public String getUserToken() {
+        return getUser().getToken();
     }
 }

@@ -1,20 +1,24 @@
 package com.elianshang.code.reader.ui.activity;
 
 import android.barcode.BarCodeManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
+import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
+import com.elianshang.code.reader.asyn.HttpAsyncTask;
+import com.elianshang.code.reader.bean.User;
+import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.ui.BaseActivity;
-import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
+import com.xue.http.impl.DataHull;
 
 /**
  * Created by xfilshy on 16/8/1.
@@ -26,7 +30,6 @@ public class CheckinActivity extends BaseActivity implements BarCodeManager.OnBa
     private ScanEditText orderidEditText;
     private ScanEditText tuoidEditText;
     private ScanEditText productidEditText;
-    private ContentEditText ceshi;
     private Button button;
     private Toolbar mToolbar;
 
@@ -48,7 +51,6 @@ public class CheckinActivity extends BaseActivity implements BarCodeManager.OnBa
         orderidEditText = (ScanEditText) findViewById(R.id.orderid_edittext);
         tuoidEditText = (ScanEditText) findViewById(R.id.tuoid_edittext);
         productidEditText = (ScanEditText) findViewById(R.id.productid_edittext);
-        ceshi = (ContentEditText)findViewById(R.id.ceshi);
         button = (Button) findViewById(R.id.button);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -59,17 +61,59 @@ public class CheckinActivity extends BaseActivity implements BarCodeManager.OnBa
 
         button.setEnabled(false);
         button.setClickable(false);
-        scanEditTextTool = new ScanEditTextTool(this, orderidEditText, tuoidEditText, productidEditText, ceshi);
+        scanEditTextTool = new ScanEditTextTool(this, orderidEditText, tuoidEditText, productidEditText);
         scanEditTextTool.setComplete(this);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String orderStr= orderidEditText.getText().toString().trim();
+                String tuoStr= tuoidEditText.getText().toString().trim();
+                String productStr= productidEditText.getText().toString().trim();
+
+                new RequestGetOrdeInfoTask(CheckinActivity.this, orderStr, tuoStr, productStr).start();
+
                 ToastTool.show(CheckinActivity.this, "扫描完成提交数据");
             }
         });
     }
 
+    private class RequestGetOrdeInfoTask extends HttpAsyncTask<User> {
+
+        private String orderOtherId;
+
+        private String containerId;
+
+        private String barCode;
+
+        public RequestGetOrdeInfoTask(Context context, String orderOtherId, String containerId, String barCode) {
+            super(context, true, true);
+            this.orderOtherId = orderOtherId;
+            this.containerId = containerId;
+            this.barCode = barCode;
+        }
+
+        @Override
+        public DataHull<User> doInBackground() {
+            DataHull<User> dataHull = HttpApi.receiptGetOrdeInfo(orderOtherId, containerId, barCode);
+
+            return dataHull;
+        }
+
+        @Override
+        public void onPostExecute(int updateId, User result) {
+            BaseApplication.get().setUser(result);
+
+
+        }
+
+        @Override
+        public void netErr(int updateId, String errMsg) {
+            super.netErr(updateId, errMsg);
+
+        }
+    }
 
     @Override
     protected void onDestroy() {
@@ -82,19 +126,6 @@ public class CheckinActivity extends BaseActivity implements BarCodeManager.OnBa
         Log.e("xue" , "s == " + s);
         scanEditTextTool.setScanText(s);
 
-//        View fv = getCurrentFocus();
-//        if (fv == orderidEditText) {
-//            orderidEditText.setText(s);
-//            orderidEditText.clearFocus();
-//            tuoidEditText.requestFocus();
-//        } else if (fv == tuoidEditText) {
-//            tuoidEditText.setText(s);
-//            tuoidEditText.clearFocus();
-//            productidEditText.requestFocus();
-//        } else if (fv == productidEditText) {
-//            productidEditText.setText(s);
-//            ToastTool.show(this, "扫描完成提交数据");
-//        }
     }
 
     @Override

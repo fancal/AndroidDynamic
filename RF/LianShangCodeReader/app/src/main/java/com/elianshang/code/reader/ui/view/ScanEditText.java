@@ -49,7 +49,8 @@ public class ScanEditText extends ContentEditText {
                 DialogTools.showEditViewDialog(activity, "请入码值", "", "取消", "确认", null, new DialogTools.OnEditViewPositiveButtonClick() {
                     @Override
                     public void onClick(String editText) {
-                        if (inputEnd != null) {
+                        if (inputEnd != null && editText.trim().length() > 0) {
+                            requestFocus();
                             inputEnd.onSetInputEnd(editText);
                         }
                     }

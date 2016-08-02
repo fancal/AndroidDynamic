@@ -3,12 +3,12 @@ package com.elianshang.code.reader.http;
 import android.content.Context;
 
 import com.elianshang.code.reader.BaseApplication;
+import com.elianshang.code.reader.bean.User;
+import com.elianshang.code.reader.parser.UserParser;
 import com.elianshang.code.reader.tool.AppTool;
 import com.elianshang.code.reader.tool.ConfigTool;
-import com.elianshang.code.reader.tool.SecretTool;
-import com.elianshang.code.reader.tool.TimestampTool;
-import com.elianshang.tools.DeviceTool;
 import com.xue.http.hook.BaseBean;
+import com.xue.http.hook.BaseHttpParameter;
 import com.xue.http.hook.BaseKVP;
 import com.xue.http.impl.DataHull;
 import com.xue.http.impl.DefaultKVPBean;
@@ -44,62 +44,27 @@ public class HttpApi {
         /**
          * 用户token
          */
-        String token = "token";
+        String token = "utoken";
 
         /**
-         * app版本
+         * app唯一标示传imei
          */
-        String version = "version";
+        String app_key = "app-key";
 
         /**
-         * 渠道号
-         */
-        String pcode = "pcode";
-
-        /**
-         * 平台(Android)
+         * 平台(1.H5  2.Android)
          */
         String platform = "platform";
 
         /**
-         * 设备id
+         * app版本
          */
-        String device_id = "device-id";
+        String version = "app-version";
 
         /**
-         * 签名
+         * api版本
          */
-        String sign = "sign";
-
-        /**
-         * 服务器数据key
-         */
-        String ckey = "ckey";
-
-        /**
-         * imei
-         */
-        String imei = "imei";
-
-        /**
-         * 品牌
-         */
-        String brand = "brand";
-
-        /**
-         * 设备名
-         */
-        String device_name = "device-name";
-
-        /**
-         * 系统版本
-         */
-        String os_version = "os-version";
-
-        /**
-         * 区域ID
-         */
-        String zone_id = "zone-id";
+        String api_version = "api-version";
 
     }
 
@@ -111,11 +76,338 @@ public class HttpApi {
         String timestampt = "timestamp";
     }
 
+    /**
+     * 1.登录
+     */
+    private interface UserInfoLogin {
+
+        String _function = "v1/user/login";
+
+        /**
+         * 用户名
+         */
+        String username = "userName";
+
+        /**
+         * 密码
+         */
+        String passwd = "passwd";
+
+    }
+
+    /**
+     * 2.根据订单号、托盘码和国条码查询接口
+     */
+    private interface ReceiptGetOrdeInfo {
+
+        String _function = "v1/order/po/receipt/getorderinfo";
+
+        /**
+         * 物美订单编号(扫描获得)
+         */
+        String orderOtherId = "orderOtherId";
+
+        /**
+         * 托盘码(扫描获得)
+         */
+        String containerId = "containerId";
+
+        /**
+         * 商品国条(扫描获得)
+         */
+        String barCode = "barCode";
+
+    }
+
+    /**
+     * 3.收货单接口
+     */
+    private interface ReceiptAdd {
+
+        String _function = "v1/order/po/receipt/add";
+
+        /**
+         * 物美订单编号
+         */
+        String orderOtherId = "orderOtherId";
+
+        /**
+         * 预约单号
+         */
+        String bookingNum = "bookingNum";
+
+        /**
+         * 托盘码(扫描获得)
+         */
+        String containerId = "containerId";
+
+        /**
+         * 收货码头
+         */
+        String receiptWharf = "receiptWharf";
+
+        /**
+         * 收货明细数组
+         */
+        String items = "items";
+
+        /**
+         * 批次号
+         */
+        String items_lotNum = "lotNum";
+
+        /**
+         * 商品国条码
+         */
+        String barCode = "barCode";
+
+        /**
+         * 实际收货数
+         */
+        String items_inboundQty = "inboundQty";
+
+        /**
+         * 生产日期
+         */
+        String items_proTime = "proTime";
+
+    }
+
+    /**
+     * 4.创建上架任务
+     */
+    private interface ShelveCreateTask {
+
+        String _function = "v1/inbound/shelve/createTask";
+
+        /**
+         * 类型103
+         */
+        String type = "type";
+
+        /**
+         * 托盘码
+         */
+        String containerId = "containerId";
+
+    }
+
+    /**
+     * 5.扫托盘领取上架任务（冯坤）
+     */
+    private interface ShelveScanContainer {
+
+        String _function = "v1/inbound/shelve/scanContainer";
+
+        /**
+         * 类型103
+         */
+        String type = "type";
+
+        /**
+         * 操作员
+         */
+        String operator = "operator";
+
+        /**
+         * 托盘码
+         */
+        String containerId = "containerId";
+
+    }
+
+    /**
+     * 6.扫货架位完成上架操作（冯坤）
+     */
+    private interface ShelveScanTargetLocation {
+
+        String _function = "v1/inbound/shelve/scanTargetLocation";
+
+        /**
+         * 任务ID
+         */
+        String taskId = "taskId";
+
+        /**
+         * 位置ID
+         */
+        String locationId = "locationId";
+
+    }
+
+    /**
+     * 7.查询托盘上货物（马力）
+     */
+    private interface qqq {
+
+
+    }
+
+    /**
+     * 8.转残次（马力））
+     */
+    private interface InhouseCreateScrap {
+
+        String _function = "v1/inhouse/stock_transfer/createScrap";
+
+        /**
+         * 商品码
+         */
+        String itemId = "itemId";
+
+        /**
+         * 移除库位
+         */
+        String locationId = "locationId";
+
+        /**
+         * 包装单位
+         */
+        String packName = "packName";
+
+        /**
+         * 数量
+         */
+        String uomQty = "uomQty";
+
+        /**
+         * 发起人
+         */
+        String planner = "planner";
+
+    }
+
+    /**
+     * 9.转退货（马力）
+     */
+    private interface InhouseCreateReturn {
+
+        String _function = "v1/inhouse/stock_transfer/createReturn";
+
+        /**
+         * 商品码
+         */
+        String itemId = "itemId";
+
+        /**
+         * 移除库位
+         */
+        String locationId = "locationId";
+
+        /**
+         * 包装单位
+         */
+        String packName = "packName";
+
+        /**
+         * 数量
+         */
+        String uomQty = "uomQty";
+
+        /**
+         * 发起人
+         */
+        String planner = "planner";
+
+    }
+
+    /**
+     * 10.领取移库任务（马力）
+     */
+    private interface www {
+
+
+    }
+
+    /**
+     * 11.查看任务详情（马力）
+     */
+    private interface InhouseView {
+
+        String _function = "v1/inhouse/stock_transfer/view";
+
+        /**
+         * 任务ID
+         */
+        String taskId = "taskId";
+
+    }
+
+    /**
+     * 12.转入（马力）
+     */
+    private interface InhouseScanFromLocation {
+
+        String _function = "v1/inhouse/stock_transfer/scanFromLocation";
+
+        /**
+         * 任务id
+         */
+        String taskId = "taskId";
+
+        /**
+         * 库位id
+         */
+        String locationId = "locationId";
+
+        /**
+         * 操作员id
+         */
+        String staffId = "staffId";
+
+        /**
+         * 数量
+         */
+        String uomQty = "uomQty";
+
+        /**
+         * 包装单位
+         */
+        String packName = "packName";
+
+    }
+
+    /**
+     * 13.转出（马力）
+     */
+    private interface InhouseScanToLocation {
+
+        String _function = "v1/inhouse/stock_transfer/scanToLocation";
+
+        /**
+         * 任务id
+         */
+        String taskId = "taskId";
+
+        /**
+         * 库位id
+         */
+        String locationId = "locationId";
+
+        /**
+         * 操作员id
+         */
+        String staffId = "staffId";
+
+        /**
+         * 数量
+         */
+        String uomQty = "uomQty";
+
+        /**
+         * 包装单位
+         */
+        String packName = "packName";
+
+    }
+
+
 
     private static void build() {
         base_url = ConfigTool.getHttpBaseUrl();
-        secretKey = SecretTool.getHttpSecretKey(BaseApplication.get());
-        OkHttpHandler.setOpensslSecret(SecretTool.getOpensslSecretKey(BaseApplication.get()));
+        //TODO
+        OkHttpHandler.setOpensslSecret(null);
+//        OkHttpHandler.setOpensslSecret(SecretTool.getOpensslSecretKey(BaseApplication.get()));
     }
 
 
@@ -131,14 +423,11 @@ public class HttpApi {
 
     private static void setDefaultHeaders(Context context) {
         setDefaultHeaders(
+                new DefaultKVPBean(Header.api_version, AppTool.getAppVersion(context)),
                 new DefaultKVPBean(Header.version, AppTool.getAppVersion(context)),
-                new DefaultKVPBean(Header.pcode, ConfigTool.getPcode()),
-                new DefaultKVPBean(Header.platform, "Android"),
-                new DefaultKVPBean(Header.device_id, BaseApplication.get().getDeviceId()),
-                new DefaultKVPBean(Header.imei, BaseApplication.get().getImei()),
-                new DefaultKVPBean(Header.brand, DeviceTool.getBrandName()),
-                new DefaultKVPBean(Header.device_name, DeviceTool.getDeviceName()),
-                new DefaultKVPBean(Header.os_version, DeviceTool.getOSVersionName())
+                //new DefaultKVPBean(Header.app_key, BaseApplication.get().getImei()),
+                new DefaultKVPBean(Header.app_key, "11111"),
+                new DefaultKVPBean(Header.platform, "2")
         );
     }
 
@@ -155,11 +444,9 @@ public class HttpApi {
 
         List<BaseKVP> headerList = new ArrayList();
         headerList.addAll(default_headers);
-        /**时间戳是动态值，每次请求需要重新获取，其余参数都是固定值，只需获取一次**/
-//        headerList.add(new DefaultKVPBean(Header.datakey, System.currentTimeMillis() + ""));
-//        headerList.add(new DefaultKVPBean(Header.ckey, ckey);
 //        headerList.add(new DefaultKVPBean(Header.uid, BaseApplication.get().getUserId()));
-//        headerList.add(new DefaultKVPBean(Header.token, BaseApplication.get().getUserToken()));
+        headerList.add(new DefaultKVPBean(Header.uid, "111111"));
+        headerList.add(new DefaultKVPBean(Header.token, "222222"));
         return headerList;
     }
 
@@ -240,10 +527,187 @@ public class HttpApi {
      * 根据参数，调起请求
      */
     public static <B extends BaseBean, D, PR extends BaseParser<B, D>> DataHull<B> request(HttpDynamicParameter<PR> httpParameter) {
-        httpParameter.addParameter(new DefaultKVPBean(PublicParameter.timestampt, String.valueOf(TimestampTool.currentTimeMillis() / 1000)));
+//        httpParameter.addParameter(new DefaultKVPBean(PublicParameter.timestampt, String.valueOf(TimestampTool.currentTimeMillis() / 1000)));
         OkHttpHandler<B> handler = new OkHttpHandler<>();
         DataHull<B> dataHull = handler.requestData(httpParameter);
         return dataHull;
+    }
+
+    /**
+     * 登录接口
+     *
+     * @param username    用户名
+     * @param password    密码
+     * @return
+     */
+    public static DataHull<User> userInfoLogin(String username, String password) {
+        String url = base_url + UserInfoLogin._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(UserInfoLogin.username, username),
+                new DefaultKVPBean(UserInfoLogin.passwd, password)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * 根据订单号、托盘码和国条码查询接口
+     */
+    public static DataHull<User> receiptGetOrdeInfo(String orderOtherId, String containerId, String barCode) {
+        String url = base_url + ReceiptGetOrdeInfo._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(ReceiptGetOrdeInfo.orderOtherId, orderOtherId),
+                new DefaultKVPBean(ReceiptGetOrdeInfo.containerId, containerId),
+                new DefaultKVPBean(ReceiptGetOrdeInfo.barCode, barCode)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * 根据订单号、托盘码和国条码查询接口
+     */
+    public static DataHull<User> receiptAdd(String orderOtherId, String bookingNum, String containerId, String receiptWharf, String items) {
+        String url = base_url + ReceiptAdd._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(ReceiptAdd.orderOtherId, orderOtherId),
+                new DefaultKVPBean(ReceiptAdd.bookingNum, bookingNum),
+                new DefaultKVPBean(ReceiptAdd.containerId, containerId),
+                new DefaultKVPBean(ReceiptAdd.receiptWharf, receiptWharf),
+                new DefaultKVPBean(ReceiptAdd.items, items)
+//                new DefaultKVPBean(ReceiptAdd.items_lotNum, items_lotNum),
+//                new DefaultKVPBean(ReceiptAdd.barCode, barCode),
+//                new DefaultKVPBean(ReceiptAdd.items_inboundQty, items_inboundQty),
+//                new DefaultKVPBean(ReceiptAdd.items_proTime, items_proTime)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * 扫托盘领取上架任务（冯坤)
+     */
+    public static DataHull<User> shelveScanContainer(String _type, String operator, String containerId) {
+        String url = base_url + ShelveScanContainer._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(ShelveScanContainer.type, _type),
+                new DefaultKVPBean(ShelveScanContainer.operator, operator),
+                new DefaultKVPBean(ShelveScanContainer.containerId, containerId)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * 扫货架位完成上架操（冯坤)
+     */
+    public static DataHull<User> shelveScanTargetLocation(String taskId, String locationId) {
+        String url = base_url + ShelveScanTargetLocation._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(ShelveScanTargetLocation.taskId, taskId),
+                new DefaultKVPBean(ShelveScanTargetLocation.locationId, locationId)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
+
+    /**
+     * 转残次（马力）
+     */
+    public static DataHull<User> inhouseCreateScrap(String itemId, String locationId, String packName, String uomQty, String planner) {
+        String url = base_url + InhouseCreateScrap._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(InhouseCreateScrap.itemId, itemId),
+                new DefaultKVPBean(InhouseCreateScrap.locationId, locationId),
+                new DefaultKVPBean(InhouseCreateScrap.packName, packName),
+                new DefaultKVPBean(InhouseCreateScrap.uomQty, uomQty),
+                new DefaultKVPBean(InhouseCreateScrap.planner, planner)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
+
+    /**
+     * 转退货（马力）
+     */
+    public static DataHull<User> inhouseCreateReturn(String itemId, String locationId, String packName, String uomQty, String planner) {
+        String url = base_url + InhouseCreateReturn._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(InhouseCreateReturn.itemId, itemId),
+                new DefaultKVPBean(InhouseCreateReturn.locationId, locationId),
+                new DefaultKVPBean(InhouseCreateReturn.packName, packName),
+                new DefaultKVPBean(InhouseCreateReturn.uomQty, uomQty),
+                new DefaultKVPBean(InhouseCreateReturn.planner, planner)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * 查看任务详情（马力）
+     */
+    public static DataHull<User> inhouseView(String taskId) {
+        String url = base_url + InhouseView._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(InhouseView.taskId, taskId)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
+
+    /**
+     * 转入（马力）
+     */
+    public static DataHull<User> inhouseScanFromLocation(String taskId, String locationId, String staffId, String uomQty, String packName) {
+        String url = base_url + InhouseScanFromLocation._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(InhouseScanFromLocation.taskId, taskId),
+                new DefaultKVPBean(InhouseScanFromLocation.locationId, locationId),
+                new DefaultKVPBean(InhouseScanFromLocation.staffId, staffId),
+                new DefaultKVPBean(InhouseScanFromLocation.uomQty, uomQty),
+                new DefaultKVPBean(InhouseScanFromLocation.packName, packName)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * 转出（马力）
+     */
+    public static DataHull<User> inhouseScanToLocation(String taskId, String locationId, String staffId, String uomQty, String packName) {
+        String url = base_url + InhouseScanToLocation._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(InhouseScanToLocation.taskId, taskId),
+                new DefaultKVPBean(InhouseScanToLocation.locationId, locationId),
+                new DefaultKVPBean(InhouseScanToLocation.staffId, staffId),
+                new DefaultKVPBean(InhouseScanToLocation.uomQty, uomQty),
+                new DefaultKVPBean(InhouseScanToLocation.packName, packName)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
     }
 
 
