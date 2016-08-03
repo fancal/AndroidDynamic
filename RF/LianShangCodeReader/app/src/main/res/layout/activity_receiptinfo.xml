@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:layout_alignParentTop="true"
-        android:background="#ffff0000">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="收货" />
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIcon="@drawable/toolbar_back"
+        app:title="收货" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,65 +20,148 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="商品名称:"
-            android:textSize="20dip" />
+            android:layout_marginTop="@dimen/dip_5"
+            android:layout_marginBottom="@dimen/dip_5"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="包装单位:"
-            android:textSize="20dip" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="商品名称:"
+                android:textSize="20dip" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="上架库区:"
-            android:textSize="20dip" />
+            <TextView
+                android:id="@+id/product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dip" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="订单数量:"
-            android:textSize="20dip" />
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="实收数量:"
-            android:textSize="20dip" />
+            android:layout_marginTop="@dimen/dip_5"
+            android:layout_marginBottom="@dimen/dip_5"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/num_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="包装单位:"
+                android:textSize="20dip" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="生产日期:"
-            android:textSize="20dip" />
+            <TextView
+                android:id="@+id/package_unit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dip" />
 
-        <EditText
-            android:id="@+id/date_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dip" />
+        </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="批次号:"
-            android:textSize="20dip" />
+            android:layout_marginTop="@dimen/dip_5"
+            android:layout_marginBottom="@dimen/dip_5"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/batchid_edittext"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上架库区:"
+                android:textSize="20dip" />
+
+            <TextView
+                android:id="@+id/area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dip" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:layout_marginTop="@dimen/dip_5"
+            android:layout_marginBottom="@dimen/dip_5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单数量:"
+                android:textSize="20dip" />
+
+            <TextView
+                android:id="@+id/order_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dip" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dip_5"
+            android:layout_marginBottom="@dimen/dip_5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="实收数量:"
+                android:textSize="20dip" />
+
+            <EditText
+                android:id="@+id/reality_num"
+                android:layout_width="60dip"
+                android:layout_height="wrap_content"
+                android:textSize="20dip" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="生产日期:"
+                android:textSize="20dip" />
+
+            <EditText
+                android:id="@+id/date_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dip" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="批次号:"
+                android:textSize="20dip" />
+
+            <EditText
+                android:id="@+id/batchid_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dip" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

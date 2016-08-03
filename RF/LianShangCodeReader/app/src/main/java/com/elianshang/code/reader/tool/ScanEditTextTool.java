@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 
 public class ScanEditTextTool {
@@ -40,7 +41,7 @@ public class ScanEditTextTool {
             @Override
             public void afterTextChanged(Editable s) {
                 for(int i = 0; i < mEditTexts.length; i++){
-                    ScanEditText text = (ScanEditText) mEditTexts[i];
+                    ContentEditText text = (ContentEditText) mEditTexts[i];
                     if (text.isRight()) {
                         continue;
                     } else {
@@ -59,7 +60,15 @@ public class ScanEditTextTool {
         for(EditText text : mEditTexts){
 
             text.addTextChangedListener(textWatcher);
-            ((ScanEditText) text).setOnLongClickListener(activity);
+            if(text instanceof ScanEditText){
+                ((ScanEditText) text).setOnLongClickListener(activity);
+                ((ScanEditText) text).setInputEnd(new ScanEditText.OnSetInputEnd() {
+                    @Override
+                    public void onSetInputEnd(String s) {
+                        setScanText(s);
+                    }
+                });
+            }
         }
     }
 

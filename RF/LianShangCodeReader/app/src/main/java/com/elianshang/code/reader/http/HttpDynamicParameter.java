@@ -17,14 +17,14 @@ import okhttp3.Request;
 
 public class HttpDynamicParameter<PR extends BaseParser<? extends BaseBean, ?>> extends OkHttpDynamicParameter<PR> {
 
-    public HttpDynamicParameter(String baseUrl, List headers, List params, int type, PR parser, int updataId, String secretKey) {
-        super(baseUrl, headers, params, type, parser, updataId, secretKey);
+    public HttpDynamicParameter(String baseUrl, List headers, List params, int type, PR parser, int updataId) {
+        super(baseUrl, headers, params, type, parser, updataId, "");
     }
 
     @Override
     public String sign(Request.Builder builder) {
 
-        if (TextUtils.isEmpty(secretKey) || getParams() == null) {
+        if ( getParams() == null) {
             return null;
         }
 
@@ -41,7 +41,6 @@ public class HttpDynamicParameter<PR extends BaseParser<? extends BaseBean, ?>> 
                 count++;
             }
         }
-        sb.append(secretKey);
 
         String si = MD5Tool.toMd5(sb.toString());
 

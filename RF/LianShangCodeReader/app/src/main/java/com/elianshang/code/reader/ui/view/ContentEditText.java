@@ -35,8 +35,12 @@ public class ContentEditText extends EditText {
     }
 
     protected boolean isNumeric(String str){
-
         Pattern pattern = Pattern.compile("[0-9]*");
         return pattern.matcher(str).matches();
+    }
+
+    public boolean isRight(){
+        String editStr = getText().toString().trim();
+        return !isEmpty(editStr) && isNumeric(editStr);
     }
 }

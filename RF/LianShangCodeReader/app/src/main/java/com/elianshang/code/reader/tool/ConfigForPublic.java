@@ -19,7 +19,8 @@ class ConfigForPublic implements Config {
 
     @Override
     public String getHttpBaseUrl() {
-        return SecretTool.getBaseUrl(BaseApplication.get());
+        return "http://static.rf.lsh123.com/api/wms/rf/";
+//        return SecretTool.getBaseUrl(BaseApplication.get());
     }
 
     @Override

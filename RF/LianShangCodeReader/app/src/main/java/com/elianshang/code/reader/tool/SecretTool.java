@@ -4,9 +4,9 @@ import android.content.Context;
 
 public class SecretTool {
 
-    static {
-        System.loadLibrary("lsh-private");
-    }
+//    static {
+//        System.loadLibrary("lsh-private");
+//    }
 
     public static native String getBaseUrl(Context context);
 
