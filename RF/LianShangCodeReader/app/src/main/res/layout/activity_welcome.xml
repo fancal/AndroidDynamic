@@ -38,10 +38,11 @@
             android:text="收获"
             />
         <Button
+            android:id="@+id/receive_task"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="创建上架"
+            android:text="领取上架任务"
             />
     </LinearLayout>
 
@@ -52,10 +53,11 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/finish_operation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text=""
+            android:text="完成上架操作"
             />
         <Button
             android:layout_width="0dp"

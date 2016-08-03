@@ -16,6 +16,9 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
     private Button loginBtn;
     private Button checkBtn;
     private Button receiptBtn;
+    private Button receiveTaskBtn;
+    private Button finishOperationBtn;
+
 
 
     @Override
@@ -30,9 +33,14 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         loginBtn = (Button) findViewById(R.id.login);
         checkBtn = (Button) findViewById(R.id.ckeck);
         receiptBtn = (Button) findViewById(R.id.receipt);
+        receiveTaskBtn = (Button) findViewById(R.id.receive_task);
+        finishOperationBtn = (Button) findViewById(R.id.finish_operation);
+
         loginBtn.setOnClickListener(this);
         checkBtn.setOnClickListener(this);
         receiptBtn.setOnClickListener(this);
+        receiveTaskBtn.setOnClickListener(this);
+        finishOperationBtn.setOnClickListener(this);
     }
 
 
@@ -44,6 +52,10 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
             CheckinActivity.launch(this);
         } else if(v == receiptBtn) {
             ReceiptInfoActivity.launch(this);
+        } else if (v == receiveTaskBtn) {
+            ReceiveTaskActivity.launch(this);
+        } else if(v == finishOperationBtn) {
+            FinishOperationTaskActivity.launch(this);
         }
 
     }

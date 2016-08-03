@@ -30,6 +30,12 @@
         <activity
             android:name=".ui.activity.ReceiptInfoActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ReceiveTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.FinishOperationTaskActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

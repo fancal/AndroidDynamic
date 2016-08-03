@@ -1,5 +1,7 @@
 package com.elianshang.code.reader.parser;
 
+import android.util.Log;
+
 import com.elianshang.code.reader.tool.TimestampTool;
 import com.elianshang.tools.DateTool;
 import com.xue.http.hook.BaseBean;

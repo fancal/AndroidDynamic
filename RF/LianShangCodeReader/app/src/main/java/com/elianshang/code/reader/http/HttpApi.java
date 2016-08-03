@@ -238,10 +238,16 @@ public class HttpApi {
     }
 
     /**
-     * 7.查询托盘上货物（马力）
+     * 7.扫描库位获取商品信息（马力）
      */
-    private interface qqq {
+    private interface StockGetItemList {
 
+        String _function = "v1/inhouse/stock/getItemList";
+
+        /**
+         * 位置ID
+         */
+        String locationId = "locationId";
 
     }
 
@@ -316,9 +322,18 @@ public class HttpApi {
     /**
      * 10.领取移库任务（马力）
      */
-    private interface www {
+    private interface ProcurementFetchTask {
+        String _function = "v1/procurement/fetchTask";
 
+        /**
+         * 库位id
+         */
+        String locationId = "locationId";
 
+        /**
+         * 操作员id
+         */
+        String staffId = "staffId";
     }
 
     /**
@@ -569,7 +584,7 @@ public class HttpApi {
     }
 
     /**
-     * 根据订单号、托盘码和国条码查询接口
+     * 收货单接口
      */
     public static DataHull<User> receiptAdd(String orderOtherId, String bookingNum, String containerId, String receiptWharf, String items) {
         String url = base_url + ReceiptAdd._function;
@@ -579,16 +594,29 @@ public class HttpApi {
                 new DefaultKVPBean(ReceiptAdd.containerId, containerId),
                 new DefaultKVPBean(ReceiptAdd.receiptWharf, receiptWharf),
                 new DefaultKVPBean(ReceiptAdd.items, items)
-//                new DefaultKVPBean(ReceiptAdd.items_lotNum, items_lotNum),
-//                new DefaultKVPBean(ReceiptAdd.barCode, barCode),
-//                new DefaultKVPBean(ReceiptAdd.items_inboundQty, items_inboundQty),
-//                new DefaultKVPBean(ReceiptAdd.items_proTime, items_proTime)
         );
         int type = BaseHttpParameter.Type.POST;
         HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
 
         return request(parameter);
     }
+
+
+    /**
+     * 创建上架任务
+     */
+    public static DataHull<User> shelveCreateTask(String _type, String containerId) {
+        String url = base_url + ShelveCreateTask._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(ShelveCreateTask.type, _type),
+                new DefaultKVPBean(ShelveCreateTask.containerId, containerId)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
 
     /**
      * 扫托盘领取上架任务（冯坤)
@@ -623,6 +651,23 @@ public class HttpApi {
 
 
     /**
+     * 扫描库位获取商品信息（马力）
+     * @param locationId
+     * @return
+     */
+    public static DataHull<User> stockGetItemList(String locationId) {
+        String url = base_url + StockGetItemList._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(StockGetItemList.locationId, locationId)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
+
+    /**
      * 转残次（马力）
      */
     public static DataHull<User> inhouseCreateScrap(String itemId, String locationId, String packName, String uomQty, String planner) {
@@ -633,6 +678,22 @@ public class HttpApi {
                 new DefaultKVPBean(InhouseCreateScrap.packName, packName),
                 new DefaultKVPBean(InhouseCreateScrap.uomQty, uomQty),
                 new DefaultKVPBean(InhouseCreateScrap.planner, planner)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+
+        return request(parameter);
+    }
+
+
+    /**
+     * 10.领取移库任务（马力）
+     */
+    public static DataHull<User> procurementFetchTask(String taskId, String locationId, String staffId, String uomQty, String packName) {
+        String url = base_url + ProcurementFetchTask._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(ProcurementFetchTask.locationId, locationId),
+                new DefaultKVPBean(ProcurementFetchTask.staffId, staffId)
         );
         int type = BaseHttpParameter.Type.POST;
         HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);

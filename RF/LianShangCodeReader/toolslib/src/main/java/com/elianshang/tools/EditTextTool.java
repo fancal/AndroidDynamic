@@ -21,49 +21,16 @@ public class EditTextTool {
      *
      * @param enableView 提交表单按钮
      * @param editTexts  EditText数组
-     * @param clearViews 与EditText对应的清除按钮的数组，如果某EditText不需要有对应的清除按钮，那么与该EditText的数组下标对应的清除按钮即为null
      */
-    public static void setOnInputChanged(final View enableView, final EditText[] editTexts, final View[] clearViews) {
+    public static void setOnInputChanged(final View enableView, final EditText[] editTexts) {
         if (enableView == null || editTexts == null) {
             return;
         }
         final int length = editTexts.length;
         for (int i = 0; i < length; i++) {
             final EditText editText = editTexts[i];
-            final View clearView;
-            if (clearViews != null) {
-                clearView = clearViews[i];
-            } else {
-                clearView = null;
-            }
 
             if (editText != null) {
-                if (null != clearView) {
-                    clearView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (editText != null) {
-                                editText.setText(null);
-                            }
-                        }
-                    });
-
-                }
-                editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            if (clearView != null && !TextUtils.isEmpty(editText.getText().toString())) {
-                                clearView.setVisibility(View.VISIBLE);
-                            }
-
-                        } else {
-                            if (clearView != null) {
-                                clearView.setVisibility(View.INVISIBLE);
-                            }
-                        }
-                    }
-                });
 
                 editText.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -77,18 +44,12 @@ public class EditTextTool {
                     @Override
                     public void afterTextChanged(Editable s) {
                         if (TextUtils.isEmpty(editText.getText().toString())) {
-                            if (clearView != null && clearView.getVisibility() == View.VISIBLE) {
-                                clearView.setVisibility(View.INVISIBLE);
-                            }
                             if (enableView.isEnabled()) {
                                 enableView.setEnabled(false);
                                 enableView.setClickable(false);
                             }
 
                         } else {
-                            if (clearView != null && clearView.getVisibility() != View.VISIBLE) {
-                                clearView.setVisibility(View.VISIBLE);
-                            }
                             boolean allInput = true;
                             for (int j = 0; j < length; j++) {
                                 final EditText tempEdit = editTexts[j];

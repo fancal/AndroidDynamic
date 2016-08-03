@@ -75,6 +75,6 @@
         android:paddingTop="@dimen/dip_5"
         android:paddingBottom="@dimen/dip_5"
         android:textColor="@color/white"
-        android:background="#ffff0000"/>
+        android:background="@drawable/grey_selector_for_button"/>
 
 </RelativeLayout>

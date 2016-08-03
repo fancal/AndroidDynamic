@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIcon="@drawable/toolbar_back"
+        app:title="完成上架" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="任务ID"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="@dimen/dip_10"
+        android:textSize="@dimen/dip_20" />
+    <TextView
+        android:id="@+id/task_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11111111"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="@dimen/dip_10"
+        android:textSize="@dimen/dip_20" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="仓库ID"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="@dimen/dip_10"
+        android:textSize="@dimen/dip_20" />
+    <TextView
+        android:id="@+id/location_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11111111"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="@dimen/dip_10"
+        android:textColor="#ffff0000"
+        android:textSize="@dimen/dip_30" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="扫描确认仓库ID:"
+        android:layout_marginLeft="@dimen/dip_10"
+        android:layout_marginTop="50dp"
+        android:textSize="@dimen/dip_20"/>
+
+    <com.elianshang.code.reader.ui.view.ScanEditText
+        android:id="@+id/confirm_location_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_10"
+        android:textSize="20dip" />
+
+
+
+</LinearLayout>
