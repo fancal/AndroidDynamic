@@ -1,6 +1,7 @@
 package com.elianshang.code.reader.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -8,10 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.asyn.HttpAsyncTask;
-import com.elianshang.code.reader.bean.User;
+import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.xue.http.impl.DataHull;
@@ -21,11 +21,15 @@ import com.xue.http.impl.DataHull;
  */
 public class LoginActivity extends BaseActivity{
 
+    public static void launch(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+    }
+
     private Button mLogin;
     private EditText mName;
     private EditText mPassword;
     private Toolbar mToolbar;
-
 
 
     @Override
@@ -66,7 +70,7 @@ public class LoginActivity extends BaseActivity{
         super.onBackPressed();
     }
 
-    private class RequestLoginTask extends HttpAsyncTask<User> {
+    private class RequestLoginTask extends HttpAsyncTask<ResponseState> {
 
         private String phone;
 
@@ -79,15 +83,15 @@ public class LoginActivity extends BaseActivity{
         }
 
         @Override
-        public DataHull<User> doInBackground() {
-            DataHull<User> dataHull = HttpApi.userInfoLogin(phone, password);
+        public DataHull<ResponseState> doInBackground() {
+            DataHull<ResponseState> dataHull = HttpApi.userInfoLogin(phone, password);
 
             return dataHull;
         }
 
         @Override
-        public void onPostExecute(int updateId, User result) {
-            BaseApplication.get().setUser(result);
+        public void onPostExecute(int updateId, ResponseState result) {
+
 
 
         }

@@ -21,6 +21,11 @@ import org.json.JSONObject;
  */
 public class ReceiptInfoActivity extends BaseActivity {
 
+    public static void launch(Context context) {
+        Intent intent = new Intent(context, ReceiptInfoActivity.class);
+        context.startActivity(intent);
+    }
+
     public static void launch(Context context, String orderOtherId, String containerId, String barCode) {
         Intent intent = new Intent(context, ReceiptInfoActivity.class);
         intent.putExtra("orderOtherId", orderOtherId);
@@ -47,9 +52,11 @@ public class ReceiptInfoActivity extends BaseActivity {
             jsonObject.put("lotNum" ,"" ) ;
             jsonObject.put("barCode" ,"6925194353326" ) ;
             jsonObject.put("inboundQty" ,1 ) ;
-            jsonObject.put("proTime" ,"2016-8-2" ) ;
+            jsonObject.put("proTime" ,"2016-08-02" ) ;
 
             jsonArray.put(0 , jsonObject);
+
+//            [{"lotNum" ,""},{"barCode" ,"6925194353326"},{"inboundQty" ,1},{"proTime" ,"2016-08-02"}]
         }catch (Exception e){
 
         }

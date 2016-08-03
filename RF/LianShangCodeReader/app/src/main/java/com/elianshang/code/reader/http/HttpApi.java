@@ -3,7 +3,9 @@ package com.elianshang.code.reader.http;
 import android.content.Context;
 
 import com.elianshang.code.reader.BaseApplication;
+import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.User;
+import com.elianshang.code.reader.parser.ResponseStateParser;
 import com.elianshang.code.reader.parser.UserParser;
 import com.elianshang.code.reader.tool.AppTool;
 import com.elianshang.code.reader.tool.ConfigTool;
@@ -445,8 +447,10 @@ public class HttpApi {
         List<BaseKVP> headerList = new ArrayList();
         headerList.addAll(default_headers);
 //        headerList.add(new DefaultKVPBean(Header.uid, BaseApplication.get().getUserId()));
-        headerList.add(new DefaultKVPBean(Header.uid, "111111"));
-        headerList.add(new DefaultKVPBean(Header.token, "222222"));
+//        headerList.add(new DefaultKVPBean(Header.token, BaseApplication.get().getUserToken()));
+
+        headerList.add(new DefaultKVPBean(Header.uid, "11111"));
+        headerList.add(new DefaultKVPBean(Header.token, "22222"));
         return headerList;
     }
 
@@ -540,14 +544,14 @@ public class HttpApi {
      * @param password    密码
      * @return
      */
-    public static DataHull<User> userInfoLogin(String username, String password) {
+    public static DataHull<ResponseState> userInfoLogin(String username, String password) {
         String url = base_url + UserInfoLogin._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(UserInfoLogin.username, username),
                 new DefaultKVPBean(UserInfoLogin.passwd, password)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
 
         return request(parameter);
     }

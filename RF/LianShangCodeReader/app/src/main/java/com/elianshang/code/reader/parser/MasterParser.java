@@ -15,9 +15,14 @@ import org.json.JSONObject;
 public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSONObject> {
 
     /**
-     * 接口返回状态 0正常
+     * 接口返回头
      */
-    protected final String RET = "ret";
+    protected final String HEAD = "head";
+
+    /**
+     * 接口返回状态 1为正确
+     */
+    protected final String STATUS = "status";
 
     /**
      * 接口返回的信息
@@ -32,7 +37,7 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
     /**
      * 接口返回数据节点
      */
-    protected final String CONTENT = "content";
+    protected final String BODY = "body";
 
     /**
      * 时间戳
@@ -47,7 +52,7 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
         /**
          * 接口正常返回
          */
-        int NORMAL = 0;
+        int NORMAL = 1;
 
         /**
          * 接口无更新
@@ -93,19 +98,21 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
     @Override
     protected final boolean canParse(JSONObject data) {
         try {
-            if (!data.has(RET)) {
+            if (!data.has(HEAD)) {
                 return false;
             }
 
-            setStatus(getInt(data, RET));
+            JSONObject head = optJSONObject(data, HEAD);
 
-            if (has(data, TIMESTAMP)) {
-                long timestamp = getLong(data, TIMESTAMP);
+            setStatus(getInt(head, STATUS));
+
+            setMessage(getString(head, MSG));
+
+            if (has(head, TIMESTAMP)) {
+                long timestamp = getLong(head, TIMESTAMP);
                 long cur = DateTool.getDateLong();
                 TimestampTool.timeOffset = timestamp * 1000 - cur;
             }
-
-            setMessage(getString(data, MSG));
 
             if (isNormalData()) {
                 if (has(data, DATA_KEY)) {
@@ -124,7 +131,7 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
         JSONObject object = null;
         if (getStatus() == STATE.NORMAL) {
             object = new JSONObject(data);
-            object = getJSONObject(object, CONTENT);
+            object = getJSONObject(object, BODY);
         }
 
         return object;

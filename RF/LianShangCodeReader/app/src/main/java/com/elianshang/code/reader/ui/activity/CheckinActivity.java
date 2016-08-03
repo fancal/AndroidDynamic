@@ -2,6 +2,7 @@ package com.elianshang.code.reader.ui.activity;
 
 import android.barcode.BarCodeManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +25,11 @@ import com.xue.http.impl.DataHull;
  * Created by xfilshy on 16/8/1.
  */
 public class CheckinActivity extends BaseActivity implements BarCodeManager.OnBarCodeReceivedListener, ScanEditTextTool.OnSetComplete{
+
+    public static void launch(Context context) {
+        Intent intent = new Intent(context, CheckinActivity.class);
+        context.startActivity(intent);
+    }
 
     private BarCodeManager mBarCode;
 
@@ -103,9 +109,6 @@ public class CheckinActivity extends BaseActivity implements BarCodeManager.OnBa
 
         @Override
         public void onPostExecute(int updateId, User result) {
-            BaseApplication.get().setUser(result);
-
-
         }
 
         @Override
