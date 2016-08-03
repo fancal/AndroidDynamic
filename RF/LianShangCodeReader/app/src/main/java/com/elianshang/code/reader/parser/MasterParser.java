@@ -27,7 +27,7 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
     /**
      * 接口返回的信息
      */
-    protected final String MSG = "msg";
+    protected final String MSG = "message";
 
     /**
      * 接口数据key

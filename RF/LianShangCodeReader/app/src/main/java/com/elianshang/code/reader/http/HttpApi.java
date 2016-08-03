@@ -3,7 +3,9 @@ package com.elianshang.code.reader.http;
 import android.content.Context;
 
 import com.elianshang.code.reader.BaseApplication;
+import com.elianshang.code.reader.bean.ReceiptGetOrderInfo;
 import com.elianshang.code.reader.bean.User;
+import com.elianshang.code.reader.parser.ReceiptGetOrderInfoParser;
 import com.elianshang.code.reader.parser.UserParser;
 import com.elianshang.code.reader.tool.AppTool;
 import com.elianshang.code.reader.tool.ConfigTool;
@@ -553,7 +555,7 @@ public class HttpApi {
     /**
      * 根据订单号、托盘码和国条码查询接口
      */
-    public static DataHull<User> receiptGetOrdeInfo(String orderOtherId, String containerId, String barCode) {
+    public static DataHull<ReceiptGetOrderInfo> receiptGetOrdeInfo(String orderOtherId, String containerId, String barCode) {
         String url = base_url + ReceiptGetOrdeInfo._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(ReceiptGetOrdeInfo.orderOtherId, orderOtherId),
@@ -561,7 +563,7 @@ public class HttpApi {
                 new DefaultKVPBean(ReceiptGetOrdeInfo.barCode, barCode)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ReceiptGetOrderInfoParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ReceiptGetOrderInfoParser(), 0);
 
         return request(parameter);
     }

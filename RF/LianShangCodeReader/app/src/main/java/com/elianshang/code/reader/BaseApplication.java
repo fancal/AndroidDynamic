@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.elianshang.code.reader.bean.User;
 import com.elianshang.code.reader.db.PreferencesManager;
+import com.elianshang.code.reader.tool.ScanManager;
 
 public class BaseApplication extends Application {
 
@@ -21,6 +22,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         mInstance = this;
 
+        ScanManager.init(this);
     }
 
     public static BaseApplication get() {
@@ -51,7 +53,7 @@ public class BaseApplication extends Application {
     }
 
     public User getUser() {
-        if(mUser == null){
+        if (mUser == null) {
             mUser = new User();
         }
         return mUser;
