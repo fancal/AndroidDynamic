@@ -1,6 +1,5 @@
 package com.elianshang.code.reader.ui.activity;
 
-import android.barcode.BarCodeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +19,7 @@ import com.xue.http.impl.DataHull;
 /**
  * Created by wangwenwang on 16/8/3.
  */
-public class FinishOperationTaskActivity extends BaseActivity implements BarCodeManager.OnBarCodeReceivedListener, ScanEditTextTool.OnSetComplete {
+public class FinishOperationTaskActivity extends BaseActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnSetComplete {
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, FinishOperationTaskActivity.class);

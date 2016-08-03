@@ -20,7 +20,6 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
     private Button finishOperationBtn;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +28,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         findViews();
     }
 
-    private void findViews(){
+    private void findViews() {
         loginBtn = (Button) findViewById(R.id.login);
         checkBtn = (Button) findViewById(R.id.ckeck);
         receiptBtn = (Button) findViewById(R.id.receipt);
@@ -50,11 +49,11 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
             LoginActivity.launch(this);
         } else if (v == checkBtn) {
             CheckinActivity.launch(this);
-        } else if(v == receiptBtn) {
+        } else if (v == receiptBtn) {
             ReceiptInfoActivity.launch(this);
         } else if (v == receiveTaskBtn) {
             ReceiveTaskActivity.launch(this);
-        } else if(v == finishOperationBtn) {
+        } else if (v == finishOperationBtn) {
             FinishOperationTaskActivity.launch(this);
         }
 

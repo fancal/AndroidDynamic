@@ -1,6 +1,5 @@
 package com.elianshang.code.reader.ui.activity;
 
-import android.barcode.BarCodeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.bean.User;
 import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
+import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.xue.http.impl.DataHull;
@@ -19,7 +19,7 @@ import com.xue.http.impl.DataHull;
 /**
  * Created by wangwenwang on 16/8/3.
  */
-public class ReceiveTaskActivity extends BaseActivity implements BarCodeManager.OnBarCodeReceivedListener, ScanEditTextTool.OnSetComplete {
+public class ReceiveTaskActivity extends BaseActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnSetComplete {
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, ReceiveTaskActivity.class);
@@ -28,7 +28,6 @@ public class ReceiveTaskActivity extends BaseActivity implements BarCodeManager.
 
 
     private ScanEditText containerEditText;
-    private BarCodeManager mBarCode;
     private ScanEditTextTool scanEditTextTool;
 
     @Override
@@ -37,13 +36,24 @@ public class ReceiveTaskActivity extends BaseActivity implements BarCodeManager.
         setContentView(R.layout.activity_receive_task);
 
         containerEditText = (ScanEditText) findViewById(R.id.container_id);
-        mBarCode = (BarCodeManager) getSystemService("barcode");
-        mBarCode.addListener(this);
 
         scanEditTextTool = new ScanEditTextTool(this, containerEditText);
         scanEditTextTool.setComplete(this);
 
 //        new RequestShelveCreateTask(this).start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ScanManager.get().addListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ScanManager.get().removeListener(this);
+
     }
 
     @Override
@@ -64,7 +74,6 @@ public class ReceiveTaskActivity extends BaseActivity implements BarCodeManager.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mBarCode.removeListener(this);
     }
 
     private class RequestShelveCreateTask extends HttpAsyncTask<User> {

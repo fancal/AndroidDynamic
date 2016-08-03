@@ -2,6 +2,9 @@ package com.elianshang.code.reader.tool;
 
 import android.barcode.BarCodeManager;
 import android.content.Context;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 public class ScanManager {
 
@@ -11,8 +14,31 @@ public class ScanManager {
 
     private BarCodeManager mBarCode;
 
+    private BarCodeManager.OnBarCodeReceivedListener mainListener;
+
+    private ArrayList<OnBarCodeListener> listeners;
+
     private ScanManager(Context context) {
-        mBarCode = (BarCodeManager) context.getSystemService("barcode");
+
+        if (checkClass()) {
+            mBarCode = (BarCodeManager) context.getSystemService("barcode");
+
+            mainListener = new BarCodeManager.OnBarCodeReceivedListener() {
+                @Override
+                public void OnBarCodeReceived(String s) {
+                    if (listeners != null && listeners.size() > 0) {
+                        for (OnBarCodeListener onBarCodeListener : listeners) {
+                            onBarCodeListener.OnBarCodeReceived(s);
+                        }
+                    }
+                }
+            };
+            mBarCode.addListener(mainListener);
+        } else {
+            Log.e("xue", "类不存在");
+        }
+
+        listeners = new ArrayList();
     }
 
     public synchronized static void init(Context context) {
@@ -31,23 +57,35 @@ public class ScanManager {
         return scanManager;
     }
 
-    public void addListener(BarCodeManager.OnBarCodeReceivedListener listener) {
+    public void addListener(OnBarCodeListener listener) {
         if (listener == null) {
             return;
         }
 
-        if (mBarCode != null) {
-            mBarCode.addListener(listener);
-        }
+        listeners.add(listener);
     }
 
-    public void removeListener(BarCodeManager.OnBarCodeReceivedListener listener) {
+    public void removeListener(OnBarCodeListener listener) {
         if (listener == null) {
             return;
         }
 
-        if (mBarCode != null) {
-            mBarCode.removeListener(listener);
+        listeners.remove(listener);
+    }
+
+    private boolean checkClass() {
+        try {
+            Class aClass = Class.forName("android.barcode.BarCodeManager");
+            return true;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+
+        return false;
+    }
+
+
+    public static interface OnBarCodeListener {
+        public void OnBarCodeReceived(String s);
     }
 }

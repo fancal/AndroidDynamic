@@ -1,6 +1,5 @@
 package com.elianshang.code.reader.ui.activity;
 
-import android.barcode.BarCodeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,10 +19,8 @@ import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
 
-/**
- * Created by xfilshy on 16/8/1.
- */
-public class CheckinActivity extends BaseActivity implements BarCodeManager.OnBarCodeReceivedListener, ScanEditTextTool.OnSetComplete {
+
+public class CheckinActivity extends BaseActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnSetComplete {
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, CheckinActivity.class);
