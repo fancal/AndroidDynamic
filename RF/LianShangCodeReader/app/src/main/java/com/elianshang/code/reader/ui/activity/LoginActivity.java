@@ -9,9 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.asyn.HttpAsyncTask;
-import com.elianshang.code.reader.bean.ResponseState;
+import com.elianshang.code.reader.bean.User;
 import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.xue.http.impl.DataHull;
@@ -19,7 +20,7 @@ import com.xue.http.impl.DataHull;
 /**
  * 登录页面
  */
-public class LoginActivity extends BaseActivity{
+public class LoginActivity extends BaseActivity {
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -39,7 +40,7 @@ public class LoginActivity extends BaseActivity{
         findViews();
     }
 
-    private void findViews(){
+    private void findViews() {
         mLogin = (Button) findViewById(R.id.login);
         mName = (EditText) findViewById(R.id.name);
         mPassword = (EditText) findViewById(R.id.password);
@@ -63,14 +64,13 @@ public class LoginActivity extends BaseActivity{
     }
 
 
-
     @Override
     public void onBackPressed() {
         finish();
         super.onBackPressed();
     }
 
-    private class RequestLoginTask extends HttpAsyncTask<ResponseState> {
+    private class RequestLoginTask extends HttpAsyncTask<User> {
 
         private String phone;
 
@@ -83,17 +83,16 @@ public class LoginActivity extends BaseActivity{
         }
 
         @Override
-        public DataHull<ResponseState> doInBackground() {
-            DataHull<ResponseState> dataHull = HttpApi.userInfoLogin(phone, password);
+        public DataHull<User> doInBackground() {
+            DataHull<User> dataHull = HttpApi.userInfoLogin(phone, password);
 
             return dataHull;
         }
 
         @Override
-        public void onPostExecute(int updateId, ResponseState result) {
-
-
-
+        public void onPostExecute(int updateId, User result) {
+            BaseApplication.get().setUser(result);
+            finish();
         }
 
         @Override

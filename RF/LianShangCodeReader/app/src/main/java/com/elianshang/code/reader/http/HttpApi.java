@@ -3,9 +3,7 @@ package com.elianshang.code.reader.http;
 import android.content.Context;
 
 import com.elianshang.code.reader.BaseApplication;
-import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.User;
-import com.elianshang.code.reader.parser.ResponseStateParser;
 import com.elianshang.code.reader.parser.UserParser;
 import com.elianshang.code.reader.tool.AppTool;
 import com.elianshang.code.reader.tool.ConfigTool;
@@ -404,7 +402,6 @@ public class HttpApi {
     }
 
 
-
     private static void build() {
         base_url = ConfigTool.getHttpBaseUrl();
         //TODO
@@ -446,11 +443,8 @@ public class HttpApi {
 
         List<BaseKVP> headerList = new ArrayList();
         headerList.addAll(default_headers);
-//        headerList.add(new DefaultKVPBean(Header.uid, BaseApplication.get().getUserId()));
-//        headerList.add(new DefaultKVPBean(Header.token, BaseApplication.get().getUserToken()));
-
-        headerList.add(new DefaultKVPBean(Header.uid, "11111"));
-        headerList.add(new DefaultKVPBean(Header.token, "22222"));
+        headerList.add(new DefaultKVPBean(Header.uid, BaseApplication.get().getUserId()));
+        headerList.add(new DefaultKVPBean(Header.token, BaseApplication.get().getUserToken()));
         return headerList;
     }
 
@@ -540,18 +534,18 @@ public class HttpApi {
     /**
      * 登录接口
      *
-     * @param username    用户名
-     * @param password    密码
+     * @param username 用户名
+     * @param password 密码
      * @return
      */
-    public static DataHull<ResponseState> userInfoLogin(String username, String password) {
+    public static DataHull<User> userInfoLogin(String username, String password) {
         String url = base_url + UserInfoLogin._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(UserInfoLogin.username, username),
                 new DefaultKVPBean(UserInfoLogin.passwd, password)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
+        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
 
         return request(parameter);
     }

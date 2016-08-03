@@ -12,10 +12,10 @@ public class UserParser extends MasterParser<User> {
             user = new User();
 
             user.setUid(getString(data, "uid"));
-            user.setUsername(getString(data, "username"));
-            user.setCellphone(getString(data, "cellphone"));
-            user.setStatus(getString(data, "status"));
-            user.setToken(getString(data, "token"));
+//            user.setUsername(getString(data, "username"));
+//            user.setCellphone(getString(data, "cellphone"));
+//            user.setStatus(getString(data, "status"));
+            user.setToken(getString(data, "utoken"));
         }
         return user;
     }
