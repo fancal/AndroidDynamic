@@ -18,6 +18,8 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
     private Button shelveBtn;
     private Button receiveTaskBtn;
     private Button finishOperationBtn;
+    private Button createScrap;
+    private Button createReturn;
 
 
     @Override
@@ -34,12 +36,16 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         shelveBtn = (Button) findViewById(R.id.shelve);
         receiveTaskBtn = (Button) findViewById(R.id.receive_task);
         finishOperationBtn = (Button) findViewById(R.id.finish_operation);
+        createScrap = (Button) findViewById(R.id.create_scrap);
+        createReturn = (Button) findViewById(R.id.create_return);
 
         loginBtn.setOnClickListener(this);
         receiptBtn.setOnClickListener(this);
         shelveBtn.setOnClickListener(this);
         receiveTaskBtn.setOnClickListener(this);
         finishOperationBtn.setOnClickListener(this);
+        createScrap.setOnClickListener(this);
+        createReturn.setOnClickListener(this);
     }
 
 
@@ -55,6 +61,10 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
             ShelveOpenActivity.launch(this);
         } else if (v == finishOperationBtn) {
             ShelveFinishActivity.launch(this, null);
+        } else if (v == createScrap) {
+            CreateScrapActivity.launch(this);
+        } else if (v == createReturn) {
+            CreateReturnActivity.launch(this);
         }
 
     }

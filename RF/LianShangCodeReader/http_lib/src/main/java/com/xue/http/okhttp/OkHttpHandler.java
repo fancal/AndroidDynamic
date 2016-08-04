@@ -42,7 +42,11 @@ public final class OkHttpHandler<B extends BaseBean> extends HttpHandler<OkHttpP
             response.body().close();
             return data;
         }
-
+        if (response.body() != null) {
+            String data = response.body().string();
+            HttpLogTool.log("code:" + response.code() + " ,data:" + data);
+            response.body().close();
+        }
         code = response.code();
 
         throw new ResponseException();
@@ -65,8 +69,9 @@ public final class OkHttpHandler<B extends BaseBean> extends HttpHandler<OkHttpP
             response.body().close();
             return data;
         } else {
-            if(response.body() != null){
+            if (response.body() != null) {
                 String data = response.body().string();
+                HttpLogTool.log("code:" + response.code() + " ,data:" + data);
                 response.body().close();
             }
         }
