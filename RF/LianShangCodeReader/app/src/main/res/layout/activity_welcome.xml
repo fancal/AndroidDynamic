@@ -14,15 +14,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="登录"
-            />
+            android:text="登录" />
+
         <Button
-            android:id="@+id/ckeck"
+            android:id="@+id/receipt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="检货"
-            />
+            android:text="收货" />
     </LinearLayout>
 
     <LinearLayout
@@ -31,19 +30,18 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/receipt"
+            android:id="@+id/shelve"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="收获"
-            />
+            android:text="上架" />
+
         <Button
             android:id="@+id/receive_task"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="领取上架任务"
-            />
+            android:text="领取上架任务" />
     </LinearLayout>
 
 
@@ -57,14 +55,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="完成上架操作"
-            />
+            android:text="完成上架操作" />
+
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text=""
-            />
+            android:text="" />
     </LinearLayout>
 
 
@@ -76,15 +73,13 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
+
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
     </LinearLayout>
-
 
 
 </LinearLayout>

@@ -25,16 +25,16 @@
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.CheckinActivity"
+            android:name=".ui.activity.ReceiptOpenActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ReceiptInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.ReceiveTaskActivity"
+            android:name=".ui.activity.ShelveOpenActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.FinishOperationTaskActivity"
+            android:name=".ui.activity.ShelveFinishActivity"
             android:screenOrientation="portrait" />
     </application>
 

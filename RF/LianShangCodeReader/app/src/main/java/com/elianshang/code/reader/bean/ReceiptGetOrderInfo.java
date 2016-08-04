@@ -9,7 +9,7 @@ public class ReceiptGetOrderInfo implements BaseBean {
 
     private String skuName;
 
-    private int packUnit;
+    private String packUnit;
 
     private int batchNeeded;
 
@@ -34,11 +34,11 @@ public class ReceiptGetOrderInfo implements BaseBean {
         this.skuName = skuName;
     }
 
-    public int getPackUnit() {
+    public String getPackUnit() {
         return packUnit;
     }
 
-    public void setPackUnit(int packUnit) {
+    public void setPackUnit(String packUnit) {
         this.packUnit = packUnit;
     }
 

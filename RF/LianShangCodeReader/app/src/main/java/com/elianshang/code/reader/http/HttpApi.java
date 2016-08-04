@@ -4,8 +4,14 @@ import android.content.Context;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.bean.ReceiptGetOrderInfo;
+import com.elianshang.code.reader.bean.ResponseState;
+import com.elianshang.code.reader.bean.Shelve;
+import com.elianshang.code.reader.bean.ShelveCreate;
 import com.elianshang.code.reader.bean.User;
 import com.elianshang.code.reader.parser.ReceiptGetOrderInfoParser;
+import com.elianshang.code.reader.parser.ResponseStateParser;
+import com.elianshang.code.reader.parser.ShelveCreateParser;
+import com.elianshang.code.reader.parser.ShelveParser;
 import com.elianshang.code.reader.parser.UserParser;
 import com.elianshang.code.reader.tool.AppTool;
 import com.elianshang.code.reader.tool.ConfigTool;
@@ -183,11 +189,6 @@ public class HttpApi {
         String _function = "v1/inbound/shelve/createTask";
 
         /**
-         * 类型103
-         */
-        String type = "type";
-
-        /**
          * 托盘码
          */
         String containerId = "containerId";
@@ -200,11 +201,6 @@ public class HttpApi {
     private interface ShelveScanContainer {
 
         String _function = "v1/inbound/shelve/scanContainer";
-
-        /**
-         * 类型103
-         */
-        String type = "type";
 
         /**
          * 操作员
@@ -586,33 +582,32 @@ public class HttpApi {
     /**
      * 收货单接口
      */
-    public static DataHull<User> receiptAdd(String orderOtherId, String bookingNum, String containerId, String receiptWharf, String items) {
+    public static DataHull<ResponseState> receiptAdd(String orderOtherId, String containerId, String bookingNum, String receiptWharf, String items) {
         String url = base_url + ReceiptAdd._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(ReceiptAdd.orderOtherId, orderOtherId),
-                new DefaultKVPBean(ReceiptAdd.bookingNum, bookingNum),
                 new DefaultKVPBean(ReceiptAdd.containerId, containerId),
+                new DefaultKVPBean(ReceiptAdd.bookingNum, bookingNum),
                 new DefaultKVPBean(ReceiptAdd.receiptWharf, receiptWharf),
                 new DefaultKVPBean(ReceiptAdd.items, items)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
 
         return request(parameter);
     }
 
 
     /**
-     * 创建上架任务
+     * 创建上架任务(冯坤)
      */
-    public static DataHull<User> shelveCreateTask(String _type, String containerId) {
+    public static DataHull<ShelveCreate> shelveCreateTask(String containerId) {
         String url = base_url + ShelveCreateTask._function;
         List<BaseKVP> params = addParams(
-                new DefaultKVPBean(ShelveCreateTask.type, _type),
                 new DefaultKVPBean(ShelveCreateTask.containerId, containerId)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ShelveCreateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ShelveCreateParser(), 0);
 
         return request(parameter);
     }
@@ -621,15 +616,14 @@ public class HttpApi {
     /**
      * 扫托盘领取上架任务（冯坤)
      */
-    public static DataHull<User> shelveScanContainer(String _type, String operator, String containerId) {
+    public static DataHull<Shelve> shelveScanContainer(String operator, String containerId) {
         String url = base_url + ShelveScanContainer._function;
         List<BaseKVP> params = addParams(
-                new DefaultKVPBean(ShelveScanContainer.type, _type),
                 new DefaultKVPBean(ShelveScanContainer.operator, operator),
                 new DefaultKVPBean(ShelveScanContainer.containerId, containerId)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ShelveParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ShelveParser(), 0);
 
         return request(parameter);
     }
@@ -637,14 +631,14 @@ public class HttpApi {
     /**
      * 扫货架位完成上架操（冯坤)
      */
-    public static DataHull<User> shelveScanTargetLocation(String taskId, String locationId) {
+    public static DataHull<ResponseState> shelveScanTargetLocation(String taskId, String locationId) {
         String url = base_url + ShelveScanTargetLocation._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(ShelveScanTargetLocation.taskId, taskId),
                 new DefaultKVPBean(ShelveScanTargetLocation.locationId, locationId)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
 
         return request(parameter);
     }
@@ -652,6 +646,7 @@ public class HttpApi {
 
     /**
      * 扫描库位获取商品信息（马力）
+     *
      * @param locationId
      * @return
      */

@@ -20,10 +20,10 @@ import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
 
 
-public class CheckinActivity extends BaseActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnSetComplete {
+public class ReceiptOpenActivity extends BaseActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnSetComplete {
 
     public static void launch(Context context) {
-        Intent intent = new Intent(context, CheckinActivity.class);
+        Intent intent = new Intent(context, ReceiptOpenActivity.class);
         context.startActivity(intent);
     }
 
@@ -56,6 +56,15 @@ public class CheckinActivity extends BaseActivity implements ScanManager.OnBarCo
         ScanManager.get().removeListener(this);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            tuoidEditText.setText("");
+            productidEditText.setText("");
+        }
+    }
+
     private void findViews() {
         orderidEditText = (ScanEditText) findViewById(R.id.orderid_edittext);
         tuoidEditText = (ScanEditText) findViewById(R.id.tuoid_edittext);
@@ -80,10 +89,8 @@ public class CheckinActivity extends BaseActivity implements ScanManager.OnBarCo
                 String orderStr = orderidEditText.getText().toString().trim();
                 String tuoStr = tuoidEditText.getText().toString().trim();
                 String productStr = productidEditText.getText().toString().trim();
-
-                new RequestGetOrdeInfoTask(CheckinActivity.this, orderStr, tuoStr, productStr).start();
-
-                ToastTool.show(CheckinActivity.this, "扫描完成提交数据");
+                new RequestGetOrdeInfoTask(ReceiptOpenActivity.this, orderStr, tuoStr, productStr).start();
+                ToastTool.show(ReceiptOpenActivity.this, "扫描完成提交数据");
             }
         });
     }
@@ -110,7 +117,7 @@ public class CheckinActivity extends BaseActivity implements ScanManager.OnBarCo
 
         @Override
         public void onPostExecute(int updateId, ReceiptGetOrderInfo result) {
-
+            ReceiptInfoActivity.launch(ReceiptOpenActivity.this, orderOtherId, containerId, barCode, result);
         }
 
         @Override
@@ -128,14 +135,12 @@ public class CheckinActivity extends BaseActivity implements ScanManager.OnBarCo
     @Override
     public void OnBarCodeReceived(String s) {
         scanEditTextTool.setScanText(s);
-
     }
 
     @Override
     public void onSetComplete() {
         button.setEnabled(true);
         button.setClickable(true);
-
     }
 
     @Override

@@ -12,7 +12,7 @@ public class ReceiptGetOrderInfoParser extends MasterParser<ReceiptGetOrderInfo>
         ReceiptGetOrderInfo info = new ReceiptGetOrderInfo();
         info.setSkuName(getString(data, "skuName"));
         info.setOrderQty(getInt(data, "orderQty"));
-        info.setPackUnit(getInt(data, "packUnit"));
+        info.setPackUnit(getString(data, "packUnit"));
         info.setBatchNeeded(getInt(data, "batchNeeded"));
         return info;
     }

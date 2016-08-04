@@ -14,8 +14,8 @@ import com.elianshang.code.reader.ui.BaseActivity;
 public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
 
     private Button loginBtn;
-    private Button checkBtn;
     private Button receiptBtn;
+    private Button shelveBtn;
     private Button receiveTaskBtn;
     private Button finishOperationBtn;
 
@@ -30,14 +30,14 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
 
     private void findViews() {
         loginBtn = (Button) findViewById(R.id.login);
-        checkBtn = (Button) findViewById(R.id.ckeck);
         receiptBtn = (Button) findViewById(R.id.receipt);
+        shelveBtn = (Button) findViewById(R.id.shelve);
         receiveTaskBtn = (Button) findViewById(R.id.receive_task);
         finishOperationBtn = (Button) findViewById(R.id.finish_operation);
 
         loginBtn.setOnClickListener(this);
-        checkBtn.setOnClickListener(this);
         receiptBtn.setOnClickListener(this);
+        shelveBtn.setOnClickListener(this);
         receiveTaskBtn.setOnClickListener(this);
         finishOperationBtn.setOnClickListener(this);
     }
@@ -47,14 +47,14 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         if (v == loginBtn) {
             LoginActivity.launch(this);
-        } else if (v == checkBtn) {
-            CheckinActivity.launch(this);
         } else if (v == receiptBtn) {
-            ReceiptInfoActivity.launch(this);
+            ReceiptOpenActivity.launch(this);
+        } else if (v == shelveBtn) {
+            ShelveOpenActivity.launch(this);
         } else if (v == receiveTaskBtn) {
-            ReceiveTaskActivity.launch(this);
+            ShelveOpenActivity.launch(this);
         } else if (v == finishOperationBtn) {
-            FinishOperationTaskActivity.launch(this);
+            ShelveFinishActivity.launch(this, null);
         }
 
     }

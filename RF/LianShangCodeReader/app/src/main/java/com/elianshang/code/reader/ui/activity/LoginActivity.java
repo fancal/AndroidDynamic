@@ -85,7 +85,6 @@ public class LoginActivity extends BaseActivity {
         @Override
         public DataHull<User> doInBackground() {
             DataHull<User> dataHull = HttpApi.userInfoLogin(phone, password);
-
             return dataHull;
         }
 
@@ -98,7 +97,6 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void netErr(int updateId, String errMsg) {
             super.netErr(updateId, errMsg);
-
         }
     }
 }
