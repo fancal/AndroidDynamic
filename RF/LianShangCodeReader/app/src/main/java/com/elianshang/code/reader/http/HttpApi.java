@@ -768,7 +768,7 @@ public class HttpApi {
     /**
      * 转残次（马力）
      */
-    public static DataHull<User> inhouseCreateScrap(String itemId, String locationId, String packName, String uomQty, String planner) {
+    public static DataHull<ResponseState> inhouseCreateScrap(String itemId, String locationId, String packName, String uomQty, String planner) {
         String url = base_url + InhouseCreateScrap._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(InhouseCreateScrap.itemId, itemId),
@@ -778,7 +778,7 @@ public class HttpApi {
                 new DefaultKVPBean(InhouseCreateScrap.planner, planner)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
 
         return request(parameter);
     }
@@ -786,7 +786,7 @@ public class HttpApi {
     /**
      * 转退货（马力）
      */
-    public static DataHull<User> inhouseCreateReturn(String itemId, String locationId, String packName, String uomQty, String planner) {
+    public static DataHull<ResponseState> inhouseCreateReturn(String itemId, String locationId, String packName, String uomQty, String planner) {
         String url = base_url + InhouseCreateReturn._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(InhouseCreateReturn.itemId, itemId),
@@ -796,7 +796,7 @@ public class HttpApi {
                 new DefaultKVPBean(InhouseCreateReturn.planner, planner)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
 
         return request(parameter);
     }

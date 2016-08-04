@@ -21,7 +21,7 @@ import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.asyn.LocationProductListTask;
 import com.elianshang.code.reader.bean.Product;
 import com.elianshang.code.reader.bean.ProductList;
-import com.elianshang.code.reader.bean.User;
+import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
@@ -201,7 +201,7 @@ public class TransferLocationActivity extends BaseActivity implements ScanEditTe
         scanEditTextTool.setScanText(s);
     }
 
-    private class RequestCreateScrapTask extends HttpAsyncTask<User> {
+    private class RequestCreateScrapTask extends HttpAsyncTask<ResponseState> {
 
         private String itemId;
         private String locationId;
@@ -217,12 +217,12 @@ public class TransferLocationActivity extends BaseActivity implements ScanEditTe
         }
 
         @Override
-        public DataHull<User> doInBackground() {
+        public DataHull<ResponseState> doInBackground() {
             return HttpApi.inhouseCreateScrap(itemId, locationId, packName, qty, BaseApplication.get().getUser().getUid());
         }
 
         @Override
-        public void onPostExecute(int updateId, User result) {
+        public void onPostExecute(int updateId, ResponseState result) {
             ToastTool.show(context, "success");
         }
     }

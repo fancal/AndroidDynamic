@@ -25,7 +25,7 @@ public class Product implements BaseBean {
         return packName;
     }
 
-    public void setPackName(ArrayList<String> packName) {
+    public void setPackNameList(ArrayList<String> packName) {
         this.packName = packName;
     }
 
