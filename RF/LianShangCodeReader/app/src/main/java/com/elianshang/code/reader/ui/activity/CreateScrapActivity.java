@@ -21,7 +21,7 @@ import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.asyn.LocationProductListTask;
 import com.elianshang.code.reader.bean.Product;
 import com.elianshang.code.reader.bean.ProductList;
-import com.elianshang.code.reader.bean.User;
+import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
@@ -52,6 +52,7 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
     private ArrayAdapter<String> mItemAdapter;
     private ArrayAdapter<String> mPackAdapter;
     private ProductList mProducts;
+    private String mLocationId = "19";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         mItemSpinner = (AppCompatSpinner) findViewById(R.id.scrap_itemid);
         mPackSpinner = (AppCompatSpinner) findViewById(R.id.scrap_pack_name);
         mQtyEditText = (AppCompatEditText) findViewById(R.id.scrap_qty);
+
         button = (Button) findViewById(R.id.button);
 
         scanEditTextTool = new ScanEditTextTool(this, mLocationIdEditText);
@@ -94,10 +96,12 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
 
         button.setEnabled(false);
         button.setClickable(false);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RequestCreateScrapTask(CreateScrapActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationIdEditText.getText().toString(), mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
+                new RequestCreateScrapTask(CreateScrapActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationId, mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
+//                new RequestCreateScrapTask(CreateScrapActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationIdEditText.getText().toString(), mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
 
             }
         });
@@ -170,9 +174,8 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
     public void onSetComplete() {
         button.setEnabled(false);
         button.setClickable(false);
-        String locationId = mLocationIdEditText.getText().toString();
-        locationId = "19";
-        new LocationProductListTask(this, locationId, new LocationProductListTask.CallBack() {
+        //String locationId = mLocationIdEditText.getText().toString();
+        new LocationProductListTask(this, mLocationId, new LocationProductListTask.CallBack() {
             @Override
             public void success(ProductList products) {
                 if (mProducts == null) {
@@ -201,7 +204,7 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         scanEditTextTool.setScanText(s);
     }
 
-    private class RequestCreateScrapTask extends HttpAsyncTask<User> {
+    private class RequestCreateScrapTask extends HttpAsyncTask<ResponseState> {
 
         private String itemId;
         private String locationId;
@@ -217,12 +220,12 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         }
 
         @Override
-        public DataHull<User> doInBackground() {
+        public DataHull<ResponseState> doInBackground() {
             return HttpApi.inhouseCreateScrap(itemId, locationId, packName, qty, BaseApplication.get().getUser().getUid());
         }
 
         @Override
-        public void onPostExecute(int updateId, User result) {
+        public void onPostExecute(int updateId, ResponseState result) {
             ToastTool.show(context, "success");
         }
     }

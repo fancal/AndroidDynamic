@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:horizontalGap="0.0px"
+    android:keyHeight="8%"
+    android:keyWidth="10%p"
+    android:verticalGap="0.0px">
+
+    <Row android:verticalGap="1%p">
+        <Key
+            android:codes="2016"
+            android:horizontalGap="1%p"
+            android:keyEdgeFlags="left"
+            android:keyLabel="2016"
+            android:keyWidth="30%p" />
+        <Key
+            android:codes="11"
+            android:horizontalGap="4%p"
+            android:keyLabel="2015"
+            android:keyWidth="30%p" />
+        <Key
+            android:codes="12"
+            android:horizontalGap="4%p"
+            android:keyEdgeFlags="right"
+            android:keyLabel="2013"
+            android:keyWidth="30%p" />
+    </Row>
+
+    <Row android:verticalGap="1%p">
+        <Key
+            android:codes="13"
+            android:horizontalGap="1%p"
+            android:keyEdgeFlags="left"
+            android:keyLabel="2012"
+            android:keyWidth="30%p" />
+        <Key
+            android:codes="14"
+            android:horizontalGap="4%p"
+            android:keyLabel="2011"
+            android:keyWidth="30%p" />
+        <Key
+            android:codes="15"
+            android:horizontalGap="4%p"
+            android:keyEdgeFlags="right"
+            android:keyLabel="2010"
+            android:keyWidth="30%p" />
+    </Row>
+
+    <Row android:verticalGap="1%p">
+        <Key
+            android:codes="16"
+            android:horizontalGap="1%p"
+            android:keyEdgeFlags="left"
+            android:keyLabel="2009"
+            android:keyWidth="30%p" />
+        <Key
+            android:codes="17"
+            android:horizontalGap="4%p"
+            android:keyLabel="2008"
+            android:keyWidth="30%p" />
+        <Key
+            android:codes="18"
+            android:horizontalGap="4%p"
+            android:keyEdgeFlags="right"
+            android:keyLabel="2007"
+            android:keyWidth="30%p" />
+    </Row>
+
+    <Row android:verticalGap="1%p">
+        <Key
+            android:codes="-2"
+            android:horizontalGap="79%p"
+            android:keyEdgeFlags="right"
+            android:keyLabel="下一步"
+            android:keyWidth="20%p" />
+        <Key
+            android:codes="-100"
+            android:horizontalGap="1%p"
+            android:keyEdgeFlags="right"
+            android:keyWidth="0%p" />
+    </Row>
+</Keyboard> 

@@ -2,6 +2,7 @@ package com.elianshang.code.reader.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.Shelve;
 import com.elianshang.code.reader.http.HttpApi;
+import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
@@ -88,9 +90,21 @@ public class ShelveFinishActivity extends BaseActivity implements ScanManager.On
 
     @Override
     public void onSetComplete() {
-        String location = locationEditText.getText().toString();
+        final String location = locationEditText.getText().toString();
         if (location.equals(shelve.getAllocLocationId())) {
             new RequestFinishOpetationTask(this, shelve.getTaskId(), location).start();
+        } else {
+            DialogTools.showTwoButtonDialog(this, "扫描库位与目标库位不符,确认上架吗?", "取消", "确认", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    locationEditText.setText("");
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    new RequestFinishOpetationTask(ShelveFinishActivity.this, shelve.getTaskId(), location).start();
+                }
+            }, false);
         }
     }
 

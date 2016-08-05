@@ -21,7 +21,7 @@ import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.asyn.LocationProductListTask;
 import com.elianshang.code.reader.bean.Product;
 import com.elianshang.code.reader.bean.ProductList;
-import com.elianshang.code.reader.bean.User;
+import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
@@ -52,11 +52,12 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
     private ArrayAdapter<String> mItemAdapter;
     private ArrayAdapter<String> mPackAdapter;
     private ProductList mProducts;
+    private String mLocationId = "19";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_scrap);
+        setContentView(R.layout.activity_create_return);
 
         findViews();
     }
@@ -97,7 +98,8 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RequestCreateReturnTask(CreateReturnActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationIdEditText.getText().toString(), mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
+                new RequestCreateReturnTask(CreateReturnActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationId, mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
+//                new RequestCreateReturnTask(CreateReturnActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationIdEditText.getText().toString(), mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
 
             }
         });
@@ -170,9 +172,9 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
     public void onSetComplete() {
         button.setEnabled(false);
         button.setClickable(false);
-        String locationId = mLocationIdEditText.getText().toString();
-        locationId = "19";
-        new LocationProductListTask(this, locationId, new LocationProductListTask.CallBack() {
+//        String locationId = mLocationIdEditText.getText().toString();
+//        locationId = "19";
+        new LocationProductListTask(this, mLocationId, new LocationProductListTask.CallBack() {
             @Override
             public void success(ProductList products) {
                 if (mProducts == null) {
@@ -201,7 +203,7 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
         scanEditTextTool.setScanText(s);
     }
 
-    private class RequestCreateReturnTask extends HttpAsyncTask<User> {
+    private class RequestCreateReturnTask extends HttpAsyncTask<ResponseState> {
 
         private String itemId;
         private String locationId;
@@ -217,12 +219,12 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
         }
 
         @Override
-        public DataHull<User> doInBackground() {
+        public DataHull<ResponseState> doInBackground() {
             return HttpApi.inhouseCreateReturn(itemId, locationId, packName, qty, BaseApplication.get().getUser().getUid());
         }
 
         @Override
-        public void onPostExecute(int updateId, User result) {
+        public void onPostExecute(int updateId, ResponseState result) {
             ToastTool.show(context, "success");
         }
     }

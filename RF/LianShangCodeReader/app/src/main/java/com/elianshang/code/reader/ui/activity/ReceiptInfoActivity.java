@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.bean.ReceiptGetOrderInfo;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.http.HttpApi;
+import com.elianshang.code.reader.tool.DateKeyboardUtil;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.xue.http.impl.DataHull;
@@ -23,7 +26,7 @@ import com.xue.http.impl.DataHull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ReceiptInfoActivity extends BaseActivity implements View.OnClickListener {
+public class ReceiptInfoActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener {
 
     public static void launch(Activity activity, String orderId, String containerId, String barCode, ReceiptGetOrderInfo receiptGetOrderInfo) {
         Intent intent = new Intent(activity, ReceiptInfoActivity.class);
@@ -50,11 +53,14 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
 
     private ContentEditText realityNumEditView;
 
-    private ContentEditText dateEditView;
-
     private ContentEditText batchIdEditView;
 
     private Button button;
+
+    private EditText mEditYear;
+    private EditText mEditMonth;
+    private EditText mEditDay;
+    private DateKeyboardUtil keyboardUtil;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,9 +77,15 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
         packageUnitTextView = (TextView) findViewById(R.id.package_unit);
         orderQtyTextView = (TextView) findViewById(R.id.order_qty);
         realityNumEditView = (ContentEditText) findViewById(R.id.reality_num);
-        dateEditView = (ContentEditText) findViewById(R.id.date_edittext);
         batchIdEditView = (ContentEditText) findViewById(R.id.batchid_edittext);
         button = (Button) findViewById(R.id.button);
+        mEditYear = (EditText) findViewById(R.id.et_year);
+        mEditMonth = (EditText) findViewById(R.id.et_month);
+        mEditDay = (EditText) findViewById(R.id.et_day);
+
+        mEditYear.setOnTouchListener(this);
+        mEditMonth.setOnTouchListener(this);
+        mEditDay.setOnTouchListener(this);
 
         button.setOnClickListener(this);
     }
@@ -87,6 +99,9 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void fillData() {
+        if(receiptGetOrderInfo == null){
+            return;
+        }
         productNameTextView.setText(receiptGetOrderInfo.getSkuName());
         packageUnitTextView.setText(receiptGetOrderInfo.getPackUnit());
         orderQtyTextView.setText(String.valueOf(receiptGetOrderInfo.getOrderQty()));
@@ -99,9 +114,32 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        int step = -1;
+        if (v == mEditYear) {
+            step = 0;
+        } else if (v == mEditMonth) {
+            step = 1;
+        } else if (v == mEditDay) {
+            step = 2;
+        }
+        if (step >= 0) {
+            if (keyboardUtil == null) {
+                keyboardUtil = new DateKeyboardUtil(this, mEditYear, mEditMonth, mEditDay);
+            }
+            keyboardUtil.hideSoftInputMethod();
+            keyboardUtil.showKeyboard(step);
+
+        }
+        return false;
+    }
+
+
     private void submit() {
         String realityNum = realityNumEditView.getText().toString();
-        String date = dateEditView.getText().toString();
+        String date = mEditYear.getText().toString() + "-" + mEditMonth.getText().toString() + "-" + mEditDay.getText().toString();
         String batchId = batchIdEditView.getText().toString();
 
         if (TextUtils.isEmpty(realityNum)) {
