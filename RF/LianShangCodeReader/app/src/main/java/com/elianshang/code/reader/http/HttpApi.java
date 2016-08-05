@@ -542,6 +542,8 @@ public class HttpApi {
 
         String taskId = "taskId";
 
+        String locationId = "locationId";
+
     }
 
     /**
@@ -550,6 +552,8 @@ public class HttpApi {
     private interface InhouseStockTakingDoOne {
 
         String _function = "v1/inhouse/stock_taking/doOne";
+
+        String resultList = "resultList";
 
     }
 
@@ -989,10 +993,11 @@ public class HttpApi {
     /**
      * 盘点任务详情(吴昊)
      */
-    public static DataHull<TakeStockDetail> inhouseStockTakingGetTask(String taskId) {
+    public static DataHull<TakeStockDetail> inhouseStockTakingGetTask(String taskId, String locationId) {
         String url = base_url + InhouseStockTakingGetTask._function;
         List<BaseKVP> params = addParams(
-                new DefaultKVPBean(InhouseStockTakingGetTask.taskId, taskId)
+                new DefaultKVPBean(InhouseStockTakingGetTask.taskId, taskId),
+                new DefaultKVPBean(InhouseStockTakingGetTask.locationId, locationId)
         );
         int type = BaseHttpParameter.Type.POST;
         HttpDynamicParameter<TakeStockDetailParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new TakeStockDetailParser(), 0);
@@ -1000,4 +1005,17 @@ public class HttpApi {
         return request(parameter);
     }
 
+    /**
+     * 盘点任务详情(吴昊)
+     */
+    public static DataHull<ResponseState> inhouseStockTakingDoOne(String resultList) {
+        String url = base_url + InhouseStockTakingDoOne._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(InhouseStockTakingDoOne.resultList, resultList)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
+
+        return request(parameter);
+    }
 }

@@ -15,9 +15,9 @@ public class TakeStockDetail implements BaseBean {
 
     private String itemName;
 
-    private String itemUnit;
+    private String packName;
 
-    private int qty;
+    private String qty;
 
     public String getViewType() {
         return viewType;
@@ -51,19 +51,19 @@ public class TakeStockDetail implements BaseBean {
         this.itemName = itemName;
     }
 
-    public String getItemUnit() {
-        return itemUnit;
+    public String getPackName() {
+        return packName;
     }
 
-    public void setItemUnit(String itemUnit) {
-        this.itemUnit = itemUnit;
+    public void setPackName(String packName) {
+        this.packName = packName;
     }
 
-    public int getQty() {
+    public String getQty() {
         return qty;
     }
 
-    public void setQty(int qty) {
+    public void setQty(String qty) {
         this.qty = qty;
     }
 

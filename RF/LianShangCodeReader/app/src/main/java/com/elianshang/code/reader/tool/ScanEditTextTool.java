@@ -9,11 +9,13 @@ import android.widget.EditText;
 import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 
+import java.util.ArrayList;
+
 public class ScanEditTextTool {
 
     private Activity mActivity;
 
-    private EditText[] mEditTexts;
+    private ArrayList<EditText> mEditTexts;
 
     private int setCount;
 
@@ -22,12 +24,13 @@ public class ScanEditTextTool {
     private TextWatcher textWatcher;
 
     public ScanEditTextTool(Activity activity, EditText... editTexts) {
-        if(editTexts == null){
+        if (editTexts == null) {
             return;
         }
 
         mActivity = activity;
-        mEditTexts = editTexts;
+        mEditTexts = new ArrayList<>();
+
 
         textWatcher = new TextWatcher() {
             @Override
@@ -40,35 +43,54 @@ public class ScanEditTextTool {
 
             @Override
             public void afterTextChanged(Editable s) {
-                for(int i = 0; i < mEditTexts.length; i++){
-                    ContentEditText text = (ContentEditText) mEditTexts[i];
+                for (int i = 0; i < mEditTexts.size(); i++) {
+                    ContentEditText text = (ContentEditText) mEditTexts.get(i);
                     if (text.isRight()) {
                         continue;
                     } else {
-                        if(text.hasFocus() && complete != null){
+                        if (text.hasFocus() && complete != null) {
                             complete.onInputError(i);
                         }
                         return;
                     }
                 }
-                if(complete != null){
+                if (complete != null) {
                     complete.onSetComplete();
                 }
             }
         };
 
-        for(EditText text : mEditTexts){
 
-            text.addTextChangedListener(textWatcher);
-            if(text instanceof ScanEditText){
-                ((ScanEditText) text).setOnLongClickListener(activity);
-                ((ScanEditText) text).setInputEnd(new ScanEditText.OnSetInputEnd() {
+        for (EditText editText : editTexts) {
+            editText.addTextChangedListener(textWatcher);
+            if (editText instanceof ScanEditText) {
+                ((ScanEditText) editText).setOnLongClickListener(activity);
+                ((ScanEditText) editText).setInputEnd(new ScanEditText.OnSetInputEnd() {
                     @Override
                     public void onSetInputEnd(String s) {
                         setScanText(s);
                     }
                 });
             }
+
+            mEditTexts.add(editText);
+        }
+    }
+
+    public void addEditText(EditText... editTexts) {
+        for (EditText editText : editTexts) {
+            editText.addTextChangedListener(textWatcher);
+            if (editText instanceof ScanEditText) {
+                ((ScanEditText) editText).setOnLongClickListener(mActivity);
+                ((ScanEditText) editText).setInputEnd(new ScanEditText.OnSetInputEnd() {
+                    @Override
+                    public void onSetInputEnd(String s) {
+                        setScanText(s);
+                    }
+                });
+            }
+
+            mEditTexts.add(editText);
         }
     }
 
@@ -101,13 +123,25 @@ public class ScanEditTextTool {
 //        }
     }
 
-    public void setComplete(OnSetComplete complete){
+    public void setComplete(OnSetComplete complete) {
         this.complete = complete;
+    }
+
+    public void release() {
+        if (mEditTexts != null) {
+            for (EditText editText : mEditTexts) {
+                editText.removeTextChangedListener(textWatcher);
+            }
+        }
+
+        mEditTexts.clear();
+        textWatcher = null;
     }
 
 
     public interface OnSetComplete {
         void onSetComplete();
+
         void onInputError(int i);
     }
 

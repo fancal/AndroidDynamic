@@ -14,7 +14,7 @@ public class TakeStockListParser extends MasterParser<TakeStockList> {
 
 
         if (data != null) {
-            JSONArray jsonArray = optJSONArray(data, "list");
+            JSONArray jsonArray = optJSONArray(data, "taskList");
             int len = getLength(jsonArray);
 
             if (len > 0) {
@@ -25,11 +25,13 @@ public class TakeStockListParser extends MasterParser<TakeStockList> {
                     if (jo != null) {
                         String taskId = optString(jo, "taskId");
                         String locationId = optString(jo, "locationId");
+                        String locationCode = optString(jo, "locationCode");
 
-                        if (!TextUtils.isEmpty(taskId) && !TextUtils.isEmpty(locationId)) {
+                        if (!TextUtils.isEmpty(taskId) && !TextUtils.isEmpty(locationId) && !TextUtils.isEmpty(locationCode)) {
                             TakeStockList.TakeStockTask task = new TakeStockList.TakeStockTask();
                             task.setTaskId(taskId);
                             task.setLocationId(locationId);
+                            task.setLocationCode(locationCode);
 
                             takeStockList.add(task);
                         }

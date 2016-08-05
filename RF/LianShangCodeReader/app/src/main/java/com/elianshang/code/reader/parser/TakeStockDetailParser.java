@@ -17,18 +17,18 @@ public class TakeStockDetailParser extends MasterParser<TakeStockDetail> {
         if (data != null) {
             String viewType = optString(data, "viewType");
             String taskId = optString(data, "taskId");
-            String locationId = optString(data, "locationId");
+            String locationId = optString(data, "locationCode");
             String itemName = optString(data, "itemName");
-            String itemUnit = optString(data, "itemUnit");
-            int qty = optInt(data, "qty");
+            String packName = optString(data, "packName");
+            String qty = optString(data, "qty");
 
-            if (!TextUtils.isEmpty(taskId) && !TextUtils.isEmpty(itemUnit) && qty > 0) {
+            if (!TextUtils.isEmpty(taskId) && !TextUtils.isEmpty(locationId)) {
                 TakeStockDetail detail = new TakeStockDetail();
                 detail.setViewType(viewType);
                 detail.setTaskId(taskId);
                 detail.setLocationId(locationId);
                 detail.setItemName(itemName);
-                detail.setItemUnit(itemUnit);
+                detail.setPackName(packName);
                 detail.setQty(qty);
 
                 return detail;

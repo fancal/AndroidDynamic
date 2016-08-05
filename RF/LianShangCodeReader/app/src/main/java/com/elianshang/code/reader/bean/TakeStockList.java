@@ -7,7 +7,30 @@ import java.util.ArrayList;
 /**
  * Created by xfilshy on 16/8/4.
  */
-public class TakeStockList extends ArrayList<TakeStockList.TakeStockTask> implements BaseBean {
+public class TakeStockList implements BaseBean {
+
+    private ArrayList<TakeStockTask> list;
+
+    public TakeStockList() {
+        list = new ArrayList<>();
+    }
+
+    public boolean add(TakeStockTask task) {
+        return list.add(task);
+    }
+
+    public boolean remove(TakeStockTask task) {
+        return list.remove(task);
+    }
+
+    public int size() {
+        return list.size();
+    }
+
+    public TakeStockTask get(int index) {
+        return list.get(index);
+    }
+
     @Override
     public void setDataKey(String dataKey) {
 
@@ -23,6 +46,16 @@ public class TakeStockList extends ArrayList<TakeStockList.TakeStockTask> implem
         private String taskId;
 
         private String locationId;
+
+        private String locationCode;
+
+        public String getLocationCode() {
+            return locationCode;
+        }
+
+        public void setLocationCode(String locationCode) {
+            this.locationCode = locationCode;
+        }
 
         public String getTaskId() {
             return taskId;

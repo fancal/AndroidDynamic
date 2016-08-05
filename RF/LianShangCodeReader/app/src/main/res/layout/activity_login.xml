@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/dip_20"
             android:hint="请输入用户名"
-            android:text="lixin"/>
+            android:text="xueliyu"/>
 
     </LinearLayout>
 
