@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
+import com.elianshang.code.reader.asyn.FetchProcurementTask;
 import com.elianshang.code.reader.asyn.FetchTransferTask;
 import com.elianshang.code.reader.ui.BaseActivity;
 
@@ -45,9 +46,13 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
      */
     private Button createReturn;
     /**
-     * 领取移库任务
+     * 移库
      */
-    private Button fetchTransferTask;
+    private Button transferLocation;
+    /**
+     * 补货
+     */
+    private Button procurement;
 
 
     @Override
@@ -65,7 +70,8 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         takestockBtn = (Button) findViewById(R.id.takestock);
         createScrap = (Button) findViewById(R.id.create_scrap);
         createReturn = (Button) findViewById(R.id.create_return);
-        fetchTransferTask = (Button) findViewById(R.id.fetch_transfer_task);
+        transferLocation = (Button) findViewById(R.id.transfer_location);
+        procurement = (Button) findViewById(R.id.procurement);
 
         loginBtn.setOnClickListener(this);
         receiptBtn.setOnClickListener(this);
@@ -73,7 +79,8 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         takestockBtn.setOnClickListener(this);
         createScrap.setOnClickListener(this);
         createReturn.setOnClickListener(this);
-        fetchTransferTask.setOnClickListener(this);
+        transferLocation.setOnClickListener(this);
+        procurement.setOnClickListener(this);
     }
 
 
@@ -91,8 +98,10 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
             CreateScrapActivity.launch(this);
         } else if (v == createReturn) {
             CreateReturnActivity.launch(this);
-        } else if (v == fetchTransferTask) {
+        } else if (v == transferLocation) {
             new FetchTransferTask(this).start();
+        } else if (v == procurement) {
+            new FetchProcurementTask(this).start();
         }
     }
 }

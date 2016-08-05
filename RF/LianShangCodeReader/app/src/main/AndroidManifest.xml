@@ -46,6 +46,9 @@
             android:name=".ui.activity.TransferLocationActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.ProcurementActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.TakeStockActivity"
             android:screenOrientation="portrait" />
     </application>
