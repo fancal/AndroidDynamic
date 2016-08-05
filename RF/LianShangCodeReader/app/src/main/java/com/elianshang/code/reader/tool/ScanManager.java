@@ -2,6 +2,9 @@ package com.elianshang.code.reader.tool;
 
 import android.barcode.BarCodeManager;
 import android.content.Context;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ public class ScanManager {
 
     private ArrayList<OnBarCodeListener> listeners;
 
-    private ScanManager(Context context) {
+    private ScanManager(final Context context) {
 
         if (checkClass()) {
             mBarCode = (BarCodeManager) context.getSystemService("barcode");
@@ -26,6 +29,9 @@ public class ScanManager {
             mainListener = new BarCodeManager.OnBarCodeReceivedListener() {
                 @Override
                 public void OnBarCodeReceived(String s) {
+                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    Ringtone r = RingtoneManager.getRingtone(context, notification);
+                    r.play();
                     if (listeners != null && listeners.size() > 0) {
                         for (OnBarCodeListener onBarCodeListener : listeners) {
                             onBarCodeListener.OnBarCodeReceived(s);

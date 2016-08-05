@@ -62,6 +62,8 @@ public class ReceiptOpenActivity extends BaseActivity implements ScanManager.OnB
         if (requestCode == 1 && resultCode == RESULT_OK) {
             tuoidEditText.setText("");
             productidEditText.setText("");
+
+            tuoidEditText.requestFocus();
         }
     }
 
@@ -85,7 +87,6 @@ public class ReceiptOpenActivity extends BaseActivity implements ScanManager.OnB
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String orderStr = orderidEditText.getText().toString().trim();
                 String tuoStr = tuoidEditText.getText().toString().trim();
                 String productStr = productidEditText.getText().toString().trim();

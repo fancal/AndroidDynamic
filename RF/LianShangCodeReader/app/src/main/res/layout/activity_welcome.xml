@@ -37,33 +37,12 @@
             android:text="上架" />
 
         <Button
-            android:id="@+id/receive_task"
+            android:id="@+id/takestock"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="领取上架任务" />
+            android:text="盘点" />
     </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/finish_operation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="完成上架操作" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="" />
-    </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,18 +51,17 @@
 
         <Button
             android:id="@+id/create_scrap"
-            android:text="转残次"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            />
+            android:text="转残次" />
+
         <Button
             android:id="@+id/create_return"
-            android:text="转退货"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            />
+            android:text="转退货" />
     </LinearLayout>
 
     <LinearLayout
@@ -93,10 +71,10 @@
 
         <Button
             android:id="@+id/fetch_task"
-            android:text="领取任务"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="领取任务" />
 
         <Button
             android:layout_width="0dp"

@@ -8,6 +8,8 @@ import com.elianshang.code.reader.bean.ReceiptGetOrderInfo;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.Shelve;
 import com.elianshang.code.reader.bean.ShelveCreate;
+import com.elianshang.code.reader.bean.TakeStockDetail;
+import com.elianshang.code.reader.bean.TakeStockList;
 import com.elianshang.code.reader.bean.Task;
 import com.elianshang.code.reader.bean.User;
 import com.elianshang.code.reader.parser.ProductListParser;
@@ -15,6 +17,8 @@ import com.elianshang.code.reader.parser.ReceiptGetOrderInfoParser;
 import com.elianshang.code.reader.parser.ResponseStateParser;
 import com.elianshang.code.reader.parser.ShelveCreateParser;
 import com.elianshang.code.reader.parser.ShelveParser;
+import com.elianshang.code.reader.parser.TakeStockDetailParser;
+import com.elianshang.code.reader.parser.TakeStockListParser;
 import com.elianshang.code.reader.parser.TaskParser;
 import com.elianshang.code.reader.parser.UserParser;
 import com.elianshang.code.reader.tool.AppTool;
@@ -518,6 +522,38 @@ public class HttpApi {
     }
 
 
+    /**
+     * 13.领取盘点任务（吴昊）
+     */
+    private interface InhouseStockTakingAssign {
+
+        String _function = "v1/inhouse/stock_taking/assign";
+
+        String uId = "uId";
+
+    }
+
+    /**
+     * 13.盘点任务详情（吴昊）
+     */
+    private interface InhouseStockTakingGetTask {
+
+        String _function = "v1/inhouse/stock_taking/getTask";
+
+        String taskId = "taskId";
+
+    }
+
+    /**
+     * 13.完成盘点任务（吴昊）
+     */
+    private interface InhouseStockTakingDoOne {
+
+        String _function = "v1/inhouse/stock_taking/doOne";
+
+    }
+
+
     private static void build() {
         base_url = ConfigTool.getHttpBaseUrl();
         //TODO
@@ -935,5 +971,33 @@ public class HttpApi {
         return request(parameter);
     }
 
+
+    /**
+     * 领取盘点任务(吴昊)
+     */
+    public static DataHull<TakeStockList> inhouseStockTakingAssign(String uid) {
+        String url = base_url + InhouseStockTakingAssign._function;
+        int type = BaseHttpParameter.Type.POST;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(InhouseStockTakingAssign.uId, uid)
+        );
+        HttpDynamicParameter<TakeStockListParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new TakeStockListParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * 盘点任务详情(吴昊)
+     */
+    public static DataHull<TakeStockDetail> inhouseStockTakingGetTask(String taskId) {
+        String url = base_url + InhouseStockTakingGetTask._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(InhouseStockTakingGetTask.taskId, taskId)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<TakeStockDetailParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new TakeStockDetailParser(), 0);
+
+        return request(parameter);
+    }
 
 }

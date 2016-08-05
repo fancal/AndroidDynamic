@@ -100,7 +100,8 @@
                 android:id="@+id/reality_num"
                 android:layout_width="60dip"
                 android:layout_height="wrap_content"
-                android:textSize="20dip" />
+                android:textSize="20dip"
+                android:text="1"/>
 
         </LinearLayout>
 
@@ -119,7 +120,8 @@
                 android:id="@+id/date_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dip" />
+                android:textSize="20dip"
+                android:text="2016-08-02"/>
 
         </LinearLayout>
 
@@ -138,7 +140,8 @@
                 android:id="@+id/batchid_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dip" />
+                android:textSize="20dip"
+                android:text="123"/>
 
         </LinearLayout>
 
