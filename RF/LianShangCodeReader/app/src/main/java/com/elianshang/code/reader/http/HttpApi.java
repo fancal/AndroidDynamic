@@ -10,7 +10,8 @@ import com.elianshang.code.reader.bean.Shelve;
 import com.elianshang.code.reader.bean.ShelveCreate;
 import com.elianshang.code.reader.bean.TakeStockDetail;
 import com.elianshang.code.reader.bean.TakeStockList;
-import com.elianshang.code.reader.bean.Task;
+import com.elianshang.code.reader.bean.TaskTransfer;
+import com.elianshang.code.reader.bean.TaskTransferDetail;
 import com.elianshang.code.reader.bean.User;
 import com.elianshang.code.reader.parser.ProductListParser;
 import com.elianshang.code.reader.parser.ReceiptGetOrderInfoParser;
@@ -19,7 +20,8 @@ import com.elianshang.code.reader.parser.ShelveCreateParser;
 import com.elianshang.code.reader.parser.ShelveParser;
 import com.elianshang.code.reader.parser.TakeStockDetailParser;
 import com.elianshang.code.reader.parser.TakeStockListParser;
-import com.elianshang.code.reader.parser.TaskParser;
+import com.elianshang.code.reader.parser.TaskTransferDetailParser;
+import com.elianshang.code.reader.parser.TaskTransferParser;
 import com.elianshang.code.reader.parser.UserParser;
 import com.elianshang.code.reader.tool.AppTool;
 import com.elianshang.code.reader.tool.ConfigTool;
@@ -324,7 +326,7 @@ public class HttpApi {
     }
 
     /**
-     * 10.领取移库任务（马力）
+     * 10.领取补货任务（马力）
      */
     private interface ProcurementFetchTask {
         String _function = "v1/procurement/fetchTask";
@@ -341,7 +343,7 @@ public class HttpApi {
     }
 
     /**
-     * 11.查看任务详情（马力）
+     * 11.查看补货任务详情（马力）
      */
     private interface ProcurementView {
 
@@ -355,7 +357,7 @@ public class HttpApi {
     }
 
     /**
-     * 12.转入（马力）
+     * 12.补货-转出（马力）
      */
     private interface ProcurementScanFromLocation {
 
@@ -389,7 +391,7 @@ public class HttpApi {
     }
 
     /**
-     * 13.转出（马力）
+     * 13.补货--转入（马力）
      */
     private interface ProcurementScanToLocation {
 
@@ -436,7 +438,7 @@ public class HttpApi {
         /**
          * 操作员id
          */
-        String staffId = "staffId";
+        String staffId = "uId";
     }
 
     /**
@@ -454,7 +456,7 @@ public class HttpApi {
     }
 
     /**
-     * 12.转入（马力）
+     * 12.转出（马力）
      */
     private interface StockTransferScanFromLocation {
 
@@ -473,7 +475,7 @@ public class HttpApi {
         /**
          * 操作员id
          */
-        String staffId = "staffId";
+        String staffId = "uId";
 
         /**
          * 数量
@@ -488,7 +490,7 @@ public class HttpApi {
     }
 
     /**
-     * 13.转出（马力）
+     * 13.转入（马力）
      */
     private interface StockTransferScanToLocation {
 
@@ -507,7 +509,7 @@ public class HttpApi {
         /**
          * 操作员id
          */
-        String staffId = "staffId";
+        String staffId = "uId";
 
         /**
          * 数量
@@ -842,40 +844,40 @@ public class HttpApi {
     }
 
     /**
-     * 10.领取移库任务（马力）
+     * 10.领取补货任务（马力）
      */
-    public static DataHull<Task> procurementFetchTask(String locationId, String staffId) {
+    public static DataHull<TaskTransfer> procurementFetchTask(String locationId, String staffId) {
         String url = base_url + ProcurementFetchTask._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(ProcurementFetchTask.locationId, locationId),
                 new DefaultKVPBean(ProcurementFetchTask.staffId, staffId)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<TaskParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new TaskParser(), 0);
+        HttpDynamicParameter<TaskTransferParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new TaskTransferParser(), 0);
 
         return request(parameter);
     }
 
 
     /**
-     * 查看任务详情（马力）
+     * 查看补货任务详情（马力）
      */
-    public static DataHull<User> procurementView(String taskId) {
+    public static DataHull<TaskTransferDetail> procurementView(String taskId) {
         String url = base_url + ProcurementView._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(ProcurementView.taskId, taskId)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<TaskTransferDetailParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new TaskTransferDetailParser(), 0);
 
         return request(parameter);
     }
 
 
     /**
-     * 转入（马力）
+     * 补货-转出（马力）
      */
-    public static DataHull<User> procurementScanFromLocation(String taskId, String locationId, String staffId, String uomQty, String packName) {
+    public static DataHull<ResponseState> procurementScanFromLocation(String taskId, String locationId, String staffId, String uomQty, String packName) {
         String url = base_url + ProcurementScanFromLocation._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(ProcurementScanFromLocation.taskId, taskId),
@@ -885,15 +887,15 @@ public class HttpApi {
                 new DefaultKVPBean(ProcurementScanFromLocation.packName, packName)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
 
         return request(parameter);
     }
 
     /**
-     * 转出（马力）
+     * 补货-转入（马力）
      */
-    public static DataHull<User> procurementScanToLocation(String taskId, String locationId, String staffId, String uomQty, String packName) {
+    public static DataHull<ResponseState> procurementScanToLocation(String taskId, String locationId, String staffId, String uomQty, String packName) {
         String url = base_url + ProcurementScanToLocation._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(ProcurementScanToLocation.taskId, taskId),
@@ -903,46 +905,46 @@ public class HttpApi {
                 new DefaultKVPBean(ProcurementScanToLocation.packName, packName)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
 
         return request(parameter);
     }
 
     /**
-     * 10.领取补货任务（马力）
+     * 10.领取移库任务（马力）
      */
-    public static DataHull<Task> stockTransferFetchTask(String locationId, String staffId) {
+    public static DataHull<TaskTransfer> stockTransferFetchTask(String locationId, String staffId) {
         String url = base_url + StockTransferFetchTask._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(StockTransferFetchTask.locationId, locationId),
                 new DefaultKVPBean(StockTransferFetchTask.staffId, staffId)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<TaskParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new TaskParser(), 0);
+        HttpDynamicParameter<TaskTransferParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new TaskTransferParser(), 0);
 
         return request(parameter);
     }
 
 
     /**
-     * 查看补货任务详情（马力）
+     * 查看移库任务详情（马力）
      */
-    public static DataHull<User> stockTransferementView(String taskId) {
+    public static DataHull<TaskTransferDetail> stockTransferementView(String taskId) {
         String url = base_url + StockTransferView._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(StockTransferView.taskId, taskId)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<TaskTransferDetailParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new TaskTransferDetailParser(), 0);
 
         return request(parameter);
     }
 
 
     /**
-     * 补货-入（马力）
+     * 移库-出（马力）
      */
-    public static DataHull<User> stockTransferScanFromLocation(String taskId, String locationId, String staffId, String uomQty, String packName) {
+    public static DataHull<ResponseState> stockTransferScanFromLocation(String taskId, String locationId, String staffId, String uomQty, String packName) {
         String url = base_url + StockTransferScanFromLocation._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(StockTransferScanFromLocation.taskId, taskId),
@@ -952,15 +954,15 @@ public class HttpApi {
                 new DefaultKVPBean(StockTransferScanFromLocation.packName, packName)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
 
         return request(parameter);
     }
 
     /**
-     * 补货-出（马力）
+     * 移库-入（马力）
      */
-    public static DataHull<User> stockTransferScanToLocation(String taskId, String locationId, String staffId, String uomQty, String packName) {
+    public static DataHull<ResponseState> stockTransferScanToLocation(String taskId, String locationId, String staffId, String uomQty, String packName) {
         String url = base_url + StockTransferScanToLocation._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(StockTransferScanToLocation.taskId, taskId),
@@ -970,7 +972,7 @@ public class HttpApi {
                 new DefaultKVPBean(StockTransferScanToLocation.packName, packName)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<UserParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new UserParser(), 0);
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
 
         return request(parameter);
     }

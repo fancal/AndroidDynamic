@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
+import com.elianshang.code.reader.asyn.FetchTransferTask;
 import com.elianshang.code.reader.ui.BaseActivity;
 
 /**
@@ -43,6 +44,10 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
      * 转退货
      */
     private Button createReturn;
+    /**
+     * 领取移库任务
+     */
+    private Button fetchTransferTask;
 
 
     @Override
@@ -60,6 +65,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         takestockBtn = (Button) findViewById(R.id.takestock);
         createScrap = (Button) findViewById(R.id.create_scrap);
         createReturn = (Button) findViewById(R.id.create_return);
+        fetchTransferTask = (Button) findViewById(R.id.fetch_transfer_task);
 
         loginBtn.setOnClickListener(this);
         receiptBtn.setOnClickListener(this);
@@ -67,6 +73,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         takestockBtn.setOnClickListener(this);
         createScrap.setOnClickListener(this);
         createReturn.setOnClickListener(this);
+        fetchTransferTask.setOnClickListener(this);
     }
 
 
@@ -84,6 +91,8 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
             CreateScrapActivity.launch(this);
         } else if (v == createReturn) {
             CreateReturnActivity.launch(this);
+        } else if (v == fetchTransferTask) {
+            new FetchTransferTask(this).start();
         }
     }
 }

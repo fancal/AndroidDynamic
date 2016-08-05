@@ -1,28 +1,26 @@
 package com.elianshang.code.reader.ui.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.asyn.HttpAsyncTask;
-import com.elianshang.code.reader.asyn.LocationProductListTask;
-import com.elianshang.code.reader.bean.Product;
-import com.elianshang.code.reader.bean.ProductList;
 import com.elianshang.code.reader.bean.ResponseState;
+import com.elianshang.code.reader.bean.TaskTransferDetail;
 import com.elianshang.code.reader.http.HttpApi;
+import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
@@ -30,35 +28,48 @@ import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
 
-import java.util.ArrayList;
-
 /**
- * Created by liuhanzhi on 16/8/3.
+ * Created by liuhanzhi on 16/8/3. 移库
  */
 public class TransferLocationActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener {
 
-    public static void launch(Context context) {
+    public static void launch(Context context, TaskTransferDetail transferDetail, boolean isTransferFrom) {
         Intent intent = new Intent(context, TransferLocationActivity.class);
+        intent.putExtra("transferDetail", transferDetail);
+        intent.putExtra("isTransferFrom", isTransferFrom);
         context.startActivity(intent);
     }
 
     private Toolbar mToolbar;
-    private ScanEditText mLocationIdEditText;
-    private AppCompatSpinner mItemSpinner;
-    private AppCompatSpinner mPackSpinner;
-    private AppCompatEditText mQtyEditText;
+    private TextView mTaskView;
+    private TextView mProductNameView;
+    private TextView mProductPackNameView;
+    private TextView mProductQtyView;
+    private EditText mProductQtyRealView;
+    private View mProductQtyRealContainerView;
+    private TextView mLocationIdView;
+    private ScanEditText mLocationIdConfirmView;
+    private TextView mTransferTypeNameView;
     private ScanEditTextTool scanEditTextTool;
     private Button button;
-    private ArrayAdapter<String> mItemAdapter;
-    private ArrayAdapter<String> mPackAdapter;
-    private ProductList mProducts;
+    private View mProductView;
+    private View mLocationView;
+    private TextView mProductLocationView;
+
+    private TaskTransferDetail transferDetail;
+    /**
+     * from 转出
+     */
+    private boolean isTransferFrom;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_scrap);
-
+        setContentView(R.layout.activity_transfer_location);
+        readExtras();
         findViews();
+        fill();
+
     }
 
     @Override
@@ -73,23 +84,45 @@ public class TransferLocationActivity extends BaseActivity implements ScanEditTe
         ScanManager.get().removeListener(this);
     }
 
+    @Override
+    public void onBackPressed() {
+        DialogTools.showTwoButtonDialog(this, "任务未完成，确认退出？", "取消", "确认", null, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        }, true);
+    }
+
+    private void readExtras() {
+        isTransferFrom = getIntent().getBooleanExtra("isTransferFrom", false);
+        transferDetail = (TaskTransferDetail) getIntent().getSerializableExtra("transferDetail");
+    }
 
     private void findViews() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
-
-        mLocationIdEditText = (ScanEditText) findViewById(R.id.scrap_locationid);
-        mItemSpinner = (AppCompatSpinner) findViewById(R.id.scrap_itemid);
-        mPackSpinner = (AppCompatSpinner) findViewById(R.id.scrap_pack_name);
-        mQtyEditText = (AppCompatEditText) findViewById(R.id.scrap_qty);
+        mTaskView = (TextView) findViewById(R.id.task_id);
+        mProductNameView = (TextView) findViewById(R.id.product_name);
+        mProductPackNameView = (TextView) findViewById(R.id.product_pack_name);
+        mProductQtyView = (TextView) findViewById(R.id.product_qty);
+        mProductQtyRealView = (EditText) findViewById(R.id.product_qty_real);
+        mProductQtyRealContainerView = findViewById(R.id.product_qty_real_container);
+        mLocationIdView = (TextView) findViewById(R.id.location_id);
+        mLocationIdConfirmView = (ScanEditText) findViewById(R.id.confirm_location_id);
         button = (Button) findViewById(R.id.button);
+        mTransferTypeNameView = (TextView) findViewById(R.id.transfer_type_name);
+        mProductView = findViewById(R.id.product);
+        mLocationView = findViewById(R.id.location);
+        mProductLocationView = (TextView) findViewById(R.id.product_locationId);
 
-        scanEditTextTool = new ScanEditTextTool(this, mLocationIdEditText);
+        mTransferTypeNameView.setText(isTransferFrom ? "转出" : "转入");
+        scanEditTextTool = new ScanEditTextTool(this, mLocationIdConfirmView);
         scanEditTextTool.setComplete(this);
 
         button.setEnabled(false);
@@ -97,35 +130,12 @@ public class TransferLocationActivity extends BaseActivity implements ScanEditTe
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RequestCreateScrapTask(TransferLocationActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationIdEditText.getText().toString(), mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
+                String qty = isTransferFrom ? mProductQtyRealView.getText().toString() : transferDetail.getUomQty();
+                new RequestTransferTask(TransferLocationActivity.this, transferDetail.getTaskId(), isTransferFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId(), qty, transferDetail.getProductPackName(), isTransferFrom).start();
 
             }
         });
-        mItemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                check();
-                mPackAdapter = new ArrayAdapter<>(TransferLocationActivity.this, android.R.layout.simple_spinner_dropdown_item, mProducts.get(position).getPackName());
-                mPackSpinner.setAdapter(mPackAdapter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        mPackSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                check();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        mQtyEditText.addTextChangedListener(new TextWatcher() {
+        mProductQtyRealView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -133,7 +143,9 @@ public class TransferLocationActivity extends BaseActivity implements ScanEditTe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                check();
+                boolean check = !TextUtils.isEmpty(mProductQtyRealView.getText().toString());
+                button.setEnabled(check);
+                button.setClickable(check);
             }
 
             @Override
@@ -144,50 +156,32 @@ public class TransferLocationActivity extends BaseActivity implements ScanEditTe
 
     }
 
-    private void check() {
-        boolean check = !TextUtils.isEmpty(mLocationIdEditText.getText().toString());
-        check &= !TextUtils.isEmpty(mItemSpinner.getSelectedItem().toString());
-        check &= !TextUtils.isEmpty(mPackSpinner.getSelectedItem().toString());
-        check &= !TextUtils.isEmpty(mQtyEditText.getText().toString());
-
-        button.setEnabled(check);
-        button.setClickable(check);
-
-    }
 
     private void fill() {
-        ArrayList<String> items = new ArrayList<>();
-        for (Product product : mProducts) {
-            items.add(product.getName());
-        }
-        mItemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        mItemSpinner.setAdapter(mItemAdapter);
-        mPackAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mProducts.get(0).getPackName());
-        mPackSpinner.setAdapter(mPackAdapter);
+        mTaskView.setText("任务ID：" + transferDetail.getTaskId());
+        mProductNameView.setText("商品名称：" + transferDetail.getProductName());
+        mProductPackNameView.setText("包装单位：" + transferDetail.getProductPackName());
+        mProductQtyView.setText((isTransferFrom ? "商品数量：" : "实际数量：") + transferDetail.getUomQty());
+        mLocationIdView.setText(isTransferFrom ? transferDetail.getFromLocationName() : transferDetail.getToLocationName());
+        mProductQtyRealContainerView.setVisibility(isTransferFrom ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void onSetComplete() {
-        button.setEnabled(false);
-        button.setClickable(false);
-        String locationId = mLocationIdEditText.getText().toString();
-        locationId = "19";
-        new LocationProductListTask(this, locationId, new LocationProductListTask.CallBack() {
-            @Override
-            public void success(ProductList products) {
-                if (mProducts == null) {
-                    mProducts = new ProductList();
-                }
-                mProducts.clear();
-                mProducts.addAll(products);
-                fill();
+        String scanLocationId = mLocationIdConfirmView.getText().toString();
+        scanLocationId = isTransferFrom ? "14" : "18";
+        boolean check = TextUtils.equals(isTransferFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId(), scanLocationId);
+        if (!check) {
+            ToastTool.show(this, "库位不一致");
+        } else {
+            mLocationView.setVisibility(View.GONE);
+            mProductView.setVisibility(View.VISIBLE);
+            mProductLocationView.setText("库位：" + mLocationIdView.getText().toString());
+            if (!isTransferFrom) {
+                button.setEnabled(true);
+                button.setClickable(true);
             }
-
-            @Override
-            public void failed(String errStr) {
-
-            }
-        }).start();
+        }
     }
 
     @Override
@@ -199,31 +193,45 @@ public class TransferLocationActivity extends BaseActivity implements ScanEditTe
     @Override
     public void OnBarCodeReceived(String s) {
         scanEditTextTool.setScanText(s);
+
     }
 
-    private class RequestCreateScrapTask extends HttpAsyncTask<ResponseState> {
+    private class RequestTransferTask extends HttpAsyncTask<ResponseState> {
 
-        private String itemId;
         private String locationId;
-        private String packName;
         private String qty;
+        private String packName;
+        private String taskId;
+        private boolean isTransferFrom;
 
-        public RequestCreateScrapTask(Context context, String itemId, String locationId, String packName, String qty) {
+        public RequestTransferTask(Context context, String taskId, String locationId, String qty, String packName, boolean isTransferFrom) {
             super(context, true, true, false);
-            this.itemId = itemId;
             this.locationId = locationId;
             this.qty = qty;
             this.packName = packName;
+            this.taskId = taskId;
+            this.isTransferFrom = isTransferFrom;
         }
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return HttpApi.inhouseCreateScrap(itemId, locationId, packName, qty, BaseApplication.get().getUser().getUid());
+            if (isTransferFrom) {
+                return HttpApi.stockTransferScanFromLocation(taskId, locationId, BaseApplication.get().getUserId(), qty, packName);
+            } else {
+                return HttpApi.stockTransferScanToLocation(taskId, locationId, BaseApplication.get().getUserId(), qty, packName);
+            }
         }
 
         @Override
         public void onPostExecute(int updateId, ResponseState result) {
-            ToastTool.show(context, "success");
+            ToastTool.show(context, isTransferFrom ? "转出成功" : "转入成功");
+            if (isTransferFrom) {
+                transferDetail.setUomQty(qty);
+                TransferLocationActivity.launch(context, transferDetail, false);
+                finish();
+            } else {
+                finish();
+            }
         }
     }
 

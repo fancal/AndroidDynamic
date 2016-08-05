@@ -70,11 +70,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/fetch_task"
+            android:id="@+id/fetch_transfer_task"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="领取任务" />
+            android:text="领取移库任务" />
 
         <Button
             android:layout_width="0dp"
