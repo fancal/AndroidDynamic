@@ -109,72 +109,8 @@
                         android:id="@+id/reality_num"
                         android:layout_width="60dip"
                         android:layout_height="wrap_content"
+                        android:inputType="number"
                         android:textSize="20dip" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="生产日期:"
-                        android:textSize="20dip" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <com.elianshang.code.reader.ui.view.ContentEditText
-                            android:id="@+id/et_year"
-                            android:layout_width="80dip"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center"
-                            android:textSize="20dip" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="年"
-                            android:textSize="20dip" />
-
-                        <com.elianshang.code.reader.ui.view.ContentEditText
-                            android:id="@+id/et_month"
-                            android:layout_width="50dip"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center"
-                            android:text=""
-                            android:textSize="20dip" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="月"
-                            android:textSize="20dip" />
-
-                        <com.elianshang.code.reader.ui.view.ContentEditText
-                            android:id="@+id/et_day"
-                            android:layout_width="50dip"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center"
-                            android:text=""
-                            android:textSize="20dip" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="日"
-                            android:textSize="20dip" />
-
-                    </LinearLayout>
-
 
                 </LinearLayout>
 
@@ -196,6 +132,60 @@
                         android:textSize="20dip" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="生产日期:"
+                        android:textSize="20dip" />
+
+                    <com.elianshang.code.reader.ui.view.ContentEditText
+                        android:id="@+id/et_year"
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="20dip" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="年"
+                        android:textSize="20dip" />
+
+                    <com.elianshang.code.reader.ui.view.ContentEditText
+                        android:id="@+id/et_month"
+                        android:layout_width="50dip"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="20dip" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="月"
+                        android:textSize="20dip" />
+
+                    <com.elianshang.code.reader.ui.view.ContentEditText
+                        android:id="@+id/et_day"
+                        android:layout_width="50dip"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="20dip" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="日"
+                        android:textSize="20dip" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.MotionEvent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +26,7 @@ import com.xue.http.impl.DataHull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ReceiptInfoActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener {
+public class ReceiptInfoActivity extends BaseActivity implements View.OnClickListener {
 
     public static void launch(Activity activity, String orderId, String containerId, String barCode, ReceiptGetOrderInfo receiptGetOrderInfo) {
         Intent intent = new Intent(activity, ReceiptInfoActivity.class);
@@ -83,9 +83,7 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
         mEditMonth = (EditText) findViewById(R.id.et_month);
         mEditDay = (EditText) findViewById(R.id.et_day);
 
-        mEditYear.setOnTouchListener(this);
-        mEditMonth.setOnTouchListener(this);
-        mEditDay.setOnTouchListener(this);
+        keyboardUtil = new DateKeyboardUtil(this, mEditYear, mEditMonth, mEditDay);
 
         button.setOnClickListener(this);
     }
@@ -99,7 +97,7 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void fillData() {
-        if(receiptGetOrderInfo == null){
+        if (receiptGetOrderInfo == null) {
             return;
         }
         productNameTextView.setText(receiptGetOrderInfo.getSkuName());
@@ -114,28 +112,14 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        int step = -1;
-        if (v == mEditYear) {
-            step = 0;
-        } else if (v == mEditMonth) {
-            step = 1;
-        } else if (v == mEditDay) {
-            step = 2;
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && keyboardUtil.isShow()) {
+            keyboardUtil.hideKeyboard();
+            return true;
         }
-        if (step >= 0) {
-            if (keyboardUtil == null) {
-                keyboardUtil = new DateKeyboardUtil(this, mEditYear, mEditMonth, mEditDay);
-            }
-            keyboardUtil.hideSoftInputMethod();
-            keyboardUtil.showKeyboard(step);
-
-        }
-        return false;
+        return super.onKeyDown(keyCode, event);
     }
-
 
     private void submit() {
         String realityNum = realityNumEditView.getText().toString();

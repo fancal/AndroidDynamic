@@ -6,6 +6,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.text.InputType;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -15,7 +16,7 @@ import com.elianshang.code.reader.R;
 import java.util.Calendar;
 import java.util.List;
 
-public class DateKeyboardUtil {
+public class DateKeyboardUtil implements View.OnTouchListener {
 
     private Context mContext;
     private Activity mActivity;
@@ -37,24 +38,31 @@ public class DateKeyboardUtil {
     /**
      * 0：年    1：月   2：日
      */
-    private int step;
+    private int step = -1;
+
+    private boolean isInit = false;
 
     public DateKeyboardUtil(Activity activity, EditText... edit) {
         mActivity = activity;
         mContext = activity;
         mAllEdit = edit;
         mCurEdit = edit[0];
-        mKeyboardView = (KeyboardView) activity.findViewById(R.id.keyboard_view);
-        init();
-
+        for (EditText editText : mAllEdit) {
+            editText.setInputType(InputType.TYPE_NULL);
+            editText.setOnTouchListener(this);
+        }
     }
 
-    private void init() {
+    private synchronized void init() {
+        if (isInit) {
+            return;
+        }
+        isInit = true;
         year_keyboard = new Keyboard(mContext, R.xml.keyboard_year);
         month_keyboard = new Keyboard(mContext, R.xml.keyboard_month);
         day_keyboard = new Keyboard(mContext, R.xml.keyboard_day);
 
-        mKeyboardView.setKeyboard(year_keyboard);
+        mKeyboardView = (KeyboardView) mActivity.findViewById(R.id.keyboard_view);
         mKeyboardView.setEnabled(true);
         mKeyboardView.setPreviewEnabled(false);
         mKeyboardView.setOnKeyboardActionListener(listener);
@@ -68,9 +76,28 @@ public class DateKeyboardUtil {
             key.codes = new int[]{year};
             year--;
         }
-        for (EditText editText : mAllEdit) {
-            editText.setInputType(InputType.TYPE_NULL);
+
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        int step = -1;
+        for (int i = 0; i < mAllEdit.length; i++) {
+            if (v == mAllEdit[i]) {
+                step = i;
+                break;
+            }
         }
+        if (step >= 0 && this.step != step) {
+            init();
+            this.step = step;
+            mCurEdit = mAllEdit[step];
+            mCurEdit.requestFocus();
+            hideSoftInputMethod();
+            showKeyboard();
+
+        }
+        return false;
     }
 
     private OnKeyboardActionListener listener = new OnKeyboardActionListener() {
@@ -151,22 +178,13 @@ public class DateKeyboardUtil {
 
     /**
      * 软键盘展示
-     *
-     * @param step 0: 年
-     *             1：月
-     *             2：日
      */
-    public void showKeyboard(int step) {
+    public void showKeyboard() {
         int visibility = mKeyboardView.getVisibility();
         if (visibility == View.GONE || visibility == View.INVISIBLE) {
             mKeyboardView.setVisibility(View.VISIBLE);
         }
-        if (this.step != step) {
-            this.step = step;
-            mCurEdit = mAllEdit[step];
-            mCurEdit.requestFocus();
-            setKeyboard();
-        }
+        setKeyboard();
     }
 
     /**
@@ -182,11 +200,11 @@ public class DateKeyboardUtil {
     /**
      * 禁掉系统软键盘
      */
-    public void hideSoftInputMethod() {
+    private void hideSoftInputMethod() {
 //        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 //        imm.hideSoftInputFromWindow(mActivity.getCurrentFocus().getWindowToken(), 0); //强制隐藏键盘
 
-        ((InputMethodManager)mActivity.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(mActivity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // (WidgetSearchActivity是当前的Activity)
+        ((InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(mActivity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // (WidgetSearchActivity是当前的Activity)
     }
 
 }
