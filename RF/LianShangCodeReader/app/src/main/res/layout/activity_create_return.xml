@@ -15,19 +15,20 @@
         app:title="转退货" />
 
     <LinearLayout
+        android:id="@+id/create_Layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="移除库位:"
+            android:text="请扫描库位:"
             android:textSize="20dip" />
 
         <com.elianshang.code.reader.ui.view.ScanEditText
-            android:id="@+id/scrap_locationid"
+            android:id="@+id/locationId_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dip" />
@@ -35,55 +36,95 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="商品码:"
+            android:text="请扫商品国条码:"
             android:textSize="20dip" />
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/scrap_itemid"
+        <com.elianshang.code.reader.ui.view.ScanEditText
+            android:id="@+id/barCode_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"
             android:textSize="20dip" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="包装单位:"
-            android:textSize="20dip" />
-
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/scrap_pack_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"
-            android:textSize="20dip" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="数量:"
-            android:textSize="20dip" />
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/scrap_qty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:textSize="20dip" />
-
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/button"
+    <LinearLayout
+        android:id="@+id/detail_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/grey_selector_for_button"
-        android:gravity="center"
-        android:padding="20dip"
-        android:text="提交"
-        android:textColor="#ffffffff"
-        android:textSize="30dip" />
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="名称:"
+                android:textSize="20dip" />
+
+            <TextView
+                android:id="@+id/itemName_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dip" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="规格:"
+                android:textSize="20dip" />
+
+            <TextView
+                android:id="@+id/packName_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dip" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="数量:"
+                android:textSize="20dip" />
+
+            <com.elianshang.code.reader.ui.view.ContentEditText
+                android:id="@+id/inputQty_EditView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="60dip"
+                android:textSize="20dip" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dip"
+            android:layout_height="0dip"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/submit_Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/grey_selector_for_button"
+            android:gravity="center"
+            android:padding="20dip"
+            android:text="提交"
+            android:textColor="#ffffffff"
+            android:textSize="30dip" />
+    </LinearLayout>
+
 
 </LinearLayout>

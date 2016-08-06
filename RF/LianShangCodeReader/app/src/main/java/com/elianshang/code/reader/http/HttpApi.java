@@ -3,7 +3,7 @@ package com.elianshang.code.reader.http;
 import android.content.Context;
 
 import com.elianshang.code.reader.BaseApplication;
-import com.elianshang.code.reader.bean.ProductList;
+import com.elianshang.code.reader.bean.Item;
 import com.elianshang.code.reader.bean.ReceiptInfo;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.Shelve;
@@ -13,7 +13,7 @@ import com.elianshang.code.reader.bean.TakeStockList;
 import com.elianshang.code.reader.bean.TaskTransfer;
 import com.elianshang.code.reader.bean.TaskTransferDetail;
 import com.elianshang.code.reader.bean.User;
-import com.elianshang.code.reader.parser.ProductListParser;
+import com.elianshang.code.reader.parser.ItemParser;
 import com.elianshang.code.reader.parser.ReceiptGetOrderInfoParser;
 import com.elianshang.code.reader.parser.ResponseStateParser;
 import com.elianshang.code.reader.parser.ShelveCreateParser;
@@ -246,14 +246,16 @@ public class HttpApi {
     /**
      * 7.扫描库位获取商品信息（马力）
      */
-    private interface StockGetItemList {
+    private interface StockGetItem {
 
-        String _function = "v1/inhouse/stock/getItemList";
+        String _function = "v1/inhouse/stock/getItem";
 
         /**
          * 位置ID
          */
         String locationId = "locationId";
+
+        String barCode = "barcode";
 
     }
 
@@ -264,30 +266,13 @@ public class HttpApi {
 
         String _function = "v1/inhouse/stock_transfer/createScrap";
 
-        /**
-         * 商品码
-         */
-        String itemId = "itemId";
-
-        /**
-         * 移除库位
-         */
         String locationId = "locationId";
 
-        /**
-         * 包装单位
-         */
-        String packName = "packName";
+        String barCode = "barcode";
 
-        /**
-         * 数量
-         */
         String uomQty = "uomQty";
 
-        /**
-         * 发起人
-         */
-        String planner = "planner";
+        String uId = "uId";
 
     }
 
@@ -298,30 +283,13 @@ public class HttpApi {
 
         String _function = "v1/inhouse/stock_transfer/createReturn";
 
-        /**
-         * 商品码
-         */
-        String itemId = "itemId";
-
-        /**
-         * 移除库位
-         */
         String locationId = "locationId";
 
-        /**
-         * 包装单位
-         */
-        String packName = "packName";
+        String barCode = "barcode";
 
-        /**
-         * 数量
-         */
         String uomQty = "uomQty";
 
-        /**
-         * 发起人
-         */
-        String planner = "planner";
+        String uId = "uId";
 
     }
 
@@ -527,7 +495,7 @@ public class HttpApi {
     /**
      * 13.领取盘点任务（吴昊）
      */
-    private interface InhouseStockTakingAssign {
+    private interface StockTakingAssign {
 
         String _function = "v1/inhouse/stock_taking/assign";
 
@@ -538,7 +506,7 @@ public class HttpApi {
     /**
      * 13.盘点任务详情（吴昊）
      */
-    private interface InhouseStockTakingGetTask {
+    private interface StockTakingGetTask {
 
         String _function = "v1/inhouse/stock_taking/getTask";
 
@@ -551,7 +519,7 @@ public class HttpApi {
     /**
      * 13.完成盘点任务（吴昊）
      */
-    private interface InhouseStockTakingDoOne {
+    private interface StockTakingDoOne {
 
         String _function = "v1/inhouse/stock_taking/doOne";
 
@@ -795,13 +763,14 @@ public class HttpApi {
      * @param locationId
      * @return
      */
-    public static DataHull<ProductList> stockGetItemList(String locationId) {
-        String url = base_url + StockGetItemList._function;
+    public static DataHull<Item> stockGetItem(String locationId, String barCode) {
+        String url = base_url + StockGetItem._function;
         List<BaseKVP> params = addParams(
-                new DefaultKVPBean(StockGetItemList.locationId, locationId)
+                new DefaultKVPBean(StockGetItem.locationId, locationId),
+                new DefaultKVPBean(StockGetItem.barCode, barCode)
         );
         int type = BaseHttpParameter.Type.POST;
-        HttpDynamicParameter<ProductListParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ProductListParser(), 0);
+        HttpDynamicParameter<ItemParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ItemParser(), 0);
 
         return request(parameter);
     }
@@ -810,14 +779,13 @@ public class HttpApi {
     /**
      * 转残次（马力）
      */
-    public static DataHull<ResponseState> inhouseCreateScrap(String itemId, String locationId, String packName, String uomQty, String planner) {
+    public static DataHull<ResponseState> createScrap(String locationId, String barCode, String uomQty, String uId) {
         String url = base_url + InhouseCreateScrap._function;
         List<BaseKVP> params = addParams(
-                new DefaultKVPBean(InhouseCreateScrap.itemId, itemId),
                 new DefaultKVPBean(InhouseCreateScrap.locationId, locationId),
-                new DefaultKVPBean(InhouseCreateScrap.packName, packName),
+                new DefaultKVPBean(InhouseCreateScrap.barCode, barCode),
                 new DefaultKVPBean(InhouseCreateScrap.uomQty, uomQty),
-                new DefaultKVPBean(InhouseCreateScrap.planner, planner)
+                new DefaultKVPBean(InhouseCreateScrap.uId, uId)
         );
         int type = BaseHttpParameter.Type.POST;
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
@@ -828,14 +796,13 @@ public class HttpApi {
     /**
      * 转退货（马力）
      */
-    public static DataHull<ResponseState> inhouseCreateReturn(String itemId, String locationId, String packName, String uomQty, String planner) {
+    public static DataHull<ResponseState> createReturn(String locationId, String barCode, String uomQty, String uId) {
         String url = base_url + InhouseCreateReturn._function;
         List<BaseKVP> params = addParams(
-                new DefaultKVPBean(InhouseCreateReturn.itemId, itemId),
                 new DefaultKVPBean(InhouseCreateReturn.locationId, locationId),
-                new DefaultKVPBean(InhouseCreateReturn.packName, packName),
+                new DefaultKVPBean(InhouseCreateReturn.barCode, barCode),
                 new DefaultKVPBean(InhouseCreateReturn.uomQty, uomQty),
-                new DefaultKVPBean(InhouseCreateReturn.planner, planner)
+                new DefaultKVPBean(InhouseCreateReturn.uId, uId)
         );
         int type = BaseHttpParameter.Type.POST;
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
@@ -981,11 +948,11 @@ public class HttpApi {
     /**
      * 领取盘点任务(吴昊)
      */
-    public static DataHull<TakeStockList> inhouseStockTakingAssign(String uid) {
-        String url = base_url + InhouseStockTakingAssign._function;
+    public static DataHull<TakeStockList> stockTakingAssign(String uid) {
+        String url = base_url + StockTakingAssign._function;
         int type = BaseHttpParameter.Type.POST;
         List<BaseKVP> params = addParams(
-                new DefaultKVPBean(InhouseStockTakingAssign.uId, uid)
+                new DefaultKVPBean(StockTakingAssign.uId, uid)
         );
         HttpDynamicParameter<TakeStockListParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new TakeStockListParser(), 0);
 
@@ -995,11 +962,11 @@ public class HttpApi {
     /**
      * 盘点任务详情(吴昊)
      */
-    public static DataHull<TakeStockDetail> inhouseStockTakingGetTask(String taskId, String locationId) {
-        String url = base_url + InhouseStockTakingGetTask._function;
+    public static DataHull<TakeStockDetail> stockTakingGetTask(String taskId, String locationId) {
+        String url = base_url + StockTakingGetTask._function;
         List<BaseKVP> params = addParams(
-                new DefaultKVPBean(InhouseStockTakingGetTask.taskId, taskId),
-                new DefaultKVPBean(InhouseStockTakingGetTask.locationId, locationId)
+                new DefaultKVPBean(StockTakingGetTask.taskId, taskId),
+                new DefaultKVPBean(StockTakingGetTask.locationId, locationId)
         );
         int type = BaseHttpParameter.Type.POST;
         HttpDynamicParameter<TakeStockDetailParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new TakeStockDetailParser(), 0);
@@ -1010,10 +977,10 @@ public class HttpApi {
     /**
      * 盘点任务详情(吴昊)
      */
-    public static DataHull<ResponseState> inhouseStockTakingDoOne(String result) {
-        String url = base_url + InhouseStockTakingDoOne._function;
+    public static DataHull<ResponseState> stockTakingDoOne(String result) {
+        String url = base_url + StockTakingDoOne._function;
         List<BaseKVP> params = addParams(
-                new DefaultKVPBean(InhouseStockTakingDoOne.result, result)
+                new DefaultKVPBean(StockTakingDoOne.result, result)
         );
         int type = BaseHttpParameter.Type.POST;
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);

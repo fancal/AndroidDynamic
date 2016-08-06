@@ -32,48 +32,104 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
+/**
+ * 盘点页面
+ * */
 public class TakeStockActivity extends BaseActivity implements ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(Context context, String uid) {
-        TakeStockListTask task = new TakeStockListTask(context, uid);
+        StockTakingAssignTask task = new StockTakingAssignTask(context, uid);
         task.start();
     }
 
+    /**
+     * 任务列表,上一页传入
+     */
     private TakeStockList takeStockList;
 
+    /**
+     * 当前执行的任务序号
+     */
     private int progress = 0;
 
+    /**
+     * 任务进度TextView
+     */
     private TextView progressTextView;
 
+    /**
+     * 任务布局
+     */
     private View taskLayout;
 
+    /**
+     * 任务布局 任务TextView
+     */
     private TextView taskTaskIdTextView;
 
-    private TextView taskLocationTextView;
+    /**
+     * 任务布局 库位TextView
+     */
+    private TextView taskLocationCodeTextView;
 
-    private ScanEditText taskLocationEditText;
+    /**
+     * 任务布局 库位扫描输入框
+     */
+    private ScanEditText taskLocationIdEditText;
 
+    /**
+     * 详情布局
+     */
     private View detailLayout;
 
+    /**
+     * 详情布局 任务TextView
+     */
     private TextView detailTaskIdTextView;
 
-    private TextView detailLocationTextView;
+    /**
+     * 详情布局 库位TextView
+     */
+    private TextView detailLocationCodeTextView;
 
+    /**
+     * 详情布局 名称TextView
+     */
     private TextView detailItemNameTextView;
 
+    /**
+     * 详情布局 规格TextView
+     */
     private TextView detailPackNameTextView;
 
+    /**
+     * 详情布局 数量TextView
+     */
     private TextView detailSystemQtyTextView;
 
+    /**
+     * 详情布局 添加按钮
+     */
     private Button detailAddButton;
 
-    private Button datailSubmitButton;
+    /**
+     * 详情布局 提交按钮
+     */
+    private Button detailSubmitButton;
 
+    /**
+     * 详情布局 输入布局
+     */
     private LinearLayout detailInputLayout;
 
+    /**
+     * EditText工具
+     */
     private ScanEditTextTool scanEditTextTool;
 
+    /**
+     * 动态布局记录列表
+     */
     private ArrayList<ViewHolder> vhList = new ArrayList();
 
     @Override
@@ -99,26 +155,34 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         ScanManager.get().removeListener(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+        }
+    }
+
     private void findView() {
-        progressTextView = (TextView) findViewById(R.id.progress_textview);
+        progressTextView = (TextView) findViewById(R.id.progress_TextView);
 
-        taskLayout = findViewById(R.id.task_layout);
-        taskTaskIdTextView = (TextView) taskLayout.findViewById(R.id.task_textview);
-        taskLocationTextView = (TextView) taskLayout.findViewById(R.id.locationid_textview);
-        taskLocationEditText = (ScanEditText) taskLayout.findViewById(R.id.locationid_edittext);
+        taskLayout = findViewById(R.id.task_Layout);
+        taskTaskIdTextView = (TextView) taskLayout.findViewById(R.id.taskId_TextView);
+        taskLocationCodeTextView = (TextView) taskLayout.findViewById(R.id.locationCode_TextView);
+        taskLocationIdEditText = (ScanEditText) taskLayout.findViewById(R.id.locationId_EditText);
 
-        detailLayout = findViewById(R.id.detail_layout);
-        detailTaskIdTextView = (TextView) detailLayout.findViewById(R.id.task_textview);
-        detailLocationTextView = (TextView) detailLayout.findViewById(R.id.locationid_textview);
-        detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemname_textview);
-        detailPackNameTextView = (TextView) detailLayout.findViewById(R.id.packname_textview);
-        detailSystemQtyTextView = (TextView) detailLayout.findViewById(R.id.systemqty_textview);
-        detailAddButton = (Button) detailLayout.findViewById(R.id.add_button);
-        datailSubmitButton = (Button) detailLayout.findViewById(R.id.submit_button);
-        detailInputLayout = (LinearLayout) detailLayout.findViewById(R.id.input_layout);
+        detailLayout = findViewById(R.id.detail_Layout);
+        detailTaskIdTextView = (TextView) detailLayout.findViewById(R.id.taskId_TextView);
+        detailLocationCodeTextView = (TextView) detailLayout.findViewById(R.id.locationCode_TextView);
+        detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);
+        detailPackNameTextView = (TextView) detailLayout.findViewById(R.id.packName_TextView);
+        detailSystemQtyTextView = (TextView) detailLayout.findViewById(R.id.systemQty_TextView);
+        detailAddButton = (Button) detailLayout.findViewById(R.id.add_Button);
+        detailSubmitButton = (Button) detailLayout.findViewById(R.id.submit_Button);
+        detailInputLayout = (LinearLayout) detailLayout.findViewById(R.id.input_Layout);
 
         detailAddButton.setOnClickListener(this);
-        datailSubmitButton.setOnClickListener(this);
+        detailSubmitButton.setOnClickListener(this);
     }
 
     private void readExtra() {
@@ -127,7 +191,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
     }
 
     private void fillNewTask() {
-        taskLocationEditText.setText("");
+        taskLocationIdEditText.setText("");
         detailInputLayout.removeAllViews();
 
         final TakeStockList.TakeStockTask task = takeStockList.get(progress);
@@ -138,21 +202,21 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         detailLayout.setVisibility(View.GONE);
 
         taskTaskIdTextView.setText(task.getTaskId());
-        taskLocationTextView.setText(task.getLocationCode());
+        taskLocationCodeTextView.setText(task.getLocationCode());
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
         }
 
         vhList.clear();
-        scanEditTextTool = new ScanEditTextTool(this, taskLocationEditText);
+        scanEditTextTool = new ScanEditTextTool(this, taskLocationIdEditText);
 
         scanEditTextTool.setComplete(new ScanEditTextTool.OnSetComplete() {
             @Override
             public void onSetComplete() {
-                String locationId = taskLocationEditText.getText().toString();
+                String locationId = taskLocationIdEditText.getText().toString();
                 if (TextUtils.equals(locationId, task.getLocationId())) {
-                    new TakeStockDetailTask(TakeStockActivity.this, task.getTaskId(), locationId).start();
+                    new StockTakingGetTask(TakeStockActivity.this, task.getTaskId(), locationId).start();
                 } else {
                     Toast.makeText(TakeStockActivity.this, "错误的库位,请扫描正确库位", Toast.LENGTH_SHORT).show();
                 }
@@ -170,10 +234,15 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         detailLayout.setVisibility(View.VISIBLE);
 
         detailTaskIdTextView.setText(takeStockDetail.getTaskId());
-        detailLocationTextView.setText(takeStockDetail.getLocationId());
+        detailLocationCodeTextView.setText(takeStockDetail.getLocationId());
         detailItemNameTextView.setText(takeStockDetail.getItemName());
         detailPackNameTextView.setText(takeStockDetail.getPackName());
-        detailSystemQtyTextView.setText(takeStockDetail.getQty());
+
+        if ("1".equals(takeStockDetail.getViewType())) {
+            detailSystemQtyTextView.setText(takeStockDetail.getQty());
+        } else {
+            detailSystemQtyTextView.setText("***");
+        }
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -213,7 +282,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
     public void onClick(View v) {
         if (detailAddButton == v) {
             addItemView();
-        } else if (datailSubmitButton == v) {
+        } else if (detailSubmitButton == v) {
             submit();
         }
     }
@@ -251,7 +320,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         }
 
         if (state) {
-            new TakeStockSubmitTask(this, jsonObject.toString()).start();
+            new StockTakingDoOneTask(this, jsonObject.toString()).start();
         } else {
             if (jsonarray.length() == 0) {
                 DialogTools.showTwoButtonDialog(this, "请确定,库位没有商品", "取消", "确认", new DialogInterface.OnClickListener() {
@@ -262,7 +331,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
                 }, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new TakeStockSubmitTask(TakeStockActivity.this, jsonObject.toString()).start();
+                        new StockTakingDoOneTask(TakeStockActivity.this, jsonObject.toString()).start();
                     }
                 }, false);
             } else {
@@ -274,7 +343,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
                 }, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new TakeStockSubmitTask(TakeStockActivity.this, jsonObject.toString()).start();
+                        new StockTakingDoOneTask(TakeStockActivity.this, jsonObject.toString()).start();
                     }
                 }, false);
             }
@@ -286,18 +355,18 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         ContentEditText qtyEditText;
     }
 
-    private static class TakeStockListTask extends HttpAsyncTask<TakeStockList> {
+    private static class StockTakingAssignTask extends HttpAsyncTask<TakeStockList> {
 
         private String uid;
 
-        public TakeStockListTask(Context context, String uid) {
+        public StockTakingAssignTask(Context context, String uid) {
             super(context, true, true);
             this.uid = uid;
         }
 
         @Override
         public DataHull<TakeStockList> doInBackground() {
-            return HttpApi.inhouseStockTakingAssign(uid);
+            return HttpApi.stockTakingAssign(uid);
         }
 
         @Override
@@ -313,13 +382,13 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         }
     }
 
-    private class TakeStockDetailTask extends HttpAsyncTask<TakeStockDetail> {
+    private class StockTakingGetTask extends HttpAsyncTask<TakeStockDetail> {
 
         private String taskId;
 
         private String locationId;
 
-        public TakeStockDetailTask(Context context, String taskId, String locationId) {
+        public StockTakingGetTask(Context context, String taskId, String locationId) {
             super(context, true, true);
             this.taskId = taskId;
             this.locationId = locationId;
@@ -327,7 +396,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
 
         @Override
         public DataHull<TakeStockDetail> doInBackground() {
-            return HttpApi.inhouseStockTakingGetTask(taskId, locationId);
+            return HttpApi.stockTakingGetTask(taskId, locationId);
         }
 
         @Override
@@ -341,18 +410,18 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         }
     }
 
-    private class TakeStockSubmitTask extends HttpAsyncTask<ResponseState> {
+    private class StockTakingDoOneTask extends HttpAsyncTask<ResponseState> {
 
         private String resultList;
 
-        public TakeStockSubmitTask(Context context, String resultList) {
+        public StockTakingDoOneTask(Context context, String resultList) {
             super(context, true, true);
             this.resultList = resultList;
         }
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return HttpApi.inhouseStockTakingDoOne(resultList);
+            return HttpApi.stockTakingDoOne(resultList);
         }
 
         @Override

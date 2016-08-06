@@ -27,9 +27,9 @@ public class LoginActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-    private Button mLogin;
-    private EditText mName;
-    private EditText mPassword;
+    private Button loginButton;
+    private EditText userNameEditText;
+    private EditText passWdEditText;
     private Toolbar mToolbar;
 
 
@@ -41,9 +41,9 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void findViews() {
-        mLogin = (Button) findViewById(R.id.login);
-        mName = (EditText) findViewById(R.id.name);
-        mPassword = (EditText) findViewById(R.id.password);
+        loginButton = (Button) findViewById(R.id.login_Button);
+        userNameEditText = (EditText) findViewById(R.id.userName_EditText);
+        passWdEditText = (EditText) findViewById(R.id.passWd_EditText);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,12 +52,12 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        mLogin.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = mName.getText().toString().trim();
-                String password = mPassword.getText().toString().trim();
-                new RequestLoginTask(LoginActivity.this, name, password).start();
+                String userName = userNameEditText.getText().toString().trim();
+                String passWd = passWdEditText.getText().toString().trim();
+                new RequestLoginTask(LoginActivity.this, userName, passWd).start();
             }
         });
 

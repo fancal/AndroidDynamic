@@ -4,38 +4,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.asyn.HttpAsyncTask;
-import com.elianshang.code.reader.asyn.LocationProductListTask;
-import com.elianshang.code.reader.bean.Product;
-import com.elianshang.code.reader.bean.ProductList;
+import com.elianshang.code.reader.bean.Item;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
+import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
-import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
 
-import java.util.ArrayList;
-
-/**
- * Created by liuhanzhi on 16/8/3.
- */
-public class CreateScrapActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener {
+public class CreateScrapActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, CreateScrapActivity.class);
@@ -43,16 +31,18 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
     }
 
     private Toolbar mToolbar;
-    private ScanEditText mLocationIdEditText;
-    private AppCompatSpinner mItemSpinner;
-    private AppCompatSpinner mPackSpinner;
-    private AppCompatEditText mQtyEditText;
+
+    private View createLayout;
+    private ScanEditText createLocationIdEditText;
+    private ScanEditText createBarCodeEditText;
+
+    private View detailLayout;
+    private TextView detailItemNameTextView;
+    private TextView detailPackNameTextView;
+    private ContentEditText detailInputQtyEditText;
+    private Button detailSubmitButton;
+
     private ScanEditTextTool scanEditTextTool;
-    private Button button;
-    private ArrayAdapter<String> mItemAdapter;
-    private ArrayAdapter<String> mPackAdapter;
-    private ProductList mProducts;
-    private String mLocationId = "19";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +50,7 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         setContentView(R.layout.activity_create_scrap);
 
         findViews();
+        fillCreateData();
     }
 
     @Override
@@ -75,7 +66,7 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
     }
 
 
-    private void findViews() {
+    private void initToolBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,120 +74,53 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
                 finish();
             }
         });
+    }
 
-        mLocationIdEditText = (ScanEditText) findViewById(R.id.scrap_locationid);
-        mItemSpinner = (AppCompatSpinner) findViewById(R.id.scrap_itemid);
-        mPackSpinner = (AppCompatSpinner) findViewById(R.id.scrap_pack_name);
-        mQtyEditText = (AppCompatEditText) findViewById(R.id.scrap_qty);
 
-        button = (Button) findViewById(R.id.button);
+    private void findViews() {
+        createLayout = findViewById(R.id.create_Layout);
+        createLocationIdEditText = (ScanEditText) createLayout.findViewById(R.id.locationId_EditText);
+        createBarCodeEditText = (ScanEditText) createLayout.findViewById(R.id.barCode_EditText);
 
-        scanEditTextTool = new ScanEditTextTool(this, mLocationIdEditText);
+        detailLayout = findViewById(R.id.detail_Layout);
+        detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);
+        detailPackNameTextView = (TextView) detailLayout.findViewById(R.id.packName_TextView);
+        detailInputQtyEditText = (ContentEditText) detailLayout.findViewById(R.id.inputQty_EditView);
+        detailSubmitButton = (Button) findViewById(R.id.submit_Button);
+
+        detailSubmitButton.setOnClickListener(this);
+
+
+        initToolBar();
+    }
+
+    private void fillCreateData() {
+        createLayout.setVisibility(View.VISIBLE);
+        detailLayout.setVisibility(View.GONE);
+
+        createLocationIdEditText.requestFocus();
+        scanEditTextTool = new ScanEditTextTool(this, createLocationIdEditText, createBarCodeEditText);
         scanEditTextTool.setComplete(this);
-
-        button.setEnabled(false);
-        button.setClickable(false);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new RequestCreateScrapTask(CreateScrapActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationId, mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
-//                new RequestTransferTask(CreateScrapActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationIdEditText.getText().toString(), mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
-
-            }
-        });
-        mItemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                check();
-                mPackAdapter = new ArrayAdapter<>(CreateScrapActivity.this, android.R.layout.simple_spinner_dropdown_item, mProducts.get(position).getPackName());
-                mPackSpinner.setAdapter(mPackAdapter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        mPackSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                check();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        mQtyEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                check();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
     }
 
-    private void check() {
-        boolean check = !TextUtils.isEmpty(mLocationIdEditText.getText().toString());
-        check &= !TextUtils.isEmpty(mItemSpinner.getSelectedItem().toString());
-        check &= !TextUtils.isEmpty(mPackSpinner.getSelectedItem().toString());
-        check &= !TextUtils.isEmpty(mQtyEditText.getText().toString());
+    private void fillDetailData(Item item) {
+        createLayout.setVisibility(View.GONE);
+        detailLayout.setVisibility(View.VISIBLE);
 
-        button.setEnabled(check);
-        button.setClickable(check);
-
-    }
-
-    private void fill() {
-        ArrayList<String> items = new ArrayList<>();
-        for (Product product : mProducts) {
-            items.add(product.getName());
-        }
-        mItemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        mItemSpinner.setAdapter(mItemAdapter);
-        mPackAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mProducts.get(0).getPackName());
-        mPackSpinner.setAdapter(mPackAdapter);
+        detailItemNameTextView.setText(item.getName());
+        detailPackNameTextView.setText(item.getPackName());
     }
 
     @Override
     public void onSetComplete() {
-        button.setEnabled(false);
-        button.setClickable(false);
-        //String locationId = mLocationIdEditText.getText().toString();
-        new LocationProductListTask(this, mLocationId, new LocationProductListTask.CallBack() {
-            @Override
-            public void success(ProductList products) {
-                if (mProducts == null) {
-                    mProducts = new ProductList();
-                }
-                mProducts.clear();
-                mProducts.addAll(products);
-                fill();
-            }
-
-            @Override
-            public void failed(String errStr) {
-
-            }
-        }).start();
+        String locationId = createLocationIdEditText.getText().toString();
+        String barCode = createBarCodeEditText.getText().toString();
+        new StockGetItemTask(this, locationId, barCode).start();
     }
 
     @Override
     public void onInputError(int i) {
-        button.setEnabled(false);
-        button.setClickable(false);
+
     }
 
     @Override
@@ -204,31 +128,77 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         scanEditTextTool.setScanText(s);
     }
 
-    private class RequestCreateScrapTask extends HttpAsyncTask<ResponseState> {
+    @Override
+    public void onClick(View v) {
+        if (v == detailSubmitButton) {
+            submit();
+        }
+    }
 
-        private String itemId;
+    private void submit() {
+        String locationId = createLocationIdEditText.getText().toString();
+        String barCode = createBarCodeEditText.getText().toString();
+        String qty = detailInputQtyEditText.getText().toString();
+
+        if (TextUtils.isEmpty(locationId)) {
+            return;
+        }
+
+        if (TextUtils.isEmpty(barCode)) {
+            return;
+        }
+
+        if (TextUtils.isEmpty(qty)) {
+            return;
+        }
+
+        new CreateScrapTask(this, locationId, barCode, qty).start();
+    }
+
+    private class StockGetItemTask extends HttpAsyncTask<Item> {
+
         private String locationId;
-        private String packName;
+
+        private String barCode;
+
+        public StockGetItemTask(Context context, String locationId, String barCode) {
+            super(context, true, true, false);
+            this.locationId = locationId;
+            this.barCode = barCode;
+        }
+
+        @Override
+        public DataHull<Item> doInBackground() {
+            return HttpApi.stockGetItem(locationId, barCode);
+        }
+
+        @Override
+        public void onPostExecute(int updateId, Item result) {
+            fillDetailData(result);
+        }
+    }
+
+    private class CreateScrapTask extends HttpAsyncTask<ResponseState> {
+
+        private String locationId;
+        private String barCode;
         private String qty;
 
-        public RequestCreateScrapTask(Context context, String itemId, String locationId, String packName, String qty) {
+        public CreateScrapTask(Context context, String locationId, String barCode, String qty) {
             super(context, true, true, false);
-            this.itemId = itemId;
             this.locationId = locationId;
+            this.barCode = barCode;
             this.qty = qty;
-            this.packName = packName;
         }
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return HttpApi.inhouseCreateScrap(itemId, locationId, packName, qty, BaseApplication.get().getUser().getUid());
+            return HttpApi.createScrap(locationId, barCode, qty, BaseApplication.get().getUser().getUid());
         }
 
         @Override
         public void onPostExecute(int updateId, ResponseState result) {
-            ToastTool.show(context, "success");
+            finish();
         }
     }
-
-
 }

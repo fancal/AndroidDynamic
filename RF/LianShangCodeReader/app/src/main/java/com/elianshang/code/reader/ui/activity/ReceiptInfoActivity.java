@@ -29,6 +29,9 @@ import com.xue.http.impl.DataHull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * 收货详情完成页
+ */
 public class ReceiptInfoActivity extends BaseActivity implements View.OnClickListener {
 
     public static void launch(Activity activity, String orderOtherId, String containerId, String barCode, ReceiptInfo receiptInfo) {

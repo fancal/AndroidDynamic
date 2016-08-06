@@ -22,7 +22,7 @@ import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.xue.http.impl.DataHull;
 
 /**
- * Created by wangwenwang on 16/8/3.
+ * 上架进入页
  */
 public class ShelveOpenActivity extends BaseActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnSetComplete {
 
@@ -105,6 +105,14 @@ public class ShelveOpenActivity extends BaseActivity implements ScanManager.OnBa
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
             finish();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
         }
     }
 

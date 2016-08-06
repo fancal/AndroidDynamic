@@ -3,7 +3,6 @@ package com.elianshang.code.reader.asyn;
 import android.content.Context;
 
 import com.elianshang.code.reader.bean.ProductList;
-import com.elianshang.code.reader.http.HttpApi;
 import com.xue.http.impl.DataHull;
 
 /**
@@ -23,7 +22,8 @@ public class LocationProductListTask extends HttpAsyncTask<ProductList> {
 
     @Override
     public DataHull<ProductList> doInBackground() {
-        return HttpApi.stockGetItemList(locationId);
+        return null ;
+//        return HttpApi.stockGetItemList(locationId);
     }
 
     @Override

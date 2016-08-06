@@ -23,7 +23,7 @@ import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.xue.http.impl.DataHull;
 
 /**
- * Created by wangwenwang on 16/8/3.
+ * 上架完成页
  */
 public class ShelveFinishActivity extends BaseActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnSetComplete {
 
@@ -84,6 +84,14 @@ public class ShelveFinishActivity extends BaseActivity implements ScanManager.On
     protected void onPause() {
         super.onPause();
         ScanManager.get().removeListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+        }
     }
 
     private void readExtra() {
