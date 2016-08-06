@@ -553,7 +553,7 @@ public class HttpApi {
 
         String _function = "v1/inhouse/stock_taking/doOne";
 
-        String resultList = "resultList";
+        String result = "result";
 
     }
 
@@ -1008,10 +1008,10 @@ public class HttpApi {
     /**
      * 盘点任务详情(吴昊)
      */
-    public static DataHull<ResponseState> inhouseStockTakingDoOne(String resultList) {
+    public static DataHull<ResponseState> inhouseStockTakingDoOne(String result) {
         String url = base_url + InhouseStockTakingDoOne._function;
         List<BaseKVP> params = addParams(
-                new DefaultKVPBean(InhouseStockTakingDoOne.resultList, resultList)
+                new DefaultKVPBean(InhouseStockTakingDoOne.result, result)
         );
         int type = BaseHttpParameter.Type.POST;
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);

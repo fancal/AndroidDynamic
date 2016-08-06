@@ -127,6 +127,9 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
     }
 
     private void fillNewTask() {
+        taskLocationEditText.setText("");
+        detailInputLayout.removeAllViews();
+
         final TakeStockList.TakeStockTask task = takeStockList.get(progress);
 
         progressTextView.setText((progress + 1) + "/" + takeStockList.size());
@@ -216,55 +219,65 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
     }
 
     private void submit() {
-        int state = 0;
-        final JSONArray jsonarray = new JSONArray();
+        boolean state = true;
         String taskId = detailTaskIdTextView.getText().toString();
-        for (ViewHolder vh : vhList) {
-            String barCode = vh.nameEditText.getText().toString();
-            String qty = vh.qtyEditText.getText().toString();
+        final JSONObject jsonObject = new JSONObject();
+        final JSONArray jsonarray = new JSONArray();
 
-            if (TextUtils.isEmpty(barCode) || TextUtils.isEmpty(qty)) {
-                state++;
-            } else {
-                try {
+        try {
+            jsonObject.put("taskId", taskId);
+
+            for (ViewHolder vh : vhList) {
+                String barCode = vh.nameEditText.getText().toString();
+                String qty = vh.qtyEditText.getText().toString();
+
+                if (TextUtils.isEmpty(barCode) || TextUtils.isEmpty(qty)) {
+                    state = false;
+                } else {
                     JSONObject jso = new JSONObject();
-                    jso.put("taskId", taskId);
                     jso.put("barcode", barCode);
-                    jso.put("qty", qty);
-
+                    float fqty = 0;
+                    if (!TextUtils.isEmpty(qty)) {
+                        fqty = Float.parseFloat(qty);
+                    }
+                    jso.put("qty", fqty);
                     jsonarray.put(jso);
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
+
+            jsonObject.put("list", jsonarray);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        if (state == 0) {
-            new TakeStockSubmitTask(this, jsonarray.toString()).start();
-        } else if (state == 1) {
-            DialogTools.showTwoButtonDialog(this, "请确定,库位没有商品", "取消", "确认", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            }, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    new TakeStockSubmitTask(TakeStockActivity.this, jsonarray.toString()).start();
-                }
-            }, false);
+        if (state) {
+            new TakeStockSubmitTask(this, jsonObject.toString()).start();
         } else {
-            DialogTools.showTwoButtonDialog(this, "信息不完全的的数据,提交时将会被忽略", "取消", "确认", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            if (jsonarray.length() == 0) {
+                DialogTools.showTwoButtonDialog(this, "请确定,库位没有商品", "取消", "确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                }
-            }, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    new TakeStockSubmitTask(TakeStockActivity.this, jsonarray.toString()).start();
-                }
-            }, false);
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new TakeStockSubmitTask(TakeStockActivity.this, jsonObject.toString()).start();
+                    }
+                }, false);
+            } else {
+                DialogTools.showTwoButtonDialog(this, "信息不完全的的数据,提交时将会被忽略", "取消", "确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new TakeStockSubmitTask(TakeStockActivity.this, jsonObject.toString()).start();
+                    }
+                }, false);
+            }
         }
     }
 
