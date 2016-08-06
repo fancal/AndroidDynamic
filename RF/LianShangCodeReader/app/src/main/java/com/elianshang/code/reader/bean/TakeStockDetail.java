@@ -2,9 +2,6 @@ package com.elianshang.code.reader.bean;
 
 import com.xue.http.hook.BaseBean;
 
-/**
- * Created by xfilshy on 16/8/4.
- */
 public class TakeStockDetail implements BaseBean {
 
     private String viewType;

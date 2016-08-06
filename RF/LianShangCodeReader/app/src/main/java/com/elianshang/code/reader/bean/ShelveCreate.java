@@ -18,9 +18,7 @@ public class ShelveCreate implements BaseBean {
     }
 
     @Override
-    public void setDataKey(String dataKey) {
-
-    }
+    public void setDataKey(String dataKey) {}
 
     @Override
     public String getDataKey() {

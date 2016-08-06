@@ -169,7 +169,6 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
     @Override
     public void onSetComplete() {
         String scanLocationId = mLocationIdConfirmView.getText().toString();
-        scanLocationId = isTransferFrom ? "14" : "18";
         boolean check = TextUtils.equals(isTransferFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId(), scanLocationId);
         if (!check) {
             ToastTool.show(this, "库位不一致");
@@ -216,9 +215,9 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
         @Override
         public DataHull<ResponseState> doInBackground() {
             if (isTransferFrom) {
-                return HttpApi.procurementScanFromLocation(taskId, locationId, BaseApplication.get().getUserId(), qty, packName);
+                return HttpApi.procurementScanFromLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
             } else {
-                return HttpApi.procurementScanToLocation(taskId, locationId, BaseApplication.get().getUserId(), qty, packName);
+                return HttpApi.procurementScanToLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
             }
         }
 
