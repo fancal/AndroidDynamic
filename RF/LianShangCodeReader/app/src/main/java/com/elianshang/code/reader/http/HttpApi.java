@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.bean.ProductList;
-import com.elianshang.code.reader.bean.ReceiptGetOrderInfo;
+import com.elianshang.code.reader.bean.ReceiptInfo;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.Shelve;
 import com.elianshang.code.reader.bean.ShelveCreate;
@@ -116,7 +116,7 @@ public class HttpApi {
     /**
      * 2.根据订单号、托盘码和国条码查询接口
      */
-    private interface ReceiptGetOrdeInfo {
+    private interface ReceiptGetOrderInfo {
 
         String _function = "v1/order/po/receipt/getorderinfo";
 
@@ -711,12 +711,12 @@ public class HttpApi {
     /**
      * 根据订单号、托盘码和国条码查询接口
      */
-    public static DataHull<ReceiptGetOrderInfo> receiptGetOrdeInfo(String orderOtherId, String containerId, String barCode) {
-        String url = base_url + ReceiptGetOrdeInfo._function;
+    public static DataHull<ReceiptInfo> receiptGetOrdeInfo(String orderOtherId, String containerId, String barCode) {
+        String url = base_url + ReceiptGetOrderInfo._function;
         List<BaseKVP> params = addParams(
-                new DefaultKVPBean(ReceiptGetOrdeInfo.orderOtherId, orderOtherId),
-                new DefaultKVPBean(ReceiptGetOrdeInfo.containerId, containerId),
-                new DefaultKVPBean(ReceiptGetOrdeInfo.barCode, barCode)
+                new DefaultKVPBean(ReceiptGetOrderInfo.orderOtherId, orderOtherId),
+                new DefaultKVPBean(ReceiptGetOrderInfo.containerId, containerId),
+                new DefaultKVPBean(ReceiptGetOrderInfo.barCode, barCode)
         );
         int type = BaseHttpParameter.Type.POST;
         HttpDynamicParameter<ReceiptGetOrderInfoParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ReceiptGetOrderInfoParser(), 0);

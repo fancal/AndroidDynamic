@@ -17,8 +17,6 @@ public class ScanEditTextTool {
 
     private ArrayList<EditText> mEditTexts;
 
-    private int setCount;
-
     private OnSetComplete complete;
 
     private TextWatcher textWatcher;
@@ -30,7 +28,6 @@ public class ScanEditTextTool {
 
         mActivity = activity;
         mEditTexts = new ArrayList<>();
-
 
         textWatcher = new TextWatcher() {
             @Override
@@ -78,8 +75,13 @@ public class ScanEditTextTool {
     }
 
     public void addEditText(EditText... editTexts) {
+        if (editTexts == null || mEditTexts == null) {
+            return;
+        }
         for (EditText editText : editTexts) {
-            editText.addTextChangedListener(textWatcher);
+            if (textWatcher != null) {
+                editText.addTextChangedListener(textWatcher);
+            }
             if (editText instanceof ScanEditText) {
                 ((ScanEditText) editText).setOnLongClickListener(mActivity);
                 ((ScanEditText) editText).setInputEnd(new ScanEditText.OnSetInputEnd() {
@@ -96,6 +98,9 @@ public class ScanEditTextTool {
 
 
     public void setScanText(String s) {
+        if (mActivity == null) {
+            return;
+        }
 
         View v = mActivity.getCurrentFocus();
 
@@ -116,11 +121,6 @@ public class ScanEditTextTool {
                 }
             }
         }
-
-//        setCount ++;
-//        if (setCount == mEditTexts.length && complete != null) {
-//            complete.onSetComplete();
-//        }
     }
 
     public void setComplete(OnSetComplete complete) {
@@ -132,10 +132,13 @@ public class ScanEditTextTool {
             for (EditText editText : mEditTexts) {
                 editText.removeTextChangedListener(textWatcher);
             }
+
+            mEditTexts.clear();
         }
 
-        mEditTexts.clear();
+        mEditTexts = null;
         textWatcher = null;
+        mActivity = null;
     }
 
 

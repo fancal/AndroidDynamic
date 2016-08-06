@@ -23,7 +23,7 @@
         android:layout_marginRight="@dimen/dip_20"
         android:background="@color/transparent"
         android:gravity="center_vertical"
-        android:inputType="text"
+        android:inputType="number"
         android:singleLine="true"
         android:textColor="#515151"
         android:textColorHint="#9e9e9e"

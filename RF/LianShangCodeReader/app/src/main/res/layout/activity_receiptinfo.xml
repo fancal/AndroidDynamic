@@ -39,11 +39,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="商品名称:"
+                        android:text="名称:"
                         android:textSize="20dip" />
 
                     <TextView
-                        android:id="@+id/product_name"
+                        android:id="@+id/itemName_TextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="20dip" />
@@ -64,7 +64,7 @@
                         android:textSize="20dip" />
 
                     <TextView
-                        android:id="@+id/package_unit"
+                        android:id="@+id/packUnit_TextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="20dip" />
@@ -85,7 +85,7 @@
                         android:textSize="20dip" />
 
                     <TextView
-                        android:id="@+id/order_qty"
+                        android:id="@+id/orderQty_TextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="20dip" />
@@ -106,15 +106,17 @@
                         android:textSize="20dip" />
 
                     <com.elianshang.code.reader.ui.view.ContentEditText
-                        android:id="@+id/reality_num"
-                        android:layout_width="60dip"
+                        android:id="@+id/inboundQty_EditView"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
+                        android:minWidth="60dip"
                         android:textSize="20dip" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lotNum_Layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -126,7 +128,7 @@
                         android:textSize="20dip" />
 
                     <com.elianshang.code.reader.ui.view.ContentEditText
-                        android:id="@+id/batchid_edittext"
+                        android:id="@+id/lotNum_EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="20dip" />
@@ -190,7 +192,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/submit_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffff0000"
@@ -217,6 +219,5 @@
             android:paddingTop="8dp"
             android:visibility="gone" />
     </RelativeLayout>
-
 
 </LinearLayout>

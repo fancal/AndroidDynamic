@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import com.elianshang.code.reader.R;
@@ -31,18 +33,40 @@ public class ShelveFinishActivity extends BaseActivity implements ScanManager.On
         activity.startActivityForResult(intent, 1);
     }
 
+    /**
+     * 上架任务信息
+     */
     private Shelve shelve;
 
+    /**
+     * EditText工具
+     */
     private ScanEditTextTool scanEditTextTool;
 
-    private TextView locationTextView;
+    /**
+     * 任务TextView
+     */
     private TextView taskIdTextView;
-    private ScanEditText locationEditText;
+
+    /**
+     * 库位TextView
+     */
+    private TextView locationCodeTextView;
+
+    /**
+     * 库位扫描输入框
+     */
+    private ScanEditText locationIdEditText;
+
+    /**
+     * 工具栏
+     */
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finish_operation);
+        setContentView(R.layout.activity_shelvefinish);
 
         readExtra();
         findViews();
@@ -68,18 +92,39 @@ public class ShelveFinishActivity extends BaseActivity implements ScanManager.On
     }
 
     private void findViews() {
-        locationTextView = (TextView) findViewById(R.id.location_id);
-        taskIdTextView = (TextView) findViewById(R.id.task_id);
-        locationEditText = (ScanEditText) findViewById(R.id.confirm_location_id);
+        taskIdTextView = (TextView) findViewById(R.id.taskId_TextView);
+        locationCodeTextView = (TextView) findViewById(R.id.locationCode_TextView);
+        locationIdEditText = (ScanEditText) findViewById(R.id.locationId_EditText);
 
-        scanEditTextTool = new ScanEditTextTool(this, locationEditText);
+        scanEditTextTool = new ScanEditTextTool(this, locationIdEditText);
         scanEditTextTool.setComplete(this);
+
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressBack();
+            }
+        });
+    }
+
+    private void pressBack() {
+        DialogTools.showOneButtonDialog(this, "请完成任务,不要退出", "知道了", null, true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        pressBack();
     }
 
     private void fillData() {
         if (shelve != null) {
             taskIdTextView.setText(shelve.getTaskId());
-            locationTextView.setText(shelve.getAllocLocationId());
+            locationCodeTextView.setText(shelve.getAllocLocationId());
         }
     }
 
@@ -90,19 +135,19 @@ public class ShelveFinishActivity extends BaseActivity implements ScanManager.On
 
     @Override
     public void onSetComplete() {
-        final String location = locationEditText.getText().toString();
+        final String location = locationIdEditText.getText().toString();
         if (location.equals(shelve.getAllocLocationId())) {
-            new RequestFinishOpetationTask(this, shelve.getTaskId(), location).start();
+            new ShelveScanTargetLocationTask(this, shelve.getTaskId(), location).start();
         } else {
             DialogTools.showTwoButtonDialog(this, "扫描库位与目标库位不符,确认上架吗?", "取消", "确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    locationEditText.setText("");
+                    locationIdEditText.setText("");
                 }
             }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    new RequestFinishOpetationTask(ShelveFinishActivity.this, shelve.getTaskId(), location).start();
+                    new ShelveScanTargetLocationTask(ShelveFinishActivity.this, shelve.getTaskId(), location).start();
                 }
             }, false);
         }
@@ -114,13 +159,13 @@ public class ShelveFinishActivity extends BaseActivity implements ScanManager.On
     }
 
 
-    private class RequestFinishOpetationTask extends HttpAsyncTask<ResponseState> {
+    private class ShelveScanTargetLocationTask extends HttpAsyncTask<ResponseState> {
 
         private String taskId;
 
         private String locationId;
 
-        public RequestFinishOpetationTask(Context context, String taskId, String locationId) {
+        public ShelveScanTargetLocationTask(Context context, String taskId, String locationId) {
             super(context, true, true);
             this.taskId = taskId;
             this.locationId = locationId;

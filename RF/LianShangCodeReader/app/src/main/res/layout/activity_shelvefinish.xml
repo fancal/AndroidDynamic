@@ -17,52 +17,51 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="任务ID"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="@dimen/dip_10"
+        android:layout_marginTop="20dp"
+        android:text="任务"
         android:textSize="@dimen/dip_20" />
+
     <TextView
-        android:id="@+id/task_id"
+        android:id="@+id/taskId_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="11111111"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="@dimen/dip_10"
+        android:layout_marginTop="5dp"
         android:textSize="@dimen/dip_20" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="仓库ID"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="@dimen/dip_10"
+        android:layout_marginTop="20dp"
+        android:text="库位"
         android:textSize="@dimen/dip_20" />
+
     <TextView
-        android:id="@+id/location_id"
+        android:id="@+id/locationCode_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="11111111"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="@dimen/dip_10"
+        android:layout_marginTop="5dp"
         android:textColor="#ffff0000"
-        android:textSize="@dimen/dip_30" />
+        android:textSize="@dimen/dip_20" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="扫描确认仓库ID:"
         android:layout_marginLeft="@dimen/dip_10"
         android:layout_marginTop="50dp"
-        android:textSize="@dimen/dip_20"/>
+        android:text="扫描确认仓库ID:"
+        android:textSize="@dimen/dip_20" />
 
     <com.elianshang.code.reader.ui.view.ScanEditText
-        android:id="@+id/confirm_location_id"
+        android:id="@+id/locationId_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dip_10"
         android:textSize="20dip" />
-
 
 
 </LinearLayout>

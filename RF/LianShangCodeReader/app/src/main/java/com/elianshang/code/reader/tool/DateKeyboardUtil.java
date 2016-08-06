@@ -88,14 +88,15 @@ public class DateKeyboardUtil implements View.OnTouchListener {
                 break;
             }
         }
-        if (step >= 0 && this.step != step) {
-            init();
-            this.step = step;
-            mCurEdit = mAllEdit[step];
-            mCurEdit.requestFocus();
+        if (step >= 0) {
+            if (this.step != step) {
+                init();
+                this.step = step;
+                mCurEdit = mAllEdit[step];
+                mCurEdit.requestFocus();
+            }
             hideSoftInputMethod();
             showKeyboard();
-
         }
         return false;
     }

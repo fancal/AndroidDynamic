@@ -1,15 +1,15 @@
 package com.elianshang.code.reader.parser;
 
-import com.elianshang.code.reader.bean.ReceiptGetOrderInfo;
+import com.elianshang.code.reader.bean.ReceiptInfo;
 
 import org.json.JSONObject;
 
-public class ReceiptGetOrderInfoParser extends MasterParser<ReceiptGetOrderInfo> {
+public class ReceiptGetOrderInfoParser extends MasterParser<ReceiptInfo> {
 
     @Override
-    public ReceiptGetOrderInfo parse(JSONObject data) throws Exception {
+    public ReceiptInfo parse(JSONObject data) throws Exception {
 
-        ReceiptGetOrderInfo info = new ReceiptGetOrderInfo();
+        ReceiptInfo info = new ReceiptInfo();
         info.setSkuName(getString(data, "skuName"));
         info.setOrderQty(getInt(data, "orderQty"));
         info.setPackUnit(getString(data, "packUnit"));

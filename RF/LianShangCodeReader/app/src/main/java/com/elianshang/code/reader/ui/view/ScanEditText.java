@@ -36,16 +36,17 @@ public class ScanEditText extends ContentEditText {
     }
 
 
-
     private void init() {
         setInputType(InputType.TYPE_NULL);
     }
 
     public void setOnLongClickListener(final Activity activity) {
+        if (activity == null) {
+            return;
+        }
         setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-
                 DialogTools.showEditViewDialog(activity, "请入码值", "", "取消", "确认", null, new DialogTools.OnEditViewPositiveButtonClick() {
                     @Override
                     public void onClick(String editText) {
@@ -61,7 +62,7 @@ public class ScanEditText extends ContentEditText {
         });
     }
 
-    public void setInputEnd (OnSetInputEnd inputEnd){
+    public void setInputEnd(OnSetInputEnd inputEnd) {
         this.inputEnd = inputEnd;
     }
 
@@ -72,11 +73,5 @@ public class ScanEditText extends ContentEditText {
     public interface OnSetInputEnd {
         void onSetInputEnd(String s);
     }
-
-//    public boolean isRight(){
-//        String editStr = getText().toString().trim();
-//        return !isEmpty(editStr) && isNumeric(editStr);
-//    }
-
 
 }

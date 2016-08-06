@@ -5,7 +5,7 @@ import com.xue.http.hook.BaseBean;
 /**
  * Created by xfilshy on 16/8/3.
  */
-public class ReceiptGetOrderInfo implements BaseBean {
+public class ReceiptInfo implements BaseBean {
 
     private String skuName;
 
@@ -14,7 +14,6 @@ public class ReceiptGetOrderInfo implements BaseBean {
     private int batchNeeded;
 
     private int orderQty;
-
 
     @Override
     public void setDataKey(String dataKey) {

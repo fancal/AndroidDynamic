@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.View;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.bean.Shelve;
 import com.elianshang.code.reader.http.HttpApi;
+import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
@@ -27,19 +31,60 @@ public class ShelveOpenActivity extends BaseActivity implements ScanManager.OnBa
         activity.startActivityForResult(intent, 1);
     }
 
+    /**
+     * 工具栏
+     */
+    private Toolbar mToolbar;
 
-    private ScanEditText containerEditText;
+    /**
+     * 托盘码扫描输入框
+     */
+    private ScanEditText containerIdEditText;
+
+    /**
+     * EditText工具
+     */
     private ScanEditTextTool scanEditTextTool;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_receive_task);
+        setContentView(R.layout.activity_shelveopen);
 
-        containerEditText = (ScanEditText) findViewById(R.id.container_id);
+        findView();
+    }
 
-        scanEditTextTool = new ScanEditTextTool(this, containerEditText);
+    private void findView() {
+        containerIdEditText = (ScanEditText) findViewById(R.id.containerId_EditText);
+
+        scanEditTextTool = new ScanEditTextTool(this, containerIdEditText);
         scanEditTextTool.setComplete(this);
+
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressBack();
+            }
+        });
+    }
+
+    private void pressBack() {
+        String containerId = containerIdEditText.getText().toString().trim();
+        if (!TextUtils.isEmpty(containerId)) {
+            DialogTools.showOneButtonDialog(this, "请完成任务,不要退出", "知道了", null, false);
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        pressBack();
     }
 
     @Override
@@ -70,9 +115,9 @@ public class ShelveOpenActivity extends BaseActivity implements ScanManager.OnBa
 
     @Override
     public void onSetComplete() {
-        String containerId = containerEditText.getText().toString();
+        String containerId = containerIdEditText.getText().toString();
 
-        new RequestShelveScanTask(this, containerId).start();
+        new ShelveScanContainerTask(this, containerId).start();
     }
 
     @Override
@@ -80,11 +125,11 @@ public class ShelveOpenActivity extends BaseActivity implements ScanManager.OnBa
 
     }
 
-    private class RequestShelveScanTask extends HttpAsyncTask<Shelve> {
+    private class ShelveScanContainerTask extends HttpAsyncTask<Shelve> {
 
         private String containerId;
 
-        public RequestShelveScanTask(Context context, String containerId) {
+        public ShelveScanContainerTask(Context context, String containerId) {
             super(context, true, true);
             this.containerId = containerId;
         }

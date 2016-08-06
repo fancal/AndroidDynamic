@@ -12,7 +12,7 @@
         android:background="?attr/colorPrimary"
         app:layout_scrollFlags="scroll|enterAlways"
         app:navigationIcon="@drawable/toolbar_back"
-        app:title="领取任务" />
+        app:title="上架" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,12 +31,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="请扫描托盘码:"
         android:layout_marginTop="50dp"
-        android:textSize="@dimen/dip_20"/>
+        android:text="请扫描托盘码:"
+        android:textSize="@dimen/dip_20" />
 
     <com.elianshang.code.reader.ui.view.ScanEditText
-        android:id="@+id/container_id"
+        android:id="@+id/containerId_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dip" />

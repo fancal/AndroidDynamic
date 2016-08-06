@@ -27,7 +27,7 @@
             android:textSize="20dip" />
 
         <com.elianshang.code.reader.ui.view.ScanEditText
-            android:id="@+id/orderid_edittext"
+            android:id="@+id/orderOtherId_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dip" />
@@ -39,10 +39,9 @@
             android:textSize="20dip" />
 
         <com.elianshang.code.reader.ui.view.ScanEditText
-            android:id="@+id/tuoid_edittext"
+            android:id="@+id/containerId_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"
             android:textSize="20dip" />
 
         <TextView
@@ -52,17 +51,16 @@
             android:textSize="20dip" />
 
         <com.elianshang.code.reader.ui.view.ScanEditText
-            android:id="@+id/productid_edittext"
+            android:id="@+id/barCode_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"
             android:textSize="20dip" />
 
     </LinearLayout>
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/submit_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

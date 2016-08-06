@@ -2,9 +2,11 @@ package com.elianshang.code.reader.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,10 +17,11 @@ import android.widget.Toast;
 
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.asyn.HttpAsyncTask;
-import com.elianshang.code.reader.bean.ReceiptGetOrderInfo;
+import com.elianshang.code.reader.bean.ReceiptInfo;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.tool.DateKeyboardUtil;
+import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.xue.http.impl.DataHull;
@@ -28,39 +31,94 @@ import org.json.JSONObject;
 
 public class ReceiptInfoActivity extends BaseActivity implements View.OnClickListener {
 
-    public static void launch(Activity activity, String orderId, String containerId, String barCode, ReceiptGetOrderInfo receiptGetOrderInfo) {
+    public static void launch(Activity activity, String orderOtherId, String containerId, String barCode, ReceiptInfo receiptInfo) {
         Intent intent = new Intent(activity, ReceiptInfoActivity.class);
-        intent.putExtra("orderId", orderId);
+        intent.putExtra("orderOtherId", orderOtherId);
         intent.putExtra("containerId", containerId);
         intent.putExtra("barCode", barCode);
-        intent.putExtra("info", receiptGetOrderInfo);
+        intent.putExtra("info", receiptInfo);
         activity.startActivityForResult(intent, 1);
     }
 
-    private String orderId;
+    /**
+     * 订单号,上一页传入
+     */
+    private String orderOtherId;
 
+    /**
+     * 托盘号,上一页传入
+     */
     private String containerId;
 
+    /**
+     * 商品条码,上一页传入
+     */
     private String barCode;
 
-    private ReceiptGetOrderInfo receiptGetOrderInfo;
+    /**
+     * 收货商品详情,上一页传入
+     */
+    private ReceiptInfo receiptInfo;
 
-    private TextView productNameTextView;
+    /**
+     * 商品名称TextView
+     */
+    private TextView itemNameTextView;
 
-    private TextView packageUnitTextView;
+    /**
+     * 商品包装数TextView
+     */
+    private TextView packUnitTextView;
 
+    /**
+     * 订单商品数
+     */
     private TextView orderQtyTextView;
 
-    private ContentEditText realityNumEditView;
+    /**
+     * 实际数量输入框
+     */
+    private ContentEditText inboundQtyEditView;
 
-    private ContentEditText batchIdEditView;
+    /**
+     * 批次号布局
+     */
+    private View lotNumLayout;
 
-    private Button button;
+    /**
+     * 批次号输入框
+     */
+    private ContentEditText lotNumEditText;
 
+    /**
+     * 提交按钮
+     */
+    private Button submitButton;
+
+    /**
+     * 年输入框
+     */
     private EditText mEditYear;
+
+    /**
+     * 月输入框
+     */
     private EditText mEditMonth;
+
+    /**
+     * 日输入框
+     */
     private EditText mEditDay;
+
+    /**
+     * 键盘工具
+     */
     private DateKeyboardUtil keyboardUtil;
+
+    /**
+     * 工具栏
+     */
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,41 +131,85 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void findView() {
-        productNameTextView = (TextView) findViewById(R.id.product_name);
-        packageUnitTextView = (TextView) findViewById(R.id.package_unit);
-        orderQtyTextView = (TextView) findViewById(R.id.order_qty);
-        realityNumEditView = (ContentEditText) findViewById(R.id.reality_num);
-        batchIdEditView = (ContentEditText) findViewById(R.id.batchid_edittext);
-        button = (Button) findViewById(R.id.button);
+        itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
+        packUnitTextView = (TextView) findViewById(R.id.packUnit_TextView);
+        orderQtyTextView = (TextView) findViewById(R.id.orderQty_TextView);
+        inboundQtyEditView = (ContentEditText) findViewById(R.id.inboundQty_EditView);
+        lotNumLayout = findViewById(R.id.lotNum_Layout);
+        lotNumEditText = (ContentEditText) findViewById(R.id.lotNum_EditText);
+        submitButton = (Button) findViewById(R.id.submit_Button);
         mEditYear = (EditText) findViewById(R.id.et_year);
         mEditMonth = (EditText) findViewById(R.id.et_month);
         mEditDay = (EditText) findViewById(R.id.et_day);
 
         keyboardUtil = new DateKeyboardUtil(this, mEditYear, mEditMonth, mEditDay);
 
-        button.setOnClickListener(this);
+        submitButton.setOnClickListener(this);
+
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressBack();
+            }
+        });
     }
 
     private void readExtra() {
         Intent intent = getIntent();
-        receiptGetOrderInfo = (ReceiptGetOrderInfo) intent.getSerializableExtra("info");
-        orderId = intent.getStringExtra("orderId");
+        receiptInfo = (ReceiptInfo) intent.getSerializableExtra("info");
+        orderOtherId = intent.getStringExtra("orderId");
         containerId = intent.getStringExtra("containerId");
         barCode = intent.getStringExtra("barCode");
     }
 
     private void fillData() {
-        if (receiptGetOrderInfo == null) {
+        if (receiptInfo == null) {
             return;
         }
-        productNameTextView.setText(receiptGetOrderInfo.getSkuName());
-        packageUnitTextView.setText(receiptGetOrderInfo.getPackUnit());
-        orderQtyTextView.setText(String.valueOf(receiptGetOrderInfo.getOrderQty()));
+        itemNameTextView.setText(receiptInfo.getSkuName());
+        packUnitTextView.setText(receiptInfo.getPackUnit());
+        orderQtyTextView.setText(String.valueOf(receiptInfo.getOrderQty()));
+        inboundQtyEditView.setHint(String.valueOf(receiptInfo.getOrderQty()));
+
+        if ("1".equals(receiptInfo.getBatchNeeded())) {
+            lotNumLayout.setVisibility(View.VISIBLE);
+        } else {
+            lotNumLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private void pressBack() {
+        String inboundQty = inboundQtyEditView.getText().toString();
+        String year = mEditYear.getText().toString();
+        String month = mEditMonth.getText().toString();
+        String day = mEditDay.getText().toString();
+        String lotNum = lotNumEditText.getText().toString();
+
+        if (!TextUtils.isEmpty(inboundQty) || !TextUtils.isEmpty(year) || !TextUtils.isEmpty(month) || !TextUtils.isEmpty(day) || !TextUtils.isEmpty(lotNum)) {
+            DialogTools.showTwoButtonDialog(this, "退出将清除已经输入的内容,确定离开吗", "取消", "确定", null, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            }, true);
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        pressBack();
     }
 
     @Override
     public void onClick(View v) {
-        if (v == button) {
+        if (v == submitButton) {
             submit();
         }
     }
@@ -122,21 +224,31 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void submit() {
-        String realityNum = realityNumEditView.getText().toString();
-        String date = mEditYear.getText().toString() + "-" + mEditMonth.getText().toString() + "-" + mEditDay.getText().toString();
-        String batchId = batchIdEditView.getText().toString();
+        if (receiptInfo == null) {
+            return;
+        }
 
-        if (TextUtils.isEmpty(realityNum)) {
+        String inboundQty = inboundQtyEditView.getText().toString();
+        if (TextUtils.isEmpty(inboundQty)) {
+            inboundQty = inboundQtyEditView.getHint().toString();
+        }
+        String year = mEditYear.getText().toString();
+        String month = mEditMonth.getText().toString();
+        String day = mEditDay.getText().toString();
+        String proTime = year + "-" + month + "-" + day;
+        String lotNum = lotNumEditText.getText().toString();
+
+        if (TextUtils.isEmpty(inboundQty)) {
             Toast.makeText(this, "请填入收货数量", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (TextUtils.isEmpty(date)) {
-            Toast.makeText(this, "请填入生产日期", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(year) || TextUtils.isEmpty(month) || TextUtils.isEmpty(day)) {
+            Toast.makeText(this, "请填入完整的生产日期", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (TextUtils.isEmpty(batchId)) {
+        if ("1".equals(receiptInfo.getBatchNeeded()) && TextUtils.isEmpty(lotNum)) {
             Toast.makeText(this, "请填入批次号", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -145,19 +257,19 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("barCode", barCode);
-            jsonObject.put("proTime", date);
-            jsonObject.put("lotNum", batchId);
-            jsonObject.put("inboundQty", realityNum);
+            jsonObject.put("proTime", proTime);
+            jsonObject.put("lotNum", lotNum);
+            jsonObject.put("inboundQty", inboundQty);
 
             jsonArray.put(jsonObject);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
-        new RequestReceiptAddTask(this, orderId, containerId, null, null, jsonArray.toString()).start();
+        new ReceiptAddTask(this, orderOtherId, containerId, null, null, jsonArray.toString()).start();
     }
 
-    private class RequestReceiptAddTask extends HttpAsyncTask<ResponseState> {
+    private class ReceiptAddTask extends HttpAsyncTask<ResponseState> {
 
         /**
          * 物美订单编号
@@ -182,10 +294,10 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
         /**
          * 收货明细数组
          */
-        String items = "items";
+        String items;
 
 
-        public RequestReceiptAddTask(Context context, String orderOtherId, String containerId, String bookingNum, String receiptWharf, String items) {
+        public ReceiptAddTask(Context context, String orderOtherId, String containerId, String bookingNum, String receiptWharf, String items) {
             super(context, true, true);
             this.orderOtherId = orderOtherId;
             this.bookingNum = bookingNum;
