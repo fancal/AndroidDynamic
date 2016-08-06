@@ -53,6 +53,10 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
      * 补货
      */
     private Button procurement;
+    /**
+     * 拣货
+     */
+    private Button pick;
 
 
     @Override
@@ -72,6 +76,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         createReturn = (Button) findViewById(R.id.create_return);
         transferLocation = (Button) findViewById(R.id.transfer_location);
         procurement = (Button) findViewById(R.id.procurement);
+        pick = (Button) findViewById(R.id.pick);
 
         loginBtn.setOnClickListener(this);
         receiptBtn.setOnClickListener(this);
@@ -81,6 +86,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         createReturn.setOnClickListener(this);
         transferLocation.setOnClickListener(this);
         procurement.setOnClickListener(this);
+        pick.setOnClickListener(this);
     }
 
 
@@ -102,6 +108,8 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
             new FetchTransferTask(this).start();
         } else if (v == procurement) {
             new FetchProcurementTask(this).start();
+        } else if (v == pick) {
+            PickActivity.launch(this);
         }
     }
 }

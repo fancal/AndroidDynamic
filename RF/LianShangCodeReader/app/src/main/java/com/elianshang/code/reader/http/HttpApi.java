@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.bean.Item;
+import com.elianshang.code.reader.bean.Pick;
+import com.elianshang.code.reader.bean.PickLocation;
 import com.elianshang.code.reader.bean.ReceiptInfo;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.Shelve;
@@ -14,6 +16,8 @@ import com.elianshang.code.reader.bean.TaskTransfer;
 import com.elianshang.code.reader.bean.TaskTransferDetail;
 import com.elianshang.code.reader.bean.User;
 import com.elianshang.code.reader.parser.ItemParser;
+import com.elianshang.code.reader.parser.PickLocationParser;
+import com.elianshang.code.reader.parser.PickParser;
 import com.elianshang.code.reader.parser.ReceiptGetOrderInfoParser;
 import com.elianshang.code.reader.parser.ResponseStateParser;
 import com.elianshang.code.reader.parser.ShelveCreateParser;
@@ -507,6 +511,38 @@ public class HttpApi {
 
     }
 
+    /**
+     * 13.扫拣货签&托盘码（坤哥）
+     */
+    private interface PickScanPickTask {
+
+        String _function = "v1/outbound/pick/scanPickTask";
+
+        String taskId = "taskId";
+
+        String containerId = "containerId";
+
+        String operator = "operator";
+
+    }
+
+    /**
+     * 扫拣货位/集货位（坤哥）
+     */
+    private interface PickScanPickLocation {
+
+        String _function = "v1/outbound/pick/scanPickLocation";
+
+        String taskId = "taskId";
+
+        String locationId = "locationId";
+
+        String operator = "operator";
+
+        String qty = "qty";
+
+    }
+
 
     private static void build() {
         base_url = ConfigTool.getHttpBaseUrl();
@@ -963,4 +999,39 @@ public class HttpApi {
 
         return request(parameter);
     }
+
+    /**
+     * 扫拣货签&托盘码(坤哥)
+     */
+    public static DataHull<Pick> pickScanPickTask(String taskId, String containerId, String operator) {
+        String url = base_url + PickScanPickTask._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(PickScanPickTask.taskId, taskId),
+                new DefaultKVPBean(PickScanPickTask.containerId, containerId),
+                new DefaultKVPBean(PickScanPickTask.operator, operator)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<PickParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new PickParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * 扫拣货位/集货位(坤哥)
+     */
+    public static DataHull<PickLocation> pickScanPickLocation(String taskId, String locationId, String operator, String qty) {
+        String url = base_url + PickScanPickLocation._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(PickScanPickLocation.taskId, taskId),
+                new DefaultKVPBean(PickScanPickLocation.locationId, locationId),
+                new DefaultKVPBean(PickScanPickLocation.qty, qty),
+                new DefaultKVPBean(PickScanPickLocation.operator, operator)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<PickLocationParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new PickLocationParser(), 0);
+
+        return request(parameter);
+    }
+
+
 }
