@@ -101,7 +101,7 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
             @Override
             public void onClick(View v) {
                 new RequestCreateScrapTask(CreateScrapActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationId, mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
-//                new RequestCreateScrapTask(CreateScrapActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationIdEditText.getText().toString(), mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
+//                new RequestTransferTask(CreateScrapActivity.this, mProducts.get(mItemSpinner.getSelectedItemPosition()).getItemId(), mLocationIdEditText.getText().toString(), mPackSpinner.getSelectedItem().toString(), mQtyEditText.getText().toString()).start();
 
             }
         });

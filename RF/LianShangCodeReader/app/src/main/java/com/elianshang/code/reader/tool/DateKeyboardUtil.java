@@ -173,7 +173,7 @@ public class DateKeyboardUtil implements View.OnTouchListener {
      * 软键盘展示状态
      */
     public boolean isShow() {
-        return mKeyboardView.getVisibility() == View.VISIBLE;
+        return mKeyboardView != null && mKeyboardView.getVisibility() == View.VISIBLE;
     }
 
     /**

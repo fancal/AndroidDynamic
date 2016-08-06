@@ -70,16 +70,19 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/fetch_task"
+            android:id="@+id/transfer_location"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="领取任务" />
+            android:text="移库" />
 
         <Button
+            android:id="@+id/procurement"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="补货" />
+
     </LinearLayout>
 
 

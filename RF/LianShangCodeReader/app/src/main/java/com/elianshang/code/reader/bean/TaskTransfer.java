@@ -5,7 +5,7 @@ import com.xue.http.hook.BaseBean;
 /**
  * Created by liuhanzhi on 16/8/4.
  */
-public class Task implements BaseBean {
+public class TaskTransfer implements BaseBean {
 
     String taskId;
 

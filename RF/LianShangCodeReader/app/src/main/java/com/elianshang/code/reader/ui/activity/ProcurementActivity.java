@@ -29,12 +29,12 @@ import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
 
 /**
- * Created by liuhanzhi on 16/8/3. 移库
+ * Created by liuhanzhi on 16/8/3. 补货
  */
-public class TransferLocationActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener {
+public class ProcurementActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener {
 
     public static void launch(Context context, TaskTransferDetail transferDetail, boolean isTransferFrom) {
-        Intent intent = new Intent(context, TransferLocationActivity.class);
+        Intent intent = new Intent(context, ProcurementActivity.class);
         intent.putExtra("transferDetail", transferDetail);
         intent.putExtra("isTransferFrom", isTransferFrom);
         context.startActivity(intent);
@@ -131,7 +131,7 @@ public class TransferLocationActivity extends BaseActivity implements ScanEditTe
             @Override
             public void onClick(View v) {
                 String qty = isTransferFrom ? mProductQtyRealView.getText().toString() : transferDetail.getUomQty();
-                new RequestTransferTask(TransferLocationActivity.this, transferDetail.getTaskId(), isTransferFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId(), qty, transferDetail.getProductPackName(), isTransferFrom).start();
+                new RequestTransferTask(ProcurementActivity.this, transferDetail.getTaskId(), isTransferFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId(), qty, transferDetail.getProductPackName(), isTransferFrom).start();
 
             }
         });
@@ -216,9 +216,9 @@ public class TransferLocationActivity extends BaseActivity implements ScanEditTe
         @Override
         public DataHull<ResponseState> doInBackground() {
             if (isTransferFrom) {
-                return HttpApi.stockTransferScanFromLocation(taskId, locationId, BaseApplication.get().getUserId(), qty, packName);
+                return HttpApi.procurementScanFromLocation(taskId, locationId, BaseApplication.get().getUserId(), qty, packName);
             } else {
-                return HttpApi.stockTransferScanToLocation(taskId, locationId, BaseApplication.get().getUserId(), qty, packName);
+                return HttpApi.procurementScanToLocation(taskId, locationId, BaseApplication.get().getUserId(), qty, packName);
             }
         }
 
@@ -227,7 +227,7 @@ public class TransferLocationActivity extends BaseActivity implements ScanEditTe
             ToastTool.show(context, isTransferFrom ? "转出成功" : "转入成功");
             if (isTransferFrom) {
                 transferDetail.setUomQty(qty);
-                TransferLocationActivity.launch(context, transferDetail, false);
+                ProcurementActivity.launch(context, transferDetail, false);
                 finish();
             } else {
                 finish();
