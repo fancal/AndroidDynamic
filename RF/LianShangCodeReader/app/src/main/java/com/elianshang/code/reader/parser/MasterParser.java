@@ -1,7 +1,5 @@
 package com.elianshang.code.reader.parser;
 
-import android.util.Log;
-
 import com.elianshang.code.reader.tool.TimestampTool;
 import com.elianshang.tools.DateTool;
 import com.xue.http.hook.BaseBean;
@@ -133,7 +131,7 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
         JSONObject object = null;
         if (getStatus() == STATE.NORMAL) {
             object = new JSONObject(data);
-            object = getJSONObject(object, BODY);
+            object = optJSONObject(object, BODY);
         }
 
         return object;

@@ -52,6 +52,7 @@ public abstract class BaseParser<T extends BaseBean, D> {
                 e.printStackTrace();
                 throw new DataIsErrException();
             }
+
             if (d == null) {
                 throw new DataIsErrException();
             }

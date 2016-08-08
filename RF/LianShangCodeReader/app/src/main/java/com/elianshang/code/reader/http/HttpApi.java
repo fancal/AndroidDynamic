@@ -6,6 +6,8 @@ import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.bean.Item;
 import com.elianshang.code.reader.bean.Pick;
 import com.elianshang.code.reader.bean.PickLocation;
+import com.elianshang.code.reader.bean.QcCreate;
+import com.elianshang.code.reader.bean.QcList;
 import com.elianshang.code.reader.bean.ReceiptInfo;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.Shelve;
@@ -18,6 +20,8 @@ import com.elianshang.code.reader.bean.User;
 import com.elianshang.code.reader.parser.ItemParser;
 import com.elianshang.code.reader.parser.PickLocationParser;
 import com.elianshang.code.reader.parser.PickParser;
+import com.elianshang.code.reader.parser.QcCeateParser;
+import com.elianshang.code.reader.parser.QcListParser;
 import com.elianshang.code.reader.parser.ReceiptGetOrderInfoParser;
 import com.elianshang.code.reader.parser.ResponseStateParser;
 import com.elianshang.code.reader.parser.ShelveCreateParser;
@@ -543,6 +547,41 @@ public class HttpApi {
 
     }
 
+    /**
+     * QC 创建测试任务  (测试接口)（文君）
+     */
+    private interface QCCreateTask {
+
+        String _function = "v1/outbound/qc/createTask";
+
+        String containerId = "containerId";
+
+    }
+
+    /**
+     * QC 扫描托盘 领取任务（文君）
+     */
+    private interface QCScanContainer {
+
+        String _function = "v1/outbound/qc/scanContainer";
+
+        String containerId = "containerId";
+
+    }
+
+    /**
+     * QC 提交结果（文君）
+     */
+    private interface QCConfirmAll {
+
+        String _function = "v1/outbound/qc/confirmAll";
+
+        String containerId = "containerId";
+
+        String qc_list = "qc_list";
+
+    }
+
 
     private static void build() {
         base_url = ConfigTool.getHttpBaseUrl();
@@ -1033,5 +1072,48 @@ public class HttpApi {
         return request(parameter);
     }
 
+
+    /**
+     * QC 创建任务 (测试接口) (文君)
+     */
+    public static DataHull<QcCreate> qcCreateTask(String containerId) {
+        String url = base_url + QCCreateTask._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(QCCreateTask.containerId, containerId)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<QcCeateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new QcCeateParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * QC 扫描托盘 领取任务(文君)
+     */
+    public static DataHull<QcList> qcScanContainer(String containerId) {
+        String url = base_url + QCScanContainer._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(QCScanContainer.containerId, containerId)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<QcListParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new QcListParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * QC 扫描托盘 提交结果 (文君)
+     */
+    public static DataHull<ResponseState> qcConfirmAll(String containerId, String qc_list) {
+        String url = base_url + QCConfirmAll._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(QCConfirmAll.containerId, containerId),
+                new DefaultKVPBean(QCConfirmAll.qc_list, qc_list)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
+
+        return request(parameter);
+    }
 
 }

@@ -40,6 +40,18 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/wait_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="请开始扫描商品条码开始QC" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/detail_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -162,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dip_50"
                 android:background="@drawable/submit_button_bg"
-                android:enabled="false"
+                android:enabled="true"
                 android:text="已完成QC,提交结果"
                 android:textSize="24dip" />
         </LinearLayout>
