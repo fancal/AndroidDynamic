@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -187,14 +188,33 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
     @Override
     public void onClick(View v) {
         if (v == mSubmit) {
-            switch (mStep) {
-                case 1:
-                    requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup2ConfirmLocationIdView.getText().toString(), mGroup2Qty.getText().toString());
-                    break;
-                case 2:
-                    requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup3ConfirmCollectionIdView.getText().toString(), "");
-                    break;
-            }
+            submit();
+        }
+    }
+
+    private void submit(){
+        switch (mStep) {
+            case 1:
+                if(TextUtils.isEmpty(mGroup1TaskIdView.getText().toString())){
+                    return;
+                }
+                if(TextUtils.isEmpty(mGroup2ConfirmLocationIdView.getText().toString())){
+                    return;
+                }
+                if(TextUtils.isEmpty(mGroup2Qty.getText().toString())){
+                    return;
+                }
+                requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup2ConfirmLocationIdView.getText().toString(), mGroup2Qty.getText().toString());
+                break;
+            case 2:
+                if(TextUtils.isEmpty(mGroup1TaskIdView.getText().toString())){
+                    return;
+                }
+                if(TextUtils.isEmpty(mGroup3ConfirmCollectionIdView.getText().toString())){
+                    return;
+                }
+                requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup3ConfirmCollectionIdView.getText().toString(), "");
+                break;
         }
     }
 
