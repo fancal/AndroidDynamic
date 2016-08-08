@@ -68,11 +68,9 @@
     <Button
         android:id="@+id/login_Button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dip"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/grey_selector_for_button"
-        android:paddingBottom="@dimen/dip_5"
-        android:paddingTop="@dimen/dip_5"
+        android:background="@drawable/submit_button_bg"
         android:text="登录"
         android:textColor="@color/white"
         android:textSize="24dp" />

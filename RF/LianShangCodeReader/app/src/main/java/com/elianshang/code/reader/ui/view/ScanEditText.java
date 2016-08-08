@@ -66,7 +66,6 @@ public class ScanEditText extends ContentEditText {
         this.inputEnd = inputEnd;
     }
 
-
     /**
      * 输入完成的接口
      */

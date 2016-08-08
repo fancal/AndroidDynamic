@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 /**
  * 盘点页面
- * */
+ */
 public class TakeStockActivity extends BaseActivity implements ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(Context context, String uid) {
@@ -355,6 +355,9 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         ContentEditText qtyEditText;
     }
 
+    /**
+     * 领取盘点任务
+     */
     private static class StockTakingAssignTask extends HttpAsyncTask<TakeStockList> {
 
         private String uid;
@@ -382,6 +385,9 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         }
     }
 
+    /**
+     * 盘点任务详情
+     */
     private class StockTakingGetTask extends HttpAsyncTask<TakeStockDetail> {
 
         private String taskId;
@@ -410,6 +416,9 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         }
     }
 
+    /**
+     * 提交盘点任务一条
+     */
     private class StockTakingDoOneTask extends HttpAsyncTask<ResponseState> {
 
         private String resultList;

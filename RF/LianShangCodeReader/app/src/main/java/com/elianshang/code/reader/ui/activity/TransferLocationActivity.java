@@ -233,6 +233,4 @@ public class TransferLocationActivity extends BaseActivity implements ScanEditTe
             }
         }
     }
-
-
 }

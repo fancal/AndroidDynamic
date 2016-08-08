@@ -1,6 +1,7 @@
 package com.elianshang.code.reader.ui.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.bean.Item;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.http.HttpApi;
+import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
@@ -30,18 +32,54 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         context.startActivity(intent);
     }
 
+    /**
+     * 工具栏
+     */
     private Toolbar mToolbar;
 
+    /**
+     * 创建布局
+     */
     private View createLayout;
+
+    /**
+     * 创建布局 库位扫描输入框
+     */
     private ScanEditText createLocationIdEditText;
+
+    /**
+     * 创建布局 barCode 扫描输入框
+     */
     private ScanEditText createBarCodeEditText;
 
+    /**
+     * 详情布局
+     */
     private View detailLayout;
+
+    /**
+     * 详情布局 名称文本框
+     */
     private TextView detailItemNameTextView;
+
+    /**
+     * 详情布局 规格文本框
+     */
     private TextView detailPackNameTextView;
+
+    /**
+     * 详情布局 数量输入框
+     */
     private ContentEditText detailInputQtyEditText;
+
+    /**
+     * 详情布局 提交按钮
+     */
     private Button detailSubmitButton;
 
+    /**
+     * 扫描输入框工具
+     */
     private ScanEditTextTool scanEditTextTool;
 
     @Override
@@ -71,7 +109,7 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                pressBack();
             }
         });
     }
@@ -89,7 +127,6 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         detailSubmitButton = (Button) findViewById(R.id.submit_Button);
 
         detailSubmitButton.setOnClickListener(this);
-
 
         initToolBar();
     }
@@ -109,6 +146,25 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
 
         detailItemNameTextView.setText(item.getName());
         detailPackNameTextView.setText(item.getPackName());
+        detailInputQtyEditText.requestFocus();
+    }
+
+    private void pressBack() {
+        if (detailLayout.getVisibility() == View.VISIBLE) {
+            DialogTools.showTwoButtonDialog(this, "是否放弃转残次任务", "取消", "确定", null, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            }, true);
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        pressBack();
     }
 
     @Override
@@ -135,6 +191,9 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         }
     }
 
+    /**
+     * 提交
+     */
     private void submit() {
         String locationId = createLocationIdEditText.getText().toString();
         String barCode = createBarCodeEditText.getText().toString();
@@ -155,6 +214,9 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         new CreateScrapTask(this, locationId, barCode, qty).start();
     }
 
+    /**
+     * 获取商品信息
+     */
     private class StockGetItemTask extends HttpAsyncTask<Item> {
 
         private String locationId;
@@ -178,10 +240,15 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         }
     }
 
+    /**
+     * 提交残次数量
+     */
     private class CreateScrapTask extends HttpAsyncTask<ResponseState> {
 
         private String locationId;
+
         private String barCode;
+
         private String qty;
 
         public CreateScrapTask(Context context, String locationId, String barCode, String qty) {

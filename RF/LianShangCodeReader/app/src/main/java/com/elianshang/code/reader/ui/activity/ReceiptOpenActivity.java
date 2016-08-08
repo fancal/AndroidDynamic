@@ -100,7 +100,7 @@ public class ReceiptOpenActivity extends BaseActivity implements ScanManager.OnB
         submitButton = (Button) findViewById(R.id.submit_Button);
 
         submitButton.setEnabled(false);
-        submitButton.setClickable(false);
+//        submitButton.setClickable(false);
         scanEditTextTool = new ScanEditTextTool(this, orderOtherIdEditText, containerIdEditText, barCodeEditText);
         scanEditTextTool.setComplete(this);
 
@@ -202,12 +202,12 @@ public class ReceiptOpenActivity extends BaseActivity implements ScanManager.OnB
     @Override
     public void onSetComplete() {
         submitButton.setEnabled(true);
-        submitButton.setClickable(true);
+//        submitButton.setClickable(true);
     }
 
     @Override
     public void onInputError(int i) {
         submitButton.setEnabled(false);
-        submitButton.setClickable(false);
+//        submitButton.setClickable(false);
     }
 }

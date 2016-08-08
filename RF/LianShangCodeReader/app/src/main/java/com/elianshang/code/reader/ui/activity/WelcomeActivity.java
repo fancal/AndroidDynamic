@@ -11,48 +11,50 @@ import com.elianshang.code.reader.asyn.FetchProcurementTask;
 import com.elianshang.code.reader.asyn.FetchTransferTask;
 import com.elianshang.code.reader.ui.BaseActivity;
 
-/**
- * Created by wangwenwang on 16/7/28.
- */
 public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * 登陆
      */
-    private Button loginBtn;
+    private Button loginButton;
 
     /**
      * 收货
      */
-    private Button receiptBtn;
+    private Button receiptButton;
 
     /**
      * 上架
      */
-    private Button shelveBtn;
+    private Button shelveButton;
 
     /**
      * 盘点
      */
-    private Button takestockBtn;
+    private Button takeStockButton;
 
     /**
      * 转残次
      */
-    private Button createScrap;
+    private Button createScrapButton;
 
     /**
      * 转退货
      */
-    private Button createReturn;
+    private Button createReturnButton;
     /**
      * 移库
      */
-    private Button transferLocation;
+    private Button transferLocationButton;
     /**
      * 补货
      */
-    private Button procurement;
+    private Button procurementButton;
+
+    /**
+     * QC
+     */
+    private Button qualityControlButton;
 
 
     @Override
@@ -64,44 +66,48 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void findViews() {
-        loginBtn = (Button) findViewById(R.id.login);
-        receiptBtn = (Button) findViewById(R.id.receipt);
-        shelveBtn = (Button) findViewById(R.id.shelve);
-        takestockBtn = (Button) findViewById(R.id.takestock);
-        createScrap = (Button) findViewById(R.id.create_scrap);
-        createReturn = (Button) findViewById(R.id.create_return);
-        transferLocation = (Button) findViewById(R.id.transfer_location);
-        procurement = (Button) findViewById(R.id.procurement);
+        loginButton = (Button) findViewById(R.id.login_Button);
+        receiptButton = (Button) findViewById(R.id.receipt_Button);
+        shelveButton = (Button) findViewById(R.id.shelve_Button);
+        takeStockButton = (Button) findViewById(R.id.takeStock_Button);
+        createScrapButton = (Button) findViewById(R.id.createScrap_Button);
+        createReturnButton = (Button) findViewById(R.id.createReturn_Button);
+        transferLocationButton = (Button) findViewById(R.id.transferLocation_Button);
+        procurementButton = (Button) findViewById(R.id.procurement_Button);
+        qualityControlButton = (Button) findViewById(R.id.qualityControl_Button);
 
-        loginBtn.setOnClickListener(this);
-        receiptBtn.setOnClickListener(this);
-        shelveBtn.setOnClickListener(this);
-        takestockBtn.setOnClickListener(this);
-        createScrap.setOnClickListener(this);
-        createReturn.setOnClickListener(this);
-        transferLocation.setOnClickListener(this);
-        procurement.setOnClickListener(this);
+        loginButton.setOnClickListener(this);
+        receiptButton.setOnClickListener(this);
+        shelveButton.setOnClickListener(this);
+        takeStockButton.setOnClickListener(this);
+        createScrapButton.setOnClickListener(this);
+        createReturnButton.setOnClickListener(this);
+        transferLocationButton.setOnClickListener(this);
+        procurementButton.setOnClickListener(this);
+        qualityControlButton.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View v) {
-        if (v == loginBtn) {
+        if (v == loginButton) {
             LoginActivity.launch(this);
-        } else if (v == receiptBtn) {
+        } else if (v == receiptButton) {
             ReceiptOpenActivity.launch(this);
-        } else if (v == shelveBtn) {
+        } else if (v == shelveButton) {
             ShelveOpenActivity.launch(this);
-        } else if (v == takestockBtn) {
+        } else if (v == takeStockButton) {
             TakeStockActivity.launch(this, BaseApplication.get().getUserId());
-        } else if (v == createScrap) {
+        } else if (v == createScrapButton) {
             CreateScrapActivity.launch(this);
-        } else if (v == createReturn) {
+        } else if (v == createReturnButton) {
             CreateReturnActivity.launch(this);
-        } else if (v == transferLocation) {
+        } else if (v == transferLocationButton) {
             new FetchTransferTask(this).start();
-        } else if (v == procurement) {
+        } else if (v == procurementButton) {
             new FetchProcurementTask(this).start();
+        } else if (v == qualityControlButton) {
+
         }
     }
 }
