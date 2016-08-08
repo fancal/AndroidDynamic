@@ -12,6 +12,7 @@ import com.elianshang.code.reader.bean.ReceiptInfo;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.Shelve;
 import com.elianshang.code.reader.bean.ShelveCreate;
+import com.elianshang.code.reader.bean.ShipScan;
 import com.elianshang.code.reader.bean.TakeStockDetail;
 import com.elianshang.code.reader.bean.TakeStockList;
 import com.elianshang.code.reader.bean.TaskTransfer;
@@ -26,6 +27,7 @@ import com.elianshang.code.reader.parser.ReceiptGetOrderInfoParser;
 import com.elianshang.code.reader.parser.ResponseStateParser;
 import com.elianshang.code.reader.parser.ShelveCreateParser;
 import com.elianshang.code.reader.parser.ShelveParser;
+import com.elianshang.code.reader.parser.ShipScanParser;
 import com.elianshang.code.reader.parser.TakeStockDetailParser;
 import com.elianshang.code.reader.parser.TakeStockListParser;
 import com.elianshang.code.reader.parser.TaskTransferDetailParser;
@@ -544,6 +546,28 @@ public class HttpApi {
         String operator = "operator";
 
         String qty = "qty";
+
+    }
+
+    /**
+     * ship-创建任务(临时，测试用)
+     */
+    private interface ShipCreateTask {
+
+        String _function = "v1/outbound/ship/createTask";
+
+        String containerId = "containerId";
+
+    }
+
+    /**
+     * ship-扫描托盘码发货
+     */
+    private interface ShipScanContainer {
+
+        String _function = "v1/outbound/ship/scanContainer";
+
+        String containerId = "containerId";
 
     }
 
@@ -1068,6 +1092,34 @@ public class HttpApi {
         );
         int type = BaseHttpParameter.Type.POST;
         HttpDynamicParameter<PickLocationParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new PickLocationParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * ship-创建任务(临时，测试用)
+     */
+    public static DataHull<ResponseState> shipCreateTask(String containerId) {
+        String url = base_url + ShipCreateTask._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(ShipCreateTask.containerId, containerId)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
+
+        return request(parameter);
+    }
+
+    /**
+     * ship-扫描托盘码发货
+     */
+    public static DataHull<ShipScan> shipScanContainer(String containerId) {
+        String url = base_url + ShipScanContainer._function;
+        List<BaseKVP> params = addParams(
+                new DefaultKVPBean(ShipScanContainer.containerId, containerId)
+        );
+        int type = BaseHttpParameter.Type.POST;
+        HttpDynamicParameter<ShipScanParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ShipScanParser(), 0);
 
         return request(parameter);
     }

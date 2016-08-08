@@ -61,6 +61,11 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
      */
     private Button qualityControlButton;
 
+    /**
+     * 发车
+     */
+    private Button shipButton;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +85,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         procurementButton = (Button) findViewById(R.id.procurement_Button);
         pickButton = (Button) findViewById(R.id.pick_Button);
         qualityControlButton = (Button) findViewById(R.id.qualityControl_Button);
+        shipButton = (Button) findViewById(R.id.ship_Button);
 
         loginButton.setOnClickListener(this);
         receiptButton.setOnClickListener(this);
@@ -91,6 +97,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         procurementButton.setOnClickListener(this);
         qualityControlButton.setOnClickListener(this);
         pickButton.setOnClickListener(this);
+        shipButton.setOnClickListener(this);
     }
 
 
@@ -116,6 +123,8 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
             PickActivity.launch(this);
         } else if (v == qualityControlButton) {
             QualityControlActivity.launch(this);
+        } else if (v == shipButton) {
+            ShipActivity.launch(this);
         }
     }
 }
