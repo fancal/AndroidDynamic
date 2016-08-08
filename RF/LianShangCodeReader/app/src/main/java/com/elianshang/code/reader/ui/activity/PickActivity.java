@@ -154,7 +154,9 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
         switch (mStep) {
             case 1:
                 mGroup2LocationIdView.setText(mPick.getAllocPickLocation());
+                mGroup2ConfirmLocationIdView.getText().clear();
                 mGroup2AllocQty.setText(mPick.getAllocQty());
+                mGroup2Qty.getText().clear();
                 break;
             case 2:
                 mGroup3CollectionIdView.setText(mPick.getAllocCollectLocation());
@@ -192,25 +194,25 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
         }
     }
 
-    private void submit(){
+    private void submit() {
         switch (mStep) {
             case 1:
-                if(TextUtils.isEmpty(mGroup1TaskIdView.getText().toString())){
+                if (TextUtils.isEmpty(mGroup1TaskIdView.getText().toString())) {
                     return;
                 }
-                if(TextUtils.isEmpty(mGroup2ConfirmLocationIdView.getText().toString())){
+                if (TextUtils.isEmpty(mGroup2ConfirmLocationIdView.getText().toString())) {
                     return;
                 }
-                if(TextUtils.isEmpty(mGroup2Qty.getText().toString())){
+                if (TextUtils.isEmpty(mGroup2Qty.getText().toString())) {
                     return;
                 }
                 requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup2ConfirmLocationIdView.getText().toString(), mGroup2Qty.getText().toString());
                 break;
             case 2:
-                if(TextUtils.isEmpty(mGroup1TaskIdView.getText().toString())){
+                if (TextUtils.isEmpty(mGroup1TaskIdView.getText().toString())) {
                     return;
                 }
-                if(TextUtils.isEmpty(mGroup3ConfirmCollectionIdView.getText().toString())){
+                if (TextUtils.isEmpty(mGroup3ConfirmCollectionIdView.getText().toString())) {
                     return;
                 }
                 requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup3ConfirmCollectionIdView.getText().toString(), "");
