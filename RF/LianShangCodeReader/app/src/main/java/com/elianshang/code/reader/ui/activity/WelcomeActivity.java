@@ -115,6 +115,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         } else if (v == pickButton) {
             PickActivity.launch(this);
         } else if (v == qualityControlButton) {
+
         }
     }
 }
