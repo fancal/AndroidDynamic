@@ -52,10 +52,14 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
     private Button procurementButton;
 
     /**
+     * 拣货
+     */
+    private Button pickButton;
+
+    /**
      * QC
      */
     private Button qualityControlButton;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +78,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         createReturnButton = (Button) findViewById(R.id.createReturn_Button);
         transferLocationButton = (Button) findViewById(R.id.transferLocation_Button);
         procurementButton = (Button) findViewById(R.id.procurement_Button);
+        pickButton = (Button) findViewById(R.id.pick_Button);
         qualityControlButton = (Button) findViewById(R.id.qualityControl_Button);
 
         loginButton.setOnClickListener(this);
@@ -85,6 +90,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         transferLocationButton.setOnClickListener(this);
         procurementButton.setOnClickListener(this);
         qualityControlButton.setOnClickListener(this);
+        pickButton.setOnClickListener(this);
     }
 
 
@@ -106,8 +112,9 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
             new FetchTransferTask(this).start();
         } else if (v == procurementButton) {
             new FetchProcurementTask(this).start();
+        } else if (v == pickButton) {
+            PickActivity.launch(this);
         } else if (v == qualityControlButton) {
-
         }
     }
 }
