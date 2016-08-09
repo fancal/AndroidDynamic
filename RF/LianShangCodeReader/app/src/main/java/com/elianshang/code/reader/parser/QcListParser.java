@@ -13,7 +13,7 @@ public class QcListParser extends MasterParser<QcList> {
     public QcList parse(JSONObject data) throws Exception {
 
         if (data != null) {
-            JSONArray jsonArray = optJSONArray(data, "qc_list");
+            JSONArray jsonArray = optJSONArray(data, "qcList");
             int len = getLength(jsonArray);
 
             if (len > 0) {
@@ -42,7 +42,6 @@ public class QcListParser extends MasterParser<QcList> {
                 }
                 return qcList;
             }
-
         }
         return null;
     }

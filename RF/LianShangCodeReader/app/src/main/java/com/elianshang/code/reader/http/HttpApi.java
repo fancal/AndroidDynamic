@@ -202,7 +202,7 @@ public class HttpApi {
     }
 
     /**
-     * 4.创建上架任务
+     * 4.创建上架任务(测试接口,冯坤)
      */
     private interface ShelveCreateTask {
 
@@ -393,7 +393,7 @@ public class HttpApi {
     }
 
     /**
-     * 10.领取移库任务（马力）
+     * 14.领取移库任务（马力）
      */
     private interface StockTransferFetchTask {
         String _function = "v1/inhouse/stock_transfer/fetchTask";
@@ -410,7 +410,7 @@ public class HttpApi {
     }
 
     /**
-     * 11.查看任务详情（马力）
+     * 15.查看任务详情（马力）
      */
     private interface StockTransferView {
 
@@ -424,7 +424,7 @@ public class HttpApi {
     }
 
     /**
-     * 12.转出（马力）
+     * 16.转出（马力）
      */
     private interface StockTransferScanFromLocation {
 
@@ -453,7 +453,7 @@ public class HttpApi {
     }
 
     /**
-     * 13.转入（马力）
+     * 17.转入（马力）
      */
     private interface StockTransferScanToLocation {
 
@@ -483,7 +483,7 @@ public class HttpApi {
 
 
     /**
-     * 13.领取盘点任务（吴昊）
+     * 18.领取盘点任务（吴昊）
      */
     private interface StockTakingAssign {
 
@@ -494,7 +494,7 @@ public class HttpApi {
     }
 
     /**
-     * 13.盘点任务详情（吴昊）
+     * 19.盘点任务详情（吴昊）
      */
     private interface StockTakingGetTask {
 
@@ -507,7 +507,7 @@ public class HttpApi {
     }
 
     /**
-     * 13.完成盘点任务（吴昊）
+     * 20.完成盘点任务（吴昊）
      */
     private interface StockTakingDoOne {
 
@@ -518,7 +518,7 @@ public class HttpApi {
     }
 
     /**
-     * 13.扫拣货签&托盘码（坤哥）
+     * 21.扫拣货签&托盘码（坤哥）
      */
     private interface PickScanPickTask {
 
@@ -533,7 +533,7 @@ public class HttpApi {
     }
 
     /**
-     * 扫拣货位/集货位（坤哥）
+     * 22.扫拣货位/集货位（坤哥）
      */
     private interface PickScanPickLocation {
 
@@ -550,7 +550,7 @@ public class HttpApi {
     }
 
     /**
-     * ship-创建任务(临时，测试用)
+     * 23.ship-创建任务(测试接口,文君)
      */
     private interface ShipCreateTask {
 
@@ -561,7 +561,7 @@ public class HttpApi {
     }
 
     /**
-     * ship-扫描托盘码发货
+     * 24.ship-扫描托盘码发货(文君)
      */
     private interface ShipScanContainer {
 
@@ -572,7 +572,7 @@ public class HttpApi {
     }
 
     /**
-     * QC 创建测试任务  (测试接口)（文君）
+     * 25.QC 创建测试任务  (测试接口)（文君）
      */
     private interface QCCreateTask {
 
@@ -583,7 +583,7 @@ public class HttpApi {
     }
 
     /**
-     * QC 扫描托盘 领取任务（文君）
+     * 26.QC 扫描托盘 领取任务（文君）
      */
     private interface QCScanContainer {
 
@@ -594,7 +594,7 @@ public class HttpApi {
     }
 
     /**
-     * QC 提交结果（文君）
+     * 27.QC 提交结果（文君）
      */
     private interface QCConfirmAll {
 
@@ -602,14 +602,13 @@ public class HttpApi {
 
         String containerId = "containerId";
 
-        String qc_list = "qc_list";
+        String qcList = "qcList";
 
     }
 
 
     private static void build() {
         base_url = ConfigTool.getHttpBaseUrl();
-        //TODO
         OkHttpHandler.setOpensslSecret(null);
 //        OkHttpHandler.setOpensslSecret(SecretTool.getOpensslSecretKey(BaseApplication.get()));
     }
@@ -1156,11 +1155,11 @@ public class HttpApi {
     /**
      * QC 扫描托盘 提交结果 (文君)
      */
-    public static DataHull<ResponseState> qcConfirmAll(String containerId, String qc_list) {
+    public static DataHull<ResponseState> qcConfirmAll(String containerId, String qcList) {
         String url = base_url + QCConfirmAll._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(QCConfirmAll.containerId, containerId),
-                new DefaultKVPBean(QCConfirmAll.qc_list, qc_list)
+                new DefaultKVPBean(QCConfirmAll.qcList, qcList)
         );
         int type = BaseHttpParameter.Type.POST;
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, getDefaultHeaders(), params, type, new ResponseStateParser(), 0);
