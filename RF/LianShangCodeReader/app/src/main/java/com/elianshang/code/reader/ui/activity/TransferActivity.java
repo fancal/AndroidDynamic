@@ -269,15 +269,19 @@ public class TransferActivity extends BaseActivity implements ScanEditTextTool.O
         @Override
         public DataHull<TaskTransferDetail> doInBackground() {
             DataHull<TaskTransfer> dataHull = HttpApi.stockTransferFetchTask("", BaseApplication.get().getUserId());
+            DataHull<TaskTransferDetail> dataHull1;
             if (dataHull != null && dataHull.getDataType() == DataHull.DataType.DATA_IS_INTEGRITY) {
                 TaskTransfer taskTransfer = dataHull.getDataEntity();
-                DataHull<TaskTransferDetail> dataHull1 = HttpApi.stockTransferementView(taskTransfer.getTaskId());
-                if (dataHull1 != null && dataHull1.getDataType() == DataHull.DataType.DATA_IS_INTEGRITY) {
+                dataHull1 = HttpApi.stockTransferementView(taskTransfer.getTaskId());
+                if (dataHull1.getDataEntity() != null) {
                     dataHull1.getDataEntity().setTaskId(taskTransfer.getTaskId());
-                    return dataHull1;
                 }
+            } else {
+                dataHull1 = new DataHull<>();
+                dataHull1.setStatus(dataHull.getStatus());
+                dataHull1.setMessage(dataHull.getMessage());
             }
-            return null;
+            return dataHull1;
         }
 
         @Override
