@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,11 +30,27 @@ public class ShipActivity extends BaseActivity implements ScanEditTextTool.OnSet
         context.startActivity(intent);
     }
 
+    private Toolbar mToolbar;
+    /**
+     * 托盘码container
+     */
     private View mContainerView;
+    /**
+     * 托盘码Id
+     */
     private ScanEditText mContainerIdView;
+    /**
+     * 完成container
+     */
     private View mFinishView;
+    /**
+     * 完成 textview
+     */
     private TextView mFinishTextView;
-    private Button mAgainButton;
+    /**
+     * 完成 button
+     */
+    private Button mFinishButton;
 
     private ScanEditTextTool scanEditTextTool;
 
@@ -58,16 +75,23 @@ public class ShipActivity extends BaseActivity implements ScanEditTextTool.OnSet
 
 
     private void findViews() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         mContainerView = findViewById(R.id.container);
         mContainerIdView = (ScanEditText) findViewById(R.id.containerId_EditText);
         mFinishView = findViewById(R.id.finish);
         mFinishTextView = (TextView) findViewById(R.id.dock_name);
-        mAgainButton = (Button) findViewById(R.id.again_button);
+        mFinishButton = (Button) findViewById(R.id.again_button);
 
         scanEditTextTool = new ScanEditTextTool(this, mContainerIdView);
         scanEditTextTool.setComplete(this);
 
-        mAgainButton.setOnClickListener(this);
+        mFinishButton.setOnClickListener(this);
 
     }
 
@@ -75,13 +99,22 @@ public class ShipActivity extends BaseActivity implements ScanEditTextTool.OnSet
         mContainerView.setVisibility(View.GONE);
         mFinishView.setVisibility(View.VISIBLE);
         mFinishTextView.setText(shipScan.getDockName());
-        mAgainButton.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * 创建任务
+     *
+     * @param containerId
+     */
     private void requestShipCreate(String containerId) {
         new ShipCreateTask(this, containerId).start();
     }
 
+    /**
+     * 扫描托盘码发货
+     *
+     * @param containerId
+     */
     private void requestShipScan(String containerId) {
         new ShipScanTask(this, containerId).start();
     }
@@ -103,12 +136,12 @@ public class ShipActivity extends BaseActivity implements ScanEditTextTool.OnSet
 
     @Override
     public void onClick(View v) {
-        if (v == mAgainButton) {
+        if (v == mFinishButton) {
             mContainerView.setVisibility(View.VISIBLE);
             mFinishView.setVisibility(View.GONE);
+
             mFinishTextView.setText("");
             mContainerIdView.getText().clear();
-            mAgainButton.setVisibility(View.GONE);
         }
     }
 

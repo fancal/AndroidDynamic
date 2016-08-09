@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.elianshang.code.reader.BaseApplication;
+import com.elianshang.code.reader.bean.User;
+import com.elianshang.code.reader.parser.UserParser;
+
+import org.json.JSONObject;
 
 
 /**
@@ -16,6 +20,7 @@ public class PreferencesManager {
     private Context mContext;
 
     private static String DEVICE = "device";
+    private static String USER = "user";
 
     public static PreferencesManager get() {
         if (null == mInstance) {
@@ -46,5 +51,37 @@ public class PreferencesManager {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(DEVICE, Context.MODE_PRIVATE);
         return sharedPreferences.getString("IMEI", null);
     }
+
+    /**
+     * 设置User
+     */
+    public boolean setUser(User user) {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (user == null) {
+            return editor.putString("info", null).commit();
+        }
+
+        return editor.putString("info", user.toString()).commit();
+    }
+
+
+    /**
+     * 获取User
+     */
+    public User getUser() {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(USER, Context.MODE_PRIVATE);
+        try {
+            String userString = sharedPreferences.getString("info", null);
+            if (!TextUtils.isEmpty(userString)) {
+                return new UserParser().parse(new JSONObject(userString));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
 }

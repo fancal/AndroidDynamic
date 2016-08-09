@@ -17,6 +17,7 @@ import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.bean.Pick;
 import com.elianshang.code.reader.bean.PickLocation;
 import com.elianshang.code.reader.http.HttpApi;
+import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
@@ -35,22 +36,58 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
     }
 
     private Toolbar mToolbar;
+    /**
+     * 移库 第一页容器
+     */
     private View mGroup1;
+    /**
+     * 移库 第二页容器
+     */
     private View mGroup2;
+    /**
+     * 移库 第三页容器
+     */
     private View mGroup3;
 
+    /**
+     * 第一页 托盘码
+     */
     private ScanEditText mGroup1ContainerIdView;
+    /**
+     * 第一页 拣货签
+     */
     private ScanEditText mGroup1TaskIdView;
 
+    /**
+     * 第二页 库位码
+     */
     private TextView mGroup2LocationIdView;
+    /**
+     * 第二页 确认库位码
+     */
     private ScanEditText mGroup2ConfirmLocationIdView;
+    /**
+     * 第二页 分配商品数量
+     */
     private TextView mGroup2AllocQty;
+    /**
+     * 第二页 实际输入数量
+     */
     private EditText mGroup2Qty;
 
+    /**
+     * 第三页 集货码
+     */
     private TextView mGroup3CollectionIdView;
+    /**
+     * 第三页 确认集货码
+     */
     private ScanEditText mGroup3ConfirmCollectionIdView;
 
-    private int mStep = 0;
+    /**
+     * 当前所在页 (0:第一页   1：第二页  2：第三页)
+     */
+    private int mCurPage = 0;
     private Button mSubmit;
     private ScanEditTextTool scanEditTextTool;
     private Pick mPick;
@@ -105,20 +142,24 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
         mSubmit.setOnClickListener(this);
 
 
-        setStep();
+        setCurPageView();
 
     }
-
+    /**
+     * 扫拣货签&托盘码
+     */
     private void requestPick(String taskId, String containerId) {
         new RequestPickTask(this, taskId, containerId).start();
     }
-
+    /**
+     * 扫拣货位/集货位
+     */
     private void requestPickLocation(String taskId, String locationId, String qty) {
         new RequestPickLocationTask(this, taskId, locationId, qty).start();
     }
 
-    private void setStep() {
-        switch (mStep) {
+    private void setCurPageView() {
+        switch (mCurPage) {
             case 0:
                 mGroup1.setVisibility(View.VISIBLE);
                 mGroup2.setVisibility(View.GONE);
@@ -151,7 +192,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
     }
 
     private void fillPick() {
-        switch (mStep) {
+        switch (mCurPage) {
             case 1:
                 mGroup2LocationIdView.setText(mPick.getAllocPickLocation());
                 mGroup2ConfirmLocationIdView.getText().clear();
@@ -168,7 +209,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
 
     @Override
     public void onSetComplete() {
-        switch (mStep) {
+        switch (mCurPage) {
             case 0:
                 requestPick(mGroup1TaskIdView.getText().toString(), mGroup1ContainerIdView.getText().toString());
                 break;
@@ -177,8 +218,6 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
 
     @Override
     public void onInputError(int i) {
-        mSubmit.setEnabled(false);
-        mSubmit.setClickable(false);
     }
 
     @Override
@@ -188,6 +227,14 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
     }
 
     @Override
+    public void onBackPressed() {
+        if (mCurPage > 0) {
+            DialogTools.showOneButtonDialog(this, "请完成任务,不要退出", "知道了", null, true);
+        }
+    }
+
+
+    @Override
     public void onClick(View v) {
         if (v == mSubmit) {
             submit();
@@ -195,7 +242,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
     }
 
     private void submit() {
-        switch (mStep) {
+        switch (mCurPage) {
             case 1:
                 if (TextUtils.isEmpty(mGroup1TaskIdView.getText().toString())) {
                     return;
@@ -242,9 +289,9 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
         @Override
         public void onPostExecute(int updateId, Pick result) {
             mPick = result;
-            if (mStep != 1) {
-                mStep = 1;
-                setStep();
+            if (mCurPage != 1) {
+                mCurPage = 1;
+                setCurPageView();
             }
             fillPick();
         }
@@ -275,9 +322,9 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
         public void onPostExecute(int updateId, PickLocation result) {
             mPick = result.getPick();
             if (result.isDone()) {
-                if (mStep != 2) {
-                    mStep = 2;
-                    setStep();
+                if (mCurPage != 2) {
+                    mCurPage = 2;
+                    setCurPageView();
                     fillPick();
                 } else {
                     ToastTool.show(context, "拣货成功");

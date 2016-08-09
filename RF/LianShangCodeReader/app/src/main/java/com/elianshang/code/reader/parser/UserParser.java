@@ -16,6 +16,7 @@ public class UserParser extends MasterParser<User> {
 //            user.setCellphone(getString(data, "cellphone"));
 //            user.setStatus(getString(data, "status"));
             user.setToken(getString(data, "utoken"));
+            user.setJsonData(data.toString());
         }
         return user;
     }

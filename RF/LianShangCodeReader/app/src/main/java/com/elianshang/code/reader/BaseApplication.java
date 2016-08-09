@@ -3,6 +3,7 @@ package com.elianshang.code.reader;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.elianshang.code.reader.asyn.UserSaveTask;
 import com.elianshang.code.reader.bean.User;
 import com.elianshang.code.reader.db.PreferencesManager;
 import com.elianshang.code.reader.tool.ScanManager;
@@ -50,14 +51,20 @@ public class BaseApplication extends Application {
 
     public void setUser(User user) {
         mUser = user;
+        new UserSaveTask(user).start();
     }
 
     public User getUser() {
         if (mUser == null) {
-            mUser = new User();
+            mUser = PreferencesManager.get().getUser();
+            if (mUser == null) {
+                mUser = new User();
+            }
         }
+
         return mUser;
     }
+
 
     public String getUserId() {
         return getUser().getUid();
