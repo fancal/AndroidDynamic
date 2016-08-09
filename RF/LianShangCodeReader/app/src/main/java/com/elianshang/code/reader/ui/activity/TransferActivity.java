@@ -28,16 +28,16 @@ import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
 
 /**
- * Created by liuhanzhi on 16/8/3. 补货
+ * Created by liuhanzhi on 16/8/3. 移库
  */
-public class ProcurementActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class TransferActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(Context context) {
-        new FetchProcurementTask(context).start();
+        new FetchTransferTask(context).start();
     }
 
     private static void launchInner(Context context, TaskTransferDetail detail, boolean isFrom) {
-        Intent intent = new Intent(context, ProcurementActivity.class);
+        Intent intent = new Intent(context, TransferActivity.class);
         intent.putExtra("detail", detail);
         intent.putExtra("isFrom", isFrom);
         context.startActivity(intent);
@@ -45,7 +45,7 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
 
     private Toolbar mToolbar;
     /**
-     * taskId
+     * 任务Id
      */
     private TextView mTaskView;
     /**
@@ -65,15 +65,15 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
      */
     private EditText mItemQtyRealView;
     /**
-     * 实际数量  container
+     * 实际数量  容器View
      */
     private View mItemQtyRealContainerView;
     /**
-     * 库位Id
+     * 库位码
      */
     private TextView mLocationIdView;
     /**
-     * 确认库位Id
+     * 确认库位码
      */
     private ScanEditText mLocationIdConfirmView;
     /**
@@ -94,20 +94,20 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
      */
     private View mLocationView;
     /**
-     * 商品库位
+     * 库位
      */
     private TextView mItemLocationView;
 
-    private TaskTransferDetail transferDetail;
+    private TaskTransferDetail detail;
     /**
      * from 转出
      */
-    private boolean isTransferFrom;
+    private boolean isFrom;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_procurement);
+        setContentView(R.layout.activity_transfer);
         readExtras();
         findViews();
         fill();
@@ -137,8 +137,8 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
     }
 
     private void readExtras() {
-        isTransferFrom = getIntent().getBooleanExtra("isFrom", false);
-        transferDetail = (TaskTransferDetail) getIntent().getSerializableExtra("detail");
+        isFrom = getIntent().getBooleanExtra("isFrom", false);
+        detail = (TaskTransferDetail) getIntent().getSerializableExtra("detail");
     }
 
     private void findViews() {
@@ -163,7 +163,7 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
         mLocationView = findViewById(R.id.location);
         mItemLocationView = (TextView) findViewById(R.id.item_locationId);
 
-        mTypeNameView.setText(isTransferFrom ? "转出" : "转入");
+        mTypeNameView.setText(isFrom ? "转出" : "转入");
         scanEditTextTool = new ScanEditTextTool(this, mLocationIdConfirmView);
         scanEditTextTool.setComplete(this);
 
@@ -179,47 +179,39 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
     }
 
     private void submit() {
-        String qty = isTransferFrom ? mItemQtyRealView.getText().toString() : transferDetail.getUomQty();
-        String taskId = transferDetail.getTaskId();
-        String locationId = isTransferFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId();
+        String qty = isFrom ? mItemQtyRealView.getText().toString() : detail.getUomQty();
+        String taskId = detail.getTaskId();
+        String locationId = isFrom ? detail.getFromLocationId() : detail.getToLocationId();
         if (TextUtils.isEmpty(qty) || TextUtils.isEmpty(taskId) || TextUtils.isEmpty(locationId)) {
             return;
         }
-        new RequestTransferTask(ProcurementActivity.this, taskId, locationId, qty, isTransferFrom).start();
+        new RequestTransferTask(TransferActivity.this, taskId, locationId, qty, isFrom).start();
 
     }
 
-
     private void fill() {
-        mTaskView.setText("任务ID：" + transferDetail.getTaskId());
-        mItemNameView.setText("商品名称：" + transferDetail.getProductName());
-        mItemPackNameView.setText("包装单位：" + transferDetail.getProductPackName());
-        mItemQtyView.setText((isTransferFrom ? "商品数量：" : "实际数量：") + transferDetail.getUomQty());
-        mLocationIdView.setText(isTransferFrom ? transferDetail.getFromLocationName() : transferDetail.getToLocationName());
-        mItemQtyRealContainerView.setVisibility(isTransferFrom ? View.VISIBLE : View.GONE);
+        mTaskView.setText("任务ID：" + detail.getTaskId());
+        mItemNameView.setText("商品名称：" + detail.getProductName());
+        mItemPackNameView.setText("包装单位：" + detail.getProductPackName());
+        mItemQtyView.setText((isFrom ? "商品数量：" : "实际数量：") + detail.getUomQty());
+        mLocationIdView.setText(isFrom ? detail.getFromLocationName() : detail.getToLocationName());
+        mItemQtyRealContainerView.setVisibility(isFrom ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void onSetComplete() {
-        String scanLocationId = mLocationIdConfirmView.getText().toString();
-        boolean check = TextUtils.equals(isTransferFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId(), scanLocationId);
+        boolean check = TextUtils.equals(isFrom ? detail.getFromLocationId() : detail.getToLocationId(), mLocationIdConfirmView.getText().toString());
         if (!check) {
             ToastTool.show(this, "库位不一致");
         } else {
             mLocationView.setVisibility(View.GONE);
             mItemView.setVisibility(View.VISIBLE);
             mItemLocationView.setText("库位：" + mLocationIdView.getText().toString());
-            if (!isTransferFrom) {
-                mSubmit.setEnabled(true);
-                mSubmit.setClickable(true);
-            }
         }
     }
 
     @Override
     public void onInputError(int i) {
-        mSubmit.setEnabled(false);
-        mSubmit.setClickable(false);
     }
 
     @Override
@@ -246,9 +238,9 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
         @Override
         public DataHull<ResponseState> doInBackground() {
             if (isFrom) {
-                return HttpApi.procurementScanFromLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
+                return HttpApi.stockTransferScanFromLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
             } else {
-                return HttpApi.procurementScanToLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
+                return HttpApi.stockTransferScanToLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
             }
         }
 
@@ -256,8 +248,8 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
         public void onPostExecute(int updateId, ResponseState result) {
             ToastTool.show(context, isFrom ? "转出成功" : "转入成功");
             if (isFrom) {
-                transferDetail.setUomQty(qty);
-                ProcurementActivity.launchInner(context, transferDetail, false);
+                detail.setUomQty(qty);
+                TransferActivity.launchInner(context, detail, false);
                 finish();
             } else {
                 finish();
@@ -266,21 +258,21 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
     }
 
     /**
-     * Created by liuhanzhi on 16/8/3. 领取补货任务
+     * Created by liuhanzhi on 16/8/3. 领取移库任务
      */
-    private static class FetchProcurementTask extends HttpAsyncTask<TaskTransferDetail> {
+    private static class FetchTransferTask extends HttpAsyncTask<TaskTransferDetail> {
 
-        public FetchProcurementTask(Context context) {
+        public FetchTransferTask(Context context) {
             super(context, true, true, false);
         }
 
         @Override
         public DataHull<TaskTransferDetail> doInBackground() {
-            DataHull<TaskTransfer> dataHull = HttpApi.procurementFetchTask("", BaseApplication.get().getUserId());
+            DataHull<TaskTransfer> dataHull = HttpApi.stockTransferFetchTask("", BaseApplication.get().getUserId());
             DataHull<TaskTransferDetail> dataHull1;
             if (dataHull != null && dataHull.getDataType() == DataHull.DataType.DATA_IS_INTEGRITY) {
                 TaskTransfer taskTransfer = dataHull.getDataEntity();
-                dataHull1 = HttpApi.procurementView(taskTransfer.getTaskId());
+                dataHull1 = HttpApi.stockTransferementView(taskTransfer.getTaskId());
                 if (dataHull1.getDataEntity() != null) {
                     dataHull1.getDataEntity().setTaskId(taskTransfer.getTaskId());
                 }
@@ -294,15 +286,14 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
 
         @Override
         public void onPostExecute(int updateId, TaskTransferDetail result) {
-            ProcurementActivity.launchInner(context, result, true);
+            TransferActivity.launchInner(context, result, true);
         }
 
         @Override
         public void dataNull(int updateId, String errMsg) {
-            ToastTool.show(context, "没有补货任务");
+            ToastTool.show(context, "没有移库任务");
         }
 
     }
-
 
 }

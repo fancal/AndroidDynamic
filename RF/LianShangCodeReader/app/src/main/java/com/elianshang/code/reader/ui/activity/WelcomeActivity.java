@@ -7,8 +7,6 @@ import android.widget.Button;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
-import com.elianshang.code.reader.asyn.FetchProcurementTask;
-import com.elianshang.code.reader.asyn.FetchTransferTask;
 import com.elianshang.code.reader.ui.BaseActivity;
 
 public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
@@ -116,9 +114,9 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         } else if (v == createReturnButton) {
             CreateReturnActivity.launch(this);
         } else if (v == transferLocationButton) {
-            new FetchTransferTask(this).start();
+            TransferActivity.launch(this);
         } else if (v == procurementButton) {
-            new FetchProcurementTask(this).start();
+            ProcurementActivity.launch(this);
         } else if (v == pickButton) {
             PickActivity.launch(this);
         } else if (v == qualityControlButton) {

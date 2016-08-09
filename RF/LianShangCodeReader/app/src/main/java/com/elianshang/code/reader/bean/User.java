@@ -14,6 +14,8 @@ public class User implements BaseBean {
 
     private String token;
 
+    private String jsonData;
+
     public void setCellphone(String cellphone) {
         this.cellphone = cellphone;
     }
@@ -52,6 +54,19 @@ public class User implements BaseBean {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getJsonData() {
+        return jsonData;
+    }
+
+    public void setJsonData(String jsonData) {
+        this.jsonData = jsonData;
+    }
+
+    @Override
+    public String toString() {
+        return jsonData;
     }
 
     @Override

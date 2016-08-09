@@ -42,21 +42,21 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/product"
+            android:id="@+id/item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/product_locationId"
+                android:id="@+id/item_locationId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="库位:"
                 android:textSize="20dip" />
 
             <TextView
-                android:id="@+id/product_name"
+                android:id="@+id/item_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="商品名称:"
@@ -64,21 +64,21 @@
 
 
             <TextView
-                android:id="@+id/product_pack_name"
+                android:id="@+id/item_pack_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="包装单位:"
                 android:textSize="20dip" />
 
             <TextView
-                android:id="@+id/product_qty"
+                android:id="@+id/item_qty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="商品数量:"
                 android:textSize="20dip" />
 
             <LinearLayout
-                android:id="@+id/product_qty_real_container"
+                android:id="@+id/item_qty_real_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -90,7 +90,7 @@
                     android:textSize="20dip" />
 
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/product_qty_real"
+                    android:id="@+id/item_qty_real"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -142,7 +142,7 @@
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/submit_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
