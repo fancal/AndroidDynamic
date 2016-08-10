@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title_barcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dip_5"
+        android:layout_marginTop="@dimen/dip_5"
+        android:visibility="gone"
+        android:textSize="20dip"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dip_5"
+        android:layout_marginTop="@dimen/dip_5"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="实际数量:"
+            android:textSize="20dip" />
+
+        <com.elianshang.code.reader.ui.view.ContentEditText
+            android:id="@+id/inputQty_EditView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:minWidth="60dip"
+            android:textSize="20dip" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dip_5"
+        android:layout_marginTop="@dimen/dip_5"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="残次数量:"
+            android:textSize="20dip" />
+
+        <com.elianshang.code.reader.ui.view.ContentEditText
+            android:id="@+id/shoddyQty_EditView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:minWidth="60dip"
+            android:textSize="20dip" />
+
+    </LinearLayout>
+</LinearLayout>
