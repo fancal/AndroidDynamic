@@ -84,6 +84,16 @@ public class QcManualView extends LinearLayout {
         }
     }
 
+    /**
+     * 刷新某一条数据
+     * @param position
+     */
+    public void notifyItemChanged(int position){
+        if(mAdapter != null){
+            mAdapter.notifyItemChanged(position);
+        }
+    }
+
     private class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         @Override

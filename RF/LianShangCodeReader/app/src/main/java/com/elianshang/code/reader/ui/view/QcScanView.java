@@ -78,73 +78,26 @@ public class QcScanView extends LinearLayout {
         waitLayout.setVisibility(VISIBLE);
     }
 
-    public void fillDetailData(QcList.Item item) {
-        int progress = 0;
-        if (submitMap.containsKey(item.getBarCode())) {
-            progress = submitMap.size();
-        } else {
-            progress = submitMap.size() + 1;
-        }
-        detailProgressTextView.setText(progress + "/" + qcList.size());
-
-        detailLayout.setVisibility(View.VISIBLE);
-        waitLayout.setVisibility(View.GONE);
-
-        detailItemNameTextView.setText(item.getItemName());
-        detailPackNameTextView.setText(item.getPackName());
-        detailQtyTextView.setText("" + item.getQty());
-
-        if (submitMap.containsKey(item.getBarCode())) {
-            BaseQcController.CacheQty cacheQty = submitMap.get(item.getBarCode());
-            detailInputQtyEditText.setHint(null);
-            detailInputQtyEditText.setText(String.valueOf(cacheQty.qty));
-            detailShoddynQtyEditText.setHint(null);
-            detailShoddynQtyEditText.setText(String.valueOf(cacheQty.exceptionQty));
-        } else {
-            detailInputQtyEditText.setText(null);
-            detailInputQtyEditText.setHint(String.valueOf(item.getQty()));
-            detailShoddynQtyEditText.setText(null);
-            detailShoddynQtyEditText.setHint("0");
-        }
-        detailInputQtyEditText.requestFocus();
-    }
-
-    /**
-     * 填充QC列表不存在的商品
-     */
-    public void fillDetailDataNull(String barCode) {
-        int progress = 0;
-        if (submitMap.containsKey(barCode)) {
-            progress = submitMap.size();
-        } else {
-            progress = submitMap.size() + 1;
-        }
-        detailProgressTextView.setText(progress + "/" + qcList.size());
-
+    public void fillDetailData(String progress, String itemName, String itemPackName, String itemQty, String inputQty, String inputQtyHint, String shoddyQty, String shoddyQtyHint) {
         waitLayout.setVisibility(View.GONE);
         detailLayout.setVisibility(View.VISIBLE);
 
-        detailItemNameTextView.setText("错品(" + barCode + ")");
-        detailPackNameTextView.setText("请按EA查点数量");
-        detailQtyTextView.setText("如果是误扫,请输入0,或不要输入数量");
+        detailProgressTextView.setText(progress);
+        detailItemNameTextView.setText(itemName);
+        detailPackNameTextView.setText(itemPackName);
+        detailQtyTextView.setText(itemQty);
+        detailInputQtyEditText.setHint(inputQtyHint);
+        detailInputQtyEditText.setText(inputQty);
+        detailShoddynQtyEditText.setHint(shoddyQtyHint);
+        detailShoddynQtyEditText.setText(shoddyQty);
 
-
-        if (submitMap.containsKey(barCode)) {
-            BaseQcController.CacheQty cacheQty = submitMap.get(barCode);
-            detailInputQtyEditText.setHint(null);
-            detailInputQtyEditText.setText(String.valueOf(cacheQty.qty));
-            detailShoddynQtyEditText.setHint(null);
-            detailShoddynQtyEditText.setText(String.valueOf(cacheQty.exceptionQty));
-        } else {
-            detailInputQtyEditText.setText(null);
-            detailInputQtyEditText.setHint("1");
-            detailShoddynQtyEditText.setText(null);
-            detailShoddynQtyEditText.setHint("0");
-        }
         detailInputQtyEditText.requestFocus();
     }
 
     public String inputQtyText() {
+        if (detailInputQtyEditText == null || detailInputQtyEditText.getText() == null) {
+            return null;
+        }
         return detailInputQtyEditText.getText().toString();
     }
 
@@ -156,6 +109,9 @@ public class QcScanView extends LinearLayout {
     }
 
     public String shoddyQtyText() {
+        if (detailShoddynQtyEditText == null || detailShoddynQtyEditText.getText() == null) {
+            return null;
+        }
         return detailShoddynQtyEditText.getText().toString();
     }
 

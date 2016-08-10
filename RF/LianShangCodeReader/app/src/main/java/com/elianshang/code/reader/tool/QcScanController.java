@@ -29,7 +29,7 @@ public class QcScanController extends BaseQcController {
     }
 
     private void findItem(final String barcode) {
-        if(mQcScanView.waitLayout.getVisibility() != View.VISIBLE){
+        if (mQcScanView.waitLayout.getVisibility() != View.VISIBLE) {
             noteItem();
         }
         curBarCode = barcode;
@@ -37,12 +37,80 @@ public class QcScanController extends BaseQcController {
         if (qcList != null && qcList.size() > 0) {
             for (QcList.Item item : qcList) {
                 if (TextUtils.equals(barcode, item.getBarCode())) {
-                    mQcScanView.fillDetailData(item);
+                    fillDetailData(item);
                     return;
                 }
             }
-            mQcScanView.fillDetailDataNull(barcode);
+            fillDetailDataNull(barcode);
         }
+    }
+
+    public void fillDetailData(QcList.Item item) {
+        int progress;
+        if (submitMap.containsKey(item.getBarCode())) {
+            progress = submitMap.size();
+        } else {
+            progress = submitMap.size() + 1;
+        }
+        String detailProgress = progress + "/" + qcList.size();
+        String itemName = item.getItemName();
+        String itemPackName = item.getPackName();
+        String itemQty = String.valueOf(item.getQty());
+        String inputQty;
+        String inputQtyHint;
+        String shoddyQty;
+        String shoddyQtyHint;
+
+        if (submitMap.containsKey(item.getBarCode())) {
+            BaseQcController.CacheQty cacheQty = submitMap.get(item.getBarCode());
+            inputQty = String.valueOf(cacheQty.qty);
+            inputQtyHint = null;
+            shoddyQty = String.valueOf(cacheQty.exceptionQty);
+            shoddyQtyHint = null;
+        } else {
+            inputQty = null;
+            inputQtyHint = String.valueOf(item.getQty());
+            shoddyQty = null;
+            shoddyQtyHint = "0";
+        }
+
+        mQcScanView.fillDetailData(detailProgress, itemName, itemPackName, itemQty, inputQty, inputQtyHint, shoddyQty, shoddyQtyHint);
+    }
+
+    /**
+     * 填充QC列表不存在的商品
+     */
+    public void fillDetailDataNull(String barCode) {
+        int progress = 0;
+        if (submitMap.containsKey(barCode)) {
+            progress = submitMap.size();
+        } else {
+            progress = submitMap.size() + 1;
+        }
+
+        String detailProgress = progress + "/" + qcList.size();
+        String itemName = "错品(" + barCode + ")";
+        String itemPackName = "请按EA查点数量";
+        String itemQty = "如果是误扫,请输入0,或不要输入数量";
+        String inputQty;
+        String inputQtyHint;
+        String shoddyQty;
+        String shoddyQtyHint;
+
+        if (submitMap.containsKey(barCode)) {
+            BaseQcController.CacheQty cacheQty = submitMap.get(barCode);
+            inputQty = String.valueOf(cacheQty.qty);
+            inputQtyHint = null;
+            shoddyQty = String.valueOf(cacheQty.exceptionQty);
+            shoddyQtyHint = null;
+        } else {
+            inputQty = null;
+            inputQtyHint = "1";
+            shoddyQty = null;
+            shoddyQtyHint = "0";
+        }
+
+        mQcScanView.fillDetailData(detailProgress, itemName, itemPackName, itemQty, inputQty, inputQtyHint, shoddyQty, shoddyQtyHint);
     }
 
     private void noteItem() {
