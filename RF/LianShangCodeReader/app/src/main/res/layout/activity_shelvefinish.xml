@@ -12,13 +12,22 @@
         android:background="?attr/colorPrimary"
         app:layout_scrollFlags="scroll|enterAlways"
         app:navigationIcon="@drawable/toolbar_back"
-        app:title="完成上架" />
+        app:title="上架" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginTop="10dip"
+        android:gravity="center"
+        android:text="上架到库位"
+        android:textSize="@dimen/dip_20" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dip_10"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:text="任务"
         android:textSize="@dimen/dip_20" />
 
@@ -26,16 +35,16 @@
         android:id="@+id/taskId_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dip_10"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:textSize="@dimen/dip_20" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dip_10"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:text="库位"
         android:textSize="@dimen/dip_20" />
 
@@ -43,16 +52,16 @@
         android:id="@+id/locationCode_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dip_10"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:textColor="#ffff0000"
         android:textSize="@dimen/dip_20" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dip_10"
-        android:layout_marginTop="50dp"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:text="扫描确认仓库ID:"
         android:textSize="@dimen/dip_20" />
 
@@ -60,8 +69,8 @@
         android:id="@+id/locationId_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dip_10"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:textSize="20dip" />
-
 
 </LinearLayout>

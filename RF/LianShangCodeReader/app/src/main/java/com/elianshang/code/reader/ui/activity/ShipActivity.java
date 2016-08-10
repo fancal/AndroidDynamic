@@ -17,13 +17,14 @@ import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
+import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.xue.http.impl.DataHull;
 
 /**
  * Created by liuhanzhi on 16/8/8. 发车
  */
-public class ShipActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class ShipActivity extends BaseActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, ShipActivity.class);
@@ -120,12 +121,12 @@ public class ShipActivity extends BaseActivity implements ScanEditTextTool.OnSet
     }
 
     @Override
-    public void onSetComplete() {
+    public void onComplete() {
         requestShipCreate(mContainerIdView.getText().toString());
     }
 
     @Override
-    public void onInputError(int i) {
+    public void onError(ContentEditText editText) {
     }
 
     @Override

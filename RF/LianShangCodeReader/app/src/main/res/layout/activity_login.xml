@@ -14,12 +14,13 @@
         app:title="登录" />
 
     <LinearLayout
-        android:id="@+id/name_Layout"
+        android:id="@+id/userName_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         android:layout_marginLeft="54dip"
         android:layout_marginRight="54dip"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="130dp"
         android:orientation="horizontal">
 
         <TextView
@@ -29,12 +30,11 @@
             android:text="用户名:"
             android:textSize="@dimen/dip_20" />
 
-        <EditText
+        <com.elianshang.code.reader.ui.view.ContentEditText
             android:id="@+id/userName_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入用户名"
-            android:text="xueliyu"
             android:textSize="@dimen/dip_20" />
 
     </LinearLayout>
@@ -42,7 +42,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name_Layout"
+        android:layout_below="@id/userName_Layout"
         android:layout_marginLeft="54dip"
         android:layout_marginRight="54dip"
         android:orientation="horizontal">
@@ -54,13 +54,12 @@
             android:text="密    码:"
             android:textSize="@dimen/dip_20" />
 
-        <EditText
+        <com.elianshang.code.reader.ui.view.ContentEditText
             android:id="@+id/passWd_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入密码"
-            android:inputType="numberPassword"
-            android:text="123456"
+            android:inputType="textPassword"
             android:textSize="@dimen/dip_20" />
 
     </LinearLayout>
@@ -71,6 +70,7 @@
         android:layout_height="50dip"
         android:layout_alignParentBottom="true"
         android:background="@drawable/submit_button_bg"
+        android:enabled="false"
         android:text="登录"
         android:textColor="@color/white"
         android:textSize="24dp" />

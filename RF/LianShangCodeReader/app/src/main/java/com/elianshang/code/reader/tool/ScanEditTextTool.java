@@ -13,15 +13,27 @@ import java.util.ArrayList;
 
 public class ScanEditTextTool {
 
+    /**
+     * 所属Activity
+     */
     private Activity mActivity;
 
-    private ArrayList<EditText> mEditTexts;
+    /**
+     * 管理的输入框
+     */
+    private ArrayList<ContentEditText> mEditTexts;
 
-    private OnSetComplete complete;
+    /**
+     * 监听器
+     */
+    private OnStateChangeListener complete;
 
+    /**
+     * 文本变化监听
+     */
     private TextWatcher textWatcher;
 
-    public ScanEditTextTool(Activity activity, EditText... editTexts) {
+    public ScanEditTextTool(Activity activity, ContentEditText... editTexts) {
         if (editTexts == null) {
             return;
         }
@@ -41,24 +53,23 @@ public class ScanEditTextTool {
             @Override
             public void afterTextChanged(Editable s) {
                 for (int i = 0; i < mEditTexts.size(); i++) {
-                    ContentEditText text = (ContentEditText) mEditTexts.get(i);
+                    ContentEditText text = mEditTexts.get(i);
                     if (text.isRight()) {
                         continue;
                     } else {
                         if (text.hasFocus() && complete != null) {
-                            complete.onInputError(i);
+                            complete.onError(text);
                         }
                         return;
                     }
                 }
                 if (complete != null) {
-                    complete.onSetComplete();
+                    complete.onComplete();
                 }
             }
         };
 
-
-        for (EditText editText : editTexts) {
+        for (ContentEditText editText : editTexts) {
             editText.addTextChangedListener(textWatcher);
             if (editText instanceof ScanEditText) {
                 ((ScanEditText) editText).setOnLongClickListener(activity);
@@ -74,11 +85,11 @@ public class ScanEditTextTool {
         }
     }
 
-    public void addEditText(EditText... editTexts) {
+    public void addEditText(ContentEditText... editTexts) {
         if (editTexts == null || mEditTexts == null) {
             return;
         }
-        for (EditText editText : editTexts) {
+        for (ContentEditText editText : editTexts) {
             if (textWatcher != null) {
                 editText.addTextChangedListener(textWatcher);
             }
@@ -123,7 +134,7 @@ public class ScanEditTextTool {
         }
     }
 
-    public void setComplete(OnSetComplete complete) {
+    public void setComplete(OnStateChangeListener complete) {
         this.complete = complete;
     }
 
@@ -142,11 +153,10 @@ public class ScanEditTextTool {
     }
 
 
-    public interface OnSetComplete {
-        void onSetComplete();
+    public interface OnStateChangeListener {
 
-        void onInputError(int i);
+        void onComplete();
+
+        void onError(ContentEditText editText);
     }
-
-
 }

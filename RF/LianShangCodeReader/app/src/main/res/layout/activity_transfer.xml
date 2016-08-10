@@ -12,28 +12,27 @@
         android:background="?attr/colorPrimary"
         app:layout_scrollFlags="scroll|enterAlways"
         app:navigationIcon="@drawable/toolbar_back"
-        app:title="移库任务" />
+        app:title="移库" />
 
     <TextView
         android:id="@+id/task_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="任务id:"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:text="任务:"
         android:textSize="20dip" />
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/transfer_type_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dip_28"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/transfer_type_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="转出"
-            android:textSize="@dimen/dip_20" />
-    </LinearLayout>
+        android:layout_marginBottom="15dip"
+        android:layout_marginTop="10dip"
+        android:gravity="center"
+        android:textSize="@dimen/dip_20" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,6 +44,8 @@
             android:id="@+id/item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -52,6 +53,8 @@
                 android:id="@+id/item_locationId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
                 android:text="库位:"
                 android:textSize="20dip" />
 
@@ -59,6 +62,8 @@
                 android:id="@+id/item_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
                 android:text="商品名称:"
                 android:textSize="20dip" />
 
@@ -67,6 +72,8 @@
                 android:id="@+id/item_pack_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
                 android:text="包装单位:"
                 android:textSize="20dip" />
 
@@ -74,6 +81,8 @@
                 android:id="@+id/item_qty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
                 android:text="商品数量:"
                 android:textSize="20dip" />
 
@@ -81,19 +90,21 @@
                 android:id="@+id/item_qty_real_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="实际数量:"
                     android:textSize="20dip" />
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/item_qty_real"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
+                    android:minWidth="60dip"
                     android:textSize="20dip" />
 
             </LinearLayout>
@@ -110,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dip_10"
-                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dip"
                 android:text="库位"
                 android:textSize="@dimen/dip_20" />
 
@@ -119,8 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dip_10"
-                android:layout_marginTop="5dp"
-                android:text="11111111"
+                android:layout_marginRight="10dip"
                 android:textColor="#ffff0000"
                 android:textSize="@dimen/dip_30" />
 
@@ -128,7 +138,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dip_10"
-                android:layout_marginTop="50dp"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="20dp"
                 android:text="扫描确认库位:"
                 android:textSize="@dimen/dip_20" />
 
@@ -137,6 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dip_10"
+                android:layout_marginRight="10dip"
                 android:textSize="20dip" />
         </LinearLayout>
 
@@ -146,13 +158,12 @@
     <Button
         android:id="@+id/submit_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dip"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/grey_selector_for_button"
+        android:background="@drawable/submit_button_bg"
         android:gravity="center"
-        android:padding="20dip"
         android:text="提交"
         android:textColor="#ffffffff"
-        android:textSize="30dip" />
+        android:textSize="24dip" />
 
 </LinearLayout>

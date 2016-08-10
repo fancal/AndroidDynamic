@@ -23,9 +23,10 @@ import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
+import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
 
-public class CreateReturnActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class CreateReturnActivity extends BaseActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, CreateReturnActivity.class);
@@ -128,7 +129,6 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
 
         detailSubmitButton.setOnClickListener(this);
 
-
         initToolBar();
     }
 
@@ -148,6 +148,9 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
         detailItemNameTextView.setText(item.getName());
         detailPackNameTextView.setText(item.getPackName());
         detailInputQtyEditText.requestFocus();
+
+        detailInputQtyEditText.setHint("1");
+        detailInputQtyEditText.setText(null);
     }
 
     private void pressBack() {
@@ -169,14 +172,14 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
     }
 
     @Override
-    public void onSetComplete() {
+    public void onComplete() {
         String locationId = createLocationIdEditText.getText().toString();
         String barCode = createBarCodeEditText.getText().toString();
         new StockGetItemTask(this, locationId, barCode).start();
     }
 
     @Override
-    public void onInputError(int i) {
+    public void onError(ContentEditText editText) {
 
     }
 
@@ -200,15 +203,22 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
         String barCode = createBarCodeEditText.getText().toString();
         String qty = detailInputQtyEditText.getText().toString();
 
+        if (TextUtils.isEmpty(qty)) {
+            qty = detailInputQtyEditText.getHint().toString();
+        }
+
         if (TextUtils.isEmpty(locationId)) {
+            ToastTool.show(this, "请输入正确的库位");
             return;
         }
 
         if (TextUtils.isEmpty(barCode)) {
+            ToastTool.show(this, "请输入正确的商品国条码");
             return;
         }
 
         if (TextUtils.isEmpty(qty)) {
+            ToastTool.show(this, "请输入正确的数量");
             return;
         }
 

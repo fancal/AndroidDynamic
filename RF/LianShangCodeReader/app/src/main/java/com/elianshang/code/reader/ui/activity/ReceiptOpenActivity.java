@@ -18,13 +18,14 @@ import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
+import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.xue.http.impl.DataHull;
 
 /**
  * 收货扫描页,扫描 订单号,托盘码,商品barcode
  */
-public class ReceiptOpenActivity extends BaseActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnSetComplete, View.OnClickListener {
+public class ReceiptOpenActivity extends BaseActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener, View.OnClickListener {
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, ReceiptOpenActivity.class);
@@ -200,13 +201,13 @@ public class ReceiptOpenActivity extends BaseActivity implements ScanManager.OnB
     }
 
     @Override
-    public void onSetComplete() {
+    public void onComplete() {
         submitButton.setEnabled(true);
 //        submitButton.setClickable(true);
     }
 
     @Override
-    public void onInputError(int i) {
+    public void onError(ContentEditText editText) {
         submitButton.setEnabled(false);
 //        submitButton.setClickable(false);
     }

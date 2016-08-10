@@ -21,6 +21,7 @@ import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
+import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
@@ -28,7 +29,7 @@ import com.xue.http.impl.DataHull;
 /**
  * Created by liuhanzhi on 16/8/3. 移库
  */
-public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class PickActivity extends BaseActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, PickActivity.class);
@@ -208,7 +209,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
 
 
     @Override
-    public void onSetComplete() {
+    public void onComplete() {
         switch (mCurPage) {
             case 0:
                 requestPick(mGroup1TaskIdView.getText().toString(), mGroup1ContainerIdView.getText().toString());
@@ -217,7 +218,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSet
     }
 
     @Override
-    public void onInputError(int i) {
+    public void onError(ContentEditText editText) {
     }
 
     @Override

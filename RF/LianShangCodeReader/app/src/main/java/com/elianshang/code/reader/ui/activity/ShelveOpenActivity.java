@@ -18,13 +18,14 @@ import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
+import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.xue.http.impl.DataHull;
 
 /**
  * 上架进入页
  */
-public class ShelveOpenActivity extends BaseActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnSetComplete {
+public class ShelveOpenActivity extends BaseActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener {
 
     public static void launch(Activity activity) {
         Intent intent = new Intent(activity, ShelveOpenActivity.class);
@@ -122,14 +123,14 @@ public class ShelveOpenActivity extends BaseActivity implements ScanManager.OnBa
     }
 
     @Override
-    public void onSetComplete() {
+    public void onComplete() {
         String containerId = containerIdEditText.getText().toString();
 
         new ShelveScanContainerTask(this, containerId).start();
     }
 
     @Override
-    public void onInputError(int i) {
+    public void onError(ContentEditText editText) {
 
     }
 

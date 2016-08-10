@@ -58,14 +58,14 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
     private TextView progressTextView;
 
     /**
+     * 任务布局 任务TextView
+     */
+    private TextView taskCodeTextView;
+
+    /**
      * 任务布局
      */
     private View taskLayout;
-
-    /**
-     * 任务布局 任务TextView
-     */
-    private TextView taskTaskIdTextView;
 
     /**
      * 任务布局 库位TextView
@@ -81,11 +81,6 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
      * 详情布局
      */
     private View detailLayout;
-
-    /**
-     * 详情布局 任务TextView
-     */
-    private TextView detailTaskIdTextView;
 
     /**
      * 详情布局 库位TextView
@@ -165,14 +160,13 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
 
     private void findView() {
         progressTextView = (TextView) findViewById(R.id.progress_TextView);
+        taskCodeTextView = (TextView) findViewById(R.id.taskCode_TextView);
 
         taskLayout = findViewById(R.id.task_Layout);
-        taskTaskIdTextView = (TextView) taskLayout.findViewById(R.id.taskId_TextView);
         taskLocationCodeTextView = (TextView) taskLayout.findViewById(R.id.locationCode_TextView);
         taskLocationIdEditText = (ScanEditText) taskLayout.findViewById(R.id.locationId_EditText);
 
         detailLayout = findViewById(R.id.detail_Layout);
-        detailTaskIdTextView = (TextView) detailLayout.findViewById(R.id.taskId_TextView);
         detailLocationCodeTextView = (TextView) detailLayout.findViewById(R.id.locationCode_TextView);
         detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);
         detailPackNameTextView = (TextView) detailLayout.findViewById(R.id.packName_TextView);
@@ -201,7 +195,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         taskLayout.setVisibility(View.VISIBLE);
         detailLayout.setVisibility(View.GONE);
 
-        taskTaskIdTextView.setText(task.getTaskId());
+        taskCodeTextView.setText(task.getTaskId());
         taskLocationCodeTextView.setText(task.getLocationCode());
 
         if (scanEditTextTool != null) {
@@ -211,9 +205,9 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         vhList.clear();
         scanEditTextTool = new ScanEditTextTool(this, taskLocationIdEditText);
 
-        scanEditTextTool.setComplete(new ScanEditTextTool.OnSetComplete() {
+        scanEditTextTool.setComplete(new ScanEditTextTool.OnStateChangeListener() {
             @Override
-            public void onSetComplete() {
+            public void onComplete() {
                 String locationId = taskLocationIdEditText.getText().toString();
                 if (TextUtils.equals(locationId, task.getLocationId())) {
                     new StockTakingGetTask(TakeStockActivity.this, task.getTaskId(), locationId).start();
@@ -223,7 +217,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
             }
 
             @Override
-            public void onInputError(int i) {
+            public void onError(ContentEditText editText) {
 
             }
         });
@@ -233,7 +227,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         taskLayout.setVisibility(View.GONE);
         detailLayout.setVisibility(View.VISIBLE);
 
-        detailTaskIdTextView.setText(takeStockDetail.getTaskId());
+        taskCodeTextView.setText(takeStockDetail.getTaskId());
         detailLocationCodeTextView.setText(takeStockDetail.getLocationId());
         detailItemNameTextView.setText(takeStockDetail.getItemName());
         detailPackNameTextView.setText(takeStockDetail.getPackName());
@@ -289,7 +283,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
 
     private void submit() {
         boolean state = true;
-        String taskId = detailTaskIdTextView.getText().toString();
+        String taskId = taskCodeTextView.getText().toString();
         final JSONObject jsonObject = new JSONObject();
         final JSONArray jsonarray = new JSONArray();
 

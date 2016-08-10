@@ -23,6 +23,7 @@ import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
+import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
@@ -30,7 +31,7 @@ import com.xue.http.impl.DataHull;
 /**
  * Created by liuhanzhi on 16/8/3. 移库
  */
-public class TransferActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class TransferActivity extends BaseActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(Context context) {
         new FetchTransferTask(context).start();
@@ -163,7 +164,7 @@ public class TransferActivity extends BaseActivity implements ScanEditTextTool.O
         mLocationView = findViewById(R.id.location);
         mItemLocationView = (TextView) findViewById(R.id.item_locationId);
 
-        mTypeNameView.setText(isFrom ? "转出" : "转入");
+        mTypeNameView.setText(isFrom ? "开始移库转出" : "转入到库位");
         scanEditTextTool = new ScanEditTextTool(this, mLocationIdConfirmView);
         scanEditTextTool.setComplete(this);
 
@@ -199,19 +200,21 @@ public class TransferActivity extends BaseActivity implements ScanEditTextTool.O
     }
 
     @Override
-    public void onSetComplete() {
+    public void onComplete() {
         boolean check = TextUtils.equals(isFrom ? detail.getFromLocationId() : detail.getToLocationId(), mLocationIdConfirmView.getText().toString());
         if (!check) {
             ToastTool.show(this, "库位不一致");
         } else {
             mLocationView.setVisibility(View.GONE);
             mItemView.setVisibility(View.VISIBLE);
+            mItemQtyRealView.requestFocus();
+            mTypeNameView.setText("填写转出数量");
             mItemLocationView.setText("库位：" + mLocationIdView.getText().toString());
         }
     }
 
     @Override
-    public void onInputError(int i) {
+    public void onError(ContentEditText editText) {
     }
 
     @Override

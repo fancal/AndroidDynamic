@@ -23,6 +23,7 @@ import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
+import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
@@ -30,7 +31,7 @@ import com.xue.http.impl.DataHull;
 /**
  * Created by liuhanzhi on 16/8/3. 补货
  */
-public class ProcurementActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class ProcurementActivity extends BaseActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(Context context) {
         new FetchProcurementTask(context).start();
@@ -163,7 +164,7 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
         mLocationView = findViewById(R.id.location);
         mItemLocationView = (TextView) findViewById(R.id.item_locationId);
 
-        mTypeNameView.setText(isTransferFrom ? "转出" : "转入");
+        mTypeNameView.setText(isTransferFrom ? "开始补货转出" : "转入到库位");
         scanEditTextTool = new ScanEditTextTool(this, mLocationIdConfirmView);
         scanEditTextTool.setComplete(this);
 
@@ -200,7 +201,7 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
     }
 
     @Override
-    public void onSetComplete() {
+    public void onComplete() {
         String scanLocationId = mLocationIdConfirmView.getText().toString();
         boolean check = TextUtils.equals(isTransferFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId(), scanLocationId);
         if (!check) {
@@ -208,6 +209,7 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
         } else {
             mLocationView.setVisibility(View.GONE);
             mItemView.setVisibility(View.VISIBLE);
+            mTypeNameView.setText("填写转出数量");
             mItemLocationView.setText("库位：" + mLocationIdView.getText().toString());
             if (!isTransferFrom) {
                 mSubmit.setEnabled(true);
@@ -217,7 +219,7 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
     }
 
     @Override
-    public void onInputError(int i) {
+    public void onError(ContentEditText editText) {
         mSubmit.setEnabled(false);
         mSubmit.setClickable(false);
     }

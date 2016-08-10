@@ -14,24 +14,22 @@
         app:navigationIcon="@drawable/toolbar_back"
         app:title="上架" />
 
-    <LinearLayout
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dip_28"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="领取上架任务"
-            android:textSize="@dimen/dip_20" />
-    </LinearLayout>
+        android:layout_marginBottom="15dip"
+        android:layout_marginTop="10dip"
+        android:gravity="center"
+        android:text="领取上架任务"
+        android:textSize="@dimen/dip_20" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
         android:text="请扫描托盘码:"
         android:textSize="@dimen/dip_20" />
 
@@ -39,6 +37,8 @@
         android:id="@+id/containerId_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:textSize="20dip" />
 
 </LinearLayout>

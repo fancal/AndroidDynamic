@@ -25,7 +25,7 @@ import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.xue.http.impl.DataHull;
 
-public class CreateScrapActivity extends BaseActivity implements ScanEditTextTool.OnSetComplete, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class CreateScrapActivity extends BaseActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, CreateScrapActivity.class);
@@ -168,14 +168,14 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
     }
 
     @Override
-    public void onSetComplete() {
+    public void onComplete() {
         String locationId = createLocationIdEditText.getText().toString();
         String barCode = createBarCodeEditText.getText().toString();
         new StockGetItemTask(this, locationId, barCode).start();
     }
 
     @Override
-    public void onInputError(int i) {
+    public void onError(ContentEditText editText) {
 
     }
 

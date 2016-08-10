@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class QualityControlActivity extends BaseActivity implements ScanManager.OnBarCodeListener, View.OnClickListener, ScanEditTextTool.OnSetComplete {
+public class QualityControlActivity extends BaseActivity implements ScanManager.OnBarCodeListener, View.OnClickListener, ScanEditTextTool.OnStateChangeListener {
 
     public static void launch(Activity activity) {
         Intent intent = new Intent(activity, QualityControlActivity.class);
@@ -312,14 +312,14 @@ public class QualityControlActivity extends BaseActivity implements ScanManager.
     }
 
     @Override
-    public void onSetComplete() {
+    public void onComplete() {
         String containerId = createContainerIdEditText.getText().toString();
         this.containerId = containerId;
         new QCCreateTaskTask(this, containerId).start();
     }
 
     @Override
-    public void onInputError(int i) {
+    public void onError(ContentEditText editText) {
 
     }
 

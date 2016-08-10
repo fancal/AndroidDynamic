@@ -12,6 +12,10 @@ import java.util.regex.Pattern;
  */
 public class ContentEditText extends EditText {
 
+    private String patternCompile = "";
+
+//    private String patternCompile = "[0-9]*";
+
     public ContentEditText(Context context) {
         super(context);
     }
@@ -29,18 +33,21 @@ public class ContentEditText extends EditText {
     }
 
 
-    protected boolean isEmpty(String str){
-
+    protected boolean isEmpty(String str) {
         return TextUtils.isEmpty(str);
     }
 
-    protected boolean isNumeric(String str){
-        Pattern pattern = Pattern.compile("[0-9]*");
+    protected boolean isRule(String str) {
+        if (TextUtils.isEmpty(patternCompile)) {
+            return true;
+        }
+
+        Pattern pattern = Pattern.compile(patternCompile);
         return pattern.matcher(str).matches();
     }
 
-    public boolean isRight(){
+    public boolean isRight() {
         String editStr = getText().toString().trim();
-        return !isEmpty(editStr) && isNumeric(editStr);
+        return !isEmpty(editStr) && isRule(editStr);
     }
 }

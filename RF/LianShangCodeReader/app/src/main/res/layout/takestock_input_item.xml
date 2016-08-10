@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/dip_5"
     android:layout_marginTop="@dimen/dip_5"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip">
 
     <com.elianshang.code.reader.ui.view.ScanEditText
         android:id="@+id/barcode_edittext"
