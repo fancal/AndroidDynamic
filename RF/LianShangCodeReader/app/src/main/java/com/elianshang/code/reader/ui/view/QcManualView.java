@@ -31,6 +31,8 @@ public class QcManualView extends LinearLayout {
 
     private HashMap<String, BaseQcController.CacheQty> submitMap;
 
+    private TextView progressTextView;
+
     private QcList qcList;
 
     public QcManualView(Context context) {
@@ -64,6 +66,7 @@ public class QcManualView extends LinearLayout {
     private void init() {
         setOrientation(VERTICAL);
         LayoutInflater.from(getContext()).inflate(R.layout.qualitycontrol_manual, this, true);
+        progressTextView = (TextView) findViewById(R.id.progress_TextView);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -72,16 +75,18 @@ public class QcManualView extends LinearLayout {
     }
 
     public void fill(QcList qcList, HashMap<String, BaseQcController.CacheQty> submitMap) {
+        progressTextView.setText("0/" + qcList.size());
+
         this.submitMap = submitMap;
         this.qcList = qcList;
         if (mAdapter == null) {
             mAdapter = new MyAdapter();
         }
         mRecyclerView.setAdapter(mAdapter);
-
     }
 
-    public void notifySetDataChanged() {
+    public void notifySetDataChanged(String progress) {
+        progressTextView.setText(progress);
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
@@ -92,13 +97,14 @@ public class QcManualView extends LinearLayout {
      *
      * @param position
      */
-    public void notifyItemChanged(int position) {
+    public void notifyItemChanged(int position, String progress) {
+        progressTextView.setText(progress);
         if (mAdapter != null) {
             mAdapter.notifyItemChanged(position);
         }
     }
 
-    public void scrollToPositon(int position){
+    public void scrollToPositon(int position) {
         mRecyclerView.smoothScrollToPosition(position);
     }
 

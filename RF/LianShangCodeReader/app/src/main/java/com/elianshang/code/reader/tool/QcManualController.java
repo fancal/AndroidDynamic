@@ -24,7 +24,6 @@ public class QcManualController extends BaseQcController implements QcManualView
         mQcManualView = (QcManualView) activity.findViewById(R.id.manual_view);
 
         mQcManualView.setListener(this);
-
     }
 
 
@@ -54,6 +53,31 @@ public class QcManualController extends BaseQcController implements QcManualView
 
     }
 
+    private String getProgress() {
+        int progress = 0;
+        int exception = 0;
+        int total = 0;
+
+        for (QcList.Item item : qcList) {
+            if (!item.getItemName().startsWith("错货")) {
+                total++;
+                if (submitMap.containsKey(item.getBarCode())) {
+                    progress++;
+                }
+            } else {
+                if (submitMap.containsKey(item.getBarCode())) {
+                    exception++;
+                }
+            }
+        }
+
+        if (exception > 0) {
+            return progress + "/" + total + "  错货:" + exception;
+        } else {
+            return progress + "/" + total;
+        }
+    }
+
     @Override
     protected void onSubmitButtonClick() {
         checkSubmit();
@@ -77,7 +101,7 @@ public class QcManualController extends BaseQcController implements QcManualView
                 qcList.add(item);
                 noteItem(s, inputQty, shoddyQty);
 
-                mQcManualView.notifySetDataChanged();
+                mQcManualView.notifySetDataChanged(getProgress());
             }
         });
     }
@@ -90,7 +114,8 @@ public class QcManualController extends BaseQcController implements QcManualView
         } else {
             noteItem(item.getBarCode(), null, null);
         }
-        mQcManualView.notifyItemChanged(position);
+
+        mQcManualView.notifyItemChanged(position, getProgress());
     }
 
     @Override
@@ -114,7 +139,7 @@ public class QcManualController extends BaseQcController implements QcManualView
             public void onClick(String inputQty, String shoddyQty) {
                 noteItem(item.getBarCode(), inputQty, shoddyQty);
 
-                mQcManualView.notifyItemChanged(position);
+                mQcManualView.notifyItemChanged(position, getProgress());
             }
         });
     }

@@ -60,6 +60,11 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
     private ScanEditText mGroup1TaskIdView;
 
     /**
+     * 第二页 顶部文字
+     */
+    private TextView mGroup2HeadTextView;
+
+    /**
      * 第二页 库位码
      */
     private TextView mGroup2LocationIdView;
@@ -75,6 +80,21 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
      * 第二页 实际输入数量
      */
     private EditText mGroup2Qty;
+
+    /**
+     * 第二页 确认库位布局
+     */
+    private View mGroup2LocationIdLayout;
+
+    /**
+     * 第二页 系统数量布局
+     */
+    private View mGroup2SystemQtyLayout;
+
+    /**
+     * 第二页 输入数量布局
+     */
+    private View mGroup2InputQtyLayot;
 
     /**
      * 第三页 集货码
@@ -127,10 +147,14 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
         mGroup1TaskIdView = (ScanEditText) mGroup1.findViewById(R.id.taskId_EditText);
         mGroup1ContainerIdView = (ScanEditText) mGroup1.findViewById(R.id.containerId_EditText);
 
+        mGroup2HeadTextView = (TextView) mGroup2.findViewById(R.id.head_TextView);
         mGroup2LocationIdView = (TextView) mGroup2.findViewById(R.id.location_id);
         mGroup2ConfirmLocationIdView = (ScanEditText) mGroup2.findViewById(R.id.confirm_location_id);
         mGroup2AllocQty = (TextView) mGroup2.findViewById(R.id.allocQty_TextView);
         mGroup2Qty = (EditText) mGroup2.findViewById(R.id.inputQty_EditView);
+        mGroup2LocationIdLayout = mGroup2.findViewById(R.id.locationId_Layout);
+        mGroup2SystemQtyLayout = mGroup2.findViewById(R.id.systemQty_Layout);
+        mGroup2InputQtyLayot = mGroup2.findViewById(R.id.inputQty_Layout);
 
         mGroup3CollectionIdView = (TextView) mGroup3.findViewById(R.id.collection_id);
         mGroup3ConfirmCollectionIdView = (ScanEditText) mGroup3.findViewById(R.id.confirm_collection_id);
@@ -146,12 +170,14 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
         setCurPageView();
 
     }
+
     /**
      * 扫拣货签&托盘码
      */
     private void requestPick(String taskId, String containerId) {
         new RequestPickTask(this, taskId, containerId).start();
     }
+
     /**
      * 扫拣货位/集货位
      */
@@ -195,16 +221,35 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
     private void fillPick() {
         switch (mCurPage) {
             case 1:
-                mGroup2LocationIdView.setText(mPick.getAllocPickLocation());
-                mGroup2ConfirmLocationIdView.getText().clear();
-                mGroup2AllocQty.setText(mPick.getAllocQty());
-                mGroup2Qty.getText().clear();
+                fillPickLocation();
+
                 break;
             case 2:
                 mGroup3CollectionIdView.setText(mPick.getAllocCollectLocation());
                 break;
         }
+    }
 
+    private void fillPickLocation() {
+        mGroup2HeadTextView.setText("扫描确认拣货位");
+
+        mGroup2LocationIdView.setText(mPick.getAllocPickLocation());
+        mGroup2ConfirmLocationIdView.getText().clear();
+        mGroup2AllocQty.setText(mPick.getAllocQty());
+        mGroup2Qty.getText().clear();
+        mGroup2Qty.setHint(mPick.getAllocQty());
+
+        mGroup2LocationIdLayout.setVisibility(View.VISIBLE);
+        mGroup2SystemQtyLayout.setVisibility(View.GONE);
+        mGroup2InputQtyLayot.setVisibility(View.GONE);
+    }
+
+    private void fillPickQty() {
+        mGroup2HeadTextView.setText("确认拣货数量");
+
+        mGroup2LocationIdLayout.setVisibility(View.GONE);
+        mGroup2SystemQtyLayout.setVisibility(View.VISIBLE);
+        mGroup2InputQtyLayot.setVisibility(View.VISIBLE);
     }
 
 
@@ -214,6 +259,15 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
             case 0:
                 requestPick(mGroup1TaskIdView.getText().toString(), mGroup1ContainerIdView.getText().toString());
                 break;
+            case 1:
+                String locationId = mGroup2ConfirmLocationIdView.getText().toString();
+                if (TextUtils.equals(locationId, mPick.getAllocCollectLocationId())) {
+                    fillPickQty();
+                } else {
+                    ToastTool.show(this, "错误的拣货位,请重新扫描");
+                }
+                break;
+
         }
     }
 
@@ -253,7 +307,13 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
                 if (TextUtils.isEmpty(mGroup2ConfirmLocationIdView.getText().toString())) {
                     return;
                 }
-                if (TextUtils.isEmpty(mGroup2Qty.getText().toString())) {
+
+                String qty = mGroup2Qty.getText().toString();
+                if (TextUtils.isEmpty(qty)) {
+                    qty = mGroup2Qty.getHint().toString();
+                }
+
+                if (TextUtils.isEmpty(qty)) {
                     return;
                 }
                 requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup2ConfirmLocationIdView.getText().toString(), mGroup2Qty.getText().toString());

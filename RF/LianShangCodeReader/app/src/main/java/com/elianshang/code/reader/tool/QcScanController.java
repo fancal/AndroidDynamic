@@ -46,13 +46,7 @@ public class QcScanController extends BaseQcController {
     }
 
     public void fillDetailData(QcList.Item item) {
-        int progress;
-        if (submitMap.containsKey(item.getBarCode())) {
-            progress = submitMap.size();
-        } else {
-            progress = submitMap.size() + 1;
-        }
-        String detailProgress = progress + "/" + qcList.size();
+        String detailProgress = getProgress(item.getBarCode());
         String itemName = item.getItemName();
         String itemPackName = item.getPackName();
         String itemQty = String.valueOf(item.getQty());
@@ -81,14 +75,8 @@ public class QcScanController extends BaseQcController {
      * 填充QC列表不存在的商品
      */
     public void fillDetailDataNull(String barCode) {
-        int progress = 0;
-        if (submitMap.containsKey(barCode)) {
-            progress = submitMap.size();
-        } else {
-            progress = submitMap.size() + 1;
-        }
 
-        String detailProgress = progress + "/" + qcList.size();
+        String detailProgress = getProgress(barCode);
         String itemName = "错品(" + barCode + ")";
         String itemPackName = "请按EA查点数量";
         String itemQty = "如果是误扫,请输入0,或不要输入数量";
@@ -111,6 +99,36 @@ public class QcScanController extends BaseQcController {
         }
 
         mQcScanView.fillDetailData(detailProgress, itemName, itemPackName, itemQty, inputQty, inputQtyHint, shoddyQty, shoddyQtyHint);
+    }
+
+
+    private String getProgress(String barCode) {
+        int progress = 0;
+        boolean flag = false;
+
+        for (QcList.Item item : qcList) {
+            if (submitMap.containsKey(item.getBarCode())) {
+                progress++;
+            }
+
+            if (item.getBarCode().equals(barCode)) {
+                flag = true;
+            }
+        }
+        int exception = submitMap.size() - progress;
+        if (!submitMap.containsKey(barCode)) {
+            if (flag) {
+                progress++;
+            } else {
+                exception++;
+            }
+        }
+
+        if (exception > 0) {
+            return progress + "/" + qcList.size() + "  错货:" + exception;
+        } else {
+            return progress + "/" + qcList.size();
+        }
     }
 
     private void noteItem() {

@@ -9,7 +9,11 @@ public class Pick implements BaseBean {
 
     String allocPickLocation;
 
+    String allocPickLocationId;
+
     String allocCollectLocation;
+
+    String allocCollectLocationId;
 
     String allocQty;
 
@@ -45,6 +49,22 @@ public class Pick implements BaseBean {
 
     public void setAllocCollectLocation(String allocCollectLocation) {
         this.allocCollectLocation = allocCollectLocation;
+    }
+
+    public String getAllocPickLocationId() {
+        return allocPickLocationId;
+    }
+
+    public void setAllocPickLocationId(String allocPickLocationId) {
+        this.allocPickLocationId = allocPickLocationId;
+    }
+
+    public String getAllocCollectLocationId() {
+        return allocCollectLocationId;
+    }
+
+    public void setAllocCollectLocationId(String allocCollectLocationId) {
+        this.allocCollectLocationId = allocCollectLocationId;
     }
 
     @Override
