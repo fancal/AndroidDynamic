@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.asyn.HttpAsyncTask;
@@ -45,7 +46,9 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
     private ScanEditTextTool scanEditTextTool;
 
-    private Button detailSubmitButton;
+    protected LinearLayout mainView;
+
+    protected Button submitButton;
 
     protected abstract void fillQcListData();
 
@@ -55,6 +58,10 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
     public BaseQcController(Activity activity) {
         this.activity = activity;
+        init();
+    }
+
+    protected void init(){
         initToolbar();
         initCreateLayout();
         initSubmitButton();
@@ -73,6 +80,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
     private void initCreateLayout() {
         createLayout = activity.findViewById(R.id.create_Layout);
         createContainerIdEditText = (ScanEditText) createLayout.findViewById(R.id.containerId_EditText);
+        mainView = (LinearLayout) activity.findViewById(R.id.qc_main);
 
         scanEditTextTool = new ScanEditTextTool(activity, createContainerIdEditText);
         scanEditTextTool.setComplete(this);
@@ -82,8 +90,8 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
     }
 
     private void initSubmitButton() {
-        detailSubmitButton = (Button) activity.findViewById(R.id.submit_Button);
-        detailSubmitButton.setOnClickListener(this);
+        submitButton = (Button) activity.findViewById(R.id.submit_Button);
+        submitButton.setOnClickListener(this);
     }
 
     private void fillQcList() {
@@ -98,7 +106,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
     @Override
     public final void onClick(View v) {
-        if (detailSubmitButton == v) {
+        if (submitButton == v) {
             onSubmitButtonClick();
         }
     }

@@ -7,11 +7,11 @@ import com.xue.http.hook.BaseBean;
  */
 public class Pick implements BaseBean {
 
-    String allocPickLocation;
+    String allocPickLocationCode;
 
     String allocPickLocationId;
 
-    String allocCollectLocation;
+    String allocCollectLocationCode;
 
     String allocCollectLocationId;
 
@@ -19,12 +19,12 @@ public class Pick implements BaseBean {
 
     String itemId;
 
-    public String getAllocPickLocation() {
-        return allocPickLocation;
+    public String getAllocPickLocationCode() {
+        return allocPickLocationCode;
     }
 
-    public void setAllocPickLocation(String allocPickLocation) {
-        this.allocPickLocation = allocPickLocation;
+    public void setAllocPickLocationCode(String allocPickLocationCode) {
+        this.allocPickLocationCode = allocPickLocationCode;
     }
 
     public String getAllocQty() {
@@ -43,12 +43,12 @@ public class Pick implements BaseBean {
         this.itemId = itemId;
     }
 
-    public String getAllocCollectLocation() {
-        return allocCollectLocation;
+    public String getAllocCollectLocationCode() {
+        return allocCollectLocationCode;
     }
 
-    public void setAllocCollectLocation(String allocCollectLocation) {
-        this.allocCollectLocation = allocCollectLocation;
+    public void setAllocCollectLocationCode(String allocCollectLocationCode) {
+        this.allocCollectLocationCode = allocCollectLocationCode;
     }
 
     public String getAllocPickLocationId() {

@@ -161,9 +161,6 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
 
         mSubmit = (Button) findViewById(R.id.submit_Button);
 
-
-//        mSubmit.setEnabled(false);
-//        mSubmit.setClickable(false);
         mSubmit.setOnClickListener(this);
 
 
@@ -210,30 +207,20 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
                 mGroup1.setVisibility(View.GONE);
                 mGroup2.setVisibility(View.GONE);
                 mGroup3.setVisibility(View.VISIBLE);
-                mSubmit.setVisibility(View.VISIBLE);
+                mSubmit.setVisibility(View.GONE);
 
                 scanEditTextTool = new ScanEditTextTool(this, mGroup3ConfirmCollectionIdView);
                 scanEditTextTool.setComplete(this);
                 break;
         }
     }
-
-    private void fillPick() {
-        switch (mCurPage) {
-            case 1:
-                fillPickLocation();
-
-                break;
-            case 2:
-                mGroup3CollectionIdView.setText(mPick.getAllocCollectLocation());
-                break;
-        }
-    }
-
+    /**
+     * 第二页 确认拣货位
+     */
     private void fillPickLocation() {
         mGroup2HeadTextView.setText("扫描确认拣货位");
 
-        mGroup2LocationIdView.setText(mPick.getAllocPickLocation());
+        mGroup2LocationIdView.setText(mPick.getAllocPickLocationCode());
         mGroup2ConfirmLocationIdView.getText().clear();
         mGroup2AllocQty.setText(mPick.getAllocQty());
         mGroup2Qty.getText().clear();
@@ -243,13 +230,22 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
         mGroup2SystemQtyLayout.setVisibility(View.GONE);
         mGroup2InputQtyLayot.setVisibility(View.GONE);
     }
-
+    /**
+     * 第三页 确认拣货数量
+     */
     private void fillPickQty() {
         mGroup2HeadTextView.setText("确认拣货数量");
 
         mGroup2LocationIdLayout.setVisibility(View.GONE);
         mGroup2SystemQtyLayout.setVisibility(View.VISIBLE);
         mGroup2InputQtyLayot.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 第三页 集货位
+     */
+    private void fillCollection() {
+        mGroup3CollectionIdView.setText(mPick.getAllocCollectLocationCode());
     }
 
 
@@ -261,10 +257,17 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
                 break;
             case 1:
                 String locationId = mGroup2ConfirmLocationIdView.getText().toString();
-                if (TextUtils.equals(locationId, mPick.getAllocCollectLocationId())) {
+                if (TextUtils.equals(locationId, mPick.getAllocPickLocationId())) {
                     fillPickQty();
                 } else {
                     ToastTool.show(this, "错误的拣货位,请重新扫描");
+                }
+                break;
+            case 2:
+                if (TextUtils.equals(mPick.getAllocCollectLocationId(), mGroup3ConfirmCollectionIdView.getText().toString())) {
+                    requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup3ConfirmCollectionIdView.getText().toString(), "");
+                } else {
+                    ToastTool.show(this, "错误的集货位，请重新扫描");
                 }
                 break;
 
@@ -299,34 +302,23 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
     }
 
     private void submit() {
-        switch (mCurPage) {
-            case 1:
-                if (TextUtils.isEmpty(mGroup1TaskIdView.getText().toString())) {
-                    return;
-                }
-                if (TextUtils.isEmpty(mGroup2ConfirmLocationIdView.getText().toString())) {
-                    return;
-                }
+        if (mCurPage == 1) {
+            if (TextUtils.isEmpty(mGroup1TaskIdView.getText().toString())) {
+                return;
+            }
+            if (TextUtils.isEmpty(mGroup2ConfirmLocationIdView.getText().toString())) {
+                return;
+            }
 
-                String qty = mGroup2Qty.getText().toString();
-                if (TextUtils.isEmpty(qty)) {
-                    qty = mGroup2Qty.getHint().toString();
-                }
+            String qty = mGroup2Qty.getText().toString();
+            if (TextUtils.isEmpty(qty)) {
+                qty = mGroup2Qty.getHint().toString();
+            }
 
-                if (TextUtils.isEmpty(qty)) {
-                    return;
-                }
-                requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup2ConfirmLocationIdView.getText().toString(), mGroup2Qty.getText().toString());
-                break;
-            case 2:
-                if (TextUtils.isEmpty(mGroup1TaskIdView.getText().toString())) {
-                    return;
-                }
-                if (TextUtils.isEmpty(mGroup3ConfirmCollectionIdView.getText().toString())) {
-                    return;
-                }
-                requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup3ConfirmCollectionIdView.getText().toString(), "");
-                break;
+            if (TextUtils.isEmpty(qty)) {
+                return;
+            }
+            requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup2ConfirmLocationIdView.getText().toString(), mGroup2Qty.getText().toString());
         }
     }
 
@@ -356,7 +348,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
                 mCurPage = 1;
                 setCurPageView();
             }
-            fillPick();
+            fillPickLocation();
         }
     }
 
@@ -388,13 +380,13 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
                 if (mCurPage != 2) {
                     mCurPage = 2;
                     setCurPageView();
-                    fillPick();
+                    fillPickLocation();
                 } else {
                     ToastTool.show(context, "拣货成功");
                     finish();
                 }
             } else {
-                fillPick();
+                fillCollection();
             }
         }
     }

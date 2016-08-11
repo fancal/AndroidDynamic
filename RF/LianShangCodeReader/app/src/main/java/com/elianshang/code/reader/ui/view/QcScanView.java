@@ -8,10 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.elianshang.code.reader.R;
-import com.elianshang.code.reader.bean.QcList;
-import com.elianshang.code.reader.tool.BaseQcController;
-
-import java.util.HashMap;
 
 /**
  * Created by liuhanzhi on 16/8/9.
@@ -33,10 +29,6 @@ public class QcScanView extends LinearLayout {
     private ContentEditText detailInputQtyEditText;
 
     private ContentEditText detailShoddynQtyEditText;
-
-    private HashMap<String, BaseQcController.CacheQty> submitMap;
-
-    private QcList qcList;
 
     public QcScanView(Context context) {
         super(context);
@@ -70,12 +62,6 @@ public class QcScanView extends LinearLayout {
         detailInputQtyEditText = (ContentEditText) detailLayout.findViewById(R.id.inputQty_EditView);
         detailShoddynQtyEditText = (ContentEditText) detailLayout.findViewById(R.id.shoddyQty_EditView);
 
-    }
-
-    public void fill(QcList qcList, HashMap<String, BaseQcController.CacheQty> submitMap) {
-        this.submitMap = submitMap;
-        this.qcList = qcList;
-        waitLayout.setVisibility(VISIBLE);
     }
 
     public void fillDetailData(String progress, String itemName, String itemPackName, String itemQty, String inputQty, String inputQtyHint, String shoddyQty, String shoddyQtyHint) {

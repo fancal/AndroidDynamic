@@ -169,6 +169,7 @@ public class TransferActivity extends BaseActivity implements ScanEditTextTool.O
         scanEditTextTool.setComplete(this);
 
         mSubmit.setOnClickListener(this);
+        mSubmit.setVisibility(View.GONE);
 
     }
 
@@ -205,11 +206,16 @@ public class TransferActivity extends BaseActivity implements ScanEditTextTool.O
         if (!check) {
             ToastTool.show(this, "库位不一致");
         } else {
-            mLocationView.setVisibility(View.GONE);
-            mItemView.setVisibility(View.VISIBLE);
-            mItemQtyRealView.requestFocus();
-            mTypeNameView.setText("填写转出数量");
-            mItemLocationView.setText("库位：" + mLocationIdView.getText().toString());
+            if (isFrom) {
+                mLocationView.setVisibility(View.GONE);
+                mItemView.setVisibility(View.VISIBLE);
+                mSubmit.setVisibility(View.VISIBLE);
+                mItemQtyRealView.requestFocus();
+                mTypeNameView.setText("填写转出数量");
+                mItemLocationView.setText("库位：" + mLocationIdView.getText().toString());
+            } else {
+                submit();
+            }
         }
     }
 

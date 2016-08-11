@@ -53,22 +53,14 @@
                 android:textSize="20dip" />
         </LinearLayout>
 
-        <com.elianshang.code.reader.ui.view.QcManualView
-            android:id="@+id/manual_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
-        <com.elianshang.code.reader.ui.view.QcScanView
-            android:id="@+id/scan_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
-        <View
+        <LinearLayout
+            android:id="@+id/qc_main"
             android:layout_width="match_parent"
             android:layout_height="@dimen/px_0"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/submit_Button"

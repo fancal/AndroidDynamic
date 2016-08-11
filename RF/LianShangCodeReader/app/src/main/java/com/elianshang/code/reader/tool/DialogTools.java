@@ -210,7 +210,7 @@ public class DialogTools {
     /**
      * QC 异常dialog
      */
-    public static AlertDialog showQcExceptionDialog(Activity context, String title, float qty, float exceptionQty, boolean hasEdit, String button1Text, String button2Text, final DialogInterface.OnClickListener clickListener1,
+    public static AlertDialog showQcExceptionDialog(Activity context, String title, float qty, float exceptionQty, boolean isSetText, String button1Text, String button2Text, final DialogInterface.OnClickListener clickListener1,
                                                     final OnQcPositiveButtonClick clickListener2) {
 
         if (context == null || context.isFinishing()) {
@@ -227,7 +227,7 @@ public class DialogTools {
             barcodeTextView.setText("名称:" + title);
             barcodeTextView.setVisibility(View.VISIBLE);
         }
-        if (hasEdit) {
+        if (isSetText) {
             detailInputQtyEditText.setHint(null);
             detailInputQtyEditText.setText(String.valueOf(qty));
             detailShoddynQtyEditText.setHint(null);
@@ -245,14 +245,23 @@ public class DialogTools {
                 if (null != clickListener2) {
                     String inputQty = detailInputQtyEditText.getText().toString();
                     if (TextUtils.isEmpty(inputQty)) {
-                        inputQty = detailInputQtyEditText.getHint().toString();
+                        if (detailInputQtyEditText.getHint() != null) {
+                            inputQty = detailInputQtyEditText.getHint().toString();
+                        }
                     }
 
                     String shoddyQty = detailShoddynQtyEditText.getText().toString();
                     if (TextUtils.isEmpty(shoddyQty)) {
-                        shoddyQty = detailShoddynQtyEditText.getHint().toString();
+                        if (detailShoddynQtyEditText.getHint() != null) {
+                            shoddyQty = detailShoddynQtyEditText.getHint().toString();
+                        }
                     }
-
+                    if (TextUtils.isEmpty(inputQty)) {
+                        inputQty = "0";
+                    }
+                    if (TextUtils.isEmpty(shoddyQty)) {
+                        inputQty = "0";
+                    }
                     clickListener2.onClick(inputQty, shoddyQty);
                 }
             }

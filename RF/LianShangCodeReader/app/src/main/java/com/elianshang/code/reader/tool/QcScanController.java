@@ -3,8 +3,8 @@ package com.elianshang.code.reader.tool;
 import android.app.Activity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.bean.QcList;
 import com.elianshang.code.reader.ui.view.QcScanView;
 
@@ -24,11 +24,16 @@ public class QcScanController extends BaseQcController {
     }
 
     private void findView() {
-        mQcScanView = (QcScanView) activity.findViewById(R.id.scan_view);
+        mQcScanView = new QcScanView(activity);
 
+        mainView.removeAllViews();
+        mainView.addView(mQcScanView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
     private void findItem(final String barcode) {
+        if (submitButton.getVisibility() != View.VISIBLE) {
+            submitButton.setVisibility(View.VISIBLE);
+        }
         if (mQcScanView.waitLayout.getVisibility() != View.VISIBLE) {
             noteItem();
         }
@@ -163,8 +168,8 @@ public class QcScanController extends BaseQcController {
     protected void fillQcListData() {
 
         mQcScanView.setVisibility(View.VISIBLE);
+        submitButton.setVisibility(View.GONE);
 
-        mQcScanView.fill(qcList, submitMap);
     }
 
     @Override

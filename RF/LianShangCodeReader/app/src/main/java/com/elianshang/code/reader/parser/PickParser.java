@@ -19,8 +19,8 @@ public class PickParser extends MasterParser<Pick> {
             if (data != null) {
                 pick = new Pick();
                 pick.setItemId(optString(data, "itemId"));
-                pick.setAllocPickLocation(optString(data, "allocPickLocation"));
-                pick.setAllocCollectLocation(optString(data, "allocCollectLocation"));
+                pick.setAllocPickLocationCode(optString(data, "allocPickLocation"));
+                pick.setAllocCollectLocationCode(optString(data, "allocCollectLocation"));
                 pick.setAllocQty(optString(data, "allocQty"));
             }
         }

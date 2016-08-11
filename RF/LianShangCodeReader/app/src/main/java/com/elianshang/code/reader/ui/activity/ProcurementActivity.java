@@ -103,7 +103,7 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
     /**
      * from 转出
      */
-    private boolean isTransferFrom;
+    private boolean isFrom;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -138,7 +138,7 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
     }
 
     private void readExtras() {
-        isTransferFrom = getIntent().getBooleanExtra("isFrom", false);
+        isFrom = getIntent().getBooleanExtra("isFrom", false);
         transferDetail = (TaskTransferDetail) getIntent().getSerializableExtra("detail");
     }
 
@@ -164,11 +164,12 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
         mLocationView = findViewById(R.id.location);
         mItemLocationView = (TextView) findViewById(R.id.item_locationId);
 
-        mTypeNameView.setText(isTransferFrom ? "开始补货转出" : "转入到库位");
+        mTypeNameView.setText(isFrom ? "开始补货转出" : "转入到库位");
         scanEditTextTool = new ScanEditTextTool(this, mLocationIdConfirmView);
         scanEditTextTool.setComplete(this);
 
         mSubmit.setOnClickListener(this);
+        mSubmit.setVisibility(View.GONE);
 
     }
 
@@ -180,13 +181,13 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
     }
 
     private void submit() {
-        String qty = isTransferFrom ? mItemQtyRealView.getText().toString() : transferDetail.getUomQty();
+        String qty = isFrom ? mItemQtyRealView.getText().toString() : transferDetail.getUomQty();
         String taskId = transferDetail.getTaskId();
-        String locationId = isTransferFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId();
+        String locationId = isFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId();
         if (TextUtils.isEmpty(qty) || TextUtils.isEmpty(taskId) || TextUtils.isEmpty(locationId)) {
             return;
         }
-        new RequestTransferTask(ProcurementActivity.this, taskId, locationId, qty, isTransferFrom).start();
+        new RequestTransferTask(ProcurementActivity.this, taskId, locationId, qty, isFrom).start();
 
     }
 
@@ -195,33 +196,32 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
         mTaskView.setText("任务ID：" + transferDetail.getTaskId());
         mItemNameView.setText("商品名称：" + transferDetail.getProductName());
         mItemPackNameView.setText("包装单位：" + transferDetail.getProductPackName());
-        mItemQtyView.setText((isTransferFrom ? "商品数量：" : "实际数量：") + transferDetail.getUomQty());
-        mLocationIdView.setText(isTransferFrom ? transferDetail.getFromLocationName() : transferDetail.getToLocationName());
-        mItemQtyRealContainerView.setVisibility(isTransferFrom ? View.VISIBLE : View.GONE);
+        mItemQtyView.setText((isFrom ? "商品数量：" : "实际数量：") + transferDetail.getUomQty());
+        mLocationIdView.setText(isFrom ? transferDetail.getFromLocationName() : transferDetail.getToLocationName());
+        mItemQtyRealContainerView.setVisibility(isFrom ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void onComplete() {
         String scanLocationId = mLocationIdConfirmView.getText().toString();
-        boolean check = TextUtils.equals(isTransferFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId(), scanLocationId);
+        boolean check = TextUtils.equals(isFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId(), scanLocationId);
         if (!check) {
             ToastTool.show(this, "库位不一致");
         } else {
-            mLocationView.setVisibility(View.GONE);
-            mItemView.setVisibility(View.VISIBLE);
-            mTypeNameView.setText("填写转出数量");
-            mItemLocationView.setText("库位：" + mLocationIdView.getText().toString());
-            if (!isTransferFrom) {
-                mSubmit.setEnabled(true);
-                mSubmit.setClickable(true);
+            if (isFrom) {
+                mLocationView.setVisibility(View.GONE);
+                mItemView.setVisibility(View.VISIBLE);
+                mSubmit.setVisibility(View.VISIBLE);
+                mTypeNameView.setText("填写转出数量");
+                mItemLocationView.setText("库位：" + mLocationIdView.getText().toString());
+            } else {
+                submit();
             }
         }
     }
 
     @Override
     public void onError(ContentEditText editText) {
-        mSubmit.setEnabled(false);
-        mSubmit.setClickable(false);
     }
 
     @Override

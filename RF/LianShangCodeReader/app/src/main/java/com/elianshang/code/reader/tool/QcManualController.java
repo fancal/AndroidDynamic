@@ -1,19 +1,25 @@
 package com.elianshang.code.reader.tool;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.bean.QcList;
 import com.elianshang.code.reader.ui.view.QcManualView;
 
 /**
  * Created by liuhanzhi on 16/8/10.
  */
-public class QcManualController extends BaseQcController implements QcManualView.QcManualControllerListener {
+public class QcManualController extends BaseQcController implements QcManualView.QcManualControllerListener, DialogInterface.OnDismissListener {
 
     private QcManualView mQcManualView;
+    /**
+     * 记录弹窗dialog中的商品barcode
+     */
+    private String dialogBarCode;
 
     public QcManualController(Activity activity) {
         super(activity);
@@ -21,9 +27,11 @@ public class QcManualController extends BaseQcController implements QcManualView
     }
 
     private void findView() {
-        mQcManualView = (QcManualView) activity.findViewById(R.id.manual_view);
-
+        mQcManualView = new QcManualView(activity);
         mQcManualView.setListener(this);
+
+        mainView.removeAllViews();
+        mainView.addView(mQcManualView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
 
@@ -91,9 +99,16 @@ public class QcManualController extends BaseQcController implements QcManualView
                 return;
             }
         }
-        DialogTools.showQcExceptionDialog(activity, "错货(" + s + ")", 1, 0, false, "取消", "确认", null, new DialogTools.OnQcPositiveButtonClick() {
+        if (TextUtils.equals(s, dialogBarCode)) {
+            return;
+        }
+        dialogBarCode = s;
+        AlertDialog alertDialog = DialogTools.showQcExceptionDialog(activity, "错货(" + s + ")", 1, 0, false, "取消", "确认", null, new DialogTools.OnQcPositiveButtonClick() {
             @Override
             public void onClick(String inputQty, String shoddyQty) {
+                if (TextUtils.equals(inputQty, "0") && TextUtils.equals(shoddyQty, "0")) {
+                    return;
+                }
                 QcList.Item item = new QcList.Item();
                 item.setBarCode(s);
                 item.setItemName("错货(" + s + ")");
@@ -102,8 +117,10 @@ public class QcManualController extends BaseQcController implements QcManualView
                 noteItem(s, inputQty, shoddyQty);
 
                 mQcManualView.notifySetDataChanged(getProgress());
+                mQcManualView.scrollToPositon(qcList.size() - 1);
             }
         });
+        alertDialog.setOnDismissListener(this);
     }
 
 
@@ -112,6 +129,9 @@ public class QcManualController extends BaseQcController implements QcManualView
         if (isSelect) {
             noteItem(item.getBarCode(), String.valueOf(item.getQty()), "0");
         } else {
+            if (removeMistakeItem(item)) {
+                return;
+            }
             noteItem(item.getBarCode(), null, null);
         }
 
@@ -120,6 +140,10 @@ public class QcManualController extends BaseQcController implements QcManualView
 
     @Override
     public void onExceptionClick(final QcList.Item item, final int position) {
+        if (TextUtils.equals(item.getBarCode(), dialogBarCode)) {
+            return;
+        }
+        dialogBarCode = item.getBarCode();
 
         float qty;
         float exceptionQty;
@@ -134,14 +158,41 @@ public class QcManualController extends BaseQcController implements QcManualView
             exceptionQty = 0;
             hasKey = false;
         }
-        DialogTools.showQcExceptionDialog(activity, item.getItemName(), qty, exceptionQty, hasKey, "取消", "确认", null, new DialogTools.OnQcPositiveButtonClick() {
+        AlertDialog alertDialog = DialogTools.showQcExceptionDialog(activity, item.getItemName(), qty, exceptionQty, hasKey, "取消", "确认", null, new DialogTools.OnQcPositiveButtonClick() {
             @Override
             public void onClick(String inputQty, String shoddyQty) {
+                if (TextUtils.equals(inputQty, "0") && TextUtils.equals(shoddyQty, "0")) {
+                    if (removeMistakeItem(item)) {
+                        return;
+                    }
+                }
                 noteItem(item.getBarCode(), inputQty, shoddyQty);
 
                 mQcManualView.notifyItemChanged(position, getProgress());
             }
         });
+        alertDialog.setOnDismissListener(this);
     }
 
+    /**
+     * 移除错货商品
+     *
+     * @param item
+     * @return
+     */
+    private boolean removeMistakeItem(QcList.Item item) {
+        if (item.getItemName().startsWith("错货")) {//错货商品取消勾选后 从列表中移除改商品
+            qcList.remove(item);
+            submitMap.remove(item.getBarCode());
+
+            mQcManualView.notifySetDataChanged(getProgress());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        dialogBarCode = null;
+    }
 }
