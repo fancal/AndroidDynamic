@@ -37,13 +37,11 @@ public class QcManualController extends BaseQcController implements QcManualView
 
     private void noteItem(String curBarCode, String inputQty, String exceptionQty) {
         if (!TextUtils.isEmpty(inputQty) || !TextUtils.isEmpty(exceptionQty)) {
-            float fiqty = Float.parseFloat(inputQty);
-            float feqty = Float.parseFloat(exceptionQty);
             CacheQty cacheQty = new CacheQty();
-            cacheQty.qty = fiqty;
-            if (feqty != 0) {
-                cacheQty.exceptionQty = feqty;
-                cacheQty.exceptionType = 1;
+            cacheQty.qty = inputQty;
+            if ("0".equals(exceptionQty)) {
+                cacheQty.exceptionQty = exceptionQty;
+                cacheQty.exceptionType = "1";
             }
 
             submitMap.put(curBarCode, cacheQty);
@@ -103,7 +101,7 @@ public class QcManualController extends BaseQcController implements QcManualView
             return;
         }
         dialogBarCode = s;
-        AlertDialog alertDialog = DialogTools.showQcExceptionDialog(activity, "错货(" + s + ")", 1, 0, false, "取消", "确认", null, new DialogTools.OnQcPositiveButtonClick() {
+        AlertDialog alertDialog = DialogTools.showQcExceptionDialog(activity, "错货(" + s + ")", "1", "0", false, "取消", "确认", null, new DialogTools.OnQcPositiveButtonClick() {
             @Override
             public void onClick(String inputQty, String shoddyQty) {
                 if (TextUtils.equals(inputQty, "0") && TextUtils.equals(shoddyQty, "0")) {
@@ -145,8 +143,8 @@ public class QcManualController extends BaseQcController implements QcManualView
         }
         dialogBarCode = item.getBarCode();
 
-        float qty;
-        float exceptionQty;
+        String qty;
+        String exceptionQty;
         boolean hasKey = false;
         if (submitMap.containsKey(item.getBarCode())) {
             CacheQty cacheQty = submitMap.get(item.getBarCode());
@@ -155,7 +153,7 @@ public class QcManualController extends BaseQcController implements QcManualView
             hasKey = true;
         } else {
             qty = item.getQty();
-            exceptionQty = 0;
+            exceptionQty = "0";
             hasKey = false;
         }
         AlertDialog alertDialog = DialogTools.showQcExceptionDialog(activity, item.getItemName(), qty, exceptionQty, hasKey, "取消", "确认", null, new DialogTools.OnQcPositiveButtonClick() {

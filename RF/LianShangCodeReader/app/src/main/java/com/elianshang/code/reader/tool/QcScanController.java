@@ -137,25 +137,16 @@ public class QcScanController extends BaseQcController {
     }
 
     private void noteItem() {
-        String inputQty = mQcScanView.inputQtyText();
-        String exceptionQty = mQcScanView.shoddyQtyText();
+        String inputQty = mQcScanView.getInputQtyValue();
+        String exceptionQty = mQcScanView.getShoddyQtyValue();
 
-        if (TextUtils.isEmpty(inputQty)) {
-            inputQty = mQcScanView.inputQtyHintText();
-        }
-
-        if (TextUtils.isEmpty(exceptionQty)) {
-            exceptionQty = mQcScanView.shoddyQtyHintText();
-        }
 
         if (!TextUtils.isEmpty(inputQty) || !TextUtils.isEmpty(exceptionQty)) {
-            float fiqty = Float.parseFloat(inputQty);
-            float feqty = Float.parseFloat(exceptionQty);
             CacheQty cacheQty = new CacheQty();
-            cacheQty.qty = fiqty;
-            if (feqty != 0) {
-                cacheQty.exceptionQty = feqty;
-                cacheQty.exceptionType = 1;
+            cacheQty.qty = inputQty;
+            if ("0".equals(exceptionQty)) {
+                cacheQty.exceptionQty = exceptionQty;
+                cacheQty.exceptionType = "1";
             }
 
             submitMap.put(curBarCode, cacheQty);

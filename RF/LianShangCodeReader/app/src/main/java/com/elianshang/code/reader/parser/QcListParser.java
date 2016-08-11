@@ -24,10 +24,10 @@ public class QcListParser extends MasterParser<QcList> {
 
                         String itemName = optString(jo, "itemName");
                         String barCode = optString(jo, "code");
-                        float qty = optFloat(jo, "pickQty");
+                        String qty = optString(jo, "pickQty");
                         String packName = optString(jo, "packName");
 
-                        if (!TextUtils.isEmpty(itemName) && !TextUtils.isEmpty(barCode) && qty > 0 && !TextUtils.isEmpty(packName)) {
+                        if (!TextUtils.isEmpty(itemName) && !TextUtils.isEmpty(barCode) && !TextUtils.isEmpty(packName)) {
                             QcList.Item item = new QcList.Item();
 
                             item.setBarCode(barCode);

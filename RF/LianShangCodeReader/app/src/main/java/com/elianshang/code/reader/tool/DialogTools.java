@@ -210,7 +210,7 @@ public class DialogTools {
     /**
      * QC 异常dialog
      */
-    public static AlertDialog showQcExceptionDialog(Activity context, String title, float qty, float exceptionQty, boolean isSetText, String button1Text, String button2Text, final DialogInterface.OnClickListener clickListener1,
+    public static AlertDialog showQcExceptionDialog(Activity context, String title, String qty, String exceptionQty, boolean isSetText, String button1Text, String button2Text, final DialogInterface.OnClickListener clickListener1,
                                                     final OnQcPositiveButtonClick clickListener2) {
 
         if (context == null || context.isFinishing()) {

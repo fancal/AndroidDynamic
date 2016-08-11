@@ -26,9 +26,9 @@ public class QcScanView extends LinearLayout {
 
     private TextView detailQtyTextView;
 
-    private ContentEditText detailInputQtyEditText;
+    private QtyEditText detailInputQtyEditText;
 
-    private ContentEditText detailShoddynQtyEditText;
+    private QtyEditText detailShoddynQtyEditText;
 
     public QcScanView(Context context) {
         super(context);
@@ -59,8 +59,8 @@ public class QcScanView extends LinearLayout {
         detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);
         detailPackNameTextView = (TextView) detailLayout.findViewById(R.id.packName_TextView);
         detailQtyTextView = (TextView) detailLayout.findViewById(R.id.qty_TextView);
-        detailInputQtyEditText = (ContentEditText) detailLayout.findViewById(R.id.inputQty_EditView);
-        detailShoddynQtyEditText = (ContentEditText) detailLayout.findViewById(R.id.shoddyQty_EditView);
+        detailInputQtyEditText = (QtyEditText) detailLayout.findViewById(R.id.inputQty_EditView);
+        detailShoddynQtyEditText = (QtyEditText) detailLayout.findViewById(R.id.shoddyQty_EditView);
 
     }
 
@@ -80,32 +80,12 @@ public class QcScanView extends LinearLayout {
         detailInputQtyEditText.requestFocus();
     }
 
-    public String inputQtyText() {
-        if (detailInputQtyEditText == null || detailInputQtyEditText.getText() == null) {
-            return null;
-        }
-        return detailInputQtyEditText.getText().toString();
+    public String getInputQtyValue() {
+        return detailInputQtyEditText.getValue();
     }
 
-    public String inputQtyHintText() {
-        if (detailInputQtyEditText == null || detailInputQtyEditText.getHint() == null) {
-            return null;
-        }
-        return detailInputQtyEditText.getHint().toString();
-    }
-
-    public String shoddyQtyText() {
-        if (detailShoddynQtyEditText == null || detailShoddynQtyEditText.getText() == null) {
-            return null;
-        }
-        return detailShoddynQtyEditText.getText().toString();
-    }
-
-    public String shoddyQtyHintText() {
-        if (detailShoddynQtyEditText == null || detailShoddynQtyEditText.getHint() == null) {
-            return null;
-        }
-        return detailShoddynQtyEditText.getHint().toString();
+    public String getShoddyQtyValue() {
+        return detailShoddynQtyEditText.getValue();
     }
 
 }

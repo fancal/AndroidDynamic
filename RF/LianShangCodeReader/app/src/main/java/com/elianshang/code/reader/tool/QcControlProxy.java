@@ -17,7 +17,7 @@ public class QcControlProxy extends BaseQcController {
     @Override
     protected void releaseCreateLayout() {
         super.releaseCreateLayout();
-        int type = 2;
+        int type = 1;
         if (type == 1) {
             baseQcController = new QcScanController(activity);
 

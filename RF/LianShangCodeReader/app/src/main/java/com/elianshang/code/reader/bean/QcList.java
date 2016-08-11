@@ -27,7 +27,7 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
 
         String packName;
 
-        float qty;
+        String qty;
 
         public String getPackName() {
             return packName;
@@ -53,11 +53,11 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
             this.barCode = barCode;
         }
 
-        public float getQty() {
+        public String getQty() {
             return qty;
         }
 
-        public void setQty(float qty) {
+        public void setQty(String qty) {
             this.qty = qty;
         }
     }

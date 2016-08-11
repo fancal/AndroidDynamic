@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -61,7 +62,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
         init();
     }
 
-    protected void init(){
+    protected void init() {
         initToolbar();
         initCreateLayout();
         initSubmitButton();
@@ -173,7 +174,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
             for (QcList.Item item : qcList) {
                 if (!submitMap.containsKey(item.getBarCode())) {
                     CacheQty cacheQty = new CacheQty();
-                    cacheQty.qty = 0;
+                    cacheQty.qty = "0";
 
                     allMap.put(item.getBarCode(), cacheQty);
                 }
@@ -186,7 +187,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("code", entry.getKey());
                 jsonObject.put("qty", entry.getValue().qty);
-                if (entry.getValue().exceptionQty != 0 && entry.getValue().exceptionType != 0) {
+                if (!"0".equals(entry.getValue().exceptionQty) && !TextUtils.isEmpty(entry.getValue().exceptionQty) && !TextUtils.isEmpty(entry.getValue().exceptionType)) {
                     jsonObject.put("exceptionType", entry.getValue().exceptionType);
                     jsonObject.put("exceptionQty", entry.getValue().exceptionQty);
                 }
@@ -206,11 +207,11 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
      */
     public static class CacheQty {
 
-        public float qty;
+        public String qty;
 
-        public int exceptionType;
+        public String exceptionType;
 
-        public float exceptionQty;
+        public String exceptionQty;
     }
 
     /**
