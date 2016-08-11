@@ -1,4 +1,4 @@
-package com.elianshang.code.reader.tool;
+package com.elianshang.code.reader.ui.controller;
 
 import android.app.Activity;
 import android.text.TextUtils;
@@ -144,7 +144,7 @@ public class QcScanController extends BaseQcController {
         if (!TextUtils.isEmpty(inputQty) || !TextUtils.isEmpty(exceptionQty)) {
             CacheQty cacheQty = new CacheQty();
             cacheQty.qty = inputQty;
-            if ("0".equals(exceptionQty)) {
+            if (!"0".equals(exceptionQty)) {
                 cacheQty.exceptionQty = exceptionQty;
                 cacheQty.exceptionType = "1";
             }

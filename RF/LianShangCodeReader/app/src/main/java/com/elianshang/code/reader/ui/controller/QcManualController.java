@@ -1,4 +1,4 @@
-package com.elianshang.code.reader.tool;
+package com.elianshang.code.reader.ui.controller;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.elianshang.code.reader.bean.QcList;
+import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.ui.view.QcManualView;
 
 /**
@@ -39,7 +40,7 @@ public class QcManualController extends BaseQcController implements QcManualView
         if (!TextUtils.isEmpty(inputQty) || !TextUtils.isEmpty(exceptionQty)) {
             CacheQty cacheQty = new CacheQty();
             cacheQty.qty = inputQty;
-            if ("0".equals(exceptionQty)) {
+            if (!"0".equals(exceptionQty)) {
                 cacheQty.exceptionQty = exceptionQty;
                 cacheQty.exceptionType = "1";
             }
@@ -111,6 +112,7 @@ public class QcManualController extends BaseQcController implements QcManualView
                 item.setBarCode(s);
                 item.setItemName("错货(" + s + ")");
                 item.setPackName("EA");
+                item.setQty("无");
                 qcList.add(item);
                 noteItem(s, inputQty, shoddyQty);
 

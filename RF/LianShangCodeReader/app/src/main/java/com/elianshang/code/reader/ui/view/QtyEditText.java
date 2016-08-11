@@ -14,7 +14,7 @@ public class QtyEditText extends ContentEditText {
 
     String ruleInteger = "^[0-9]\\d*$";
 
-    String ruleFloat = "^\\d*.\\d*$";
+    String ruleFloat = "^\\d*[.]\\d*$";
 
     public QtyEditText(Context context) {
         super(context);
@@ -53,13 +53,15 @@ public class QtyEditText extends ContentEditText {
     public String getValue() {
         String value = null;
         Editable editable = getText();
-        if (editable == null) {
+        if (editable != null) {
+            value = editable.toString();
+        }
+
+        if(TextUtils.isEmpty(value)){
             CharSequence charSequence = getHint();
             if (charSequence != null) {
                 value = charSequence.toString();
             }
-        } else {
-            value = editable.toString();
         }
 
         int type = 0;

@@ -1,4 +1,4 @@
-package com.elianshang.code.reader.tool;
+package com.elianshang.code.reader.ui.controller;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +15,9 @@ import com.elianshang.code.reader.bean.QcCreate;
 import com.elianshang.code.reader.bean.QcList;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.http.HttpApi;
+import com.elianshang.code.reader.tool.DialogTools;
+import com.elianshang.code.reader.tool.ScanEditTextTool;
+import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.view.ContentEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.xue.http.impl.DataHull;
@@ -207,11 +210,11 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
      */
     public static class CacheQty {
 
-        public String qty;
+        public String qty = "0";
 
         public String exceptionType;
 
-        public String exceptionQty;
+        public String exceptionQty = "0";
     }
 
     /**

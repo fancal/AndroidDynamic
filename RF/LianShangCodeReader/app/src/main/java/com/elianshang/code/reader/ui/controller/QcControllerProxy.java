@@ -1,15 +1,15 @@
-package com.elianshang.code.reader.tool;
+package com.elianshang.code.reader.ui.controller;
 
 import android.app.Activity;
 
 /**
  * Created by liuhanzhi on 16/8/10.
  */
-public class QcControlProxy extends BaseQcController {
+public class QcControllerProxy extends BaseQcController {
 
     BaseQcController baseQcController;
 
-    public QcControlProxy(Activity activity) {
+    public QcControllerProxy(Activity activity) {
         super(activity);
     }
 
@@ -17,7 +17,7 @@ public class QcControlProxy extends BaseQcController {
     @Override
     protected void releaseCreateLayout() {
         super.releaseCreateLayout();
-        int type = 1;
+        int type = 2;
         if (type == 1) {
             baseQcController = new QcScanController(activity);
 

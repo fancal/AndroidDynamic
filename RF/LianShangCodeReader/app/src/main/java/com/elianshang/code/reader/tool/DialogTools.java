@@ -11,11 +11,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.elianshang.code.reader.R;
+import com.elianshang.code.reader.ui.view.QtyEditText;
 import com.elianshang.code.reader.ui.widget.CircleProgressBar;
 import com.elianshang.tools.UITool;
 
@@ -220,8 +220,8 @@ public class DialogTools {
 
         LayoutInflater inflater = context.getLayoutInflater();
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_qc_exception, null);
-        final EditText detailInputQtyEditText = (EditText) layout.findViewById(R.id.inputQty_EditView);
-        final EditText detailShoddynQtyEditText = (EditText) layout.findViewById(R.id.shoddyQty_EditView);
+        final QtyEditText detailInputQtyEditText = (QtyEditText) layout.findViewById(R.id.inputQty_EditView);
+        final QtyEditText detailShoddynQtyEditText = (QtyEditText) layout.findViewById(R.id.shoddyQty_EditView);
         if (!TextUtils.isEmpty(title)) {
             TextView barcodeTextView = (TextView) layout.findViewById(R.id.title_barcode);
             barcodeTextView.setText("名称:" + title);
@@ -243,25 +243,8 @@ public class DialogTools {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (null != clickListener2) {
-                    String inputQty = detailInputQtyEditText.getText().toString();
-                    if (TextUtils.isEmpty(inputQty)) {
-                        if (detailInputQtyEditText.getHint() != null) {
-                            inputQty = detailInputQtyEditText.getHint().toString();
-                        }
-                    }
-
-                    String shoddyQty = detailShoddynQtyEditText.getText().toString();
-                    if (TextUtils.isEmpty(shoddyQty)) {
-                        if (detailShoddynQtyEditText.getHint() != null) {
-                            shoddyQty = detailShoddynQtyEditText.getHint().toString();
-                        }
-                    }
-                    if (TextUtils.isEmpty(inputQty)) {
-                        inputQty = "0";
-                    }
-                    if (TextUtils.isEmpty(shoddyQty)) {
-                        inputQty = "0";
-                    }
+                    String inputQty = detailInputQtyEditText.getValue();
+                    String shoddyQty = detailShoddynQtyEditText.getValue();
                     clickListener2.onClick(inputQty, shoddyQty);
                 }
             }

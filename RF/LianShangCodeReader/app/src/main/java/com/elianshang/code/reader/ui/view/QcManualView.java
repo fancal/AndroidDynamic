@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.bean.QcList;
-import com.elianshang.code.reader.tool.BaseQcController;
+import com.elianshang.code.reader.ui.controller.BaseQcController;
 
 import java.util.HashMap;
 
