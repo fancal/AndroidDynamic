@@ -18,7 +18,19 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center"
+            android:text="查询发车码头"
+            android:textSize="20dip" />
 
         <TextView
             android:layout_width="match_parent"
@@ -42,12 +54,19 @@
         android:orientation="vertical"
         android:visibility="gone">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center"
+            android:text="移货到发货码头"
+            android:textSize="20dip" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dip_10"
-            android:layout_marginTop="20dp"
             android:text="码头:"
             android:textSize="@dimen/dip_20" />
 
@@ -57,7 +76,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dip_10"
             android:layout_marginTop="5dp"
-            android:text="11111111"
             android:textColor="#ffff0000"
             android:textSize="@dimen/dip_30" />
 
