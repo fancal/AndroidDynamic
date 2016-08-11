@@ -78,6 +78,7 @@ public class QcManualView extends LinearLayout {
             mAdapter = new MyAdapter();
         }
         mRecyclerView.setAdapter(mAdapter);
+
     }
 
     public void notifySetDataChanged() {
@@ -95,6 +96,10 @@ public class QcManualView extends LinearLayout {
         if (mAdapter != null) {
             mAdapter.notifyItemChanged(position);
         }
+    }
+
+    public void scrollToPositon(int position){
+        mRecyclerView.smoothScrollToPosition(position);
     }
 
     private class MyAdapter extends RecyclerView.Adapter<ViewHolder> {

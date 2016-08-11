@@ -61,6 +61,12 @@ public class QcManualController extends BaseQcController implements QcManualView
 
     @Override
     protected void onScan(final String s) {
+        for (int i = 0; i < qcList.size(); i++) {
+            if (TextUtils.equals(qcList.get(i).getBarCode(), s)) {
+                mQcManualView.scrollToPositon(i);
+                return;
+            }
+        }
         DialogTools.showQcExceptionDialog(activity, "错货(" + s + ")", 1, 0, false, "取消", "确认", null, new DialogTools.OnQcPositiveButtonClick() {
             @Override
             public void onClick(String inputQty, String shoddyQty) {
