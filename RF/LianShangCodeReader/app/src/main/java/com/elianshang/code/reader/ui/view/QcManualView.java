@@ -67,6 +67,8 @@ public class QcManualView extends LinearLayout {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL, 1, R.color.grey_light));
+
     }
 
     public void fill(QcList qcList, HashMap<String, BaseQcController.CacheQty> submitMap) {
@@ -86,10 +88,11 @@ public class QcManualView extends LinearLayout {
 
     /**
      * 刷新某一条数据
+     *
      * @param position
      */
-    public void notifyItemChanged(int position){
-        if(mAdapter != null){
+    public void notifyItemChanged(int position) {
+        if (mAdapter != null) {
             mAdapter.notifyItemChanged(position);
         }
     }
@@ -104,7 +107,7 @@ public class QcManualView extends LinearLayout {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.fill(qcList.get(position));
+            holder.fill(qcList.get(position), position);
         }
 
         @Override
@@ -131,6 +134,8 @@ public class QcManualView extends LinearLayout {
 
         QcList.Item item;
 
+        int position;
+
         public ViewHolder(View itemView) {
             super(itemView);
             mCheckBox = (CheckBox) itemView.findViewById(R.id.checkbox);
@@ -142,8 +147,9 @@ public class QcManualView extends LinearLayout {
             mCheckBox.setOnClickListener(this);
         }
 
-        public void fill(QcList.Item item) {
+        public void fill(QcList.Item item, int position) {
             this.item = item;
+            this.position = position;
             mItemName.setText(item.getItemName());
             mItemPack.setText(item.getPackName());
             StringBuilder qtyText = new StringBuilder(String.valueOf(item.getQty()));
@@ -162,11 +168,11 @@ public class QcManualView extends LinearLayout {
         public void onClick(View v) {
             if (v == mException) {
                 if (listener != null) {
-                    listener.onExceptionClick(item);
+                    listener.onExceptionClick(item, position);
                 }
             } else if (v == mCheckBox) {
                 if (listener != null) {
-                    listener.onItemSelect(item, mCheckBox.isChecked());
+                    listener.onItemSelect(item, position, mCheckBox.isChecked());
                 }
             }
         }
@@ -174,9 +180,9 @@ public class QcManualView extends LinearLayout {
 
     public interface QcManualControllerListener {
 
-        void onItemSelect(QcList.Item item, boolean isSelect);
+        void onItemSelect(QcList.Item item, int position, boolean isSelect);
 
-        void onExceptionClick(QcList.Item item);
+        void onExceptionClick(QcList.Item item, int position);
 
     }
 }

@@ -78,16 +78,17 @@ public class QcManualController extends BaseQcController implements QcManualView
 
 
     @Override
-    public void onItemSelect(QcList.Item item, boolean isSelect) {
+    public void onItemSelect(QcList.Item item, int position, boolean isSelect) {
         if (isSelect) {
             noteItem(item.getBarCode(), String.valueOf(item.getQty()), "0");
         } else {
             noteItem(item.getBarCode(), null, null);
         }
+        mQcManualView.notifyItemChanged(position);
     }
 
     @Override
-    public void onExceptionClick(final QcList.Item item) {
+    public void onExceptionClick(final QcList.Item item, final int position) {
 
         float qty;
         float exceptionQty;
@@ -102,12 +103,12 @@ public class QcManualController extends BaseQcController implements QcManualView
             exceptionQty = 0;
             hasKey = false;
         }
-        DialogTools.showQcExceptionDialog(activity, null, qty, exceptionQty, hasKey, "取消", "确认", null, new DialogTools.OnQcPositiveButtonClick() {
+        DialogTools.showQcExceptionDialog(activity, item.getItemName(), qty, exceptionQty, hasKey, "取消", "确认", null, new DialogTools.OnQcPositiveButtonClick() {
             @Override
             public void onClick(String inputQty, String shoddyQty) {
                 noteItem(item.getBarCode(), inputQty, shoddyQty);
 
-                mQcManualView.notifySetDataChanged();
+                mQcManualView.notifyItemChanged(position);
             }
         });
     }
