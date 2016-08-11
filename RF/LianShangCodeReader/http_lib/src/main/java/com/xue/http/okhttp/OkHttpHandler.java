@@ -62,23 +62,24 @@ public final class OkHttpHandler<B extends BaseBean> extends HttpHandler<OkHttpP
         requestBuilder.url(baseUrl);
         params.buildHeader(requestBuilder);
         params.buildParameter(requestBuilder);
+        return "{\"head\":{\"status\":1,\"message\":\"success.\",\"timestamp\":\"20160810190219\"},\"body\":{\"type\":1,\"qcList\":[{\"itemName\":\"aa1\",\"code\":\"131123131\",\"pickQty\":\"4\",\"packName\":\"H24\"},{\"itemName\":\"aa1\",\"code\":\"13123131\",\"pickQty\":\"4\",\"packName\":\"H24\"}]}}";
 
-        Response response = okHttpClient.newCall(requestBuilder.build()).execute();
-        if (response.isSuccessful()) {
-            String data = response.body().string();
-            response.body().close();
-            return data;
-        } else {
-            if (response.body() != null) {
-                String data = response.body().string();
-                HttpLogTool.log("code:" + response.code() + " ,data:" + data);
-                response.body().close();
-            }
-        }
+//        Response response = okHttpClient.newCall(requestBuilder.build()).execute();
+//        if (response.isSuccessful()) {
+//            String data = response.body().string();
+//            response.body().close();
+//            return data;
+//        } else {
+//            if (response.body() != null) {
+//                String data = response.body().string();
+//                HttpLogTool.log("code:" + response.code() + " ,data:" + data);
+//                response.body().close();
+//            }
+//        }
+//
+//        code = response.code();
 
-        code = response.code();
-
-        throw new ResponseException();
+//        throw new ResponseException();
     }
 
     @Override
