@@ -23,6 +23,7 @@ import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.elianshang.code.reader.ui.view.ContentEditText;
+import com.elianshang.code.reader.ui.view.QtyEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.xue.http.impl.DataHull;
 
@@ -252,7 +253,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
         View view = View.inflate(this, R.layout.takestock_input_item, null);
 
         ScanEditText nameEditText = (ScanEditText) view.findViewById(R.id.barcode_edittext);
-        ContentEditText qtyEditText = (ContentEditText) view.findViewById(R.id.realityqty_edittext);
+        QtyEditText qtyEditText = (QtyEditText) view.findViewById(R.id.realityqty_edittext);
 
         scanEditTextTool.addEditText(nameEditText, qtyEditText);
 
@@ -292,18 +293,14 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
 
             for (ViewHolder vh : vhList) {
                 String barCode = vh.nameEditText.getText().toString();
-                String qty = vh.qtyEditText.getText().toString();
+                String qty = vh.qtyEditText.getValue();
 
                 if (TextUtils.isEmpty(barCode) || TextUtils.isEmpty(qty)) {
                     state = false;
                 } else {
                     JSONObject jso = new JSONObject();
                     jso.put("barcode", barCode);
-                    float fqty = 0;
-                    if (!TextUtils.isEmpty(qty)) {
-                        fqty = Float.parseFloat(qty);
-                    }
-                    jso.put("qty", fqty);
+                    jso.put("qty", qty);
                     jsonarray.put(jso);
                 }
             }
@@ -346,7 +343,7 @@ public class TakeStockActivity extends BaseActivity implements ScanManager.OnBar
 
     private class ViewHolder {
         ScanEditText nameEditText;
-        ContentEditText qtyEditText;
+        QtyEditText qtyEditText;
     }
 
     /**

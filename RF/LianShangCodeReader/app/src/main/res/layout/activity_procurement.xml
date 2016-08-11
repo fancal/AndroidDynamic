@@ -100,7 +100,7 @@
                     android:text="实际数量:"
                     android:textSize="20dip" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <android.support.v7.widget.QtyEditText
                     android:id="@+id/item_qty_real"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

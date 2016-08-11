@@ -22,6 +22,7 @@ import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.elianshang.code.reader.ui.view.ContentEditText;
+import com.elianshang.code.reader.ui.view.QtyEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.xue.http.impl.DataHull;
 
@@ -70,7 +71,7 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
     /**
      * 详情布局 数量输入框
      */
-    private ContentEditText detailInputQtyEditText;
+    private QtyEditText detailInputQtyEditText;
 
     /**
      * 详情布局 提交按钮
@@ -123,7 +124,7 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
         detailLayout = findViewById(R.id.detail_Layout);
         detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);
         detailPackNameTextView = (TextView) detailLayout.findViewById(R.id.packName_TextView);
-        detailInputQtyEditText = (ContentEditText) detailLayout.findViewById(R.id.inputQty_EditView);
+        detailInputQtyEditText = (QtyEditText) detailLayout.findViewById(R.id.inputQty_EditView);
         detailSubmitButton = (Button) findViewById(R.id.submit_Button);
 
         detailSubmitButton.setOnClickListener(this);
@@ -197,7 +198,7 @@ public class CreateScrapActivity extends BaseActivity implements ScanEditTextToo
     private void submit() {
         String locationId = createLocationIdEditText.getText().toString();
         String barCode = createBarCodeEditText.getText().toString();
-        String qty = detailInputQtyEditText.getText().toString();
+        String qty = detailInputQtyEditText.getValue();
 
         if (TextUtils.isEmpty(locationId)) {
             return;

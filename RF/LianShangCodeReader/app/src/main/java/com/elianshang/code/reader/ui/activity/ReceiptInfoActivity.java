@@ -24,6 +24,7 @@ import com.elianshang.code.reader.tool.DateKeyboardUtil;
 import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.elianshang.code.reader.ui.view.ContentEditText;
+import com.elianshang.code.reader.ui.view.QtyEditText;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;
@@ -81,7 +82,7 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
     /**
      * 实际数量输入框
      */
-    private ContentEditText inboundQtyEditView;
+    private QtyEditText inboundQtyEditView;
 
     /**
      * 批次号布局
@@ -137,7 +138,7 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
         packUnitTextView = (TextView) findViewById(R.id.packUnit_TextView);
         orderQtyTextView = (TextView) findViewById(R.id.orderQty_TextView);
-        inboundQtyEditView = (ContentEditText) findViewById(R.id.inboundQty_EditView);
+        inboundQtyEditView = (QtyEditText) findViewById(R.id.inboundQty_EditView);
         lotNumLayout = findViewById(R.id.lotNum_Layout);
         lotNumEditText = (ContentEditText) findViewById(R.id.lotNum_EditText);
         submitButton = (Button) findViewById(R.id.submit_Button);
@@ -178,6 +179,7 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
         packUnitTextView.setText(receiptInfo.getPackUnit());
         orderQtyTextView.setText(String.valueOf(receiptInfo.getOrderQty()));
         inboundQtyEditView.setHint(String.valueOf(receiptInfo.getOrderQty()));
+        inboundQtyEditView.setText(null);
 
         if ("1".equals(receiptInfo.getBatchNeeded())) {
             lotNumLayout.setVisibility(View.VISIBLE);
@@ -231,10 +233,7 @@ public class ReceiptInfoActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
-        String inboundQty = inboundQtyEditView.getText().toString();
-        if (TextUtils.isEmpty(inboundQty)) {
-            inboundQty = inboundQtyEditView.getHint().toString();
-        }
+        String inboundQty = inboundQtyEditView.getValue();
         String year = mEditYear.getText().toString();
         String month = mEditMonth.getText().toString();
         String day = mEditDay.getText().toString();

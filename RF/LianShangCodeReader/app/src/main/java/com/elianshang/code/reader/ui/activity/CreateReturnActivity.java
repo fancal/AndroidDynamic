@@ -22,6 +22,7 @@ import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.elianshang.code.reader.ui.view.ContentEditText;
+import com.elianshang.code.reader.ui.view.QtyEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
@@ -71,7 +72,7 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
     /**
      * 详情布局 数量输入框
      */
-    private ContentEditText detailInputQtyEditText;
+    private QtyEditText detailInputQtyEditText;
 
     /**
      * 详情布局 提交按钮
@@ -124,7 +125,7 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
         detailLayout = findViewById(R.id.detail_Layout);
         detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);
         detailPackNameTextView = (TextView) detailLayout.findViewById(R.id.packName_TextView);
-        detailInputQtyEditText = (ContentEditText) detailLayout.findViewById(R.id.inputQty_EditView);
+        detailInputQtyEditText = (QtyEditText) detailLayout.findViewById(R.id.inputQty_EditView);
         detailSubmitButton = (Button) findViewById(R.id.submit_Button);
 
         detailSubmitButton.setOnClickListener(this);
@@ -201,11 +202,7 @@ public class CreateReturnActivity extends BaseActivity implements ScanEditTextTo
     private void submit() {
         String locationId = createLocationIdEditText.getText().toString();
         String barCode = createBarCodeEditText.getText().toString();
-        String qty = detailInputQtyEditText.getText().toString();
-
-        if (TextUtils.isEmpty(qty)) {
-            qty = detailInputQtyEditText.getHint().toString();
-        }
+        String qty = detailInputQtyEditText.getValue();
 
         if (TextUtils.isEmpty(locationId)) {
             ToastTool.show(this, "请输入正确的库位");

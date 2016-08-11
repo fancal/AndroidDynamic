@@ -116,7 +116,7 @@
                         android:text="实收数量:"
                         android:textSize="20dip" />
 
-                    <com.elianshang.code.reader.ui.view.ContentEditText
+                    <com.elianshang.code.reader.ui.view.QtyEditText
                         android:id="@+id/inboundQty_EditView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

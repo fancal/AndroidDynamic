@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.elianshang.code.reader.BaseApplication;
@@ -24,6 +23,7 @@ import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.elianshang.code.reader.ui.view.ContentEditText;
+import com.elianshang.code.reader.ui.view.QtyEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
@@ -64,7 +64,7 @@ public class TransferActivity extends BaseActivity implements ScanEditTextTool.O
     /**
      * 实际数量
      */
-    private EditText mItemQtyRealView;
+    private QtyEditText mItemQtyRealView;
     /**
      * 实际数量  容器View
      */
@@ -154,7 +154,7 @@ public class TransferActivity extends BaseActivity implements ScanEditTextTool.O
         mItemNameView = (TextView) findViewById(R.id.item_name);
         mItemPackNameView = (TextView) findViewById(R.id.item_pack_name);
         mItemQtyView = (TextView) findViewById(R.id.item_qty);
-        mItemQtyRealView = (EditText) findViewById(R.id.item_qty_real);
+        mItemQtyRealView = (QtyEditText) findViewById(R.id.item_qty_real);
         mItemQtyRealContainerView = findViewById(R.id.item_qty_real_container);
         mLocationIdView = (TextView) findViewById(R.id.location_id);
         mLocationIdConfirmView = (ScanEditText) findViewById(R.id.confirm_location_id);
@@ -181,7 +181,7 @@ public class TransferActivity extends BaseActivity implements ScanEditTextTool.O
     }
 
     private void submit() {
-        String qty = isFrom ? mItemQtyRealView.getText().toString() : detail.getUomQty();
+        String qty = isFrom ? mItemQtyRealView.getValue() : detail.getUomQty();
         String taskId = detail.getTaskId();
         String locationId = isFrom ? detail.getFromLocationId() : detail.getToLocationId();
         if (TextUtils.isEmpty(qty) || TextUtils.isEmpty(taskId) || TextUtils.isEmpty(locationId)) {

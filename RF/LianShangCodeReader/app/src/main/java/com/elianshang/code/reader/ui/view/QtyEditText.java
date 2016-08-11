@@ -77,8 +77,8 @@ public class QtyEditText extends ContentEditText {
         } else if (type == 2) {
             aft = value.replaceAll("0*(\\d+)", "$1");
             aft = aft.replaceAll("0+?$", "");//去掉多余的0
-            aft = aft.replaceAll("[.]$", "");
-            aft = aft.replaceAll("^[.]", "0.");
+            aft = aft.replaceAll("[.]$", "");//去掉多余的.
+            aft = aft.replaceAll("^[.]", "0.");//开口的点加0
 
         } else {
             aft = "0";

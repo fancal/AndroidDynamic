@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.elianshang.code.reader.BaseApplication;
@@ -22,6 +21,7 @@ import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.elianshang.code.reader.ui.view.ContentEditText;
+import com.elianshang.code.reader.ui.view.QtyEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
@@ -79,7 +79,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
     /**
      * 第二页 实际输入数量
      */
-    private EditText mGroup2Qty;
+    private QtyEditText mGroup2Qty;
 
     /**
      * 第二页 确认库位布局
@@ -151,7 +151,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
         mGroup2LocationIdView = (TextView) mGroup2.findViewById(R.id.location_id);
         mGroup2ConfirmLocationIdView = (ScanEditText) mGroup2.findViewById(R.id.confirm_location_id);
         mGroup2AllocQty = (TextView) mGroup2.findViewById(R.id.allocQty_TextView);
-        mGroup2Qty = (EditText) mGroup2.findViewById(R.id.inputQty_EditView);
+        mGroup2Qty = (QtyEditText) mGroup2.findViewById(R.id.inputQty_EditView);
         mGroup2LocationIdLayout = mGroup2.findViewById(R.id.locationId_Layout);
         mGroup2SystemQtyLayout = mGroup2.findViewById(R.id.systemQty_Layout);
         mGroup2InputQtyLayot = mGroup2.findViewById(R.id.inputQty_Layout);
@@ -214,6 +214,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
                 break;
         }
     }
+
     /**
      * 第二页 确认拣货位
      */
@@ -230,6 +231,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
         mGroup2SystemQtyLayout.setVisibility(View.GONE);
         mGroup2InputQtyLayot.setVisibility(View.GONE);
     }
+
     /**
      * 第三页 确认拣货数量
      */
@@ -310,15 +312,12 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
                 return;
             }
 
-            String qty = mGroup2Qty.getText().toString();
-            if (TextUtils.isEmpty(qty)) {
-                qty = mGroup2Qty.getHint().toString();
-            }
+            String qty = mGroup2Qty.getValue();
 
             if (TextUtils.isEmpty(qty)) {
                 return;
             }
-            requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup2ConfirmLocationIdView.getText().toString(), mGroup2Qty.getText().toString());
+            requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup2ConfirmLocationIdView.getText().toString(), qty);
         }
     }
 
