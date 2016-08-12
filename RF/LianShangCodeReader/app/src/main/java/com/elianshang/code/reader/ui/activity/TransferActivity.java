@@ -5,114 +5,61 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.asyn.HttpAsyncTask;
-import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.TaskTransfer;
 import com.elianshang.code.reader.bean.TaskTransferDetail;
 import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.tool.DialogTools;
-import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
-import com.elianshang.code.reader.ui.view.ContentEditText;
-import com.elianshang.code.reader.ui.view.QtyEditText;
-import com.elianshang.code.reader.ui.view.ScanEditText;
+import com.elianshang.code.reader.ui.controller.TransferController;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
 
 /**
  * Created by liuhanzhi on 16/8/3. 移库
  */
-public class TransferActivity extends BaseActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class TransferActivity extends BaseActivity implements ScanManager.OnBarCodeListener {
 
     public static void launch(Context context) {
         new FetchTransferTask(context).start();
     }
 
-    private static void launchInner(Context context, TaskTransferDetail detail, boolean isFrom) {
+    private static void launchInner(Context context, String taskId) {
         Intent intent = new Intent(context, TransferActivity.class);
-        intent.putExtra("detail", detail);
-        intent.putExtra("isFrom", isFrom);
+        intent.putExtra("taskId", taskId);
         context.startActivity(intent);
     }
 
-    private Toolbar mToolbar;
-    /**
-     * 任务Id
-     */
-    private TextView mTaskView;
-    /**
-     * 商品名称
-     */
-    private TextView mItemNameView;
-    /**
-     * 包装单位
-     */
-    private TextView mItemPackNameView;
-    /**
-     * 商品数量
-     */
-    private TextView mItemQtyView;
-    /**
-     * 实际数量
-     */
-    private QtyEditText mItemQtyRealView;
-    /**
-     * 实际数量  容器View
-     */
-    private View mItemQtyRealContainerView;
-    /**
-     * 库位码
-     */
-    private TextView mLocationIdView;
-    /**
-     * 确认库位码
-     */
-    private ScanEditText mLocationIdConfirmView;
-    /**
-     * 转入/转出
-     */
-    private TextView mTypeNameView;
-    private ScanEditTextTool scanEditTextTool;
-    /**
-     * 提交
-     */
-    private Button mSubmit;
-    /**
-     * 商品container
-     */
-    private View mItemView;
-    /**
-     * 库位container
-     */
-    private View mLocationView;
-    /**
-     * 库位
-     */
-    private TextView mItemLocationView;
+    private TransferController transferController;
 
-    private TaskTransferDetail detail;
-    /**
-     * from 转出
-     */
-    private boolean isFrom;
+    private String taskId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transfer);
         readExtras();
-        findViews();
-        fill();
+        setContentView(R.layout.activity_transfer);
+        init();
+    }
 
+    private void readExtras() {
+        taskId = getIntent().getStringExtra("taskId");
+        //FIXME  test
+        taskId = "10010";
+    }
+
+    private void init() {
+        transferController = new TransferController(TransferActivity.this);
+        new TransferViewTask(this, taskId).start();
+    }
+
+    private void fill(TaskTransferDetail result) {
+        transferController.setData(result, taskId);
+        transferController.fillLocationLayout();
     }
 
     @Override
@@ -137,165 +84,60 @@ public class TransferActivity extends BaseActivity implements ScanEditTextTool.O
         }, true);
     }
 
-    private void readExtras() {
-        isFrom = getIntent().getBooleanExtra("isFrom", false);
-        detail = (TaskTransferDetail) getIntent().getSerializableExtra("detail");
-    }
-
-    private void findViews() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        mTaskView = (TextView) findViewById(R.id.task_id);
-        mItemNameView = (TextView) findViewById(R.id.item_name);
-        mItemPackNameView = (TextView) findViewById(R.id.item_pack_name);
-        mItemQtyView = (TextView) findViewById(R.id.item_qty);
-        mItemQtyRealView = (QtyEditText) findViewById(R.id.item_qty_real);
-        mItemQtyRealContainerView = findViewById(R.id.item_qty_real_container);
-        mLocationIdView = (TextView) findViewById(R.id.location_id);
-        mLocationIdConfirmView = (ScanEditText) findViewById(R.id.confirm_location_id);
-        mSubmit = (Button) findViewById(R.id.submit_button);
-        mTypeNameView = (TextView) findViewById(R.id.transfer_type_name);
-        mItemView = findViewById(R.id.item);
-        mLocationView = findViewById(R.id.location);
-        mItemLocationView = (TextView) findViewById(R.id.item_locationId);
-
-        mTypeNameView.setText(isFrom ? "开始移库转出" : "转入到库位");
-        scanEditTextTool = new ScanEditTextTool(this, mLocationIdConfirmView);
-        scanEditTextTool.setComplete(this);
-
-        mSubmit.setOnClickListener(this);
-        mSubmit.setVisibility(View.GONE);
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == mSubmit) {
-            submit();
-        }
-    }
-
-    private void submit() {
-        String qty = isFrom ? mItemQtyRealView.getValue() : detail.getUomQty();
-        String taskId = detail.getTaskId();
-        String locationId = isFrom ? detail.getFromLocationId() : detail.getToLocationId();
-        if (TextUtils.isEmpty(qty) || TextUtils.isEmpty(taskId) || TextUtils.isEmpty(locationId)) {
-            return;
-        }
-        new RequestTransferTask(TransferActivity.this, taskId, locationId, qty, isFrom).start();
-
-    }
-
-    private void fill() {
-        mTaskView.setText("任务ID：" + detail.getTaskId());
-        mItemNameView.setText("商品名称：" + detail.getProductName());
-        mItemPackNameView.setText("包装单位：" + detail.getProductPackName());
-        mItemQtyView.setText((isFrom ? "商品数量：" : "实际数量：") + detail.getUomQty());
-        mLocationIdView.setText(isFrom ? detail.getFromLocationName() : detail.getToLocationName());
-        mItemQtyRealContainerView.setVisibility(isFrom ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onComplete() {
-        boolean check = TextUtils.equals(isFrom ? detail.getFromLocationId() : detail.getToLocationId(), mLocationIdConfirmView.getText().toString());
-        if (!check) {
-            ToastTool.show(this, "库位不一致");
-        } else {
-            if (isFrom) {
-                mLocationView.setVisibility(View.GONE);
-                mItemView.setVisibility(View.VISIBLE);
-                mSubmit.setVisibility(View.VISIBLE);
-                mItemQtyRealView.requestFocus();
-                mTypeNameView.setText("填写转出数量");
-                mItemLocationView.setText("库位：" + mLocationIdView.getText().toString());
-            } else {
-                submit();
-            }
-        }
-    }
-
-    @Override
-    public void onError(ContentEditText editText) {
-    }
 
     @Override
     public void OnBarCodeReceived(String s) {
-        scanEditTextTool.setScanText(s);
+        transferController.OnBarCodeReceived(s);
 
     }
 
-    private class RequestTransferTask extends HttpAsyncTask<ResponseState> {
-
-        private String locationId;
-        private String qty;
-        private String taskId;
-        private boolean isFrom;
-
-        public RequestTransferTask(Context context, String taskId, String locationId, String qty, boolean isFrom) {
-            super(context, true, true, false);
-            this.locationId = locationId;
-            this.qty = qty;
-            this.taskId = taskId;
-            this.isFrom = isFrom;
-        }
-
-        @Override
-        public DataHull<ResponseState> doInBackground() {
-            if (isFrom) {
-                return HttpApi.stockTransferScanFromLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
-            } else {
-                return HttpApi.stockTransferScanToLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
-            }
-        }
-
-        @Override
-        public void onPostExecute(int updateId, ResponseState result) {
-            ToastTool.show(context, isFrom ? "转出成功" : "转入成功");
-            if (isFrom) {
-                detail.setUomQty(qty);
-                TransferActivity.launchInner(context, detail, false);
-                finish();
-            } else {
-                finish();
-            }
-        }
-    }
 
     /**
      * Created by liuhanzhi on 16/8/3. 领取移库任务
      */
-    private static class FetchTransferTask extends HttpAsyncTask<TaskTransferDetail> {
+    private static class FetchTransferTask extends HttpAsyncTask<TaskTransfer> {
 
         public FetchTransferTask(Context context) {
             super(context, true, true, false);
         }
 
         @Override
+        public DataHull<TaskTransfer> doInBackground() {
+            return HttpApi.stockTransferFetchTask("", BaseApplication.get().getUserId());
+        }
+
+        @Override
+        public void onPostExecute(int updateId, TaskTransfer result) {
+            TransferActivity.launchInner(context, result.getTaskId());
+        }
+
+        @Override
+        public void dataNull(int updateId, String errMsg) {
+            ToastTool.show(context, "没有移库任务");
+        }
+
+    }
+
+    /**
+     * Created by liuhanzhi on 16/8/3. 查看任务详情
+     */
+    private class TransferViewTask extends HttpAsyncTask<TaskTransferDetail> {
+
+        private String taskId;
+
+        public TransferViewTask(Context context, String taskId) {
+            super(context, true, true, false);
+            this.taskId = taskId;
+        }
+
+        @Override
         public DataHull<TaskTransferDetail> doInBackground() {
-            DataHull<TaskTransfer> dataHull = HttpApi.stockTransferFetchTask("", BaseApplication.get().getUserId());
-            DataHull<TaskTransferDetail> dataHull1;
-            if (dataHull != null && dataHull.getDataType() == DataHull.DataType.DATA_IS_INTEGRITY) {
-                TaskTransfer taskTransfer = dataHull.getDataEntity();
-                dataHull1 = HttpApi.stockTransferementView(taskTransfer.getTaskId());
-                if (dataHull1.getDataEntity() != null) {
-                    dataHull1.getDataEntity().setTaskId(taskTransfer.getTaskId());
-                }
-            } else {
-                dataHull1 = new DataHull<>();
-                dataHull1.setStatus(dataHull.getStatus());
-                dataHull1.setMessage(dataHull.getMessage());
-            }
-            return dataHull1;
+            return HttpApi.stockTransferView(taskId);
         }
 
         @Override
         public void onPostExecute(int updateId, TaskTransferDetail result) {
-            TransferActivity.launchInner(context, result, true);
+            fill(result);
         }
 
         @Override

@@ -972,7 +972,7 @@ public class HttpApi {
     /**
      * 查看移库任务详情（马力）
      */
-    public static DataHull<TaskTransferDetail> stockTransferementView(String taskId) {
+    public static DataHull<TaskTransferDetail> stockTransferView(String taskId) {
         String url = base_url + StockTransferView._function;
         List<BaseKVP> params = addParams(
                 new DefaultKVPBean(StockTransferView.taskId, taskId)

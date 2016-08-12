@@ -100,6 +100,8 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
     private TextView mItemLocationView;
 
     private TaskTransferDetail transferDetail;
+
+    private String taskId;
     /**
      * from 转出
      */
