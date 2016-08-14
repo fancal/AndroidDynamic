@@ -119,9 +119,16 @@ public abstract class BaseTransferController implements ScanEditTextTool.OnState
 
     }
 
-    public void setData(TaskTransferDetail detail,String taskId){
+    public void setData(TaskTransferDetail detail, String taskId) {
         this.detail = detail;
         this.taskId = taskId;
+    }
+
+    public void release() {
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+            scanEditTextTool = null;
+        }
     }
 
     protected abstract void onSubmitClick();
@@ -143,7 +150,7 @@ public abstract class BaseTransferController implements ScanEditTextTool.OnState
 
     @Override
     public void onComplete() {
-        Log.e("lhz","onComplete");
+        Log.e("lhz", "onComplete");
         if (TextUtils.equals(getLocationId(), mLocationIdConfirmView.getText().toString())) {
             onLocationConfirmSuccess();
         } else {
@@ -158,7 +165,9 @@ public abstract class BaseTransferController implements ScanEditTextTool.OnState
 
     @Override
     public void OnBarCodeReceived(String s) {
-        scanEditTextTool.setScanText(s);
+        if(scanEditTextTool != null){
+            scanEditTextTool.setScanText(s);
+        }
     }
 
     public TransferCompleteListener getTransferCompleteListener() {

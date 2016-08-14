@@ -3,59 +3,48 @@ package com.elianshang.code.reader.ui.controller;
 import android.app.Activity;
 
 import com.elianshang.code.reader.bean.TaskTransferDetail;
+import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.tools.ToastTool;
 
 /**
  * Created by liuhanzhi on 16/8/12.
  */
-public class TransferController extends BaseTransferController implements BaseTransferController.TransferCompleteListener {
+public class TransferController implements ScanManager.OnBarCodeListener, BaseTransferController.TransferCompleteListener {
 
     BaseTransferController baseTransferController;
 
     private boolean isFrom = true;
 
+    private Activity activity;
+
+    private TaskTransferDetail detail;
+
+    private String taskId;
+
     public TransferController(Activity activity) {
-        super(activity);
+        this.activity = activity;
         baseTransferController = new TransferFromController(activity);
         baseTransferController.setTransferCompleteListener(this);
     }
 
-    @Override
     public void setData(TaskTransferDetail detail, String taskId) {
         this.detail = detail;
         this.taskId = taskId;
         baseTransferController.setData(detail, taskId);
     }
 
-    @Override
-    protected void onSubmitClick() {
-        baseTransferController.onSubmitClick();
-    }
-
-    @Override
-    protected String getLocationId() {
-        return baseTransferController.getLocationId();
-    }
-
-    @Override
     public void fillLocationLayout() {
         baseTransferController.fillLocationLayout();
-    }
-
-    @Override
-    protected void onLocationConfirmSuccess() {
-        baseTransferController.onLocationConfirmSuccess();
-    }
-
-    @Override
-    protected void onLocationConfirmFailed() {
-        baseTransferController.onLocationConfirmFailed();
     }
 
     @Override
     public void onTransferSuccess() {
         if (isFrom) {
             isFrom = false;
+            if (baseTransferController != null) {
+                baseTransferController.release();
+                baseTransferController = null;
+            }
             baseTransferController = new TransferToController(activity);
             baseTransferController.setTransferCompleteListener(this);
             baseTransferController.setData(detail, taskId);
@@ -66,4 +55,10 @@ public class TransferController extends BaseTransferController implements BaseTr
             activity.finish();
         }
     }
+
+    @Override
+    public void OnBarCodeReceived(String s) {
+        baseTransferController.OnBarCodeReceived(s);
+    }
+
 }
