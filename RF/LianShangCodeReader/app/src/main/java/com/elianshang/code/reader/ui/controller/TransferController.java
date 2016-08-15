@@ -2,63 +2,47 @@ package com.elianshang.code.reader.ui.controller;
 
 import android.app.Activity;
 
-import com.elianshang.code.reader.bean.TaskTransferDetail;
-import com.elianshang.code.reader.tool.ScanManager;
+import com.elianshang.code.reader.ui.view.TransferView;
 import com.elianshang.tools.ToastTool;
 
 /**
- * Created by liuhanzhi on 16/8/12.
+ * Created by liuhanzhi on 16/8/15.
  */
-public class TransferController implements ScanManager.OnBarCodeListener, BaseTransferController.TransferCompleteListener {
+public class TransferController extends BaseTransferController implements BaseTransferController.TransferCompleteListener {
 
-    BaseTransferController baseTransferController;
+    private BaseTransferController baseTransferController;
 
     private boolean isFrom = true;
 
-    private Activity activity;
+    public TransferController(Activity activity, String taskId, TransferView transferView) {
+        super(activity, taskId, transferView);
+        baseTransferController = new TransferFromController(activity, taskId, transferView);
 
-    private TaskTransferDetail detail;
-
-    private String taskId;
-
-    public TransferController(Activity activity) {
-        this.activity = activity;
-        baseTransferController = new TransferFromController(activity);
         baseTransferController.setTransferCompleteListener(this);
     }
 
-    public void setData(TaskTransferDetail detail, String taskId) {
-        this.detail = detail;
-        this.taskId = taskId;
-        baseTransferController.setData(detail, taskId);
+    @Override
+    public void onSubmitClick(String qty) {
+        baseTransferController.onSubmitClick(qty);
     }
 
-    public void fillLocationLayout() {
-        baseTransferController.fillLocationLayout();
+    @Override
+    public void onComplete(String s) {
+        baseTransferController.onComplete(s);
     }
+
 
     @Override
     public void onTransferSuccess() {
         if (isFrom) {
             isFrom = false;
-            if (baseTransferController != null) {
-                baseTransferController.release();
-                baseTransferController = null;
-            }
-            baseTransferController = new TransferToController(activity);
-            baseTransferController.setTransferCompleteListener(this);
-            baseTransferController.setData(detail, taskId);
-            baseTransferController.fillLocationLayout();
             ToastTool.show(activity, "转出成功");
+            detail = baseTransferController.detail;
+            baseTransferController = new TransferToController(activity, taskId, transferView, detail);
+            baseTransferController.setTransferCompleteListener(this);
         } else {
             ToastTool.show(activity, "转入成功");
             activity.finish();
         }
     }
-
-    @Override
-    public void OnBarCodeReceived(String s) {
-        baseTransferController.OnBarCodeReceived(s);
-    }
-
 }

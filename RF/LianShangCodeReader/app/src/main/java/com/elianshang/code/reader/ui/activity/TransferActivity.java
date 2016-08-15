@@ -5,24 +5,32 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.bean.TaskTransfer;
-import com.elianshang.code.reader.bean.TaskTransferDetail;
 import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.tool.DialogTools;
+import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
 import com.elianshang.code.reader.ui.controller.TransferController;
+import com.elianshang.code.reader.ui.view.ContentEditText;
+import com.elianshang.code.reader.ui.view.TransferView;
+import com.elianshang.code.reader.ui.view.QtyEditText;
+import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
 
 /**
- * Created by liuhanzhi on 16/8/3. 移库
+ * Created by liuhanzhi on 16/8/3. 补货
  */
-public class TransferActivity extends BaseActivity implements ScanManager.OnBarCodeListener {
+public class TransferActivity extends BaseActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener, TransferView {
 
     public static void launch(Context context) {
         new FetchTransferTask(context).start();
@@ -34,32 +42,72 @@ public class TransferActivity extends BaseActivity implements ScanManager.OnBarC
         context.startActivity(intent);
     }
 
-    private TransferController transferController;
+    private Toolbar mToolbar;
+    /**
+     * taskId
+     */
+    private TextView mTaskView;
+    /**
+     * 商品名称
+     */
+    private TextView mItemNameView;
+    /**
+     * 包装单位
+     */
+    private TextView mItemPackNameView;
+    /**
+     * 商品数量
+     */
+    private TextView mItemQtyView;
+    /**
+     * 实际数量
+     */
+    private QtyEditText mItemQtyRealView;
+    /**
+     * 实际数量  container
+     */
+    private View mItemQtyRealContainerView;
+    /**
+     * 库位Id
+     */
+    private TextView mLocationIdView;
+    /**
+     * 确认库位Id
+     */
+    private ScanEditText mLocationIdConfirmView;
+    /**
+     * 转入/转出
+     */
+    private TextView mTypeNameView;
+    private ScanEditTextTool scanEditTextTool;
+    /**
+     * 提交
+     */
+    private Button mSubmit;
+    /**
+     * 商品container
+     */
+    private View mItemView;
+    /**
+     * 库位container
+     */
+    private View mLocationView;
+    /**
+     * 商品库位
+     */
+    private TextView mItemLocationView;
 
     private String taskId;
+
+    private TransferController TransferController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readExtras();
         setContentView(R.layout.activity_transfer);
-        init();
-    }
+        readExtras();
+        findViews();
 
-    private void readExtras() {
-        taskId = getIntent().getStringExtra("taskId");
-        //FIXME  test
-        taskId = "10010";
-    }
-
-    private void init() {
-        transferController = new TransferController(TransferActivity.this);
-        new TransferViewTask(this, taskId).start();
-    }
-
-    private void fill(TaskTransferDetail result) {
-        transferController.setData(result, taskId);
-        transferController.fillLocationLayout();
     }
 
     @Override
@@ -84,16 +132,93 @@ public class TransferActivity extends BaseActivity implements ScanManager.OnBarC
         }, true);
     }
 
+    private void readExtras() {
+        taskId = getIntent().getStringExtra("taskId");
+    }
+
+    private void findViews() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        mTaskView = (TextView) findViewById(R.id.task_id);
+        mItemNameView = (TextView) findViewById(R.id.item_name);
+        mItemPackNameView = (TextView) findViewById(R.id.item_pack_name);
+        mItemQtyView = (TextView) findViewById(R.id.item_qty);
+        mItemQtyRealView = (QtyEditText) findViewById(R.id.item_qty_real);
+        mItemQtyRealContainerView = findViewById(R.id.item_qty_real_container);
+        mLocationIdView = (TextView) findViewById(R.id.location_id);
+        mLocationIdConfirmView = (ScanEditText) findViewById(R.id.confirm_location_id);
+        mSubmit = (Button) findViewById(R.id.submit_button);
+        mTypeNameView = (TextView) findViewById(R.id.transfer_type_name);
+        mItemView = findViewById(R.id.item);
+        mLocationView = findViewById(R.id.location);
+        mItemLocationView = (TextView) findViewById(R.id.item_locationId);
+
+        scanEditTextTool = new ScanEditTextTool(this, mLocationIdConfirmView);
+        scanEditTextTool.setComplete(this);
+
+        mSubmit.setOnClickListener(this);
+        mSubmit.setVisibility(View.GONE);
+
+        TransferController = new TransferController(this, taskId, this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == mSubmit) {
+            TransferController.onSubmitClick(mItemQtyRealView.getValue());
+        }
+    }
+
+    @Override
+    public void onComplete() {
+        TransferController.onComplete(mLocationIdConfirmView.getText().toString());
+    }
+
+    @Override
+    public void onError(ContentEditText editText) {
+    }
 
     @Override
     public void OnBarCodeReceived(String s) {
-        transferController.OnBarCodeReceived(s);
+        scanEditTextTool.setScanText(s);
 
+    }
+
+    @Override
+    public void showLocationConfirmView(String typeName, String taskId, String locationName) {
+        mLocationView.setVisibility(View.VISIBLE);
+        mItemView.setVisibility(View.GONE);
+        mSubmit.setVisibility(View.GONE);
+
+        mTaskView.setText(taskId);
+        mTypeNameView.setText(typeName);
+        mLocationIdView.setText(locationName);
+        mLocationIdConfirmView.getText().clear();
+    }
+
+    @Override
+    public void showItemView(String typeName, String itemName, String packName, String qty, String locationName) {
+        mLocationView.setVisibility(View.GONE);
+        mItemView.setVisibility(View.VISIBLE);
+        mSubmit.setVisibility(View.VISIBLE);
+        mItemQtyRealView.requestFocus();
+
+        mTypeNameView.setText(typeName);
+        mItemNameView.setText(itemName);
+        mItemPackNameView.setText(packName);
+        mItemQtyView.setText(qty);
+        mItemLocationView.setText(locationName);
     }
 
 
     /**
-     * Created by liuhanzhi on 16/8/3. 领取移库任务
+     * Created by liuhanzhi on 16/8/3. 领取补货任务
      */
     private static class FetchTransferTask extends HttpAsyncTask<TaskTransfer> {
 
@@ -118,33 +243,5 @@ public class TransferActivity extends BaseActivity implements ScanManager.OnBarC
 
     }
 
-    /**
-     * Created by liuhanzhi on 16/8/3. 查看任务详情
-     */
-    private class TransferViewTask extends HttpAsyncTask<TaskTransferDetail> {
-
-        private String taskId;
-
-        public TransferViewTask(Context context, String taskId) {
-            super(context, true, true, false);
-            this.taskId = taskId;
-        }
-
-        @Override
-        public DataHull<TaskTransferDetail> doInBackground() {
-            return HttpApi.stockTransferView(taskId);
-        }
-
-        @Override
-        public void onPostExecute(int updateId, TaskTransferDetail result) {
-            fill(result);
-        }
-
-        @Override
-        public void dataNull(int updateId, String errMsg) {
-            ToastTool.show(context, "没有移库任务");
-        }
-
-    }
 
 }

@@ -9,16 +9,16 @@ import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.TaskTransferDetail;
 import com.elianshang.code.reader.http.HttpApi;
-import com.elianshang.code.reader.ui.view.TransferView;
+import com.elianshang.code.reader.ui.view.ProcurementView;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
 
 /**
  * Created by liuhanzhi on 16/8/15.
  */
-public class TransferToController extends BaseTransferController {
+public class ProcurementToController extends BaseProcurementController {
 
-    public TransferToController(Activity activity, String taskId, TransferView procurementView , TaskTransferDetail detail) {
+    public ProcurementToController(Activity activity, String taskId, ProcurementView procurementView , TaskTransferDetail detail) {
         super(activity, taskId, procurementView);
         this.detail = detail;
         fillConfirmLocationView();
@@ -49,8 +49,8 @@ public class TransferToController extends BaseTransferController {
     }
 
     private void fillConfirmLocationView() {
-        if (transferView != null) {
-            transferView.showLocationConfirmView("转入到库位", "任务："+taskId, detail.getToLocationName());
+        if (procurementView != null) {
+            procurementView.showLocationConfirmView("转入到库位", "任务："+taskId, detail.getToLocationName());
         }
     }
 
@@ -69,7 +69,7 @@ public class TransferToController extends BaseTransferController {
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return HttpApi.stockTransferScanToLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
+            return HttpApi.procurementScanToLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
         }
 
         @Override

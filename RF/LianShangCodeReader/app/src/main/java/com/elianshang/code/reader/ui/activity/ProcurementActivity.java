@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,15 +13,15 @@ import android.widget.TextView;
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
 import com.elianshang.code.reader.asyn.HttpAsyncTask;
-import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.TaskTransfer;
-import com.elianshang.code.reader.bean.TaskTransferDetail;
 import com.elianshang.code.reader.http.HttpApi;
 import com.elianshang.code.reader.tool.DialogTools;
 import com.elianshang.code.reader.tool.ScanEditTextTool;
 import com.elianshang.code.reader.tool.ScanManager;
 import com.elianshang.code.reader.ui.BaseActivity;
+import com.elianshang.code.reader.ui.controller.ProcurementController;
 import com.elianshang.code.reader.ui.view.ContentEditText;
+import com.elianshang.code.reader.ui.view.ProcurementView;
 import com.elianshang.code.reader.ui.view.QtyEditText;
 import com.elianshang.code.reader.ui.view.ScanEditText;
 import com.elianshang.tools.ToastTool;
@@ -31,16 +30,15 @@ import com.xue.http.impl.DataHull;
 /**
  * Created by liuhanzhi on 16/8/3. 补货
  */
-public class ProcurementActivity extends BaseActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class ProcurementActivity extends BaseActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener, ProcurementView {
 
     public static void launch(Context context) {
         new FetchProcurementTask(context).start();
     }
 
-    private static void launchInner(Context context, TaskTransferDetail detail, boolean isFrom) {
+    private static void launchInner(Context context, String taskId) {
         Intent intent = new Intent(context, ProcurementActivity.class);
-        intent.putExtra("detail", detail);
-        intent.putExtra("isFrom", isFrom);
+        intent.putExtra("taskId", taskId);
         context.startActivity(intent);
     }
 
@@ -99,13 +97,9 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
      */
     private TextView mItemLocationView;
 
-    private TaskTransferDetail transferDetail;
-
     private String taskId;
-    /**
-     * from 转出
-     */
-    private boolean isFrom;
+
+    private ProcurementController procurementController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,7 +107,6 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
         setContentView(R.layout.activity_procurement);
         readExtras();
         findViews();
-        fill();
 
     }
 
@@ -140,8 +133,7 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
     }
 
     private void readExtras() {
-        isFrom = getIntent().getBooleanExtra("isFrom", false);
-        transferDetail = (TaskTransferDetail) getIntent().getSerializableExtra("detail");
+        taskId = getIntent().getStringExtra("taskId");
     }
 
     private void findViews() {
@@ -166,60 +158,26 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
         mLocationView = findViewById(R.id.location);
         mItemLocationView = (TextView) findViewById(R.id.item_locationId);
 
-        mTypeNameView.setText(isFrom ? "开始补货转出" : "转入到库位");
         scanEditTextTool = new ScanEditTextTool(this, mLocationIdConfirmView);
         scanEditTextTool.setComplete(this);
 
         mSubmit.setOnClickListener(this);
         mSubmit.setVisibility(View.GONE);
 
+        procurementController = new ProcurementController(this, taskId, this);
+
     }
 
     @Override
     public void onClick(View v) {
         if (v == mSubmit) {
-            submit();
+            procurementController.onSubmitClick(mItemQtyRealView.getValue());
         }
-    }
-
-    private void submit() {
-        String qty = isFrom ? mItemQtyRealView.getValue() : transferDetail.getUomQty();
-        String taskId = transferDetail.getTaskId();
-        String locationId = isFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId();
-        if (TextUtils.isEmpty(qty) || TextUtils.isEmpty(taskId) || TextUtils.isEmpty(locationId)) {
-            return;
-        }
-        new RequestTransferTask(ProcurementActivity.this, taskId, locationId, qty, isFrom).start();
-
-    }
-
-
-    private void fill() {
-        mTaskView.setText("任务ID：" + transferDetail.getTaskId());
-        mItemNameView.setText("商品名称：" + transferDetail.getProductName());
-        mItemPackNameView.setText("包装单位：" + transferDetail.getProductPackName());
-        mItemQtyView.setText((isFrom ? "商品数量：" : "实际数量：") + transferDetail.getUomQty());
-        mLocationIdView.setText(isFrom ? transferDetail.getFromLocationName() : transferDetail.getToLocationName());
-        mItemQtyRealContainerView.setVisibility(isFrom ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void onComplete() {
-        String scanLocationId = mLocationIdConfirmView.getText().toString();
-        boolean check = TextUtils.equals(isFrom ? transferDetail.getFromLocationId() : transferDetail.getToLocationId(), scanLocationId);
-        if (!check) {
-            ToastTool.show(this, "库位不一致");
-        } else {
-            if (isFrom) {
-                mLocationView.setVisibility(View.GONE);
-                mItemView.setVisibility(View.VISIBLE);
-                mSubmit.setVisibility(View.VISIBLE);
-                mTypeNameView.setText("填写转出数量");
-                mItemLocationView.setText("库位：" + mLocationIdView.getText().toString());
-            } else {
-                submit();
-            }
-        }
+        procurementController.onComplete(mLocationIdConfirmView.getText().toString());
     }
 
     @Override
@@ -232,73 +190,50 @@ public class ProcurementActivity extends BaseActivity implements ScanEditTextToo
 
     }
 
-    private class RequestTransferTask extends HttpAsyncTask<ResponseState> {
+    @Override
+    public void showLocationConfirmView(String typeName, String taskId, String locationName) {
+        mLocationView.setVisibility(View.VISIBLE);
+        mItemView.setVisibility(View.GONE);
+        mSubmit.setVisibility(View.GONE);
 
-        private String locationId;
-        private String qty;
-        private String taskId;
-        private boolean isFrom;
-
-        public RequestTransferTask(Context context, String taskId, String locationId, String qty, boolean isFrom) {
-            super(context, true, true, false);
-            this.locationId = locationId;
-            this.qty = qty;
-            this.taskId = taskId;
-            this.isFrom = isFrom;
-        }
-
-        @Override
-        public DataHull<ResponseState> doInBackground() {
-            if (isFrom) {
-                return HttpApi.procurementScanFromLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
-            } else {
-                return HttpApi.procurementScanToLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
-            }
-        }
-
-        @Override
-        public void onPostExecute(int updateId, ResponseState result) {
-            ToastTool.show(context, isFrom ? "转出成功" : "转入成功");
-            if (isFrom) {
-                transferDetail.setUomQty(qty);
-                ProcurementActivity.launchInner(context, transferDetail, false);
-                finish();
-            } else {
-                finish();
-            }
-        }
+        mTaskView.setText(taskId);
+        mTypeNameView.setText(typeName);
+        mLocationIdView.setText(locationName);
+        mLocationIdConfirmView.getText().clear();
     }
+
+    @Override
+    public void showItemView(String typeName, String itemName, String packName, String qty, String locationName) {
+        mLocationView.setVisibility(View.GONE);
+        mItemView.setVisibility(View.VISIBLE);
+        mSubmit.setVisibility(View.VISIBLE);
+        mItemQtyRealView.requestFocus();
+
+        mTypeNameView.setText(typeName);
+        mItemNameView.setText(itemName);
+        mItemPackNameView.setText(packName);
+        mItemQtyView.setText(qty);
+        mItemLocationView.setText(locationName);
+    }
+
 
     /**
      * Created by liuhanzhi on 16/8/3. 领取补货任务
      */
-    private static class FetchProcurementTask extends HttpAsyncTask<TaskTransferDetail> {
+    private static class FetchProcurementTask extends HttpAsyncTask<TaskTransfer> {
 
         public FetchProcurementTask(Context context) {
             super(context, true, true, false);
         }
 
         @Override
-        public DataHull<TaskTransferDetail> doInBackground() {
-            DataHull<TaskTransfer> dataHull = HttpApi.procurementFetchTask("", BaseApplication.get().getUserId());
-            DataHull<TaskTransferDetail> dataHull1;
-            if (dataHull != null && dataHull.getDataType() == DataHull.DataType.DATA_IS_INTEGRITY) {
-                TaskTransfer taskTransfer = dataHull.getDataEntity();
-                dataHull1 = HttpApi.procurementView(taskTransfer.getTaskId());
-                if (dataHull1.getDataEntity() != null) {
-                    dataHull1.getDataEntity().setTaskId(taskTransfer.getTaskId());
-                }
-            } else {
-                dataHull1 = new DataHull<>();
-                dataHull1.setStatus(dataHull.getStatus());
-                dataHull1.setMessage(dataHull.getMessage());
-            }
-            return dataHull1;
+        public DataHull<TaskTransfer> doInBackground() {
+            return HttpApi.procurementFetchTask("", BaseApplication.get().getUserId());
         }
 
         @Override
-        public void onPostExecute(int updateId, TaskTransferDetail result) {
-            ProcurementActivity.launchInner(context, result, true);
+        public void onPostExecute(int updateId, TaskTransfer result) {
+            ProcurementActivity.launchInner(context, result.getTaskId());
         }
 
         @Override

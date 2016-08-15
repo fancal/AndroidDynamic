@@ -3,12 +3,12 @@ package com.elianshang.code.reader.ui.controller;
 import android.app.Activity;
 
 import com.elianshang.code.reader.bean.TaskTransferDetail;
-import com.elianshang.code.reader.ui.view.TransferView;
+import com.elianshang.code.reader.ui.view.ProcurementView;
 
 /**
  * Created by liuhanzhi on 16/8/15.
  */
-public abstract class BaseTransferController {
+public abstract class BaseProcurementController {
 
     protected TaskTransferDetail detail;
 
@@ -16,7 +16,7 @@ public abstract class BaseTransferController {
 
     protected Activity activity;
 
-    protected TransferView transferView;
+    protected ProcurementView procurementView;
 
     protected TransferCompleteListener mTransferCompleteListener;
 
@@ -24,10 +24,10 @@ public abstract class BaseTransferController {
 
     protected abstract void onComplete(String s);
 
-    public BaseTransferController(Activity activity, String taskId, TransferView transferView) {
+    public BaseProcurementController(Activity activity, String taskId, ProcurementView procurementView) {
         this.activity = activity;
         this.taskId = taskId;
-        this.transferView = transferView;
+        this.procurementView = procurementView;
     }
 
     public TransferCompleteListener getTransferCompleteListener() {

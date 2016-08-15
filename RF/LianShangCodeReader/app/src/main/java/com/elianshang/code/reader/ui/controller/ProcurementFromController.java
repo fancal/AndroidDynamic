@@ -9,17 +9,17 @@ import com.elianshang.code.reader.asyn.HttpAsyncTask;
 import com.elianshang.code.reader.bean.ResponseState;
 import com.elianshang.code.reader.bean.TaskTransferDetail;
 import com.elianshang.code.reader.http.HttpApi;
-import com.elianshang.code.reader.ui.view.TransferView;
+import com.elianshang.code.reader.ui.view.ProcurementView;
 import com.elianshang.tools.ToastTool;
 import com.xue.http.impl.DataHull;
 
 /**
  * Created by liuhanzhi on 16/8/15.
  */
-public class TransferFromController extends BaseTransferController {
+public class ProcurementFromController extends BaseProcurementController {
 
-    public TransferFromController(Activity activity, String taskId, TransferView transferView) {
-        super(activity, taskId, transferView);
+    public ProcurementFromController(Activity activity, String taskId, ProcurementView procurementView) {
+        super(activity, taskId, procurementView);
         requestDetailTask();
     }
 
@@ -39,37 +39,37 @@ public class TransferFromController extends BaseTransferController {
         if (!check) {
             ToastTool.show(activity, "库位不一致");
         } else {
-            if (transferView != null) {
-                transferView.showItemView("填写转出数量", "商品名称：" + detail.getProductName(), "商品名称：" + detail.getProductPackName(), "商品数量：" + detail.getUomQty(), "库位：" + detail.getFromLocationName());
+            if (procurementView != null) {
+                procurementView.showItemView("填写转出数量", "商品名称：" + detail.getProductName(), "商品名称：" + detail.getProductPackName(), "商品数量：" + detail.getUomQty(), "库位：" + detail.getFromLocationName());
             }
         }
     }
 
     private void fillConfirmLocationView() {
-        if (transferView != null) {
-            transferView.showLocationConfirmView("开始移库转出", "任务：" + taskId, detail.getFromLocationName());
+        if (procurementView != null) {
+            procurementView.showLocationConfirmView("开始补货转出", "任务：" + taskId, detail.getFromLocationName());
         }
     }
 
     protected void requestDetailTask() {
-        new FetchTransferDetailTask(activity, taskId).start();
+        new FetchProcurementDetailTask(activity, taskId).start();
     }
 
     /**
      * Created by liuhanzhi on 16/8/3. 领取补货任务
      */
-    private class FetchTransferDetailTask extends HttpAsyncTask<TaskTransferDetail> {
+    private class FetchProcurementDetailTask extends HttpAsyncTask<TaskTransferDetail> {
 
         private String taskId;
 
-        public FetchTransferDetailTask(Context context, String taskId) {
+        public FetchProcurementDetailTask(Context context, String taskId) {
             super(context, true, true, false);
             this.taskId = taskId;
         }
 
         @Override
         public DataHull<TaskTransferDetail> doInBackground() {
-            return HttpApi.stockTransferView(taskId);
+            return HttpApi.procurementView(taskId);
         }
 
         @Override
@@ -80,7 +80,7 @@ public class TransferFromController extends BaseTransferController {
 
         @Override
         public void dataNull(int updateId, String errMsg) {
-            ToastTool.show(context, "没有移库任务");
+            ToastTool.show(context, "没有补货任务");
         }
 
     }
@@ -100,7 +100,7 @@ public class TransferFromController extends BaseTransferController {
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return HttpApi.stockTransferScanFromLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
+            return HttpApi.procurementScanFromLocation(taskId, locationId, BaseApplication.get().getUserId(), qty);
         }
 
         @Override
