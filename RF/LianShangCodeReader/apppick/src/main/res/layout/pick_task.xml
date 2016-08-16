@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginTop="10dip"
+        android:gravity="center"
+        android:text="开始拣货"
+        android:textSize="20dip" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请扫描拣货签:"
+        android:textSize="20dip" />
+
+    <com.elianshang.bridge.ui.view.ScanEditText
+        android:id="@+id/taskId_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dip" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请扫描托盘码:"
+        android:textSize="20dip" />
+
+    <com.elianshang.bridge.ui.view.ScanEditText
+        android:id="@+id/containerId_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dip" />
+
+</LinearLayout>

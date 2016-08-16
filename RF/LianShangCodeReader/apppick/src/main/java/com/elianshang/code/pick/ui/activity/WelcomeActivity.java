@@ -1,0 +1,110 @@
+package com.elianshang.code.pick.ui.activity;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.Button;
+
+import com.elianshang.code.pick.R;
+import com.elianshang.code.pick.ui.BaseActivity;
+
+
+public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
+
+    /**
+     * 登陆
+     */
+    private Button loginButton;
+
+    /**
+     * 收货
+     */
+    private Button receiptButton;
+
+    /**
+     * 上架
+     */
+    private Button shelveButton;
+
+    /**
+     * 盘点
+     */
+    private Button takeStockButton;
+
+    /**
+     * 转残次
+     */
+    private Button createScrapButton;
+
+    /**
+     * 转退货
+     */
+    private Button createReturnButton;
+    /**
+     * 移库
+     */
+    private Button transferLocationButton;
+    /**
+     * 补货
+     */
+    private Button procurementButton;
+
+    /**
+     * 拣货
+     */
+    private Button pickButton;
+
+    /**
+     * QC
+     */
+    private Button qualityControlButton;
+
+    /**
+     * 发车
+     */
+    private Button shipButton;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_welcome);
+
+        findViews();
+    }
+
+    private void findViews() {
+        loginButton = (Button) findViewById(R.id.login_Button);
+        receiptButton = (Button) findViewById(R.id.receipt_Button);
+        shelveButton = (Button) findViewById(R.id.shelve_Button);
+        takeStockButton = (Button) findViewById(R.id.takeStock_Button);
+        createScrapButton = (Button) findViewById(R.id.createScrap_Button);
+        createReturnButton = (Button) findViewById(R.id.createReturn_Button);
+        transferLocationButton = (Button) findViewById(R.id.transferLocation_Button);
+        procurementButton = (Button) findViewById(R.id.procurement_Button);
+        pickButton = (Button) findViewById(R.id.pick_Button);
+        qualityControlButton = (Button) findViewById(R.id.qualityControl_Button);
+        shipButton = (Button) findViewById(R.id.ship_Button);
+
+        loginButton.setOnClickListener(this);
+        receiptButton.setOnClickListener(this);
+        shelveButton.setOnClickListener(this);
+        takeStockButton.setOnClickListener(this);
+        createScrapButton.setOnClickListener(this);
+        createReturnButton.setOnClickListener(this);
+        transferLocationButton.setOnClickListener(this);
+        procurementButton.setOnClickListener(this);
+        qualityControlButton.setOnClickListener(this);
+        pickButton.setOnClickListener(this);
+        shipButton.setOnClickListener(this);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        if (v == loginButton) {
+            LoginActivity.launch(this);
+        } else if (v == pickButton) {
+            PickActivity.launch(this);
+        }
+    }
+}
