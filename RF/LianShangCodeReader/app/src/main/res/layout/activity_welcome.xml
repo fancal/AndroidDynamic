@@ -9,100 +9,120 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/login_Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="登录" />
-
-        <Button
+        <TextView
             android:id="@+id/receipt_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="1dip"
             android:layout_weight="1"
-            android:text="收货" />
-    </LinearLayout>
+            android:background="@drawable/submit_button_bg"
+            android:padding="20dip"
+            android:text="收货"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
+        <TextView
             android:id="@+id/shelve_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="1dip"
             android:layout_weight="1"
-            android:text="上架" />
+            android:background="@drawable/submit_button_bg"
+            android:padding="20dip"
+            android:text="上架"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+    </LinearLayout>
 
-        <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
             android:id="@+id/takeStock_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="1dip"
             android:layout_weight="1"
-            android:text="盘点" />
-    </LinearLayout>
+            android:background="@drawable/submit_button_bg"
+            android:padding="20dip"
+            android:text="盘点"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
+        <TextView
             android:id="@+id/createScrap_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="1dip"
             android:layout_weight="1"
-            android:text="转残次" />
+            android:background="@drawable/submit_button_bg"
+            android:padding="20dip"
+            android:text="转残次"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+    </LinearLayout>
 
-        <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
             android:id="@+id/createReturn_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="1dip"
             android:layout_weight="1"
-            android:text="转退货" />
-    </LinearLayout>
+            android:background="@drawable/submit_button_bg"
+            android:padding="20dip"
+            android:text="转退货"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
+        <TextView
             android:id="@+id/transferLocation_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="1dip"
             android:layout_weight="1"
-            android:text="移库" />
+            android:background="@drawable/submit_button_bg"
+            android:padding="20dip"
+            android:text="移库"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+    </LinearLayout>
 
-        <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
             android:id="@+id/procurement_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="1dip"
             android:layout_weight="1"
-            android:text="补货" />
+            android:background="@drawable/submit_button_bg"
+            android:padding="20dip"
+            android:text="补货"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
+        <TextView
             android:id="@+id/pick_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="1dip"
             android:layout_weight="1"
-            android:text="拣货" />
-
-        <Button
-            android:id="@+id/qualityControl_Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="QC" />
+            android:background="@drawable/submit_button_bg"
+            android:padding="20dip"
+            android:text="拣货"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
 
     </LinearLayout>
 
@@ -111,18 +131,29 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
+
+        <TextView
+            android:id="@+id/qualityControl_Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dip"
+            android:layout_weight="1"
+            android:background="@drawable/submit_button_bg"
+            android:padding="20dip"
+            android:text="QC"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+
+        <TextView
             android:id="@+id/ship_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="1dip"
             android:layout_weight="1"
-            android:text="发车" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
+            android:background="@drawable/submit_button_bg"
+            android:padding="20dip"
+            android:text="发车"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
     </LinearLayout>
-
 </LinearLayout>

@@ -29,7 +29,7 @@ public class ShelveOpenActivity extends BaseActivity implements ScanManager.OnBa
 
     public static void launch(Activity activity) {
         Intent intent = new Intent(activity, ShelveOpenActivity.class);
-        activity.startActivityForResult(intent, 1);
+        activity.startActivity(intent);
     }
 
     /**
