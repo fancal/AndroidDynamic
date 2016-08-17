@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Bridge_lib</string>
+    <string name="text_net_null">请检查网络</string>
+</resources>

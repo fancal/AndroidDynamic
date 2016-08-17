@@ -100,7 +100,7 @@
                     android:text="实际数量:"
                     android:textSize="20dip" />
 
-                <com.elianshang.code.reader.ui.view.QtyEditText
+                <com.elianshang.bridge.ui.view.QtyEditText
                     android:id="@+id/item_qty_real"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                 android:text="扫描确认库位:"
                 android:textSize="@dimen/dip_20" />
 
-            <com.elianshang.code.reader.ui.view.ScanEditText
+            <com.elianshang.bridge.ui.view.ScanEditText
                 android:id="@+id/confirm_location_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
