@@ -72,7 +72,6 @@ public class ScanEditTextTool {
         for (ContentEditText editText : editTexts) {
             editText.addTextChangedListener(textWatcher);
             if (editText instanceof ScanEditText) {
-                ((ScanEditText) editText).setOnLongClickListener(activity);
                 ((ScanEditText) editText).setInputEnd(new ScanEditText.OnSetInputEnd() {
                     @Override
                     public void onSetInputEnd(String s) {
@@ -94,7 +93,6 @@ public class ScanEditTextTool {
                 editText.addTextChangedListener(textWatcher);
             }
             if (editText instanceof ScanEditText) {
-                ((ScanEditText) editText).setOnLongClickListener(mActivity);
                 ((ScanEditText) editText).setInputEnd(new ScanEditText.OnSetInputEnd() {
                     @Override
                     public void onSetInputEnd(String s) {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.InputType;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.elianshang.bridge.tool.DialogTools;
@@ -39,16 +40,23 @@ public class ScanEditText extends ContentEditText {
 
     private void init() {
         setInputType(InputType.TYPE_NULL);
+        Log.e("xue", "getContext() == " + getContext());
+        setOnLongClickListener(getContext());
     }
 
-    public void setOnLongClickListener(final Activity activity) {
-        if (activity == null) {
+    private void setOnLongClickListener(final Context context) {
+        if (context == null) {
             return;
         }
+
+        if (!(context instanceof Activity)) {
+            return;
+        }
+
         setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                DialogTools.showEditViewDialog(activity, "请入码值", "", "取消", "确认", null, new DialogTools.OnEditViewPositiveButtonClick() {
+                DialogTools.showEditViewDialog((Activity) context, "请入码值", "", "取消", "确认", null, new DialogTools.OnEditViewPositiveButtonClick() {
                     @Override
                     public void onClick(String editText) {
                         if (inputEnd != null && editText.trim().length() > 0) {
