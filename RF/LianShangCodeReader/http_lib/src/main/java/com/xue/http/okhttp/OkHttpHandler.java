@@ -63,24 +63,24 @@ public final class OkHttpHandler<B extends BaseBean> extends HttpHandler<OkHttpP
         params.buildHeader(requestBuilder);
         params.buildParameter(requestBuilder);
         //return "{\"head\":{\"status\":1,\"message\":\"success.\",\"timestamp\":\"20160810190219\"},\"body\":{\"type\":1,\"qcList\":[{\"itemName\":\"aa1\",\"code\":\"131123131\",\"pickQty\":\"4\",\"packName\":\"H24\"},{\"itemName\":\"aa1\",\"code\":\"1312355131\",\"pickQty\":\"4\",\"packName\":\"H24\"},{\"itemName\":\"aa1\",\"code\":\"1312443131\",\"pickQty\":\"4\",\"packName\":\"H24\"},{\"itemName\":\"aa1\",\"code\":\"1312333131\",\"pickQty\":\"4\",\"packName\":\"H24\"},{\"itemName\":\"aa1\",\"code\":\"1312312231\",\"pickQty\":\"4\",\"packName\":\"H24\"}]}}";
-        return "{\"head\":{\"status\":1,\"message\":\"success\",\"timestamp\":\"20160812163245\"},\"body\":{\"fromLocationId\":100,\"fromLocationCode\":\"fromLocationCode\",\"itemId\":\"itemId\",\"itemName\":\"itemName\",\"packName\":\"packName\",\"toLocationId\":10,\"toLocationCode\":\"toLocationCode\",\"uomQty\":3}}";
+//        return "{\"head\":{\"status\":1,\"message\":\"success\",\"timestamp\":\"20160812163245\"},\"body\":{\"fromLocationId\":100,\"fromLocationCode\":\"fromLocationCode\",\"itemId\":\"itemId\",\"itemName\":\"itemName\",\"packName\":\"packName\",\"toLocationId\":10,\"toLocationCode\":\"toLocationCode\",\"uomQty\":3}}";
 
-//        Response response = okHttpClient.newCall(requestBuilder.build()).execute();
-//        if (response.isSuccessful()) {
-//            String data = response.body().string();
-//            response.body().close();
-//            return data;
-//        } else {
-//            if (response.body() != null) {
-//                String data = response.body().string();
-//                HttpLogTool.log("code:" + response.code() + " ,data:" + data);
-//                response.body().close();
-//            }
-//        }
-//
-//        code = response.code();
-//
-//        throw new ResponseException();
+        Response response = okHttpClient.newCall(requestBuilder.build()).execute();
+        if (response.isSuccessful()) {
+            String data = response.body().string();
+            response.body().close();
+            return data;
+        } else {
+            if (response.body() != null) {
+                String data = response.body().string();
+                HttpLogTool.log("code:" + response.code() + " ,data:" + data);
+                response.body().close();
+            }
+        }
+
+        code = response.code();
+
+        throw new ResponseException();
     }
 
     @Override

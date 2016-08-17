@@ -4,13 +4,18 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import com.elianshang.bridge.http.HttpApi;
+import com.elianshang.bridge.http.HttpDynamicHeader;
 import com.elianshang.bridge.tool.AppTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.code.pick.asyn.UserSaveTask;
 import com.elianshang.code.pick.bean.User;
 import com.elianshang.code.pick.db.PreferencesManager;
 import com.elianshang.code.pick.tool.ConfigTool;
+import com.xue.http.hook.BaseKVP;
 import com.xue.http.impl.DefaultKVPBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BaseApplication extends Application {
@@ -30,7 +35,19 @@ public class BaseApplication extends Application {
 
         ScanManager.init(this);
 
-        HttpApi.build(ConfigTool.getHttpBaseUrl(), AppTool.getAppVersion(this), AppTool.getAppVersion(this), new DefaultKVPBean("uid", getUserId()), new DefaultKVPBean("utoken", getUserToken()));
+        initHttp();
+    }
+
+    private void initHttp() {
+        HttpApi.build(ConfigTool.getHttpBaseUrl(), AppTool.getAppVersion(this), AppTool.getAppVersion(this), new HttpDynamicHeader() {
+            @Override
+            public List<BaseKVP> getDynamicHeader() {
+                List<BaseKVP> dynamicHeader = new ArrayList<>();
+                dynamicHeader.add(new DefaultKVPBean("uid", getUserId()));
+                dynamicHeader.add(new DefaultKVPBean("utoken", getUserToken()));
+                return dynamicHeader;
+            }
+        });
     }
 
     public static BaseApplication get() {

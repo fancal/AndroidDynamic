@@ -21,7 +21,7 @@ public class HttpApi {
 
     private static String version;
 
-    private static DefaultKVPBean[] dynamicHeader;
+    private static HttpDynamicHeader dynamicHeader;
     /**
      * 公钥
      */
@@ -72,7 +72,7 @@ public class HttpApi {
     }
 
 
-    public static void build(String baseUrl, String apiVersion, String version, DefaultKVPBean... dynamicHeader) {
+    public static void build(String baseUrl, String apiVersion, String version, HttpDynamicHeader dynamicHeader) {
         HttpApi.base_url = baseUrl;
         HttpApi.api_version = apiVersion;
         HttpApi.version = version;
@@ -116,7 +116,7 @@ public class HttpApi {
         List<BaseKVP> headerList = new ArrayList();
         headerList.addAll(default_headers);
         if (dynamicHeader != null) {
-            addHeaders(headerList, dynamicHeader);
+            addHeaders(headerList, dynamicHeader.getDynamicHeader().toArray(new BaseKVP[dynamicHeader.getDynamicHeader().size()]));
         }
         return headerList;
     }
