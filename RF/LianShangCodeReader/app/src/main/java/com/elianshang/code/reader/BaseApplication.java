@@ -49,6 +49,15 @@ public class BaseApplication extends Application {
         }
     }
 
+    public boolean isLogin() {
+        String uToken = getUserToken();
+        if (TextUtils.isEmpty(uToken)) {
+            return false;
+        }
+
+        return true;
+    }
+
     public void setUser(User user) {
         mUser = user;
         new UserSaveTask(user).start();

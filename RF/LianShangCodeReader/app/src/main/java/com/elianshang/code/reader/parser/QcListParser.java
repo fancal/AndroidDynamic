@@ -13,11 +13,17 @@ public class QcListParser extends MasterParser<QcList> {
     public QcList parse(JSONObject data) throws Exception {
 
         if (data != null) {
+            int qcType = optInt(data , "qcType");
+            if(qcType != 1 && qcType != 2){
+                qcType = 2 ;
+            }
+
             JSONArray jsonArray = optJSONArray(data, "qcList");
             int len = getLength(jsonArray);
 
             if (len > 0) {
                 QcList qcList = new QcList();
+                qcList.setQcType(qcType);
                 for (int i = 0; i < len; i++) {
                     JSONObject jo = optJSONObject(jsonArray, i);
                     if (jo != null) {

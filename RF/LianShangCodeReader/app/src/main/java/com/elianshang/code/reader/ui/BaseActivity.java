@@ -1,7 +1,7 @@
 package com.elianshang.code.reader.ui;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends Activity {
 
 }

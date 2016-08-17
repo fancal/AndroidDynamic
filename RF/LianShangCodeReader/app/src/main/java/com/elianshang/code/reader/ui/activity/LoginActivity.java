@@ -1,5 +1,6 @@
 package com.elianshang.code.reader.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,9 +24,9 @@ import com.xue.http.impl.DataHull;
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener, ScanEditTextTool.OnStateChangeListener {
 
-    public static void launch(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        context.startActivity(intent);
+    public static void launch(Activity activity) {
+        Intent intent = new Intent(activity, LoginActivity.class);
+        activity.startActivityForResult(intent, 1);
     }
 
     /**
@@ -139,6 +140,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         @Override
         public void onPostExecute(int updateId, User result) {
             BaseApplication.get().setUser(result);
+            setResult(RESULT_OK);
             finish();
         }
 

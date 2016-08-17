@@ -9,6 +9,8 @@ import java.util.ArrayList;
  */
 public class QcList extends ArrayList<QcList.Item> implements BaseBean {
 
+    private int qcType;
+
     @Override
     public void setDataKey(String dataKey) {
 
@@ -17,6 +19,14 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
     @Override
     public String getDataKey() {
         return null;
+    }
+
+    public int getQcType() {
+        return qcType;
+    }
+
+    public void setQcType(int qcType) {
+        this.qcType = qcType;
     }
 
     public static class Item {

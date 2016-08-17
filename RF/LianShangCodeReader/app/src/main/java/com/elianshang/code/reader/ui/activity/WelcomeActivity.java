@@ -1,9 +1,10 @@
 package com.elianshang.code.reader.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Button;
 
 import com.elianshang.code.reader.BaseApplication;
 import com.elianshang.code.reader.R;
@@ -12,57 +13,54 @@ import com.elianshang.code.reader.ui.BaseActivity;
 public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
 
     /**
-     * 登陆
-     */
-    private Button loginButton;
-
-    /**
      * 收货
      */
-    private Button receiptButton;
+    private View receiptButton;
 
     /**
      * 上架
      */
-    private Button shelveButton;
+    private View shelveButton;
 
     /**
      * 盘点
      */
-    private Button takeStockButton;
+    private View takeStockButton;
 
     /**
      * 转残次
      */
-    private Button createScrapButton;
+    private View createScrapButton;
 
     /**
      * 转退货
      */
-    private Button createReturnButton;
+    private View createReturnButton;
     /**
      * 移库
      */
-    private Button transferLocationButton;
+    private View transferLocationButton;
     /**
      * 补货
      */
-    private Button procurementButton;
+    private View procurementButton;
 
     /**
      * 拣货
      */
-    private Button pickButton;
+    private View pickButton;
 
     /**
      * QC
      */
-    private Button qualityControlButton;
+    private View qualityControlButton;
 
     /**
      * 发车
      */
-    private Button shipButton;
+    private View shipButton;
+
+    private PowerManager.WakeLock m_wklk;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,22 +68,28 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_welcome);
 
         findViews();
+
+        if (!BaseApplication.get().isLogin()) {
+            LoginActivity.launch(this);
+        }
+
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        m_wklk = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "cn");
+        m_wklk.acquire(); //设置保持唤醒
     }
 
     private void findViews() {
-        loginButton = (Button) findViewById(R.id.login_Button);
-        receiptButton = (Button) findViewById(R.id.receipt_Button);
-        shelveButton = (Button) findViewById(R.id.shelve_Button);
-        takeStockButton = (Button) findViewById(R.id.takeStock_Button);
-        createScrapButton = (Button) findViewById(R.id.createScrap_Button);
-        createReturnButton = (Button) findViewById(R.id.createReturn_Button);
-        transferLocationButton = (Button) findViewById(R.id.transferLocation_Button);
-        procurementButton = (Button) findViewById(R.id.procurement_Button);
-        pickButton = (Button) findViewById(R.id.pick_Button);
-        qualityControlButton = (Button) findViewById(R.id.qualityControl_Button);
-        shipButton = (Button) findViewById(R.id.ship_Button);
+        receiptButton = findViewById(R.id.receipt_Button);
+        shelveButton = findViewById(R.id.shelve_Button);
+        takeStockButton = findViewById(R.id.takeStock_Button);
+        createScrapButton = findViewById(R.id.createScrap_Button);
+        createReturnButton = findViewById(R.id.createReturn_Button);
+        transferLocationButton = findViewById(R.id.transferLocation_Button);
+        procurementButton = findViewById(R.id.procurement_Button);
+        pickButton = findViewById(R.id.pick_Button);
+        qualityControlButton = findViewById(R.id.qualityControl_Button);
+        shipButton = findViewById(R.id.ship_Button);
 
-        loginButton.setOnClickListener(this);
         receiptButton.setOnClickListener(this);
         shelveButton.setOnClickListener(this);
         takeStockButton.setOnClickListener(this);
@@ -98,12 +102,23 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         shipButton.setOnClickListener(this);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode != RESULT_OK) {
+            finish();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        m_wklk.release();
+    }
 
     @Override
     public void onClick(View v) {
-        if (v == loginButton) {
-            LoginActivity.launch(this);
-        } else if (v == receiptButton) {
+        if (v == receiptButton) {
             ReceiptOpenActivity.launch(this);
         } else if (v == shelveButton) {
             ShelveOpenActivity.launch(this);
