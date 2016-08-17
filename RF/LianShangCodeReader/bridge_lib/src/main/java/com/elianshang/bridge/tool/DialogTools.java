@@ -1,16 +1,15 @@
 package com.elianshang.bridge.tool;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialog;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,14 +27,13 @@ public class DialogTools {
      * @param context
      * @return
      */
-    public static AppCompatDialog showLoadingDialog(Context context) {
+    public static Dialog showLoadingDialog(Context context) {
         if (context == null) {
             return null;
         }
         View view = new CircleProgressBar(context);
-        final AppCompatDialog dialog = new AppCompatDialog(context, R.style.transparentDialog);
-        dialog.setContentView(view, new LinearLayout.LayoutParams(
-                UITool.dipToPx(context, 40), UITool.dipToPx(context, 40)));
+        final Dialog dialog = new Dialog(context, R.style.transparentDialog);
+        dialog.setContentView(view, new LinearLayout.LayoutParams(UITool.dipToPx(context, 40), UITool.dipToPx(context, 40)));
         // 设置点击外围解散
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
@@ -181,8 +179,8 @@ public class DialogTools {
 
         LayoutInflater inflater = context.getLayoutInflater();
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_editview, null);
-        final AppCompatEditText editText = (AppCompatEditText) layout.findViewById(R.id.edittext);
-        AppCompatTextView titleView = (AppCompatTextView) layout.findViewById(R.id.title);
+        final EditText editText = (EditText) layout.findViewById(R.id.edittext);
+        TextView titleView = (TextView) layout.findViewById(R.id.title);
         titleView.setText(tile);
         if (!TextUtils.isEmpty(textHint)) {
             editText.setHint(textHint);

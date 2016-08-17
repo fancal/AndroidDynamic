@@ -6,13 +6,13 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.widget.ImageView;
 
 import com.xue.support.R;
 
-public class RoundImageView extends AppCompatImageView {
+public class RoundImageView extends ImageView {
 
     private static final int BODER_RADIUS_DEFAULT = 10;
     private int mBorderRadius;

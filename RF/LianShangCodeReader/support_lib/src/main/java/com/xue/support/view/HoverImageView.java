@@ -13,13 +13,13 @@ import android.graphics.RectF;
 import android.graphics.Xfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 
 import com.xue.support.R;
 
 
-public class HoverImageView extends AppCompatImageView {
+public class HoverImageView extends ImageView {
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
     private static final PorterDuffXfermode duffMode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
 
