@@ -18,26 +18,29 @@ import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
-import com.elianshang.code.pick.BaseApplication;
 import com.elianshang.code.pick.R;
 import com.elianshang.code.pick.bean.Pick;
 import com.elianshang.code.pick.bean.PickLocation;
 import com.elianshang.code.pick.parser.PickLocationParser;
 import com.elianshang.code.pick.parser.PickParser;
-import com.elianshang.code.pick.ui.BaseActivity;
 import com.elianshang.tools.ToastTool;
+import com.ryg.dynamicload.DLBasePluginActivity;
 import com.xue.http.impl.DataHull;
 import com.xue.http.impl.DefaultKVPBean;
 
 /**
  * Created by liuhanzhi on 16/8/3. 移库
  */
-public class PickActivity extends BaseActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class PickActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, PickActivity.class);
         context.startActivity(intent);
     }
+
+    private String uId;
+
+    private String uToken;
 
     private Toolbar mToolbar;
     /**
@@ -117,23 +120,41 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
     private Pick mPick;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick);
         findViews();
 
+        readExtra();
+    }
+
+    private void readExtra() {
+        Intent intent = getIntent();
+        uId = intent.getStringExtra("uId");
+        uToken = intent.getStringExtra("uToken");
+
+        uId = "123123132";
+        uToken = "aewrq23r243423eq3e";
+
+        if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
+            finish();
+        }
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        ScanManager.get().addListener(this);
+        if (ScanManager.get() != null) {
+            ScanManager.get().addListener(this);
+        }
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
-        ScanManager.get().removeListener(this);
+        if (ScanManager.get() != null) {
+            ScanManager.get().removeListener(this);
+        }
     }
 
     private void findViews() {
@@ -166,9 +187,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
 
         mSubmit.setOnClickListener(this);
 
-
         setCurPageView();
-
     }
 
     /**
@@ -193,7 +212,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
                 mGroup3.setVisibility(View.GONE);
                 mSubmit.setVisibility(View.GONE);
 
-                scanEditTextTool = new ScanEditTextTool(this, mGroup1TaskIdView, mGroup1ContainerIdView);
+                scanEditTextTool = new ScanEditTextTool(that, mGroup1TaskIdView, mGroup1ContainerIdView);
                 scanEditTextTool.setComplete(this);
                 break;
             case 1:
@@ -202,7 +221,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
                 mGroup3.setVisibility(View.GONE);
                 mSubmit.setVisibility(View.VISIBLE);
 
-                scanEditTextTool = new ScanEditTextTool(this, mGroup2ConfirmLocationIdView);
+                scanEditTextTool = new ScanEditTextTool(that, mGroup2ConfirmLocationIdView);
                 scanEditTextTool.setComplete(this);
 
                 break;
@@ -212,7 +231,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
                 mGroup3.setVisibility(View.VISIBLE);
                 mSubmit.setVisibility(View.GONE);
 
-                scanEditTextTool = new ScanEditTextTool(this, mGroup3ConfirmCollectionIdView);
+                scanEditTextTool = new ScanEditTextTool(that, mGroup3ConfirmCollectionIdView);
                 scanEditTextTool.setComplete(this);
                 break;
         }
@@ -265,14 +284,14 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
                 if (TextUtils.equals(locationId, mPick.getAllocPickLocationId())) {
                     fillPickQty();
                 } else {
-                    ToastTool.show(this, "错误的拣货位,请重新扫描");
+                    ToastTool.show(that, "错误的拣货位,请重新扫描");
                 }
                 break;
             case 2:
                 if (TextUtils.equals(mPick.getAllocCollectLocationId(), mGroup3ConfirmCollectionIdView.getText().toString())) {
                     requestPickLocation(mGroup1TaskIdView.getText().toString(), mGroup3ConfirmCollectionIdView.getText().toString(), "");
                 } else {
-                    ToastTool.show(this, "错误的集货位，请重新扫描");
+                    ToastTool.show(that, "错误的集货位，请重新扫描");
                 }
                 break;
 
@@ -292,7 +311,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
     @Override
     public void onBackPressed() {
         if (mCurPage > 0) {
-            DialogTools.showOneButtonDialog(this, "请完成任务,不要退出", "知道了", null, true);
+            DialogTools.showOneButtonDialog(that, "请完成任务,不要退出", "知道了", null, true);
             return;
         }
         super.onBackPressed();
@@ -340,7 +359,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
 
         @Override
         public DataHull<Pick> doInBackground() {
-            return HttpApi.doPost("outbound/pick/scanPickTask", new PickParser(), new DefaultKVPBean("taskId", taskId), new DefaultKVPBean("containerId", containerId), new DefaultKVPBean("operator", BaseApplication.get().getUserId()));
+            return HttpApi.doPost("outbound/pick/scanPickTask", new PickParser(), new DefaultKVPBean("taskId", taskId), new DefaultKVPBean("containerId", containerId), new DefaultKVPBean("operator", uId));
         }
 
         @Override
@@ -372,7 +391,7 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
 
         @Override
         public DataHull<PickLocation> doInBackground() {
-            return HttpApi.doPost("outbound/pick/scanPickLocation", new PickLocationParser(), new DefaultKVPBean("taskId", taskId), new DefaultKVPBean("locationId", locationId), new DefaultKVPBean("operator", BaseApplication.get().getUserId()), new DefaultKVPBean("qty", qty));
+            return HttpApi.doPost("outbound/pick/scanPickLocation", new PickLocationParser(), new DefaultKVPBean("taskId", taskId), new DefaultKVPBean("locationId", locationId), new DefaultKVPBean("operator", uId), new DefaultKVPBean("qty", qty));
         }
 
         @Override
@@ -392,6 +411,4 @@ public class PickActivity extends BaseActivity implements ScanEditTextTool.OnSta
             }
         }
     }
-
-
 }

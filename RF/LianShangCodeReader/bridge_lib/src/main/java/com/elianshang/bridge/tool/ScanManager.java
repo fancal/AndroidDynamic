@@ -68,11 +68,19 @@ public class ScanManager {
             return;
         }
 
+        if(listeners == null){
+            return;
+        }
+
         listeners.add(listener);
     }
 
     public void removeListener(OnBarCodeListener listener) {
         if (listener == null) {
+            return;
+        }
+
+        if(listeners == null){
             return;
         }
 
