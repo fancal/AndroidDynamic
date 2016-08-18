@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.Looper;
 import android.text.TextUtils;
 
-import com.elianshang.bridge.R;
 import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.bridge.tool.UMengEventTool;
 import com.elianshang.tools.NetWorkTool;
@@ -265,7 +264,7 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl imp
      */
     public void netNull() {
         if (showToast && null != context) {
-            ToastTool.show(context, R.string.text_net_null);
+            ToastTool.show(context, "请检查网络");
         }
     }
 

@@ -22,6 +22,9 @@ public class PluginTool {
         DLPluginPackage dlPluginPackage = DLPluginManager.getInstance(context).loadApk(path);
 
         DLPluginManager pluginManager = DLPluginManager.getInstance(context);
-        pluginManager.startPluginActivity(context, new DLIntent(dlPluginPackage.packageName, packageInfo.activities[0].name));
+        DLIntent intent = new DLIntent(dlPluginPackage.packageName, packageInfo.activities[0].name);
+        intent.putExtra("uId", "aaaa");
+        intent.putExtra("uToken", "bbbb");
+        pluginManager.startPluginActivity(context, intent);
     }
 }

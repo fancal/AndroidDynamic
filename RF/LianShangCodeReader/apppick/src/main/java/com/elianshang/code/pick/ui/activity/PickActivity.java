@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -133,8 +134,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         uId = intent.getStringExtra("uId");
         uToken = intent.getStringExtra("uToken");
 
-        uId = "123123132";
-        uToken = "aewrq23r243423eq3e";
+        Log.e("xue", "uId == " + uId);
+        Log.e("xue", "uToken == " + uToken);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
