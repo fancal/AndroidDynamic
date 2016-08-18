@@ -80,4 +80,5 @@ public class BaseApplication extends Application {
     public String getUserToken() {
         return getUser().getToken();
     }
+
 }
