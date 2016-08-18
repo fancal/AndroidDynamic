@@ -121,7 +121,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (v == receiptButton) {
         } else if (v == shelveButton) {
         } else if (v == takeStockButton) {
-            PluginTool.load(this, "sdcard/DynamicLoadHost/lsh_app_stack_v1.0_official.apk");
+            PluginTool.load(this, "sdcard/DynamicLoadHost/lsh_app_stack_v1.0_tttt.apk");
         } else if (v == createScrapButton) {
         } else if (v == createReturnButton) {
         } else if (v == transferLocationButton) {

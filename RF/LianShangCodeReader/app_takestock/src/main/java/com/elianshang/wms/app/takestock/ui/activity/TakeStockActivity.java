@@ -207,16 +207,16 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         }
 
         vhList.clear();
-        scanEditTextTool = new ScanEditTextTool(this, taskLocationIdEditText);
+        scanEditTextTool = new ScanEditTextTool(that, taskLocationIdEditText);
 
         scanEditTextTool.setComplete(new ScanEditTextTool.OnStateChangeListener() {
             @Override
             public void onComplete() {
                 String locationId = taskLocationIdEditText.getText().toString();
                 if (TextUtils.equals(locationId, task.getLocationId())) {
-                    new StockTakingGetTask(TakeStockActivity.this, task.getTaskId(), locationId).start();
+                    new StockTakingGetTask(TakeStockActivity.this.that, task.getTaskId(), locationId).start();
                 } else {
-                    Toast.makeText(TakeStockActivity.this, "错误的库位,请扫描正确库位", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TakeStockActivity.this.that, "错误的库位,请扫描正确库位", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -247,13 +247,13 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         }
 
         vhList.clear();
-        scanEditTextTool = new ScanEditTextTool(this);
+        scanEditTextTool = new ScanEditTextTool(that);
 
         addItemView();
     }
 
     private void addItemView() {
-        View view = View.inflate(this, R.layout.takestock_input_item, null);
+        View view = View.inflate(that, R.layout.takestock_input_item, null);
 
         ScanEditText nameEditText = (ScanEditText) view.findViewById(R.id.barcode_edittext);
         QtyEditText qtyEditText = (QtyEditText) view.findViewById(R.id.realityqty_edittext);
@@ -314,10 +314,10 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         }
 
         if (state) {
-            new StockTakingDoOneTask(this, jsonObject.toString()).start();
+            new StockTakingDoOneTask(that, jsonObject.toString()).start();
         } else {
             if (jsonarray.length() == 0) {
-                DialogTools.showTwoButtonDialog(this, "请确定,库位没有商品", "取消", "确认", new DialogInterface.OnClickListener() {
+                DialogTools.showTwoButtonDialog(that, "请确定,库位没有商品", "取消", "确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -325,11 +325,11 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
                 }, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new StockTakingDoOneTask(TakeStockActivity.this, jsonObject.toString()).start();
+                        new StockTakingDoOneTask(TakeStockActivity.this.that, jsonObject.toString()).start();
                     }
                 }, false);
             } else {
-                DialogTools.showTwoButtonDialog(this, "信息不完全的的数据,提交时将会被忽略", "取消", "确认", new DialogInterface.OnClickListener() {
+                DialogTools.showTwoButtonDialog(this.that, "信息不完全的的数据,提交时将会被忽略", "取消", "确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -337,7 +337,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
                 }, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new StockTakingDoOneTask(TakeStockActivity.this, jsonObject.toString()).start();
+                        new StockTakingDoOneTask(TakeStockActivity.this.that, jsonObject.toString()).start();
                     }
                 }, false);
             }

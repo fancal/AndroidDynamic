@@ -1,13 +1,14 @@
 package com.elianshang.wms.app.takestock.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 
-public class MainActivity extends Activity {
+import com.ryg.dynamicload.DLBasePluginActivity;
+
+public class MainActivity extends DLBasePluginActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TakeStockActivity.launch(this, "");
+        TakeStockActivity.launch(that, "");
     }
 }

@@ -17,8 +17,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dip_5"
-        android:layout_marginTop="@dimen/dip_5"
+        android:layout_marginBottom="5dip"
+        android:layout_marginTop="5dip"
         android:orientation="horizontal"
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
@@ -40,8 +40,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dip_5"
-        android:layout_marginTop="@dimen/dip_5"
+        android:layout_marginBottom="5dip"
+        android:layout_marginTop="5dip"
         android:orientation="horizontal"
         android:paddingLeft="10dip"
         android:paddingRight="10dip">
@@ -85,8 +85,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dip_5"
-                android:layout_marginTop="@dimen/dip_5"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="10dip"
@@ -110,8 +110,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dip_5"
-                android:layout_marginTop="@dimen/dip_5"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
                 android:orientation="vertical"
                 android:paddingLeft="10dip"
                 android:paddingRight="10dip">
@@ -163,8 +163,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dip_5"
-                        android:layout_marginTop="@dimen/dip_5"
+                        android:layout_marginBottom="5dip"
+                        android:layout_marginTop="5dip"
                         android:orientation="horizontal">
 
                         <TextView
@@ -184,8 +184,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dip_5"
-                        android:layout_marginTop="@dimen/dip_5"
+                        android:layout_marginBottom="5dip"
+                        android:layout_marginTop="5dip"
                         android:orientation="horizontal">
 
                         <TextView
@@ -205,8 +205,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dip_5"
-                        android:layout_marginTop="@dimen/dip_5"
+                        android:layout_marginBottom="5dip"
+                        android:layout_marginTop="5dip"
                         android:orientation="horizontal">
 
                         <TextView
@@ -226,8 +226,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dip_5"
-                        android:layout_marginTop="@dimen/dip_5"
+                        android:layout_marginBottom="5dip"
+                        android:layout_marginTop="5dip"
                         android:orientation="horizontal">
 
                         <TextView
@@ -252,8 +252,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dip_5"
-                            android:layout_marginTop="@dimen/dip_5"
+                            android:layout_marginBottom="5dip"
+                            android:layout_marginTop="5dip"
                             android:orientation="horizontal">
 
                             <TextView
@@ -288,7 +288,7 @@
                         android:layout_gravity="center"
                         android:background="@drawable/submit_button_bg"
                         android:text="添加商品"
-                        android:textColor="@color/white" />
+                        android:textColor="#ffffff" />
 
                     <View
                         android:layout_width="match_parent"

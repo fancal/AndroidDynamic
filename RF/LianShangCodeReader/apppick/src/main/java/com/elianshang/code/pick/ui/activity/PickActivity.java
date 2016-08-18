@@ -195,14 +195,14 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
      * 扫拣货签&托盘码
      */
     private void requestPick(String taskId, String containerId) {
-        new RequestPickTask(this, taskId, containerId).start();
+        new RequestPickTask(that, taskId, containerId).start();
     }
 
     /**
      * 扫拣货位/集货位
      */
     private void requestPickLocation(String taskId, String locationId, String qty) {
-        new RequestPickLocationTask(this, taskId, locationId, qty).start();
+        new RequestPickLocationTask(that, taskId, locationId, qty).start();
     }
 
     private void setCurPageView() {
