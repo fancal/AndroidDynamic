@@ -96,7 +96,6 @@ public class HttpApi {
         setDefaultHeaders(
                 new DefaultKVPBean(Header.api_version, api_version),
                 new DefaultKVPBean(Header.version, version),
-                //new DefaultKVPBean(Header.app_key, BaseApplication.get().getImei()),
                 new DefaultKVPBean(Header.app_key, "11111"),
                 new DefaultKVPBean(Header.platform, "2")
         );

@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
  */
 public class ContentEditText extends EditText {
 
-//    private String patternCompile = "";
+    private String patternCompile = "";
 
-    private String patternCompile = "[0-9]*";
+//    private String patternCompile = "[0-9]*";
 
     public ContentEditText(Context context) {
         super(context);
