@@ -3,6 +3,7 @@ package com.elianshang.wms.rf.plugin;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 
+import com.elianshang.wms.rf.BaseApplication;
 import com.ryg.dynamicload.internal.DLIntent;
 import com.ryg.dynamicload.internal.DLPluginManager;
 import com.ryg.dynamicload.internal.DLPluginPackage;
@@ -23,8 +24,8 @@ public class PluginTool {
 
         DLPluginManager pluginManager = DLPluginManager.getInstance(context);
         DLIntent intent = new DLIntent(dlPluginPackage.packageName, packageInfo.activities[0].name);
-        intent.putExtra("uId", "aaaa");
-        intent.putExtra("uToken", "bbbb");
+        intent.putExtra("uId", BaseApplication.get().getUserId());
+        intent.putExtra("uToken", BaseApplication.get().getUserToken());
         pluginManager.startPluginActivity(context, intent);
     }
 }

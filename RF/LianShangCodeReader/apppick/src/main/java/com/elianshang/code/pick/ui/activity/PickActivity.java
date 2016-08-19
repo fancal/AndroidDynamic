@@ -315,7 +315,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
             DialogTools.showOneButtonDialog(that, "请完成任务,不要退出", "知道了", null, true);
             return;
         }
-        super.onBackPressed();
+        finish();
     }
 
 

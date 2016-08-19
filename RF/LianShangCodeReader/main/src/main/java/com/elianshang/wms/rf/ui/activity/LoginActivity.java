@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
@@ -44,7 +45,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
     /**
      * 工具栏
      */
-//    private Toolbar mToolbar;
+    private Toolbar mToolbar;
 
     /**
      * 输入框工具
@@ -67,21 +68,21 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
 
         scanEditTextTool = new ScanEditTextTool(this, userNameEditText, passWdEditText);
         scanEditTextTool.setComplete(this);
-//        initToolBar();
+        initToolBar();
 
         userNameEditText.setText("xueliyu");
         passWdEditText.setText("123456");
     }
 
-//    private void initToolBar() {
-//        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-//        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-//    }
+    private void initToolBar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 
     @Override
     public void onBackPressed() {

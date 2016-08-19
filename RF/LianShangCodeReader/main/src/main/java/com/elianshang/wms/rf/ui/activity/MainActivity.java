@@ -7,6 +7,7 @@ import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.elianshang.wms.rf.BaseApplication;
 import com.elianshang.wms.rf.R;
 import com.elianshang.wms.rf.plugin.PluginTool;
 
@@ -69,9 +70,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         findViews();
 
-//        if (!BaseApplication.get().isLogin()) {
-//            LoginActivity.launch(this);
-//        }
+        if (!BaseApplication.get().isLogin()) {
+            LoginActivity.launch(this);
+        }
 
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
         m_wklk = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "cn");

@@ -1,6 +1,5 @@
 package com.elianshang.wms.app.takestock.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,8 +25,8 @@ import com.elianshang.wms.app.takestock.bean.TakeStockDetail;
 import com.elianshang.wms.app.takestock.bean.TakeStockList;
 import com.elianshang.wms.app.takestock.provider.StockTakingDetailProvider;
 import com.elianshang.wms.app.takestock.provider.StockTakingDoneProvider;
-import com.elianshang.wms.app.takestock.provider.StockTakingProvider;
 import com.ryg.dynamicload.DLBasePluginActivity;
+import com.ryg.dynamicload.internal.DLIntent;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;
@@ -41,9 +40,12 @@ import java.util.ArrayList;
  */
 public class TakeStockActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, View.OnClickListener {
 
-    public static void launch(Context context, String uid) {
-        StockTakingAssignTask task = new StockTakingAssignTask(context, uid);
-        task.start();
+    public static void launch(DLBasePluginActivity activity, String uid, String uToken, TakeStockList list) {
+        DLIntent intent = new DLIntent(activity.getPackageName(), TakeStockActivity.class);
+        intent.putExtra("uId", uid);
+        intent.putExtra("uToken", uToken);
+        intent.putExtra("list", list);
+        activity.startPluginActivity(intent);
     }
 
     /**
@@ -347,58 +349,6 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     private class ViewHolder {
         ScanEditText nameEditText;
         QtyEditText qtyEditText;
-    }
-
-    /**
-     * 领取盘点任务
-     */
-    private static class StockTakingAssignTask extends HttpAsyncTask<TakeStockList> {
-
-        private String uid;
-
-        public StockTakingAssignTask(Context context, String uid) {
-            super(context, true, true);
-            this.uid = uid;
-        }
-
-        @Override
-        public DataHull<TakeStockList> doInBackground() {
-            return StockTakingProvider.request(uid);
-        }
-
-        @Override
-        public void onPostExecute(int updateId, TakeStockList result) {
-            Intent intent = new Intent(context, TakeStockActivity.class);
-            intent.putExtra("list", result);
-            context.startActivity(intent);
-            if (context instanceof Activity) {
-                ((Activity) context).finish();
-            }
-        }
-
-        @Override
-        public void netErr(int updateId, String errMsg) {
-            super.netErr(updateId, errMsg);
-            if (context instanceof Activity) {
-                ((Activity) context).finish();
-            }
-        }
-
-        @Override
-        public void netNull() {
-            super.netNull();
-            if (context instanceof Activity) {
-                ((Activity) context).finish();
-            }
-        }
-
-        @Override
-        public void dataNull(int updateId, String errMsg) {
-            super.dataNull(updateId, errMsg);
-            if (context instanceof Activity) {
-                ((Activity) context).finish();
-            }
-        }
     }
 
     /**

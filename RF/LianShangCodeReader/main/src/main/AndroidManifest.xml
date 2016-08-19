@@ -22,14 +22,18 @@
 
         <activity android:name=".ui.activity.LoginActivity" />
 
-        <activity android:name="com.ryg.dynamicload.DLProxyActivity">
+        <activity
+            android:name="com.ryg.dynamicload.DLProxyActivity"
+            android:theme="@android:style/Theme.Translucent">
             <intent-filter>
                 <action android:name="com.ryg.dynamicload.proxy.activity.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.ryg.dynamicload.DLProxyFragmentActivity">
+        <activity
+            android:name="com.ryg.dynamicload.DLProxyFragmentActivity"
+            android:theme="@android:style/Theme.Translucent">
             <intent-filter>
                 <action android:name="com.ryg.dynamicload.proxy.fragmentactivity.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
