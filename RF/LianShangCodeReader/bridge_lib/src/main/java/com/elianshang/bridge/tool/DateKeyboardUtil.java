@@ -53,7 +53,7 @@ public class DateKeyboardUtil implements View.OnTouchListener {
     }
 
     private synchronized void init() {
-        if (isInit) {
+        if (mKeyboardView == null || isInit) {
             return;
         }
         isInit = true;

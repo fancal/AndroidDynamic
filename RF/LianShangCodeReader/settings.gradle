@@ -1,1 +1,1 @@
-include ':app', ':toolslib', ':support_lib', ':threadpoollib', ':http_lib', ':bridge_lib', ':app_pick', ':main', ':app_takestock', ':dynamic', ':app_create_return', ':app_create_scrap', ':app_procurement', ':app_transfer', ':app_qc'
+include ':app', ':toolslib', ':support_lib', ':threadpoollib', ':http_lib', ':bridge_lib', ':app_pick', ':main', ':app_takestock', ':dynamic', ':app_create_return', ':app_create_scrap', ':app_procurement', ':app_transfer', ':app_qc', ':app_receipt', ':app_shelve'
