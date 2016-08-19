@@ -10,7 +10,7 @@
         <item name="titleTextColor">@color/white</item>
     </style>
 
-    <style name="TakeStockDialog" parent="@android:style/Theme.Dialog">
+    <style name="TransparentDialog" parent="@android:style/Theme.Dialog">
         <!--边框-->
         <item name="android:windowFrame">@null</item>
         <!--是否浮现在activity之上-->

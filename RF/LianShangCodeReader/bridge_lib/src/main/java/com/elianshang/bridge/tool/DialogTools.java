@@ -34,7 +34,7 @@ public class DialogTools {
             return null;
         }
         View view = new CircleProgressBar(context);
-        final Dialog dialog = new Dialog(context, R.style.transparentDialog);
+        final Dialog dialog = new Dialog(context, R.style.B_TransparentDialog);
         dialog.setContentView(view, new LinearLayout.LayoutParams(UITool.dipToPx(context, 40), UITool.dipToPx(context, 40)));
         // 设置点击外围解散
         dialog.setCanceledOnTouchOutside(false);
