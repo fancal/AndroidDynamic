@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">拣货</string>
+    <string name="app_name">App_qc</string>
     <string name="text_net_null">请检查网络</string>
 </resources>

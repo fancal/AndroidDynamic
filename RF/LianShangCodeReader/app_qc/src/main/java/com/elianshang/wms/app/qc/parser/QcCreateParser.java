@@ -7,7 +7,7 @@ import com.elianshang.wms.app.qc.bean.QcCreate;
 import org.json.JSONObject;
 
 //测试使用
-public class QcCeateParser extends MasterParser<QcCreate> {
+public class QcCreateParser extends MasterParser<QcCreate> {
 
     @Override
     public QcCreate parse(JSONObject data) throws Exception {

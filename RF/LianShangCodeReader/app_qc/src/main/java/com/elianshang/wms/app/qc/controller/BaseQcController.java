@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
-import com.elianshang.bridge.http.HttpApi;
 import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
@@ -20,6 +19,9 @@ import com.elianshang.wms.app.qc.R;
 import com.elianshang.wms.app.qc.bean.QcCreate;
 import com.elianshang.wms.app.qc.bean.QcList;
 import com.elianshang.wms.app.qc.bean.ResponseState;
+import com.elianshang.wms.app.qc.provider.ConfirmAllProvider;
+import com.elianshang.wms.app.qc.provider.CreateTaskProvider;
+import com.elianshang.wms.app.qc.provider.ScanContainerProvider;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;
@@ -234,7 +236,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return HttpApi.qcConfirmAll(containerId, qcList);
+            return ConfirmAllProvider.request(containerId, qcList);
         }
 
         @Override
@@ -258,7 +260,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
         @Override
         public DataHull<QcList> doInBackground() {
-            return HttpApi.qcScanContainer(containerId);
+            return ScanContainerProvider.request(containerId);
         }
 
         @Override
@@ -284,7 +286,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
         @Override
         public DataHull<QcCreate> doInBackground() {
-            return HttpApi.qcCreateTask(containerId);
+            return CreateTaskProvider.request(containerId);
         }
 
         @Override

@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.wms.app.qc.bean.QcList;
 import com.elianshang.wms.app.qc.tool.QcDialog;
 import com.elianshang.wms.app.qc.ui.view.QcManualView;
@@ -160,7 +159,7 @@ public class QcManualController extends BaseQcController implements QcManualView
             exceptionQty = "0";
             hasKey = false;
         }
-        AlertDialog alertDialog = DialogTools.showQcExceptionDialog(activity, item.getItemName(), qty, exceptionQty, hasKey, "取消", "确认", null, new DialogTools.OnQcPositiveButtonClick() {
+        AlertDialog alertDialog = QcDialog.showQcExceptionDialog(activity, item.getItemName(), qty, exceptionQty, hasKey, "取消", "确认", null, new QcDialog.OnQcPositiveButtonClick() {
             @Override
             public void onClick(String inputQty, String shoddyQty) {
                 if (TextUtils.equals(inputQty, "0") && TextUtils.equals(shoddyQty, "0")) {
