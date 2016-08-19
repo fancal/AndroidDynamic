@@ -122,7 +122,7 @@
                     android:text="扫描确认库位:"
                     android:textSize="20dip" />
 
-                <com.elianshang.code.reader.ui.view.ScanEditText
+                <com.elianshang.bridge.ui.view.ScanEditText
                     android:id="@+id/locationId_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

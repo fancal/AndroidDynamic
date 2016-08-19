@@ -1,0 +1,84 @@
+<resources>
+    <dimen name="px_0">0px</dimen>
+
+    <dimen name="px_1">1px</dimen>
+
+    <dimen name="dip_1">1dip</dimen>
+
+    <dimen name="dip_2">2dip</dimen>
+
+    <dimen name="dip_3">3dip</dimen>
+
+    <dimen name="dip_4">4dip</dimen>
+
+    <dimen name="dip_5">5dip</dimen>
+
+    <dimen name="dip_6">6dip</dimen>
+
+    <dimen name="dip_7">7dip</dimen>
+
+    <dimen name="dip_8">8dip</dimen>
+
+    <dimen name="dip_9">9dip</dimen>
+
+    <dimen name="dip_10">10dip</dimen>
+
+    <dimen name="dip_11">11dip</dimen>
+
+    <dimen name="dip_12">12dip</dimen>
+
+    <dimen name="dip_13">13dip</dimen>
+
+    <dimen name="dip_14">14dip</dimen>
+
+    <dimen name="dip_16">16dip</dimen>
+
+    <dimen name="dip_17">17dip</dimen>
+
+    <dimen name="dip_19">19dip</dimen>
+
+    <dimen name="dip_20">20dip</dimen>
+
+    <dimen name="dip_21">21dip</dimen>
+
+    <dimen name="dip_22">22dip</dimen>
+
+    <dimen name="dip_23">23dip</dimen>
+
+    <dimen name="dip_25">25dip</dimen>
+
+    <dimen name="dip_26">26dip</dimen>
+
+    <dimen name="dip_27">27dip</dimen>
+
+    <dimen name="dip_28">28dip</dimen>
+
+    <dimen name="dip_30">30dip</dimen>
+
+    <dimen name="dip_33">33dip</dimen>
+
+    <dimen name="dip_35">35dip</dimen>
+
+    <dimen name="dip_38">38dip</dimen>
+
+    <dimen name="dip_39">39dip</dimen>
+
+    <dimen name="dip_40">40dip</dimen>
+
+    <dimen name="dip_45">45dip</dimen>
+
+    <dimen name="dip_47">47dip</dimen>
+
+    <dimen name="dip_50">50dip</dimen>
+
+    <dimen name="dip_52">52dip</dimen>
+
+    <dimen name="dip_56">56dip</dimen>
+
+    <dimen name="dip_60">60dip</dimen>
+
+    <dimen name="dip_70">70dip</dimen>
+
+    <dimen name="dip_213">213dip</dimen>
+
+</resources>

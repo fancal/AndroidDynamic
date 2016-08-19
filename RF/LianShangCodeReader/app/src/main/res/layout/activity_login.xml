@@ -30,7 +30,7 @@
             android:text="用户名:"
             android:textSize="@dimen/dip_20" />
 
-        <com.elianshang.code.reader.ui.view.ContentEditText
+        <com.elianshang.bridge.ui.view.ContentEditText
             android:id="@+id/userName_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
             android:text="密    码:"
             android:textSize="@dimen/dip_20" />
 
-        <com.elianshang.code.reader.ui.view.ContentEditText
+        <com.elianshang.bridge.ui.view.ContentEditText
             android:id="@+id/passWd_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

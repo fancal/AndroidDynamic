@@ -116,7 +116,7 @@
                         android:text="实收数量:"
                         android:textSize="20dip" />
 
-                    <com.elianshang.code.reader.ui.view.QtyEditText
+                    <com.elianshang.bridge.ui.view.QtyEditText
                         android:id="@+id/inboundQty_EditView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                         android:text="批次号:"
                         android:textSize="20dip" />
 
-                    <com.elianshang.code.reader.ui.view.ContentEditText
+                    <com.elianshang.bridge.ui.view.ContentEditText
                         android:id="@+id/lotNum_EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
                         android:text="生产日期:"
                         android:textSize="20dip" />
 
-                    <com.elianshang.code.reader.ui.view.ContentEditText
+                    <com.elianshang.bridge.ui.view.ContentEditText
                         android:id="@+id/et_year"
                         android:layout_width="80dip"
                         android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
                         android:text="年"
                         android:textSize="20dip" />
 
-                    <com.elianshang.code.reader.ui.view.ContentEditText
+                    <com.elianshang.bridge.ui.view.ContentEditText
                         android:id="@+id/et_month"
                         android:layout_width="50dip"
                         android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                         android:text="月"
                         android:textSize="20dip" />
 
-                    <com.elianshang.code.reader.ui.view.ContentEditText
+                    <com.elianshang.bridge.ui.view.ContentEditText
                         android:id="@+id/et_day"
                         android:layout_width="50dip"
                         android:layout_height="wrap_content"

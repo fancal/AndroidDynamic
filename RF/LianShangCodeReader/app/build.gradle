@@ -179,6 +179,7 @@ dependencies {
     compile project(':http_lib')
     compile project(':threadpoollib')
     compile project(':toolslib')
+    compile project(':bridge_lib')
     provided files('gt500/gt500-apis.jar')
 
 }
