@@ -20,7 +20,15 @@ package com.elianshang.dynamic.utils;
 
 public class DLConstants {
     public static final String FROM = "extra.from";
+
+    /**
+     * 自启动
+     */
     public static final int FROM_INTERNAL = 0;
+
+    /**
+     * 内部启动
+     */
     public static final int FROM_EXTERNAL = 1;
 
     public static final String EXTRA_DEX_PATH = "extra.dex.path";
@@ -44,10 +52,13 @@ public class DLConstants {
     public static final String PREFERENCE_NAME = "dynamic_load_configs";
 
     /**
-     * zhangjie1980
-     * Intent Extra keys
+     * 代理目标的包名
      */
     public final static String INTENT_PLUGIN_PACKAGE = "dl_plugin_package";
+
+    /**
+     * 代理目标的类名
+     */
     public final static String INTENT_PLUGIN_CLASS = "dl_plugin_class";
 
 }
