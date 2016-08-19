@@ -16,7 +16,7 @@ android {
      * 默认配置项，包名、最小SDK版本、目标SDK版本、版本号、版本名
      * */
     defaultConfig {
-        applicationId "com.elianshang.code.pick"
+        applicationId "com.elianshang.wms.app.shelve"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
@@ -129,7 +129,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "lsh_app_qc_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        def fileName = "lsh_app_shelve_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }

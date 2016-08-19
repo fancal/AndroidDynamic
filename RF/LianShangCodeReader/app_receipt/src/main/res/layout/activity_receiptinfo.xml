@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIcon="@drawable/toolbar_back"
+        app:title="收货" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:text="填写收货数量"
+                android:textSize="@dimen/dip_20" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dip_5"
+                    android:layout_marginTop="@dimen/dip_5"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="名称:"
+                        android:textSize="20dip" />
+
+                    <TextView
+                        android:id="@+id/itemName_TextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dip" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dip_5"
+                    android:layout_marginTop="@dimen/dip_5"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="包装单位:"
+                        android:textSize="20dip" />
+
+                    <TextView
+                        android:id="@+id/packUnit_TextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dip" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dip_5"
+                    android:layout_marginTop="@dimen/dip_5"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="订单数量:"
+                        android:textSize="20dip" />
+
+                    <TextView
+                        android:id="@+id/orderQty_TextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dip" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dip_5"
+                    android:layout_marginTop="@dimen/dip_5"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="实收数量:"
+                        android:textSize="20dip" />
+
+                    <com.elianshang.bridge.ui.view.QtyEditText
+                        android:id="@+id/inboundQty_EditView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:minWidth="60dip"
+                        android:textSize="20dip" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lotNum_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="批次号:"
+                        android:textSize="20dip" />
+
+                    <com.elianshang.bridge.ui.view.ContentEditText
+                        android:id="@+id/lotNum_EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dip" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="生产日期:"
+                        android:textSize="20dip" />
+
+                    <com.elianshang.bridge.ui.view.ContentEditText
+                        android:id="@+id/et_year"
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="20dip" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="年"
+                        android:textSize="20dip" />
+
+                    <com.elianshang.bridge.ui.view.ContentEditText
+                        android:id="@+id/et_month"
+                        android:layout_width="50dip"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="20dip" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="月"
+                        android:textSize="20dip" />
+
+                    <com.elianshang.bridge.ui.view.ContentEditText
+                        android:id="@+id/et_day"
+                        android:layout_width="50dip"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="20dip" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="日"
+                        android:textSize="20dip" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/submit_Button"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:background="@drawable/submit_button_bg"
+                android:gravity="center"
+                android:text="提交"
+                android:textColor="#ffffffff"
+                android:textSize="24dip" />
+
+        </LinearLayout>
+
+        <android.inputmethodservice.KeyboardView
+            android:id="@+id/keyboard_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#999999"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:keyBackground="@drawable/btn_keyboard_key"
+            android:keyTextColor="#000"
+            android:keyTextSize="16sp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>

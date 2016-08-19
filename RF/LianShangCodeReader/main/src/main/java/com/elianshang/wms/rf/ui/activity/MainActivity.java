@@ -120,7 +120,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == receiptButton) {
+            PluginTool.load(this, "sdcard/DynamicLoadHost/lsh_app_receipt_v1.0_tttt.apk");
         } else if (v == shelveButton) {
+            PluginTool.load(this, "sdcard/DynamicLoadHost/lsh_app_shelve_v1.0_tttt.apk");
         } else if (v == takeStockButton) {
             PluginTool.load(this, "sdcard/DynamicLoadHost/lsh_app_stack_v1.0_tttt.apk");
         } else if (v == createScrapButton) {
