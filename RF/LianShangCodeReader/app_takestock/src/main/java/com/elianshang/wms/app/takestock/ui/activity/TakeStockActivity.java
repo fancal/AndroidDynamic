@@ -147,13 +147,17 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     @Override
     public void onResume() {
         super.onResume();
-        ScanManager.get().addListener(this);
+        if (ScanManager.get() != null) {
+            ScanManager.get().addListener(this);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ScanManager.get().removeListener(this);
+        if (ScanManager.get() != null) {
+            ScanManager.get().removeListener(this);
+        }
     }
 
     @Override

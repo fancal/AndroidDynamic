@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":app_takestock" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="LianShangCodeReader" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":app_create_scrap" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="LianShangCodeReader" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
-        <option name="GRADLE_PROJECT_PATH" value=":app_takestock" />
+        <option name="GRADLE_PROJECT_PATH" value=":app_create_scrap" />
       </configuration>
     </facet>
     <facet type="android" name="Android">
@@ -41,12 +41,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/ttttDebug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/ttttDebug/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/ttttDebug/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/tttt/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/tttt/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/tttt/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/tttt/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/tttt/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/tttt/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testTtttDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testTtttDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testTtttDebug/assets" type="java-test-resource" />
@@ -54,6 +48,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testTtttDebug/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testTtttDebug/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testTtttDebug/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/tttt/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/tttt/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/tttt/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/tttt/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/tttt/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/tttt/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/tttt/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/tttt/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/tttt/assets" type="java-resource" />
