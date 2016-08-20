@@ -2,7 +2,7 @@ package com.elianshang.wms.app.procurement.controller;
 
 import android.app.Activity;
 
-import com.elianshang.wms.app.procurement.bean.TaskTransferDetail;
+import com.elianshang.wms.app.procurement.bean.Procurement;
 import com.elianshang.wms.app.procurement.ui.view.ProcurementView;
 
 /**
@@ -10,35 +10,26 @@ import com.elianshang.wms.app.procurement.ui.view.ProcurementView;
  */
 public abstract class BaseProcurementController {
 
-    protected TaskTransferDetail detail;
-
-    protected String taskId;
+    protected Procurement curProcurement;
 
     protected String uId;
+
+    protected String uToken;
 
     protected Activity activity;
 
     protected ProcurementView procurementView;
 
-    protected TransferCompleteListener mTransferCompleteListener;
-
     protected abstract void onSubmitClick(String qty);
 
     protected abstract void onComplete(String s);
 
-    public BaseProcurementController(Activity activity, String taskId, String uId, ProcurementView procurementView) {
+    public BaseProcurementController(Activity activity,String uId, String uToken, Procurement curProcurement, ProcurementView procurementView) {
         this.activity = activity;
-        this.taskId = taskId;
         this.uId = uId;
+        this.uToken = uToken;
+        this.curProcurement = curProcurement;
         this.procurementView = procurementView;
-    }
-
-    public TransferCompleteListener getTransferCompleteListener() {
-        return mTransferCompleteListener;
-    }
-
-    public void setTransferCompleteListener(TransferCompleteListener mTransferCompleteListener) {
-        this.mTransferCompleteListener = mTransferCompleteListener;
     }
 
     public interface TransferCompleteListener {

@@ -12,7 +12,7 @@
         android:background="?attr/colorPrimary"
         app:layout_scrollFlags="scroll|enterAlways"
         app:navigationIcon="@drawable/toolbar_back"
-        app:title="补货任务" />
+        app:title="补货" />
 
     <TextView
         android:id="@+id/task_id"

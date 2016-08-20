@@ -15,7 +15,7 @@ import java.util.List;
 
 public class HttpApi {
 
-    private static String base_url;
+    private static String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     private static String api_version;
 

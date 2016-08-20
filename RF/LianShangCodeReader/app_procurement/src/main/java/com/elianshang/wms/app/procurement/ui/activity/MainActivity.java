@@ -3,8 +3,8 @@ package com.elianshang.wms.app.procurement.ui.activity;
 import android.os.Bundle;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
-import com.elianshang.wms.app.procurement.bean.TaskTransfer;
-import com.elianshang.wms.app.takestock.provider.FetchTaskProvider;
+import com.elianshang.wms.app.procurement.bean.Procurement;
+import com.elianshang.wms.app.procurement.provider.FetchTaskProvider;
 import com.ryg.dynamicload.DLBasePluginActivity;
 import com.xue.http.impl.DataHull;
 
@@ -16,14 +16,14 @@ public class MainActivity extends DLBasePluginActivity {
         String uId = getIntent().getStringExtra("uId");
         String uToken = getIntent().getStringExtra("uToken");
 
+        uId = "141871359725260";
+        uToken = "243202523137671";
+
         new FetchProcurementTask(uId, uToken).start();
     }
 
 
-    /**
-     * Created by liuhanzhi on 16/8/3. 领取补货任务
-     */
-    private class FetchProcurementTask extends HttpAsyncTask<TaskTransfer> {
+    private class FetchProcurementTask extends HttpAsyncTask<Procurement> {
 
         private String uId;
 
@@ -36,18 +36,18 @@ public class MainActivity extends DLBasePluginActivity {
         }
 
         @Override
-        public DataHull<TaskTransfer> doInBackground() {
+        public DataHull<Procurement> doInBackground() {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return FetchTaskProvider.request("",uId);
+            return FetchTaskProvider.request(uId, uToken);
         }
 
         @Override
-        public void onPostExecute(int updateId, TaskTransfer result) {
-            ProcurementActivity.launch(MainActivity.this, uId, uToken, result.getTaskId());
+        public void onPostExecute(int updateId, Procurement result) {
+            ProcurementActivity.launch(MainActivity.this, uId, uToken, result);
             MainActivity.this.finish();
         }
 
@@ -70,6 +70,4 @@ public class MainActivity extends DLBasePluginActivity {
             MainActivity.this.finish();
         }
     }
-
-
 }

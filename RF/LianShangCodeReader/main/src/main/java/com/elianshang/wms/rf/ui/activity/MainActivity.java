@@ -24,6 +24,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private View shelveButton;
 
     /**
+     * 阁楼上架
+     */
+    private View atticShelveButton;
+
+    /**
      * 盘点
      */
     private View takeStockButton;
@@ -56,11 +61,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
      */
     private View qualityControlButton;
 
-    /**
-     * 发车
-     */
-    private View shipButton;
-
     private PowerManager.WakeLock m_wklk;
 
     @Override
@@ -82,6 +82,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void findViews() {
         receiptButton = findViewById(R.id.receipt_Button);
         shelveButton = findViewById(R.id.shelve_Button);
+        atticShelveButton = findViewById(R.id.atticshelve_Button);
         takeStockButton = findViewById(R.id.takeStock_Button);
         createScrapButton = findViewById(R.id.createScrap_Button);
         createReturnButton = findViewById(R.id.createReturn_Button);
@@ -89,10 +90,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         procurementButton = findViewById(R.id.procurement_Button);
         pickButton = findViewById(R.id.pick_Button);
         qualityControlButton = findViewById(R.id.qualityControl_Button);
-        shipButton = findViewById(R.id.ship_Button);
 
         receiptButton.setOnClickListener(this);
         shelveButton.setOnClickListener(this);
+        atticShelveButton.setOnClickListener(this);
         takeStockButton.setOnClickListener(this);
         createScrapButton.setOnClickListener(this);
         createReturnButton.setOnClickListener(this);
@@ -100,7 +101,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         procurementButton.setOnClickListener(this);
         qualityControlButton.setOnClickListener(this);
         pickButton.setOnClickListener(this);
-        shipButton.setOnClickListener(this);
     }
 
     @Override
@@ -123,6 +123,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             PluginTool.load(this, "sdcard/DynamicLoadHost/lsh_app_receipt_v1.0_tttt.apk");
         } else if (v == shelveButton) {
             PluginTool.load(this, "sdcard/DynamicLoadHost/lsh_app_shelve_v1.0_tttt.apk");
+        } else if (v == atticShelveButton) {
+            PluginTool.load(this, "sdcard/DynamicLoadHost/lsh_app_atticshelve_v1.0_tttt.apk");
         } else if (v == takeStockButton) {
             PluginTool.load(this, "sdcard/DynamicLoadHost/lsh_app_stack_v1.0_tttt.apk");
         } else if (v == createScrapButton) {
@@ -136,7 +138,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             PluginTool.load(this, "sdcard/DynamicLoadHost/lsh_app_pick_v1.0_tttt.apk");
         } else if (v == qualityControlButton) {
             PluginTool.load(this, "sdcard/DynamicLoadHost/lsh_app_qc_v1.0_tttt.apk");
-        } else if (v == shipButton) {
         }
     }
 }

@@ -1,0 +1,70 @@
+package com.elianshang.wms.app.atticshelve.bean;
+
+import com.xue.http.hook.BaseBean;
+
+/**
+ * Created by xfilshy on 16/8/20.
+ */
+public class AtticShelve implements BaseBean{
+
+    private String taskId ;
+
+    private String locationId ;
+
+    private String locationCode ;
+
+    private String qty ;
+
+    private String packName ;
+
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getLocationCode() {
+        return locationCode;
+    }
+
+    public void setLocationCode(String locationCode) {
+        this.locationCode = locationCode;
+    }
+
+    public String getQty() {
+        return qty;
+    }
+
+    public void setQty(String qty) {
+        this.qty = qty;
+    }
+
+    public String getPackName() {
+        return packName;
+    }
+
+    public void setPackName(String packName) {
+        this.packName = packName;
+    }
+
+    @Override
+    public void setDataKey(String dataKey) {
+
+    }
+
+    @Override
+    public String getDataKey() {
+        return null;
+    }
+}

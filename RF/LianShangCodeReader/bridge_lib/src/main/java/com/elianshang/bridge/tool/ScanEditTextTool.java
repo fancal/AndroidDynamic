@@ -69,18 +69,20 @@ public class ScanEditTextTool {
             }
         };
 
-        for (ContentEditText editText : editTexts) {
-            editText.addTextChangedListener(textWatcher);
-            if (editText instanceof ScanEditText) {
-                ((ScanEditText) editText).setInputEnd(new ScanEditText.OnSetInputEnd() {
-                    @Override
-                    public void onSetInputEnd(String s) {
-                        setScanText(s);
-                    }
-                });
-            }
+        if(editTexts != null){
+            for (ContentEditText editText : editTexts) {
+                editText.addTextChangedListener(textWatcher);
+                if (editText instanceof ScanEditText) {
+                    ((ScanEditText) editText).setInputEnd(new ScanEditText.OnSetInputEnd() {
+                        @Override
+                        public void onSetInputEnd(String s) {
+                            setScanText(s);
+                        }
+                    });
+                }
 
-            mEditTexts.add(editText);
+                mEditTexts.add(editText);
+            }
         }
     }
 

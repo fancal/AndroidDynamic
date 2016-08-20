@@ -12,19 +12,19 @@
         android:background="?attr/colorPrimary"
         app:layout_scrollFlags="scroll|enterAlways"
         app:navigationIcon="@drawable/toolbar_back"
-        app:title="拣货" />
+        app:title="上架" />
 
     <include
-        android:id="@+id/pick_task"
-        layout="@layout/pick_task" />
+        android:id="@+id/atticshelve_one"
+        layout="@layout/atticshelve_one" />
 
     <include
-        android:id="@+id/pick_location"
-        layout="@layout/pick_location" />
+        android:id="@+id/atticshelve_two"
+        layout="@layout/atticshelve_two" />
 
     <include
-        android:id="@+id/pick_collection"
-        layout="@layout/pick_collection" />
+        android:id="@+id/atticshelve_three"
+        layout="@layout/atticshelve_three" />
 
     <View
         android:layout_width="0dip"
@@ -34,12 +34,13 @@
     <Button
         android:id="@+id/submit_Button"
         android:layout_width="match_parent"
-        android:layout_height="50dip"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
+        android:padding="20dip"
         android:text="提交"
         android:textColor="#ffffffff"
-        android:textSize="24dip" />
+        android:textSize="30dip" />
 
 </LinearLayout>

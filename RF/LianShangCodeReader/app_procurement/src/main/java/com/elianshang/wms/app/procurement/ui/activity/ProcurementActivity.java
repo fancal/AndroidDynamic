@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.wms.app.procurement.R;
+import com.elianshang.wms.app.procurement.bean.Procurement;
 import com.elianshang.wms.app.procurement.controller.ProcurementController;
 import com.elianshang.wms.app.procurement.ui.view.ProcurementView;
 import com.ryg.dynamicload.DLBasePluginActivity;
@@ -26,11 +28,11 @@ import com.ryg.dynamicload.internal.DLIntent;
  */
 public class ProcurementActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener, ProcurementView {
 
-    public static void launch(DLBasePluginActivity activity, String uid, String uToken, String taskId) {
+    public static void launch(DLBasePluginActivity activity, String uid, String uToken, Procurement procurement) {
         DLIntent intent = new DLIntent(activity.getPackageName(), ProcurementActivity.class);
         intent.putExtra("uId", uid);
         intent.putExtra("uToken", uToken);
-        intent.putExtra("taskId", taskId);
+        intent.putExtra("procurement", procurement);
         activity.startPluginActivity(intent);
     }
 
@@ -102,8 +104,8 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_procurement);
-        readExtras();
         findViews();
+        readExtras();
 
     }
 
@@ -134,19 +136,23 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     }
 
     private void readExtras() {
-        taskId = getIntent().getStringExtra("taskId");
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
+
+        uId = "141871359725260";
+        uToken = "243202523137671";
+
+        if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
+            finish();
+        }
+
+        Procurement procurement = (Procurement) getIntent().getSerializableExtra("procurement");
+
+        procurementController = new ProcurementController(that, taskId, uId, procurement, this);
+
     }
 
     private void findViews() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
         mTaskView = (TextView) findViewById(R.id.task_id);
         mItemNameView = (TextView) findViewById(R.id.item_name);
         mItemPackNameView = (TextView) findViewById(R.id.item_pack_name);
@@ -161,14 +167,20 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mLocationView = findViewById(R.id.location);
         mItemLocationView = (TextView) findViewById(R.id.item_locationId);
 
-        scanEditTextTool = new ScanEditTextTool(this, mLocationIdConfirmView);
-        scanEditTextTool.setComplete(this);
-
         mSubmit.setOnClickListener(this);
         mSubmit.setVisibility(View.GONE);
 
-        procurementController = new ProcurementController(that, taskId, uId, this);
+        initToolbar();
+    }
 
+    private void initToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -203,6 +215,9 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mTypeNameView.setText(typeName);
         mLocationIdView.setText(locationName);
         mLocationIdConfirmView.getText().clear();
+
+        scanEditTextTool = new ScanEditTextTool(this, mLocationIdConfirmView);
+        scanEditTextTool.setComplete(this);
     }
 
     @Override
@@ -217,7 +232,8 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mItemPackNameView.setText(packName);
         mItemQtyView.setText(qty);
         mItemLocationView.setText(locationName);
+
+        scanEditTextTool.setComplete(null);
+        scanEditTextTool = null;
     }
-
-
 }
