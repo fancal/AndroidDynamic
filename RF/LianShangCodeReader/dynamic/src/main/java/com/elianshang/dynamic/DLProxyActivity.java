@@ -74,80 +74,89 @@ public class DLProxyActivity extends Activity implements DLAttachable {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mRemoteActivity.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        mRemoteActivity.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     protected void onStart() {
-        mRemoteActivity.onStart();
         super.onStart();
+        mRemoteActivity.onStart();
     }
 
     @Override
     protected void onRestart() {
-        mRemoteActivity.onRestart();
         super.onRestart();
+        mRemoteActivity.onRestart();
     }
 
     @Override
     protected void onResume() {
-        mRemoteActivity.onResume();
         super.onResume();
+        mRemoteActivity.onResume();
     }
 
     @Override
     protected void onPause() {
-        mRemoteActivity.onPause();
         super.onPause();
+        mRemoteActivity.onPause();
     }
 
     @Override
     protected void onStop() {
-        mRemoteActivity.onStop();
         super.onStop();
+        mRemoteActivity.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        mRemoteActivity.onDestroy();
         super.onDestroy();
+        mRemoteActivity.onDestroy();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        mRemoteActivity.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
+        mRemoteActivity.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        mRemoteActivity.onRestoreInstanceState(savedInstanceState);
         super.onRestoreInstanceState(savedInstanceState);
+        mRemoteActivity.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-        mRemoteActivity.onNewIntent(intent);
         super.onNewIntent(intent);
+        mRemoteActivity.onNewIntent(intent);
     }
 
     @Override
     public void onBackPressed() {
         mRemoteActivity.onBackPressed();
+    }
+
+    public void onSuperBackPressed() {
         super.onBackPressed();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        super.onTouchEvent(event);
         return mRemoteActivity.onTouchEvent(event);
+    }
+
+    public boolean onSuperTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        super.onKeyUp(keyCode, event);
         return mRemoteActivity.onKeyUp(keyCode, event);
+    }
+
+    public boolean onSuperKeyUp(int keyCode, KeyEvent event) {
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override
@@ -173,7 +182,7 @@ public class DLProxyActivity extends Activity implements DLAttachable {
         mRemoteActivity.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
     }
-    
+
     @Override
     public ComponentName startService(Intent service) {
         return super.startService(service);

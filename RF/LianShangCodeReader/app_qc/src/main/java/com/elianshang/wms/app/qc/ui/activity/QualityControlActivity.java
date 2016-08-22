@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.elianshang.bridge.tool.ScanManager;
+import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.qc.R;
 import com.elianshang.wms.app.qc.controller.QcControllerProxy;
-import com.ryg.dynamicload.DLBasePluginActivity;
 
 
 public class QualityControlActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener {
@@ -19,7 +19,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qualitycontrol);
 
-        mQcControllerProxy = new QcControllerProxy(this );
+        mQcControllerProxy = new QcControllerProxy(this);
 
     }
 
@@ -36,6 +36,14 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         super.onPause();
         if (ScanManager.get() != null) {
             ScanManager.get().removeListener(this);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mQcControllerProxy != null) {
+            mQcControllerProxy.releaseScanEditTextTool();
         }
     }
 

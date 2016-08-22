@@ -39,7 +39,7 @@ public class ScanLocationProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "v1/inhouse/procurement/scanLocation";
+    private static final String _function = "/inhouse/procurement/scanLocation";
 
     private static final String type = "type";
 
@@ -64,7 +64,7 @@ public class ScanLocationProvider {
     private static final String uomQty = "uomQty";
 
 
-    public static DataHull<ProcurementNext> request(String uid, String uToken, String type, String taskId, String locationId, String uomQty) {
+    public static DataHull<ProcurementNext> request(String uId, String uToken, String type, String taskId, String locationId, String uomQty) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();

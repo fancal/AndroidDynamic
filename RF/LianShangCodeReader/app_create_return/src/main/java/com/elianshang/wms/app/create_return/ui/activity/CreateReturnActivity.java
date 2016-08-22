@@ -17,13 +17,13 @@ import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
+import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.create_return.R;
 import com.elianshang.wms.app.create_return.bean.Item;
 import com.elianshang.wms.app.create_return.bean.ResponseState;
 import com.elianshang.wms.app.create_return.provider.CreateReturnProvider;
 import com.elianshang.wms.app.create_return.provider.StockItemProvider;
-import com.ryg.dynamicload.DLBasePluginActivity;
 import com.xue.http.impl.DataHull;
 
 public class CreateReturnActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
@@ -103,6 +103,13 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+        }
+    }
 
     private void initToolBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -136,6 +143,10 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
         detailLayout.setVisibility(View.GONE);
 
         createLocationIdEditText.requestFocus();
+
+        if(scanEditTextTool != null){
+            scanEditTextTool.release();
+        }
         scanEditTextTool = new ScanEditTextTool(that, createLocationIdEditText, createBarCodeEditText);
         scanEditTextTool.setComplete(this);
     }

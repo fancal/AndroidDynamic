@@ -20,12 +20,12 @@ import com.elianshang.bridge.tool.DateKeyboardUtil;
 import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.QtyEditText;
+import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.receipt.R;
 import com.elianshang.wms.app.receipt.bean.ReceiptInfo;
 import com.elianshang.wms.app.receipt.bean.ResponseState;
 import com.elianshang.wms.app.receipt.provider.ReceiptAddProvider;
-import com.ryg.dynamicload.DLBasePluginActivity;
-import com.ryg.dynamicload.internal.DLIntent;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;

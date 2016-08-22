@@ -3,9 +3,9 @@ package com.elianshang.wms.app.procurement.ui.activity;
 import android.os.Bundle;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
+import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.procurement.bean.Procurement;
 import com.elianshang.wms.app.procurement.provider.FetchTaskProvider;
-import com.ryg.dynamicload.DLBasePluginActivity;
 import com.xue.http.impl.DataHull;
 
 public class MainActivity extends DLBasePluginActivity {

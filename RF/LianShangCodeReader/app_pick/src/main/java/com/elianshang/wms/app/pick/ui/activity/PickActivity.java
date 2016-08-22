@@ -19,13 +19,13 @@ import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
+import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.pick.R;
 import com.elianshang.wms.app.pick.bean.Pick;
 import com.elianshang.wms.app.pick.bean.PickLocation;
 import com.elianshang.wms.app.pick.provider.OutboundPickScanPickLocationProvider;
 import com.elianshang.wms.app.pick.provider.OutboundPickScanPickProvider;
-import com.ryg.dynamicload.DLBasePluginActivity;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;
@@ -164,6 +164,14 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+        }
+    }
+
     private void findViews() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -222,6 +230,9 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 mSubmit.setEnabled(false);
                 mGroup1AddButton.setEnabled(false);
 
+                if(scanEditTextTool != null){
+                    scanEditTextTool.release();
+                }
                 scanEditTextTool = new ScanEditTextTool(that);
                 scanEditTextTool.setComplete(this);
                 viewHolderList.clear();
@@ -235,6 +246,9 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 mGroup3.setVisibility(View.GONE);
                 mSubmit.setVisibility(View.VISIBLE);
 
+                if(scanEditTextTool != null){
+                    scanEditTextTool.release();
+                }
                 scanEditTextTool = new ScanEditTextTool(that, mGroup2ConfirmLocationIdView);
                 scanEditTextTool.setComplete(this);
 
@@ -245,6 +259,9 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 mGroup3.setVisibility(View.VISIBLE);
                 mSubmit.setVisibility(View.GONE);
 
+                if(scanEditTextTool != null){
+                    scanEditTextTool.release();
+                }
                 scanEditTextTool = new ScanEditTextTool(that, mGroup3ConfirmCollectionIdView);
                 scanEditTextTool.setComplete(this);
                 break;

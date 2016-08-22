@@ -19,12 +19,12 @@ import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
+import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.atticshelve.R;
 import com.elianshang.wms.app.atticshelve.bean.AtticShelve;
 import com.elianshang.wms.app.atticshelve.bean.AtticShelveNext;
 import com.elianshang.wms.app.atticshelve.provider.ScanContainerProvider;
 import com.elianshang.wms.app.atticshelve.provider.ScanTargetLocationProvider;
-import com.ryg.dynamicload.DLBasePluginActivity;
 import com.xue.http.impl.DataHull;
 
 public class AtticShelveActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
@@ -109,6 +109,14 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+        }
+    }
+
     private void findViews() {
 
         atticShelveOneLayout = findViewById(R.id.atticshelve_one);
@@ -139,6 +147,9 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         atticShelveThreeLayout.setVisibility(View.GONE);
         submitButton.setVisibility(View.GONE);
 
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+        }
         scanEditTextTool = new ScanEditTextTool(that, oneContainerIdEditText);
         scanEditTextTool.setComplete(this);
     }
@@ -161,6 +172,9 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         twoSystemQtyLayout.setVisibility(View.GONE);
         twoInputQtyLayout.setVisibility(View.GONE);
 
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+        }
         scanEditTextTool = new ScanEditTextTool(that, twoLocationIdEditText);
         scanEditTextTool.setComplete(this);
     }
@@ -185,7 +199,9 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         twoSystemQtyLayout.setVisibility(View.VISIBLE);
         twoInputQtyLayout.setVisibility(View.VISIBLE);
 
-        scanEditTextTool.setComplete(null);
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+        }
     }
 
     private void fillStepThree() {

@@ -14,11 +14,11 @@ import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
+import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.shelve.R;
 import com.elianshang.wms.app.shelve.bean.Shelve;
 import com.elianshang.wms.app.shelve.provider.CreateTaskProvider;
 import com.elianshang.wms.app.shelve.provider.ScanContainerProvider;
-import com.ryg.dynamicload.DLBasePluginActivity;
 import com.xue.http.impl.DataHull;
 
 /**

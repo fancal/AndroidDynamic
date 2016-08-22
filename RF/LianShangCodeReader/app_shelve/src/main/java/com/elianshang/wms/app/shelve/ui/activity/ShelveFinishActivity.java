@@ -15,12 +15,12 @@ import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
+import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.shelve.R;
 import com.elianshang.wms.app.shelve.bean.ResponseState;
 import com.elianshang.wms.app.shelve.bean.Shelve;
 import com.elianshang.wms.app.shelve.provider.ScanTargetLocationProvider;
-import com.ryg.dynamicload.DLBasePluginActivity;
-import com.ryg.dynamicload.internal.DLIntent;
 import com.xue.http.impl.DataHull;
 
 /**

@@ -29,6 +29,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':http_lib')
     compile project(':toolslib')
+    compile project(':dynamic')
     provided files('gt500/gt500-apis.jar')
 }
 

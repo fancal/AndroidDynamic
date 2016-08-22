@@ -247,6 +247,10 @@ public class DLBasePluginActivity extends Activity implements DLPlugin {
     public void onBackPressed() {
         if (mFrom == DLConstants.FROM_INTERNAL) {
             super.onBackPressed();
+        } else {
+            if (mProxyActivity instanceof DLProxyActivity) {
+                ((DLProxyActivity) mProxyActivity).onSuperBackPressed();
+            }
         }
     }
 
@@ -322,14 +326,24 @@ public class DLBasePluginActivity extends Activity implements DLPlugin {
     public boolean onTouchEvent(MotionEvent event) {
         if (mFrom == DLConstants.FROM_INTERNAL) {
             return super.onTouchEvent(event);
+        } else {
+            if (mProxyActivity instanceof DLProxyActivity) {
+                return ((DLProxyActivity) mProxyActivity).onSuperTouchEvent(event);
+            }
         }
+
         return false;
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (mFrom == DLConstants.FROM_INTERNAL) {
             return super.onKeyUp(keyCode, event);
+        } else {
+            if (mProxyActivity instanceof DLProxyActivity) {
+                return ((DLProxyActivity) mProxyActivity).onSuperKeyUp(keyCode, event);
+            }
         }
+
         return false;
     }
 

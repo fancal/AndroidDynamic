@@ -3,9 +3,9 @@ package com.elianshang.wms.app.takestock.ui.activity;
 import android.os.Bundle;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
+import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.takestock.bean.TakeStockList;
 import com.elianshang.wms.app.takestock.provider.StockTakingProvider;
-import com.ryg.dynamicload.DLBasePluginActivity;
 import com.xue.http.impl.DataHull;
 
 public class MainActivity extends DLBasePluginActivity {

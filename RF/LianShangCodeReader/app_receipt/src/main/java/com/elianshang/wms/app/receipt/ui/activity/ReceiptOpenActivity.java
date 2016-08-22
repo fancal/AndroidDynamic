@@ -16,10 +16,10 @@ import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
+import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.receipt.R;
 import com.elianshang.wms.app.receipt.bean.ReceiptInfo;
 import com.elianshang.wms.app.receipt.provider.ReceiptInfoProvider;
-import com.ryg.dynamicload.DLBasePluginActivity;
 import com.xue.http.impl.DataHull;
 
 /**

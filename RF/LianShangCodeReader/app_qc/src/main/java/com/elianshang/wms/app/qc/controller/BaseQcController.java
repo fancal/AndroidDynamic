@@ -106,8 +106,10 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
     }
 
     protected void releaseCreateLayout() {
-        scanEditTextTool.release();
-        scanEditTextTool = null;
+        if(scanEditTextTool != null){
+            scanEditTextTool.release();
+            scanEditTextTool = null;
+        }
     }
 
     @Override

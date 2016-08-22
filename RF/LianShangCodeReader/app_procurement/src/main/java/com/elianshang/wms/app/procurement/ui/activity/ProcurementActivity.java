@@ -15,12 +15,12 @@ import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
+import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.procurement.R;
 import com.elianshang.wms.app.procurement.bean.Procurement;
 import com.elianshang.wms.app.procurement.controller.ProcurementController;
 import com.elianshang.wms.app.procurement.ui.view.ProcurementView;
-import com.ryg.dynamicload.DLBasePluginActivity;
-import com.ryg.dynamicload.internal.DLIntent;
 
 
 /**
@@ -126,8 +126,16 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+        }
+    }
+
+    @Override
     public void onBackPressed() {
-        DialogTools.showTwoButtonDialog(this, "任务未完成，确认退出？", "取消", "确认", null, new DialogInterface.OnClickListener() {
+        DialogTools.showTwoButtonDialog(that, "任务未完成，确认退出？", "取消", "确认", null, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
@@ -148,7 +156,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
 
         Procurement procurement = (Procurement) getIntent().getSerializableExtra("procurement");
 
-        procurementController = new ProcurementController(that, taskId, uId, procurement, this);
+        procurementController = new ProcurementController(that, uId, uToken, procurement, this);
 
     }
 
@@ -216,7 +224,10 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mLocationIdView.setText(locationName);
         mLocationIdConfirmView.getText().clear();
 
-        scanEditTextTool = new ScanEditTextTool(this, mLocationIdConfirmView);
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+        }
+        scanEditTextTool = new ScanEditTextTool(that, mLocationIdConfirmView);
         scanEditTextTool.setComplete(this);
     }
 
@@ -231,9 +242,13 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mItemNameView.setText(itemName);
         mItemPackNameView.setText(packName);
         mItemQtyView.setText(qty);
+        mItemQtyRealView.setHint(qty);
+        mItemQtyRealView.setText(null);
         mItemLocationView.setText(locationName);
 
-        scanEditTextTool.setComplete(null);
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+        }
         scanEditTextTool = null;
     }
 }

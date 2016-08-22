@@ -13,6 +13,9 @@ public class QcControllerProxy extends BaseQcController {
         super(activity);
     }
 
+    public void releaseScanEditTextTool(){
+        super.releaseCreateLayout();
+    }
 
     @Override
     protected void releaseCreateLayout() {

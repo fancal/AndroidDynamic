@@ -19,14 +19,14 @@ import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
+import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.takestock.R;
 import com.elianshang.wms.app.takestock.bean.ResponseState;
 import com.elianshang.wms.app.takestock.bean.TakeStockDetail;
 import com.elianshang.wms.app.takestock.bean.TakeStockList;
 import com.elianshang.wms.app.takestock.provider.StockTakingDetailProvider;
 import com.elianshang.wms.app.takestock.provider.StockTakingDoneProvider;
-import com.ryg.dynamicload.DLBasePluginActivity;
-import com.ryg.dynamicload.internal.DLIntent;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;

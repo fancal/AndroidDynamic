@@ -17,10 +17,9 @@ import com.xue.http.impl.DataHull;
  */
 public class ProcurementController extends BaseProcurementController implements BaseProcurementController.TransferCompleteListener {
 
-    private String noteQty;
-
     public ProcurementController(Activity activity, String uId, String uToken, Procurement procurement, ProcurementView procurementView) {
         super(activity, uId, uToken, procurement, procurementView);
+        fillData();
     }
 
     public void fillData() {
@@ -34,7 +33,9 @@ public class ProcurementController extends BaseProcurementController implements 
     }
 
     private void fillInBound() {
-
+        if (procurementView != null) {
+            procurementView.showLocationConfirmView("转入到库位", "任务：" + curProcurement.getTaskId(), curProcurement.getLocationCode());
+        }
     }
 
     private void fillOutBound() {
@@ -46,9 +47,8 @@ public class ProcurementController extends BaseProcurementController implements 
     @Override
     public void onSubmitClick(String qty) {
         if (curProcurement != null) {
-            if (TextUtils.equals("outbound", curProcurement.getType())) {
-                noteQty = qty;
-                submit(noteQty);
+            if (TextUtils.equals("1", curProcurement.getType())) {
+                submit(qty);
             }
         }
     }
@@ -61,7 +61,7 @@ public class ProcurementController extends BaseProcurementController implements 
                 ToastTool.show(activity, "库位不一致");
             } else {
                 if (TextUtils.equals("2", curProcurement.getType())) {
-                    submit(noteQty);
+                    submit(curProcurement.getUomQty());
                 } else if (TextUtils.equals("1", curProcurement.getType())) {
                     if (procurementView != null) {
                         procurementView.showItemView("填写转出数量", "商品名称：" + curProcurement.getItemName(), "商品名称：" + curProcurement.getPackName(), "商品数量：" + curProcurement.getUomQty(), "库位：" + curProcurement.getLocationCode());
@@ -78,7 +78,8 @@ public class ProcurementController extends BaseProcurementController implements 
 
     @Override
     public void onTransferSuccess() {
-
+        ToastTool.show(activity, "补货任务完成");
+        activity.finish();
     }
 
     private class ScanLocationTask extends HttpAsyncTask<ProcurementNext> {

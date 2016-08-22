@@ -1,6 +1,2 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.elianshang.tools">
-
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-</manifest>
+    package="com.elianshang.tools" />
