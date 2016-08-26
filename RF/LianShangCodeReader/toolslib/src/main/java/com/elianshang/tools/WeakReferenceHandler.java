@@ -8,40 +8,26 @@ import java.lang.ref.WeakReference;
 
 /**
  * 虚引用持有对象的handler，降低代码不当的内存泄露问题
- * <p>
+ * <p/>
  * HandleMessage时请不要直接引用其他对象，而是通过Hook操作
  */
-public class WeakReferenceHandler<Hook> extends Handler {
+public class WeakReferenceHandler extends Handler {
 
-    private WeakReference<Hook> mWeakReference;
-
-    public WeakReferenceHandler(Hook hook, Looper looper) {
+    public WeakReferenceHandler(Looper looper) {
         super(looper);
-        mWeakReference = new WeakReference<Hook>(hook);
-    }
-
-    public WeakReferenceHandler(Hook hook) {
-        mWeakReference = new WeakReference<Hook>(hook);
     }
 
     @Override
     public final void handleMessage(Message msg) {
-        Hook hook = mWeakReference.get();
-        if (hook != null) {
-            HandleMessage(hook, msg);
-        }
     }
 
-    public void HandleMessage(Hook hook, Message msg) {
+    public <Hook> void post(Hook hook, final WeakReferenceHandlerRunnalbe<Hook> runnalbe) {
 
-    }
-
-    public void post(final WeakReferenceHandlerRunnalbe<Hook> runnalbe) {
-
+        final WeakReference<Hook> weakReference = new WeakReference(hook);
         post(new Runnable() {
             @Override
             public void run() {
-                Hook hook = mWeakReference.get();
+                Hook hook = weakReference.get();
                 if (hook != null) {
                     runnalbe.run(hook);
                 }
@@ -49,12 +35,13 @@ public class WeakReferenceHandler<Hook> extends Handler {
         });
     }
 
-    public void postAtFrontOfQueue(final WeakReferenceHandlerRunnalbe<Hook> runnalbe) {
+    public <Hook> void postAtFrontOfQueue(Hook hook, final WeakReferenceHandlerRunnalbe<? super Hook> runnalbe) {
+        final WeakReference<Hook> weakReference = new WeakReference(hook);
 
         postAtFrontOfQueue(new Runnable() {
             @Override
             public void run() {
-                Hook hook = mWeakReference.get();
+                Hook hook = weakReference.get();
                 if (hook != null) {
                     runnalbe.run(hook);
                 }
@@ -62,12 +49,13 @@ public class WeakReferenceHandler<Hook> extends Handler {
         });
     }
 
-    public void postDelayed(final WeakReferenceHandlerRunnalbe<Hook> runnalbe, long delayMillis) {
+    public <Hook> void postDelayed(Hook hook, final WeakReferenceHandlerRunnalbe<? super Hook> runnalbe, long delayMillis) {
+        final WeakReference<Hook> weakReference = new WeakReference(hook);
 
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                Hook hook = mWeakReference.get();
+                Hook hook = weakReference.get();
                 if (hook != null) {
                     runnalbe.run(hook);
                 }
@@ -75,12 +63,13 @@ public class WeakReferenceHandler<Hook> extends Handler {
         }, delayMillis);
     }
 
-    public void postAtTime(final WeakReferenceHandlerRunnalbe<Hook> runnalbe, long uptimeMillis) {
+    public <Hook> void postAtTime(Hook hook, final WeakReferenceHandlerRunnalbe<? super Hook> runnalbe, long uptimeMillis) {
+        final WeakReference<Hook> weakReference = new WeakReference(hook);
 
         postAtTime(new Runnable() {
             @Override
             public void run() {
-                Hook hook = mWeakReference.get();
+                Hook hook = weakReference.get();
                 if (hook != null) {
                     runnalbe.run(hook);
                 }
@@ -88,7 +77,7 @@ public class WeakReferenceHandler<Hook> extends Handler {
         }, uptimeMillis);
     }
 
-    public interface WeakReferenceHandlerRunnalbe<Hook> {
-        void run(Hook hook);
+    public interface WeakReferenceHandlerRunnalbe<H> {
+        void run(H hook);
     }
 }

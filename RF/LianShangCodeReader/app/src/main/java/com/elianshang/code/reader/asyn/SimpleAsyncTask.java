@@ -9,10 +9,10 @@ import com.elianshang.tools.WeakReferenceHandler;
  */
 public abstract class SimpleAsyncTask<T> extends BaseTaskImpl implements SimpleAsyncTaskInterface<T> {
 
-    private WeakReferenceHandler<SimpleAsyncTask> handler;
+    private WeakReferenceHandler handler;
 
     public SimpleAsyncTask() {
-        handler = new WeakReferenceHandler(this, Looper.getMainLooper());
+        handler = new WeakReferenceHandler(Looper.getMainLooper());
     }
 
     @Override
@@ -53,7 +53,7 @@ public abstract class SimpleAsyncTask<T> extends BaseTaskImpl implements SimpleA
 
     private void postUI(WeakReferenceHandler.WeakReferenceHandlerRunnalbe<SimpleAsyncTask> runnable) {
         if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
-            handler.post(runnable);
+            handler.post(this, runnable);
         } else {
             runnable.run(this);
         }

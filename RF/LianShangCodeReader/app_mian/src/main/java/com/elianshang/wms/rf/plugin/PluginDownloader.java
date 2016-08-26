@@ -1,11 +1,17 @@
 package com.elianshang.wms.rf.plugin;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.Process;
 import android.util.Log;
 
-import com.elianshang.wms.rf.bean.PluginSource;
+import com.elianshang.bridge.tool.DialogTools;
+import com.elianshang.tools.ToastTool;
+import com.elianshang.wms.rf.bean.Menu;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,13 +29,18 @@ public class PluginDownloader extends AsyncTask<Void, Void, Boolean> {
 
     private Context context;
 
-    private PluginSource pluginSource;
+    private Menu menu;
 
-    PluginDownloader(Context context, PluginSource pluginSource) {
+    private Dialog dialog;
+
+    private boolean needRestart;
+
+    PluginDownloader(Context context, Menu menu, boolean needRestart) {
         this.context = context;
-        this.pluginSource = pluginSource;
+        this.menu = menu;
+        this.needRestart = needRestart;
 
-
+        this.dialog = DialogTools.showLoadingDialog(context);
     }
 
     @Override
@@ -37,7 +48,7 @@ public class PluginDownloader extends AsyncTask<Void, Void, Boolean> {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         OkHttpClient mOkHttpClient = builder.build();
 
-        Request request = new Request.Builder().url(pluginSource.getUrl()).build();
+        Request request = new Request.Builder().url(menu.getUrl()).build();
         Response response = null;
         try {
             response = mOkHttpClient.newCall(request).execute();
@@ -50,7 +61,7 @@ public class PluginDownloader extends AsyncTask<Void, Void, Boolean> {
                 try {
                     is = response.body().byteStream();
                     long total = response.body().contentLength();
-                    File apkFile = PluginTool.getDownloadApk(context, pluginSource.getFileName());
+                    File apkFile = PluginTool.getDownloadApk(context, menu.getFileName());
                     fos = new FileOutputStream(apkFile);
                     long sum = 0;
                     while ((len = is.read(buf)) != -1) {
@@ -84,8 +95,25 @@ public class PluginDownloader extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean aBoolean) {
         if (aBoolean) {
-            PluginStarter pluginStarter = new PluginStarter(context, pluginSource);
-            pluginStarter.execute();
+            if (needRestart) {
+                if (context instanceof Activity) {
+                    DialogTools.showOneButtonDialog((Activity) context, "加载新版插件,需要重启", "知道了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Process.killProcess(Process.myPid());
+                        }
+                    }, false);
+                }
+            } else {
+                PluginStarter pluginStarter = new PluginStarter(context, menu, false);
+                pluginStarter.execute();
+            }
+        } else {
+            ToastTool.show(context, "插件下载失败");
+        }
+
+        if (dialog != null) {
+            dialog.cancel();
         }
     }
 }

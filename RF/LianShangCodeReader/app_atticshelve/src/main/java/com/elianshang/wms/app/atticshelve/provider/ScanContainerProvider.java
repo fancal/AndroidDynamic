@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ScanContainerProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -39,17 +39,16 @@ public class ScanContainerProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/inbound/attic_shelve/scanContainer";
+    private static final String _function = "/inbound/pick_up_shelve/scanContainer";
 
-    /**
-     * 任务ID
-     */
     private static final String uId = "uId";
+
+    private static final String uToken = "uToken";
 
     private static final String containerId = "containerId";
 
 
-    public static DataHull<AtticShelve> request(String uId, String containerId) {
+    public static DataHull<AtticShelve> request(String uId, String uToken, String containerId) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -57,6 +56,8 @@ public class ScanContainerProvider {
         headers.add(new DefaultKVPBean(ScanContainerProvider.platform, ""));
         headers.add(new DefaultKVPBean(ScanContainerProvider.version, ""));
         headers.add(new DefaultKVPBean(ScanContainerProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(ScanContainerProvider.uId, uId));
+        headers.add(new DefaultKVPBean(ScanContainerProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(ScanContainerProvider.uId, uId));

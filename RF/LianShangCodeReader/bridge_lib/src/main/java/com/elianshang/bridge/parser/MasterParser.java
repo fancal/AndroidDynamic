@@ -20,7 +20,7 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
     protected final String HEAD = "head";
 
     /**
-     * 接口返回状态 1为正确
+     * 接口返回状态 1为正确 , 2 参数异常 , 3 业务异常 , 4 系统异常
      */
     protected final String STATUS = "status";
 
@@ -55,34 +55,24 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
         int NORMAL = 1;
 
         /**
-         * 接口无更新
-         */
-        int NOUPDATE = 2;
-
-        /**
-         * 无数据
-         */
-        int NODATA = 3;
-
-        /**
-         * 数据异常
-         */
-        int DATAEXCEPTION = 4;
-
-        /**
          * 参数错误
          */
-        int PARAMETERSERR = 5;
+        int PARAMETERSERR = 2;
+
+        /**
+         * 业务异常
+         */
+        int DATAEXCEPTION = 3;
 
         /**
          * 系统异常
          */
-        int SYSTEMEXCEPTION = 6;
+        int SYSTEMEXCEPTION = 4;
 
         /**
          * token非法
          */
-        int TOKENILLEGAL = 7;
+        int TOKENILLEGAL = 5;
     }
 
     public MasterParser() {
@@ -140,7 +130,7 @@ public abstract class MasterParser<T extends BaseBean> extends MainParser<T, JSO
 
     @Override
     public boolean hasUpdate() {
-        return getStatus() != STATE.NOUPDATE;
+        return true;
     }
 
     /**

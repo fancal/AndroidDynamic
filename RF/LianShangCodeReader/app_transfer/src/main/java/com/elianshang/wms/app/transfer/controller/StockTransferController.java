@@ -6,10 +6,10 @@ import android.text.TextUtils;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.tools.ToastTool;
-import com.elianshang.wms.app.transfer.bean.StockTransfer;
-import com.elianshang.wms.app.transfer.bean.StockTransferNext;
+import com.elianshang.wms.app.transfer.bean.Transfer;
+import com.elianshang.wms.app.transfer.bean.TransferNext;
 import com.elianshang.wms.app.transfer.provider.ScanLocationProvider;
-import com.elianshang.wms.app.transfer.ui.view.StockTransferView;
+import com.elianshang.wms.app.transfer.view.StockTransferView;
 import com.xue.http.impl.DataHull;
 
 /**
@@ -17,16 +17,16 @@ import com.xue.http.impl.DataHull;
  */
 public class StockTransferController extends BaseStockTransferController implements BaseStockTransferController.TransferCompleteListener {
 
-    public StockTransferController(Activity activity, String uId, String uToken, StockTransfer stockTransfer, StockTransferView stockTransferView) {
-        super(activity, uId, uToken, stockTransfer, stockTransferView);
+    public StockTransferController(Activity activity, String uId, String uToken, Transfer transfer, StockTransferView stockTransferView) {
+        super(activity, uId, uToken, transfer, stockTransferView);
         fillData();
     }
 
     public void fillData() {
-        if (curStockTransfer != null) {
-            if (TextUtils.equals("2", curStockTransfer.getType())) {
+        if (curTransfer != null) {
+            if (TextUtils.equals("2", curTransfer.getType())) {
                 fillInBound();
-            } else if (TextUtils.equals("1", curStockTransfer.getType())) {
+            } else if (TextUtils.equals("1", curTransfer.getType())) {
                 fillOutBound();
             }
         }
@@ -34,37 +34,39 @@ public class StockTransferController extends BaseStockTransferController impleme
 
     private void fillInBound() {
         if (stockTransferView != null) {
-            stockTransferView.showLocationConfirmView("转入到库位", "任务：" + curStockTransfer.getTaskId(), curStockTransfer.getLocationCode());
+            stockTransferView.showLocationConfirmView("转入到库位", "任务：" + curTransfer.getTaskId(), curTransfer.getLocationCode());
         }
     }
 
     private void fillOutBound() {
         if (stockTransferView != null) {
-            stockTransferView.showLocationConfirmView("开始移库转出", "任务：" + curStockTransfer.getTaskId(), curStockTransfer.getLocationCode());
+            stockTransferView.showLocationConfirmView("开始移库转出", "任务：" + curTransfer.getTaskId(), curTransfer.getLocationCode());
         }
     }
 
     @Override
     public void onSubmitClick(String qty) {
-        if (curStockTransfer != null) {
-            if (TextUtils.equals("1", curStockTransfer.getType())) {
-                submit(qty);
+        if (curTransfer != null) {
+            if (TextUtils.equals("1", curTransfer.getType())) {
+                String numQty = "1".equals(curTransfer.getSubType()) ? curTransfer.getUomQty() : qty;
+                submit(numQty);
             }
         }
     }
 
     @Override
     public void onComplete(String s) {
-        if (curStockTransfer != null) {
-            boolean check = TextUtils.equals(curStockTransfer.getLocationId(), s);
+        if (curTransfer != null) {
+            boolean check = TextUtils.equals(curTransfer.getLocationId(), s);
             if (!check) {
                 ToastTool.show(activity, "库位不一致");
             } else {
-                if (TextUtils.equals("2", curStockTransfer.getType())) {
-                    submit(curStockTransfer.getUomQty());
-                } else if (TextUtils.equals("1", curStockTransfer.getType())) {
+                if (TextUtils.equals("2", curTransfer.getType())) {
+                    submit(curTransfer.getUomQty());
+                } else if (TextUtils.equals("1", curTransfer.getType())) {
                     if (stockTransferView != null) {
-                        stockTransferView.showItemView("填写转出数量", "商品名称：" + curStockTransfer.getItemName(), "商品名称：" + curStockTransfer.getPackName(), "商品数量：" + curStockTransfer.getUomQty(), "库位：" + curStockTransfer.getLocationCode());
+                        String numQty = "1".equals(curTransfer.getSubType()) ? null : curTransfer.getUomQty();
+                        stockTransferView.showItemView("填写转出数量", "商品名称：" + curTransfer.getItemName(), "商品名称：" + curTransfer.getPackName(), "商品数量：" + curTransfer.getUomQty(), "库位：" + curTransfer.getLocationCode(), numQty);
                     }
                 }
             }
@@ -72,7 +74,7 @@ public class StockTransferController extends BaseStockTransferController impleme
     }
 
     private void submit(String qty) {
-        new ScanLocationTask(activity, uId, uToken, curStockTransfer.getType(), curStockTransfer.getTaskId(), curStockTransfer.getLocationId(), qty).start();
+        new ScanLocationTask(activity, uId, uToken, curTransfer.getType(), curTransfer.getTaskId(), curTransfer.getLocationId(), qty).start();
     }
 
 
@@ -82,7 +84,7 @@ public class StockTransferController extends BaseStockTransferController impleme
         activity.finish();
     }
 
-    private class ScanLocationTask extends HttpAsyncTask<StockTransferNext> {
+    private class ScanLocationTask extends HttpAsyncTask<TransferNext> {
 
         private String uId;
 
@@ -107,16 +109,16 @@ public class StockTransferController extends BaseStockTransferController impleme
         }
 
         @Override
-        public DataHull<StockTransferNext> doInBackground() {
+        public DataHull<TransferNext> doInBackground() {
             return ScanLocationProvider.request(uId, uToken, type, taskId, locationId, qty);
         }
 
         @Override
-        public void onPostExecute(int updateId, StockTransferNext result) {
+        public void onPostExecute(TransferNext result) {
             if (result.isDone()) {
                 onTransferSuccess();
             } else {
-                curStockTransfer = result.getStockTransfer();
+                curTransfer = result.getTransfer();
                 fillData();
             }
         }

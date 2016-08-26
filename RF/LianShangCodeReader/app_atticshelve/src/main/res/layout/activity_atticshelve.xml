@@ -22,10 +22,6 @@
         android:id="@+id/atticshelve_two"
         layout="@layout/atticshelve_two" />
 
-    <include
-        android:id="@+id/atticshelve_three"
-        layout="@layout/atticshelve_three" />
-
     <View
         android:layout_width="0dip"
         android:layout_height="0dip"

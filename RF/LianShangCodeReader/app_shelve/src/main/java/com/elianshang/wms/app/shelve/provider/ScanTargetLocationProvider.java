@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ScanTargetLocationProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -41,6 +41,10 @@ public class ScanTargetLocationProvider {
 
     private static final String _function = "/inbound/shelve/scanTargetLocation";
 
+    private static final String uId = "uid";
+
+    private static final String uToken = "uToken";
+
     /**
      * 任务ID
      */
@@ -52,7 +56,7 @@ public class ScanTargetLocationProvider {
     private static final String locationId = "locationId";
 
 
-    public static DataHull<ResponseState> request(String taskId, String locationId) {
+    public static DataHull<ResponseState> request(String uId, String uToken, String taskId, String locationId) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -60,6 +64,8 @@ public class ScanTargetLocationProvider {
         headers.add(new DefaultKVPBean(ScanTargetLocationProvider.platform, ""));
         headers.add(new DefaultKVPBean(ScanTargetLocationProvider.version, ""));
         headers.add(new DefaultKVPBean(ScanTargetLocationProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(ScanTargetLocationProvider.uId, uId));
+        headers.add(new DefaultKVPBean(ScanTargetLocationProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(ScanTargetLocationProvider.taskId, taskId));

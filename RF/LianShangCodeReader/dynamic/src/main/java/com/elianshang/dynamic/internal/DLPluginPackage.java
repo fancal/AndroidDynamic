@@ -62,6 +62,8 @@ public class DLPluginPackage {
      * */
     public PackageInfo packageInfo;
 
+    public String identity;
+
     public DLPluginPackage(DexClassLoader loader, Resources resources, PackageInfo packageInfo) {
         this.packageName = packageInfo.packageName;
         this.classLoader = loader;
@@ -70,6 +72,14 @@ public class DLPluginPackage {
         this.packageInfo = packageInfo;
 
         defaultActivity = parseDefaultActivityName();
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
     }
 
     private final String parseDefaultActivityName() {

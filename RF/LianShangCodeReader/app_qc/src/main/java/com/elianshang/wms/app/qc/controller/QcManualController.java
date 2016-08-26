@@ -9,12 +9,8 @@ import android.view.ViewGroup;
 
 import com.elianshang.wms.app.qc.bean.QcList;
 import com.elianshang.wms.app.qc.tool.QcDialog;
-import com.elianshang.wms.app.qc.ui.view.QcManualView;
+import com.elianshang.wms.app.qc.view.QcManualView;
 
-
-/**
- * Created by liuhanzhi on 16/8/10.
- */
 public class QcManualController extends BaseQcController implements QcManualView.QcManualControllerListener, DialogInterface.OnDismissListener {
 
     private QcManualView mQcManualView;
@@ -23,8 +19,8 @@ public class QcManualController extends BaseQcController implements QcManualView
      */
     private String dialogBarCode;
 
-    public QcManualController(Activity activity) {
-        super(activity);
+    public QcManualController(Activity activity, String uId, String uToken) {
+        super(activity, uId, uToken);
         findView();
     }
 

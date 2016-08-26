@@ -1,7 +1,7 @@
 package com.elianshang.wms.app.transfer.provider;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
-import com.elianshang.wms.app.transfer.bean.StockTransferNext;
+import com.elianshang.wms.app.transfer.bean.TransferNext;
 import com.elianshang.wms.app.transfer.parser.StockTransferNextParser;
 import com.xue.http.hook.BaseHttpParameter;
 import com.xue.http.hook.BaseKVP;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ScanLocationProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -41,6 +41,11 @@ public class ScanLocationProvider {
 
     private static final String _function = "/inhouse/stock_transfer/scanLocation";
 
+    private static final String uId = "uid";
+
+    private static final String uToken = "uToken";
+
+
     private static final String type = "type";
 
     /**
@@ -56,7 +61,7 @@ public class ScanLocationProvider {
     /**
      * 操作员id
      */
-    private static final String uId = "uId";
+    private static final String udd = "uId";
 
     /**
      * 数量
@@ -64,7 +69,7 @@ public class ScanLocationProvider {
     private static final String uomQty = "uomQty";
 
 
-    public static DataHull<StockTransferNext> request(String uId, String uToken, String type, String taskId, String locationId, String uomQty) {
+    public static DataHull<TransferNext> request(String uId, String uToken, String type, String taskId, String locationId, String uomQty) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -72,19 +77,21 @@ public class ScanLocationProvider {
         headers.add(new DefaultKVPBean(ScanLocationProvider.platform, ""));
         headers.add(new DefaultKVPBean(ScanLocationProvider.version, ""));
         headers.add(new DefaultKVPBean(ScanLocationProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(ScanLocationProvider.uId, uId));
+        headers.add(new DefaultKVPBean(ScanLocationProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(ScanLocationProvider.type, type));
         params.add(new DefaultKVPBean(ScanLocationProvider.taskId, taskId));
         params.add(new DefaultKVPBean(ScanLocationProvider.locationId, locationId));
-        params.add(new DefaultKVPBean(ScanLocationProvider.uId, uId));
+        params.add(new DefaultKVPBean(ScanLocationProvider.udd, uId));
         params.add(new DefaultKVPBean(ScanLocationProvider.uomQty, uomQty));
         int hType = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<StockTransferNextParser> parameter = new HttpDynamicParameter<>(url, headers, params, hType, new StockTransferNextParser(), 0);
 
-        OkHttpHandler<StockTransferNext> handler = new OkHttpHandler();
-        DataHull<StockTransferNext> dataHull = handler.requestData(parameter);
+        OkHttpHandler<TransferNext> handler = new OkHttpHandler();
+        DataHull<TransferNext> dataHull = handler.requestData(parameter);
         return dataHull;
 
     }

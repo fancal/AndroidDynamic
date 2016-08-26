@@ -9,7 +9,7 @@ import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.procurement.bean.Procurement;
 import com.elianshang.wms.app.procurement.bean.ProcurementNext;
 import com.elianshang.wms.app.procurement.provider.ScanLocationProvider;
-import com.elianshang.wms.app.procurement.ui.view.ProcurementView;
+import com.elianshang.wms.app.procurement.view.ProcurementView;
 import com.xue.http.impl.DataHull;
 
 /**
@@ -48,7 +48,8 @@ public class ProcurementController extends BaseProcurementController implements 
     public void onSubmitClick(String qty) {
         if (curProcurement != null) {
             if (TextUtils.equals("1", curProcurement.getType())) {
-                submit(qty);
+                String numQty = "1".equals(curProcurement.getSubType()) ? curProcurement.getUomQty() : qty;
+                submit(numQty);
             }
         }
     }
@@ -64,7 +65,8 @@ public class ProcurementController extends BaseProcurementController implements 
                     submit(curProcurement.getUomQty());
                 } else if (TextUtils.equals("1", curProcurement.getType())) {
                     if (procurementView != null) {
-                        procurementView.showItemView("填写转出数量", "商品名称：" + curProcurement.getItemName(), "商品名称：" + curProcurement.getPackName(), "商品数量：" + curProcurement.getUomQty(), "库位：" + curProcurement.getLocationCode());
+                        String numQty = "1".equals(curProcurement.getSubType()) ? null : curProcurement.getUomQty();
+                        procurementView.showItemView("填写转出数量", "商品名称：" + curProcurement.getItemName(), "商品名称：" + curProcurement.getPackName(), "商品数量：" + curProcurement.getUomQty(), "库位：" + curProcurement.getLocationCode(), numQty);
                     }
                 }
             }
@@ -112,7 +114,7 @@ public class ProcurementController extends BaseProcurementController implements 
         }
 
         @Override
-        public void onPostExecute(int updateId, ProcurementNext result) {
+        public void onPostExecute(ProcurementNext result) {
             if (result.isDone()) {
                 onTransferSuccess();
             } else {

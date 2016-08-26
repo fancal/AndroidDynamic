@@ -6,12 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.elianshang.wms.app.qc.bean.QcList;
-import com.elianshang.wms.app.qc.ui.view.QcScanView;
+import com.elianshang.wms.app.qc.view.QcScanView;
 
-
-/**
- * Created by liuhanzhi on 16/8/10.
- */
 public class QcScanController extends BaseQcController {
 
     private QcScanView mQcScanView;
@@ -19,8 +15,8 @@ public class QcScanController extends BaseQcController {
     private String curBarCode;
 
 
-    public QcScanController(Activity activity) {
-        super(activity);
+    public QcScanController(Activity activity, String uId, String uToken) {
+        super(activity, uId, uToken);
         findView();
     }
 

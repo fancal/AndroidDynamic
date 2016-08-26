@@ -26,13 +26,15 @@ public abstract class OkHttpDynamicParameter<PR extends BaseParser<? extends Bas
 
     @Override
     public String buildParameter(Request.Builder requestBuilder) {
-        if (requestBuilder != null && getParams() != null && getParams().size() > 0) {
-            HttpLogTool.log("--------------Parameters--------------");
+        if (requestBuilder != null) {
             FormBody.Builder formBuilder = new FormBody.Builder();
-            for (BaseKVP baseKVP : getParams()) {
-                if (baseKVP != null && !TextUtils.isEmpty(baseKVP.getKey()) && !TextUtils.isEmpty(baseKVP.getValue())) {
-                    formBuilder.add(baseKVP.getKey(), baseKVP.getValue());
-                    HttpLogTool.log(baseKVP.getKey() + ": " + baseKVP.getValue());
+            if (getParams() != null && getParams().size() > 0) {
+                HttpLogTool.log("--------------Parameters--------------");
+                for (BaseKVP baseKVP : getParams()) {
+                    if (baseKVP != null && !TextUtils.isEmpty(baseKVP.getKey()) && !TextUtils.isEmpty(baseKVP.getValue())) {
+                        formBuilder.add(baseKVP.getKey(), baseKVP.getValue());
+                        HttpLogTool.log(baseKVP.getKey() + ": " + baseKVP.getValue());
+                    }
                 }
             }
 

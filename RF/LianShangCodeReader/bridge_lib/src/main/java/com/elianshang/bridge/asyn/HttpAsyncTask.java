@@ -4,32 +4,24 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Looper;
 import android.text.TextUtils;
 
 import com.elianshang.bridge.tool.DialogTools;
-import com.elianshang.bridge.tool.UMengEventTool;
 import com.elianshang.tools.NetWorkTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.tools.WeakReferenceHandler;
 import com.xue.http.hook.BaseBean;
 import com.xue.http.impl.DataHull;
 
-
 /**
  * 网络请求的异步任务
  */
-public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl implements HttpAsyncTaskInterface<T> {
+public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<DataHull<T>, T> {
 
     /**
      * 上下文对象
      */
     protected Context context;
-
-    /**
-     * 回调主线程 handler
-     */
-    private WeakReferenceHandler<HttpAsyncTask> handler;
 
     /**
      * 错误信息
@@ -58,7 +50,6 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl imp
 
     public HttpAsyncTask(Context context) {
         this.context = context;
-        handler = new WeakReferenceHandler<HttpAsyncTask>(this, Looper.getMainLooper());
     }
 
     public HttpAsyncTask(Context context, boolean showToast) {
@@ -78,136 +69,126 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl imp
     }
 
     @Override
-    public final void run() {
-        final long start = System.currentTimeMillis();
+    public final T run() {
         try {
             hasNet = NetWorkTool.isNetAvailable(context);
 
             if (!hasNet) {// 判断网络
-                cancel();
-                postUI(new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+                if (showLoading && context instanceof Activity) {
+                    postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+                        @Override
+                        public void run(HttpAsyncTask httpAsyncTask) {
+                            DialogTools.showTwoButtonDialog((Activity) context, "没有网络,请检查网络后,是否重试", "取消", "重试", null, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    HttpAsyncTask.this.start();
+                                }
+                            }, true);
+                        }
+                    });
+                }
+
+                postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
                     @Override
                     public void run(HttpAsyncTask httpAsyncTask) {
-                        httpAsyncTask.netNull();
+                        try {
+                            httpAsyncTask.netNull();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
-                // 无网
-                UMengEventTool.onRequest(context, "无网络", "-1", "", (int) (System.currentTimeMillis() - start));
-                return;
+                return null;
             }
 
-            if (!isCancel) {// 加载网络数据
+            if (!isCancel()) {// 加载网络数据
                 showLoadingDialog();
                 DataHull<T> dh = doInBackground();
-
-                if (dh != null && dh.getStatus() == 1020) {
-                    // 重试
-                    UMengEventTool.onRequest(context, "时间戳重试", String.valueOf(dh.getStatus()), dh.getFunction(), (int) (System.currentTimeMillis() - start));
-                    dh = doInBackground();
-                }
-                if (dh != null && (dh.getStatus() == 1001 || dh.getStatus() == 1002)) {
-                    // token异常后读取一次配置
-                    //TODO
-//                    HttpApi.homeConfigInit();
-                }
 
                 dissmissLoadingDialog();
 
                 final DataHull<T> dataHull = dh;
 
-                if (!isCancel) {
-                    postUI(new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+                if (dataHull == null) {
+                    postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
                         @Override
                         public void run(HttpAsyncTask httpAsyncTask) {
                             try {
-                                httpAsyncTask.isCancel = true;
-                                if (dataHull == null) {
-                                    // datahull为空
-                                    UMengEventTool.onRequest(context, "数据壳为空", "-2", "-2", (int) (System.currentTimeMillis() - start));
-                                    netErr(0, null);
-                                } else {
-                                    httpAsyncTask.message = dataHull.getMessage();
-                                    httpAsyncTask.status = dataHull.getStatus();
-                                    T t = dataHull.getDataEntity();
-                                    if (dataHull.getDataType() == DataHull.DataType.DATA_IS_INTEGRITY) {
-                                        if (t == null) {
-                                            // 实体为空
-                                            UMengEventTool.onRequest(context, "实体为空", String.valueOf(dataHull.getStatus()), dataHull.getFunction(), (int) (System.currentTimeMillis() - start));
-                                            httpAsyncTask.dataNull(dataHull.getDataId(), message);
-                                        } else {
-                                            // 正确响应
-                                            UMengEventTool.onRequest(context, "成功响应", String.valueOf(dataHull.getStatus()), dataHull.getFunction(), (int) (System.currentTimeMillis() - start));
-                                            httpAsyncTask.onPostExecute(dataHull.getDataId(), dataHull.getDataEntity());
-                                        }
-                                    } else if (dataHull.getDataType() == DataHull.DataType.DATA_NO_UPDATE) {
-                                        // 无数据更新
-                                        UMengEventTool.onRequest(context, "无数据更新", String.valueOf(dataHull.getStatus()), dataHull.getFunction(), (int) (System.currentTimeMillis() - start));
-                                        httpAsyncTask.noUpdate();
-                                    } else {
-                                        if (dataHull.getDataType() == DataHull.DataType.DATA_CAN_NOT_PARSE) {
-                                            if (dataHull.getStatus() == 1001 || dataHull.getStatus() == 1002) {
-                                                // token异常
-                                                UMengEventTool.onRequest(context, "token异常", String.valueOf(dataHull.getStatus()), dataHull.getFunction(), (int) (System.currentTimeMillis() - start));
-                                                if (context instanceof Activity) {
-                                                    final Activity activity = (Activity) context;
-                                                    DialogTools.showOneButtonDialog(activity, dataHull.getMessage(), "知道了", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-//                                                            if (!(activity instanceof WelcomeActivity)) {
-//                                                                activity.finish();
-//                                                            }
-                                                            //TODO
-//                                                            BaseApplication.get().setUser(null);
-//                                                            LoginActivity.launch(activity);
-                                                        }
-                                                    }, false);
-                                                }
-
-                                                httpAsyncTask.netErr(dataHull.getDataId(), message); //token过期时  不显示无网UI
-                                            } else if (dataHull.getStatus() == 1111) {
-                                                // 接口关闭
-                                                UMengEventTool.onRequest(context, "接口关闭", String.valueOf(dataHull.getStatus()), dataHull.getFunction(), (int) (System.currentTimeMillis() - start));
-
-                                                httpAsyncTask.netErr(dataHull.getDataId(), message);
-                                            } else {
-                                                // 请求异常
-                                                UMengEventTool.onRequest(context, "请求异常", String.valueOf(dataHull.getStatus()), dataHull.getFunction(), (int) (System.currentTimeMillis() - start));
-                                                httpAsyncTask.netErr(dataHull.getDataId(), message);
-                                            }
-                                        } else {
-                                            // 接口异常
-                                            UMengEventTool.onRequest(context, "接口异常", String.valueOf(dataHull.getStatus()), dataHull.getFunction(), (int) (System.currentTimeMillis() - start));
-                                            httpAsyncTask.netErr(dataHull.getDataId(), message);
-                                        }
-                                    }
-                                }
-                                cancel();
+                                httpAsyncTask.netErr(null);
                             } catch (Exception e) {
-                                // 线程异常
-                                UMengEventTool.onRequest(context, "线程异常", "-1", "", (int) (System.currentTimeMillis() - start));
                                 e.printStackTrace();
                             }
                         }
                     });
+                    return null;
                 } else {
-                    // 取消
-                    UMengEventTool.onRequest(context, "请求取消", "-1", "", (int) (System.currentTimeMillis() - start));
+                    this.message = dataHull.getMessage();
+                    this.status = dataHull.getStatus();
+                    if (dataHull.getDataType() == DataHull.DataType.DATA_IS_INTEGRITY) {
+                        T t = dataHull.getDataEntity();
+                        if (t == null) {
+                            postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+                                @Override
+                                public void run(HttpAsyncTask httpAsyncTask) {
+                                    try {
+                                        httpAsyncTask.dataNull(message);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
 
+                            return null;
+                        } else {
+                            return t;
+                        }
+                    } else {
+                        if (dataHull.getDataType() == DataHull.DataType.DATA_CAN_NOT_PARSE) {
+
+                        } else if (dataHull.getDataType() == DataHull.DataType.CONNECTION_FAIL
+                                || dataHull.getDataType() == DataHull.DataType.RESPONSE_CODE_ERR
+                                || dataHull.getDataType() == DataHull.DataType.DATA_CAN_NOT_PARSE
+                                || dataHull.getDataType() == DataHull.DataType.DATA_IS_NULL) {
+                            if (showLoading && context instanceof Activity) {
+                                postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+                                    @Override
+                                    public void run(HttpAsyncTask httpAsyncTask) {
+                                        DialogTools.showTwoButtonDialog((Activity) context, "网络异常,是否重试", "取消", "重试", null, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                HttpAsyncTask.this.start();
+                                            }
+                                        }, true);
+                                    }
+                                });
+                            }
+                        }
+
+                        postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+                            @Override
+                            public void run(HttpAsyncTask httpAsyncTask) {
+                                try {
+                                    httpAsyncTask.netErr(message);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        return null;
+                    }
                 }
             } else {
-                // 取消
-                UMengEventTool.onRequest(context, "请求取消", "-1", "", (int) (System.currentTimeMillis() - start));
+                ToastTool.show(context, "任务取消了");
             }
         } catch (Exception e) {
             // 线程异常
-            UMengEventTool.onRequest(context, "线程异常", "-1", "", (int) (System.currentTimeMillis() - start));
             e.printStackTrace();
             dissmissLoadingDialog();
-            postUI(new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+            postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
                 @Override
                 public void run(HttpAsyncTask httpAsyncTask) {
                     try {
-                        httpAsyncTask.netErr(0, null);
+                        httpAsyncTask.netErr(null);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -215,48 +196,15 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl imp
             });
         }
 
-    }
-
-    @Override
-    public boolean onPreExecute() {
-        return true;
-    }
-
-    private void postUI(WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask> runnable) {
-        if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
-            handler.post(runnable);
-        } else {
-            runnable.run(this);
-        }
-    }
-
-    public int getStatus() {
-        return status;
+        return null;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public final void start() {
-        isCancel = !onPreExecute();
-        if (isCancel) {
-            postUI(new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
-                @Override
-                public void run(HttpAsyncTask httpAsyncTask) {
-                    httpAsyncTask.preFail();
-                }
-            });
-
-            return;
-        }
-        mThreadPool.submit(this);// 加入线程队列，等待执行
-    }
-
-    /**
-     * 请求前，准备失败回调
-     */
-    public void preFail() {
+    @Override
+    public void onPreExecute() {
     }
 
     /**
@@ -271,12 +219,10 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl imp
     /**
      * 网络异常和数据错误，回调
      */
-    public void netErr(int updateId, String errMsg) {
+    public void netErr(String errMsg) {
         if (showToast && null != context) {
             if (!TextUtils.isEmpty(errMsg)) {
-                if (status != 1001 && status != 1002 && status != 1004 && status != 1111) {
-                    ToastTool.show(context, errMsg);
-                }
+                ToastTool.show(context, errMsg);
             } else {
                 ToastTool.show(context, "网络异常");
             }
@@ -286,23 +232,15 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl imp
     /**
      * 数据为空，回调
      */
-    public void dataNull(int updateId, String errMsg) {
+    public void dataNull(String errMsg) {
         if (showToast && null != context && !TextUtils.isEmpty(errMsg)) {
             ToastTool.show(context, errMsg);
         }
     }
 
-
-    /**
-     * 数据无更新，回调
-     */
-    public void noUpdate() {
-//        ToastTool.show(context, R.string.text_no_update);
-    }
-
     private void showLoadingDialog() {
         if (showLoading && null != context) {
-            postUI(new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+            postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
                 @Override
                 public void run(HttpAsyncTask httpAsyncTask) {
                     try {
@@ -324,7 +262,7 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl imp
 
     private void dissmissLoadingDialog() {
         if (showLoading && null != context) {
-            postUI(new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+            postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
                 @Override
                 public void run(HttpAsyncTask httpAsyncTask) {
                     try {

@@ -1,37 +1,84 @@
 package com.elianshang.bridge.asyn;
 
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import android.os.AsyncTask;
+import android.os.Looper;
 
-public abstract class BaseTaskImpl implements BaseTask {
+import com.elianshang.tools.WeakReferenceHandler;
 
-    /**
-     * 是否取消加载
-     */
-    protected boolean isCancel = false;
+public abstract class BaseTaskImpl<D, R> implements AsyncTaskInterface<D, R> {
 
-    /**
-     * 线程池
-     */
-    protected static final ExecutorService mThreadPool;
+    private WeakReferenceHandler handler;
 
-    static {// 初始化线程池
-        mThreadPool = Executors.newFixedThreadPool(10, Executors.defaultThreadFactory());
+    AsyncTask<Void, Void, R> asyncTask = null;
+
+    protected BaseTaskImpl() {
+        handler = new WeakReferenceHandler(Looper.getMainLooper());
     }
 
-    @Override
+    public void start() {
+        postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<BaseTaskImpl<D, R>>() {
+            @Override
+            public void run(BaseTaskImpl<D, R> hook) {
+                if (asyncTask != null) {
+                    asyncTask.cancel(true);
+                }
+                asyncTask = new SiT();
+                asyncTask.execute();
+            }
+        });
+    }
+
     public void cancel() {
-        this.isCancel = true;
+        asyncTask.cancel(true);
     }
 
-    @Override
-    public boolean isCancelled() {
-        return this.isCancel;
+    public boolean isCancel() {
+        return asyncTask.isCancelled();
     }
 
-    @Override
-    public int compareTo(BaseTask another) {
-        return 0;
+    public abstract R run();
+
+    protected final <Hook> void postUI(Hook hook, WeakReferenceHandler.WeakReferenceHandlerRunnalbe<Hook> runnable) {
+        if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
+            handler.post(hook, runnable);
+        } else {
+            runnable.run(hook);
+        }
+    }
+
+    private class SiT extends AsyncTask<Void, Void, R> {
+
+        @Override
+        protected void onPreExecute() {
+            BaseTaskImpl.this.onPreExecute();
+        }
+
+        @Override
+        protected R doInBackground(Void... params) {
+            return run();
+        }
+
+        @Override
+        protected void onPostExecute(R r) {
+            if (r != null) {
+                BaseTaskImpl.this.onPostExecute(r);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected void onCancelled(R r) {
+            super.onCancelled(r);
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
     }
 }

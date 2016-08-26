@@ -2,18 +2,15 @@ package com.elianshang.wms.app.qc.controller;
 
 import android.app.Activity;
 
-/**
- * Created by liuhanzhi on 16/8/10.
- */
 public class QcControllerProxy extends BaseQcController {
 
     BaseQcController baseQcController;
 
-    public QcControllerProxy(Activity activity) {
-        super(activity);
+    public QcControllerProxy(Activity activity, String uId, String uToken) {
+        super(activity, uId, uToken);
     }
 
-    public void releaseScanEditTextTool(){
+    public void releaseScanEditTextTool() {
         super.releaseCreateLayout();
     }
 
@@ -22,11 +19,12 @@ public class QcControllerProxy extends BaseQcController {
         super.releaseCreateLayout();
         int type = qcList.getQcType();
         if (type == 1) {
-            baseQcController = new QcScanController(activity);
+            baseQcController = new QcScanController(activity, uId, uToken);
         } else if (type == 2) {
-            baseQcController = new QcManualController(activity);
+            baseQcController = new QcManualController(activity, uId, uToken);
         }
         baseQcController.qcList = qcList;
+        baseQcController.containerId = containerId;
         baseQcController.releaseCreateLayout();
         baseQcController.fillQcListData();
     }

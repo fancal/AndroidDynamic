@@ -3,7 +3,7 @@ package com.elianshang.wms.app.procurement.controller;
 import android.app.Activity;
 
 import com.elianshang.wms.app.procurement.bean.Procurement;
-import com.elianshang.wms.app.procurement.ui.view.ProcurementView;
+import com.elianshang.wms.app.procurement.view.ProcurementView;
 
 /**
  * Created by liuhanzhi on 16/8/15.

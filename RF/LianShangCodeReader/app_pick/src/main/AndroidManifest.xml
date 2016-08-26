@@ -10,16 +10,20 @@
     <application
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".ui.activity.PickActivity"
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+            android:theme="@style/TransparentDialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <activity
+            android:name=".activity.PickActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

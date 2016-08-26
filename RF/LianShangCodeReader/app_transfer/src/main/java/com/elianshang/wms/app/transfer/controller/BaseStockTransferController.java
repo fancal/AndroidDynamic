@@ -2,8 +2,8 @@ package com.elianshang.wms.app.transfer.controller;
 
 import android.app.Activity;
 
-import com.elianshang.wms.app.transfer.bean.StockTransfer;
-import com.elianshang.wms.app.transfer.ui.view.StockTransferView;
+import com.elianshang.wms.app.transfer.bean.Transfer;
+import com.elianshang.wms.app.transfer.view.StockTransferView;
 
 
 /**
@@ -11,7 +11,7 @@ import com.elianshang.wms.app.transfer.ui.view.StockTransferView;
  */
 public abstract class BaseStockTransferController {
 
-    protected StockTransfer curStockTransfer;
+    protected Transfer curTransfer;
 
     protected String uId;
 
@@ -25,11 +25,11 @@ public abstract class BaseStockTransferController {
 
     protected abstract void onComplete(String s);
 
-    public BaseStockTransferController(Activity activity, String uId, String uToken, StockTransfer curProcurement, StockTransferView procurementView) {
+    public BaseStockTransferController(Activity activity, String uId, String uToken, Transfer curProcurement, StockTransferView procurementView) {
         this.activity = activity;
         this.uId = uId;
         this.uToken = uToken;
-        this.curStockTransfer = curProcurement;
+        this.curTransfer = curProcurement;
         this.stockTransferView = procurementView;
     }
 

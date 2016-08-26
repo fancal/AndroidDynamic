@@ -17,7 +17,7 @@ android {
      * */
     defaultConfig {
         applicationId "com.elianshang.wms.app.procurement"
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -79,12 +79,6 @@ android {
              * 签名配置
              * */
             signingConfig signingConfigs.releaseConfig
-
-            /**
-             * 测试默认值,直接运行安装方便使用
-             * */
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "test", PCODE_VALUE: "test", CONFIG_VALUE: "test"]
-
         }
 
         /**
@@ -129,8 +123,8 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "lsh_app_procurement_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
+                        def fileName = "h_app_procurement_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File("/Users/xfilshy/rf/", fileName)
                     }
                 }
             }

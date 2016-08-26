@@ -20,6 +20,8 @@ import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.dynamic.internal.DLIntent;
+import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.atticshelve.R;
 import com.elianshang.wms.app.atticshelve.bean.AtticShelve;
 import com.elianshang.wms.app.atticshelve.bean.AtticShelveNext;
@@ -28,6 +30,16 @@ import com.elianshang.wms.app.atticshelve.provider.ScanTargetLocationProvider;
 import com.xue.http.impl.DataHull;
 
 public class AtticShelveActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
+
+    public static void launch(DLBasePluginActivity activity, String uid, String uToken, AtticShelve atticShelve) {
+        DLIntent intent = new DLIntent(activity.getPackageName(), AtticShelveActivity.class);
+        intent.putExtra("uId", uid);
+        intent.putExtra("uToken", uToken);
+        if (atticShelve != null) {
+            intent.putExtra("atticShelve", atticShelve);
+        }
+        activity.startPluginActivity(intent);
+    }
 
     private String uId;
 
@@ -61,8 +73,6 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
     private QtyEditText twoInputQtyEditView;
 
-    private View atticShelveThreeLayout;
-
     private Button submitButton;
 
     private ScanEditTextTool scanEditTextTool;
@@ -75,22 +85,28 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         setContentView(R.layout.activity_atticshelve);
         findViews();
 
-        readExtra();
-
-        fillStepOne();
+        if (readExtra()) {
+        }
     }
 
-    private void readExtra() {
+    private boolean readExtra() {
         Intent intent = getIntent();
         uId = intent.getStringExtra("uId");
         uToken = intent.getStringExtra("uToken");
-
-        uId = "141871359725260";
-        uToken = "243202523137671";
+        curAtticShelve = (AtticShelve) intent.getSerializableExtra("atticShelve");
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
+            return false;
         }
+
+        if (curAtticShelve != null) {
+            fillStepTwoLocationLayout();
+        } else {
+            fillStepOne();
+        }
+
+        return true;
     }
 
     @Override
@@ -118,7 +134,6 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
     }
 
     private void findViews() {
-
         atticShelveOneLayout = findViewById(R.id.atticshelve_one);
         oneContainerIdEditText = (ScanEditText) atticShelveOneLayout.findViewById(R.id.containerId_EditText);
 
@@ -134,8 +149,6 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         twoInputQtyLayout = atticShelveTwoLayout.findViewById(R.id.inputQty_Layout);
         twoInputQtyEditView = (QtyEditText) atticShelveTwoLayout.findViewById(R.id.inputQty_EditView);
 
-        atticShelveThreeLayout = findViewById(R.id.atticshelve_three);
-
         submitButton = (Button) findViewById(R.id.submit_Button);
 
         initToolbar();
@@ -144,7 +157,6 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
     private void fillStepOne() {
         atticShelveOneLayout.setVisibility(View.VISIBLE);
         atticShelveTwoLayout.setVisibility(View.GONE);
-        atticShelveThreeLayout.setVisibility(View.GONE);
         submitButton.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
@@ -157,7 +169,6 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
     private void fillStepTwoLocationLayout() {
         atticShelveOneLayout.setVisibility(View.GONE);
         atticShelveTwoLayout.setVisibility(View.VISIBLE);
-        atticShelveThreeLayout.setVisibility(View.GONE);
         submitButton.setVisibility(View.GONE);
 
         submitButton.setOnClickListener(null);
@@ -182,7 +193,6 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
     private void fillStepTwoQtyLayout() {
         atticShelveOneLayout.setVisibility(View.GONE);
         atticShelveTwoLayout.setVisibility(View.VISIBLE);
-        atticShelveThreeLayout.setVisibility(View.GONE);
         submitButton.setVisibility(View.VISIBLE);
 
         submitButton.setOnClickListener(this);
@@ -205,10 +215,8 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
     }
 
     private void fillStepThree() {
-        atticShelveOneLayout.setVisibility(View.GONE);
-        atticShelveTwoLayout.setVisibility(View.GONE);
-        atticShelveThreeLayout.setVisibility(View.VISIBLE);
-        submitButton.setVisibility(View.GONE);
+        ToastTool.show(that, "上架完成");
+        finish();
     }
 
     private void initToolbar() {
@@ -235,7 +243,7 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
             Editable editable = twoLocationIdEditText.getText();
             if (editable != null) {
                 final String locationId = editable.toString();
-                if (!TextUtils.isEmpty(locationId)) {
+                if (!TextUtils.equals(locationId, curAtticShelve.getLocationId())) {
                     DialogTools.showTwoButtonDialog(that, "扫描的库位与目标库位不一致,确认上架", "取消", "确认", null, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -260,7 +268,16 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
     @Override
     public void onBackPressed() {
-        finish();
+        if (atticShelveTwoLayout.getVisibility() == View.VISIBLE) {
+            DialogTools.showTwoButtonDialog(that, "是否暂退任务,下次回来将会继续", "取消", "确定", null, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            }, true);
+        } else {
+            finish();
+        }
     }
 
 
@@ -290,11 +307,11 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
         @Override
         public DataHull<AtticShelve> doInBackground() {
-            return ScanContainerProvider.request(uId, containerId);
+            return ScanContainerProvider.request(uId, uToken, containerId);
         }
 
         @Override
-        public void onPostExecute(int updateId, AtticShelve result) {
+        public void onPostExecute(AtticShelve result) {
             curAtticShelve = result;
             fillStepTwoLocationLayout();
         }
@@ -319,11 +336,11 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
         @Override
         public DataHull<AtticShelveNext> doInBackground() {
-            return ScanTargetLocationProvider.request(uId, taskId, allocLocationId, realLocationId, qty);
+            return ScanTargetLocationProvider.request(uId, uToken, taskId, allocLocationId, realLocationId, qty);
         }
 
         @Override
-        public void onPostExecute(int updateId, AtticShelveNext result) {
+        public void onPostExecute(AtticShelveNext result) {
             if (result.isDone()) {
                 fillStepThree();
             } else {

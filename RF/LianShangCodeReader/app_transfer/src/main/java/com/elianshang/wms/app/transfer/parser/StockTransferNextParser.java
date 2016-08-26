@@ -1,23 +1,23 @@
 package com.elianshang.wms.app.transfer.parser;
 
 import com.elianshang.bridge.parser.MasterParser;
-import com.elianshang.wms.app.transfer.bean.StockTransferNext;
+import com.elianshang.wms.app.transfer.bean.TransferNext;
 
 import org.json.JSONObject;
 
-public class StockTransferNextParser extends MasterParser<StockTransferNext> {
+public class StockTransferNextParser extends MasterParser<TransferNext> {
 
     @Override
-    public StockTransferNext parse(JSONObject data) throws Exception {
-        StockTransferNext procurementNext = null;
+    public TransferNext parse(JSONObject data) throws Exception {
+        TransferNext procurementNext = null;
 
         if (data != null) {
-            procurementNext = new StockTransferNext();
+            procurementNext = new TransferNext();
 
             if (has(data, "response")) {
                 procurementNext.setResponseState(new ResponseStateParser().parse(data));
             } else {
-                procurementNext.setStockTransfer(new StockTransferParser().parse(data));
+                procurementNext.setTransfer(new StockTransferParser().parse(data));
             }
         }
 

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class FetchTaskProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -41,11 +41,12 @@ public class FetchTaskProvider {
 
     private static final String _function = "/inhouse/procurement/fetchTask";
 
+    private static final String uId = "uid";
 
-    /**
-     * 操作员id
-     */
-    private static final String uId = "uId";
+    private static final String uToken = "uToken";
+
+
+    private static final String udd = "uId";
 
 
     public static DataHull<Procurement> request(String uId, String uToken) {
@@ -56,9 +57,11 @@ public class FetchTaskProvider {
         headers.add(new DefaultKVPBean(FetchTaskProvider.platform, ""));
         headers.add(new DefaultKVPBean(FetchTaskProvider.version, ""));
         headers.add(new DefaultKVPBean(FetchTaskProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(FetchTaskProvider.uId, uId));
+        headers.add(new DefaultKVPBean(FetchTaskProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(FetchTaskProvider.uId, uId));
+        params.add(new DefaultKVPBean(FetchTaskProvider.udd, uId));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ProcurementParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ProcurementParser(), 0);

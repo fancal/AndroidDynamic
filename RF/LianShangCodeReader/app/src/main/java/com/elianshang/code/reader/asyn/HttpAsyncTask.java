@@ -31,7 +31,7 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl imp
     /**
      * 回调主线程 handler
      */
-    private WeakReferenceHandler<HttpAsyncTask> handler;
+    private WeakReferenceHandler handler;
 
     /**
      * 错误信息
@@ -60,7 +60,7 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl imp
 
     public HttpAsyncTask(Context context) {
         this.context = context;
-        handler = new WeakReferenceHandler<HttpAsyncTask>(this, Looper.getMainLooper());
+        handler = new WeakReferenceHandler(Looper.getMainLooper());
     }
 
     public HttpAsyncTask(Context context, boolean showToast) {
@@ -227,7 +227,7 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl imp
 
     private void postUI(WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask> runnable) {
         if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
-            handler.post(runnable);
+            handler.post(this, runnable);
         } else {
             runnable.run(this);
         }

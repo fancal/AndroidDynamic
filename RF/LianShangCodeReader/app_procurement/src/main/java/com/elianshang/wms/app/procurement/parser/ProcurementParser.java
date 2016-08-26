@@ -18,6 +18,7 @@ public class ProcurementParser extends MasterParser<Procurement> {
         if (data != null) {
             String taskId = optString(data, "taskId");
             String type = optString(data, "type");
+            String subType = optString(data, "subType");
             String locationCode = optString(data, "locationCode");
             String locationId = optString(data, "locationId");
             String itemId = optString(data, "itemId");
@@ -27,6 +28,7 @@ public class ProcurementParser extends MasterParser<Procurement> {
 
             if (!TextUtils.isEmpty(taskId)
                     && !TextUtils.isEmpty(type)
+                    && !TextUtils.isEmpty(subType)
                     && !TextUtils.isEmpty(locationCode)
                     && !TextUtils.isEmpty(locationId)
                     && !TextUtils.isEmpty(itemId)
@@ -36,6 +38,7 @@ public class ProcurementParser extends MasterParser<Procurement> {
                 procurement = new Procurement();
                 procurement.setTaskId(taskId);
                 procurement.setType(type);
+                procurement.setSubType(subType);
                 procurement.setLocationCode(locationCode);
                 procurement.setLocationId(locationId);
                 procurement.setItemId(itemId);

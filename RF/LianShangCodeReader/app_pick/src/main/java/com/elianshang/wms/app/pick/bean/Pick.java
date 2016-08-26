@@ -2,9 +2,6 @@ package com.elianshang.wms.app.pick.bean;
 
 import com.xue.http.hook.BaseBean;
 
-/**
- * Created by liuhanzhi on 16/8/6.
- */
 public class Pick implements BaseBean {
 
     String allocPickLocationCode;

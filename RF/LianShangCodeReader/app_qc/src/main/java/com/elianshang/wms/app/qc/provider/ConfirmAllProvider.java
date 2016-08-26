@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ConfirmAllProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -41,12 +41,16 @@ public class ConfirmAllProvider {
 
     private static final String _function = "/outbound/qc/confirmAll";
 
+    private static final String uId = "uid";
+
+    private static final String uToken = "uToken";
+
     private static final String containerId = "containerId";
 
     private static final String qcList = "qcList";
 
 
-    public static DataHull<ResponseState> request(String containerId, String qcList) {
+    public static DataHull<ResponseState> request(String uId, String uToken, String containerId, String qcList) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -54,6 +58,8 @@ public class ConfirmAllProvider {
         headers.add(new DefaultKVPBean(ConfirmAllProvider.platform, ""));
         headers.add(new DefaultKVPBean(ConfirmAllProvider.version, ""));
         headers.add(new DefaultKVPBean(ConfirmAllProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(ConfirmAllProvider.uId, uId));
+        headers.add(new DefaultKVPBean(ConfirmAllProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(ConfirmAllProvider.containerId, containerId));

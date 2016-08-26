@@ -2,14 +2,13 @@ package com.elianshang.wms.app.pick.bean;
 
 import com.xue.http.hook.BaseBean;
 
-/**
- * Created by liuhanzhi on 16/8/6.
- */
 public class PickLocation implements BaseBean {
 
     Pick pick;
 
     boolean done;
+
+    boolean pickDone;
 
     public Pick getPick() {
         return pick;
@@ -25,6 +24,14 @@ public class PickLocation implements BaseBean {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public boolean isPickDone() {
+        return pickDone;
+    }
+
+    public void setPickDone(boolean pickDone) {
+        this.pickDone = pickDone;
     }
 
     @Override

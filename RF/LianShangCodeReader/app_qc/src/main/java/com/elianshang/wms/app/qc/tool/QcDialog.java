@@ -13,9 +13,6 @@ import android.widget.TextView;
 import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.wms.app.qc.R;
 
-/**
- * Created by liuhanzhi on 16/8/19.
- */
 public class QcDialog {
 
     /**

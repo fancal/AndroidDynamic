@@ -4,7 +4,7 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import com.elianshang.bridge.tool.ScanManager;
-import com.elianshang.wms.rf.asyn.UserSaveTask;
+import com.elianshang.wms.rf.asyn.UserSaveTaskSimple;
 import com.elianshang.wms.rf.bean.User;
 
 public class BaseApplication extends Application {
@@ -59,7 +59,7 @@ public class BaseApplication extends Application {
 
     public void setUser(User user) {
         mUser = user;
-        new UserSaveTask(user).start();
+        new UserSaveTaskSimple(user).start();
     }
 
     public User getUser() {

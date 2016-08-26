@@ -1,0 +1,66 @@
+package com.elianshang.wms.rf.provider;
+
+import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.wms.rf.bean.MenuList;
+import com.elianshang.wms.rf.parser.MenuListParser;
+import com.xue.http.hook.BaseHttpParameter;
+import com.xue.http.hook.BaseKVP;
+import com.xue.http.impl.DataHull;
+import com.xue.http.impl.DefaultKVPBean;
+import com.xue.http.okhttp.OkHttpHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class GetMenuListProvider {
+
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+
+    private static final String _function = "/user/getMenuList";
+
+    /**
+     * app唯一标示传imei
+     */
+    private static final String app_key = "app-key";
+
+    /**
+     * 平台(1.H5  2.Android)
+     */
+    private static final String platform = "platform";
+
+    /**
+     * app版本
+     */
+    private static final String version = "app-version";
+
+    /**
+     * api版本
+     */
+    private static final String api_version = "api-version";
+
+    private static final String uId = "uid";
+
+    private static final String uToken = "uToken";
+
+
+    public static DataHull<MenuList> request(String uId, String uToken) {
+        String url = base_url + _function;
+
+        List<BaseKVP> headers = new ArrayList<>();
+        headers.add(new DefaultKVPBean(GetMenuListProvider.app_key, ""));
+        headers.add(new DefaultKVPBean(GetMenuListProvider.platform, ""));
+        headers.add(new DefaultKVPBean(GetMenuListProvider.version, ""));
+        headers.add(new DefaultKVPBean(GetMenuListProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(GetMenuListProvider.uId, uId));
+        headers.add(new DefaultKVPBean(GetMenuListProvider.uToken, uToken));
+
+        int type = BaseHttpParameter.Type.POST;
+
+        HttpDynamicParameter<MenuListParser> parameter = new HttpDynamicParameter<>(url, headers, null, type, new MenuListParser(), 0);
+
+        OkHttpHandler<MenuList> handler = new OkHttpHandler();
+        DataHull<MenuList> dataHull = handler.requestData(parameter);
+        return dataHull;
+
+    }
+}

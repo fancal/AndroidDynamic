@@ -16,11 +16,9 @@ import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.wms.app.qc.R;
-import com.elianshang.wms.app.qc.bean.QcCreate;
 import com.elianshang.wms.app.qc.bean.QcList;
 import com.elianshang.wms.app.qc.bean.ResponseState;
 import com.elianshang.wms.app.qc.provider.ConfirmAllProvider;
-import com.elianshang.wms.app.qc.provider.CreateTaskProvider;
 import com.elianshang.wms.app.qc.provider.ScanContainerProvider;
 import com.xue.http.impl.DataHull;
 
@@ -31,12 +29,13 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by liuhanzhi on 16/8/10.
- */
 public abstract class BaseQcController implements View.OnClickListener, ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener {
 
     protected Activity activity;
+
+    protected String uId;
+
+    protected String uToken;
 
     protected QcList qcList;
 
@@ -62,8 +61,10 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
     protected abstract void onScan(String s);
 
-    public BaseQcController(Activity activity) {
+    public BaseQcController(Activity activity, String uId, String uToken) {
         this.activity = activity;
+        this.uId = uId;
+        this.uToken = uToken;
         init();
     }
 
@@ -78,7 +79,12 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.finish();
+                DialogTools.showTwoButtonDialog(activity, "是否暂退任务,下次回来将会重新开始", "取消", "确定", null, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        activity.finish();
+                    }
+                }, true);
             }
         });
     }
@@ -106,7 +112,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
     }
 
     protected void releaseCreateLayout() {
-        if(scanEditTextTool != null){
+        if (scanEditTextTool != null) {
             scanEditTextTool.release();
             scanEditTextTool = null;
         }
@@ -129,9 +135,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
         String containerId = createContainerIdEditText.getText().toString();
         this.containerId = containerId;
 
-        //FIXME test
         new ScanContainerTask(activity, containerId).start();
-//        new QCCreateTaskTask(activity, containerId).start();
     }
 
     @Override
@@ -238,12 +242,12 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return ConfirmAllProvider.request(containerId, qcList);
+            return ConfirmAllProvider.request(uId, uToken, containerId, qcList);
         }
 
         @Override
-        public void onPostExecute(int updateId, ResponseState result) {
-
+        public void onPostExecute(ResponseState result) {
+            activity.finish();
         }
     }
 
@@ -262,38 +266,14 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
         @Override
         public DataHull<QcList> doInBackground() {
-            return ScanContainerProvider.request(containerId);
+            return ScanContainerProvider.request(uId, uToken, containerId);
         }
 
         @Override
-        public void onPostExecute(int updateId, QcList result) {
+        public void onPostExecute(QcList result) {
             qcList = result;
             releaseCreateLayout();
             fillQcList();
-        }
-    }
-
-    /**
-     * 创建QC任务,测试接口
-     */
-    private class QCCreateTaskTask extends HttpAsyncTask<QcCreate> {
-
-        private String containerId;
-
-        public QCCreateTaskTask(Context context, String containerId) {
-            super(context, true, true);
-
-            this.containerId = containerId;
-        }
-
-        @Override
-        public DataHull<QcCreate> doInBackground() {
-            return CreateTaskProvider.request(containerId);
-        }
-
-        @Override
-        public void onPostExecute(int updateId, QcCreate result) {
-            new ScanContainerTask(context, containerId).start();
         }
     }
 }

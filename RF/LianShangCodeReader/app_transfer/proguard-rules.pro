@@ -75,6 +75,7 @@
 
 #okhttp
 -keep class com.squareup.** { *; }
+-keep class com.xue.http.** { *; }
 
 #okio
 -keep class okio.** { *; }
@@ -97,6 +98,9 @@
 
 #高德地图
 -keep class com.amap.api.location.**{ *; }
+
+#动态插件包不混淆
+-keep class com.elianshang.**{ *; }
 
 
 #自己项目特殊处理代码

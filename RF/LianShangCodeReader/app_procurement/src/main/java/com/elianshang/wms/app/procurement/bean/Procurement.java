@@ -11,6 +11,8 @@ public class Procurement implements BaseBean {
 
     private String type;
 
+    private String subType ;
+
     private String locationCode;
 
     private String locationId;
@@ -37,6 +39,14 @@ public class Procurement implements BaseBean {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSubType() {
+        return subType;
+    }
+
+    public void setSubType(String subType) {
+        this.subType = subType;
     }
 
     public String getLocationCode() {

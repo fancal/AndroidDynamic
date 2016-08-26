@@ -4,9 +4,6 @@ import com.xue.http.hook.BaseBean;
 
 import java.util.ArrayList;
 
-/**
- * Created by xfilshy on 16/8/8.
- */
 public class QcList extends ArrayList<QcList.Item> implements BaseBean {
 
     private int qcType;

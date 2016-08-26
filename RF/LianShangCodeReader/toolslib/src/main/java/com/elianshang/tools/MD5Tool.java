@@ -2,8 +2,6 @@ package com.elianshang.tools;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -44,40 +42,26 @@ public class MD5Tool {
 	}*/
 
     public static String getMd5ByFile(File file) {
-        FileInputStream fis = null;
-        MessageDigest md5 = null;
+        if (!file.isFile()) {
+            return null;
+        }
+        MessageDigest digest = null;
+        FileInputStream in = null;
+        byte buffer[] = new byte[1024];
+        int len;
         try {
-            md5 = MessageDigest.getInstance("MD5Tool");
-            fis = new FileInputStream(file);
-            byte[] buffer = new byte[8192];
-            int length;
-            while ((length = fis.read(buffer)) != -1) {
-                md5.update(buffer, 0, length);
+            digest = MessageDigest.getInstance("MD5");
+            in = new FileInputStream(file);
+            while ((len = in.read(buffer, 0, 1024)) != -1) {
+                digest.update(buffer, 0, len);
             }
-            BigInteger bi = new BigInteger(1, md5.digest());
-            return bi.toString(16);
-        } catch (FileNotFoundException e) {
-            return null;
-        } catch (IOException e) {
-            return null;
-        } catch (NoSuchAlgorithmException e) {
+            in.close();
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
-        } finally {
-            try {
-                if (fis != null) {
-                    fis.close();
-                    fis = null;
-                }
-
-                if (md5 != null) {
-                    md5.reset();
-                    md5 = null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+        BigInteger bigInt = new BigInteger(1, digest.digest());
+        return bigInt.toString(16);
     }
 
     public static String toMd5(String md5Str) {
@@ -109,7 +93,7 @@ public class MD5Tool {
     }
 
     public final static String getMessageDigest(byte[] buffer) {
-        char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+        char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
         try {
             MessageDigest mdTemp = MessageDigest.getInstance("MD5");
             mdTemp.update(buffer);

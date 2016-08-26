@@ -138,7 +138,7 @@
                         android:text="批次号:"
                         android:textSize="20dip" />
 
-                    <com.elianshang.bridge.ui.view.ContentEditText
+                    <com.elianshang.bridge.ui.view.QtyEditText
                         android:id="@+id/lotNum_EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
