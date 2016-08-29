@@ -327,6 +327,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     private void fillPickLocation() {
         mGroup2HeadTextView.setText("扫描确认拣货位");
 
+        mGroup2ConfirmLocationIdView.requestFocus();
         mGroup2LocationIdView.setText(mPick.getAllocPickLocationCode());
         mGroup2ConfirmLocationIdView.getText().clear();
         mGroup2AllocQty.setText(mPick.getAllocQty());
@@ -347,6 +348,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         mGroup2LocationIdLayout.setVisibility(View.GONE);
         mGroup2SystemQtyLayout.setVisibility(View.VISIBLE);
         mGroup2InputQtyLayot.setVisibility(View.VISIBLE);
+        mGroup2Qty.requestFocus();
     }
 
     /**
@@ -485,7 +487,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
         @Override
         public DataHull<PickLocation> doInBackground() {
-            return ScanPickProvider.request(uId, uToken, taskList);
+            return ScanPickProvider.request(context, uId, uToken, taskList);
         }
 
         @Override
@@ -524,7 +526,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
         @Override
         public DataHull<PickLocation> doInBackground() {
-            return ScanPickLocationProvider.request(uId, uToken, locationId, qty);
+            return ScanPickLocationProvider.request(context, uId, uToken, locationId, qty);
         }
 
         @Override

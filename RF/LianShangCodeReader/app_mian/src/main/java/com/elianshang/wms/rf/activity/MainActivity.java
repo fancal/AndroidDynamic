@@ -92,6 +92,17 @@ public class MainActivity extends Activity {
             mRecyclerView.setAdapter(adapter);
         }
 
+        if (menuList == null || menuList.size() <= 3) {
+            GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+            mRecyclerView.setLayoutManager(layoutManager);
+        } else if (menuList.size() <= 6) {
+            GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+            mRecyclerView.setLayoutManager(layoutManager);
+        } else {
+            GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+            mRecyclerView.setLayoutManager(layoutManager);
+        }
+
         adapter.setList(menuList);
         adapter.notifyDataSetChanged();
     }
@@ -200,7 +211,7 @@ public class MainActivity extends Activity {
 
         @Override
         public DataHull<MenuList> doInBackground() {
-            DataHull<MenuList> dataHull = GetMenuListProvider.request(uId, uToken);
+            DataHull<MenuList> dataHull = GetMenuListProvider.request(context, uId, uToken);
             return dataHull;
         }
 

@@ -29,6 +29,48 @@ public class DialogTools {
      * @param context
      * @return
      */
+    public static Dialog showLoadingDialog(Context context, String msg) {
+        if (context == null) {
+            return null;
+        }
+
+        final LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setLayoutParams(new WindowManager.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setGravity(Gravity.CENTER);
+
+        CircleProgressBar circleProgressBar = new CircleProgressBar(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(UITool.dipToPx(context, 40), UITool.dipToPx(context, 40));
+        circleProgressBar.setLayoutParams(layoutParams);
+
+        final TextView textView = new TextView(context);
+        layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.topMargin = UITool.dipToPx(context, 20);
+        textView.setLayoutParams(layoutParams);
+        textView.setSingleLine();
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        textView.setTextColor(0xFFFFFFFF);
+        textView.setText(msg);
+
+        linearLayout.addView(circleProgressBar);
+        linearLayout.addView(textView);
+
+        final Dialog dialog = new Dialog(context, R.style.B_TransparentDialog);
+        dialog.setContentView(linearLayout);
+        // 设置点击外围解散
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+
+        return dialog;
+    }
+
+    /**
+     * 加载loading
+     *
+     * @param context
+     * @return
+     */
     public static Dialog showLoadingDialog(Context context) {
         if (context == null) {
             return null;

@@ -2,9 +2,6 @@ package com.elianshang.wms.app.shelve.bean;
 
 import com.xue.http.hook.BaseBean;
 
-/**
- * Created by xfilshy on 16/8/24.
- */
 public class Restore implements BaseBean {
 
     private Shelve shelve;

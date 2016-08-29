@@ -9,7 +9,8 @@
         <item name="titleTextColor">@color/white</item>
     </style>
 
-    <style name="TransparentDialog" parent="@android:style/Theme.Dialog">
+    <style name="TransparentDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
         <!--边框-->
         <item name="android:windowFrame">@null</item>
         <!--是否浮现在activity之上-->

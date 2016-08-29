@@ -1,6 +1,9 @@
 package com.elianshang.wms.app.receipt.provider;
 
+import android.content.Context;
+
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.receipt.bean.ResponseState;
 import com.elianshang.wms.app.receipt.parser.ResponseStateParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -14,7 +17,7 @@ import java.util.List;
 
 public class AddProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -38,7 +41,7 @@ public class AddProvider {
 
     private static final String _function = "/order/po/receipt/add";
 
-    private static final String uId = "uId";
+    private static final String uId = "uid";
 
     private static final String uToken = "uToken";
 
@@ -89,14 +92,14 @@ public class AddProvider {
     private static final String items_proTime = "proTime";
 
 
-    public static DataHull<ResponseState> request(String uId, String uToken, String orderOtherId, String containerId, String bookingNum, String receiptWharf, String items) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String orderOtherId, String containerId, String bookingNum, String receiptWharf, String items) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(AddProvider.app_key, ""));
-        headers.add(new DefaultKVPBean(AddProvider.platform, ""));
-        headers.add(new DefaultKVPBean(AddProvider.version, ""));
-        headers.add(new DefaultKVPBean(AddProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(AddProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(AddProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(AddProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(AddProvider.api_version, "v1"));
         headers.add(new DefaultKVPBean(AddProvider.uId, uId));
         headers.add(new DefaultKVPBean(AddProvider.uToken, uToken));
 

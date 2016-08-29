@@ -69,7 +69,7 @@ public class ScanEditTextTool {
             }
         };
 
-        if(editTexts != null){
+        if (editTexts != null) {
             for (ContentEditText editText : editTexts) {
                 editText.addTextChangedListener(textWatcher);
                 if (editText instanceof ScanEditText) {

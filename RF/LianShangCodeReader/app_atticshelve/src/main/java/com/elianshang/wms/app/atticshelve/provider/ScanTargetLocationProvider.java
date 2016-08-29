@@ -1,6 +1,9 @@
 package com.elianshang.wms.app.atticshelve.provider;
 
+import android.content.Context;
+
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.atticshelve.bean.AtticShelveNext;
 import com.elianshang.wms.app.atticshelve.parser.AtticShelveNextParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -12,12 +15,9 @@ import com.xue.http.okhttp.OkHttpHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xfilshy on 16/8/18.
- */
 public class ScanTargetLocationProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -54,14 +54,14 @@ public class ScanTargetLocationProvider {
     private static final String qty = "qty";
 
 
-    public static DataHull<AtticShelveNext> request(String uid, String uToken, String taskId, String allocLocationId, String realLocationId, String qty) {
+    public static DataHull<AtticShelveNext> request(Context context, String uid, String uToken, String taskId, String allocLocationId, String realLocationId, String qty) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(ScanTargetLocationProvider.app_key, ""));
-        headers.add(new DefaultKVPBean(ScanTargetLocationProvider.platform, ""));
-        headers.add(new DefaultKVPBean(ScanTargetLocationProvider.version, ""));
-        headers.add(new DefaultKVPBean(ScanTargetLocationProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(ScanTargetLocationProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(ScanTargetLocationProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(ScanTargetLocationProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(ScanTargetLocationProvider.api_version, "v1"));
         headers.add(new DefaultKVPBean(ScanTargetLocationProvider.uId, uid));
         headers.add(new DefaultKVPBean(ScanTargetLocationProvider.uToken, uToken));
 

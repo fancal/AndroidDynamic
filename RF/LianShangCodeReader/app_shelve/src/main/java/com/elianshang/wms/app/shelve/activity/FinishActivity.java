@@ -18,6 +18,7 @@ import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
+import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.shelve.R;
 import com.elianshang.wms.app.shelve.bean.ResponseState;
 import com.elianshang.wms.app.shelve.bean.Shelve;
@@ -210,13 +211,15 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return ScanTargetLocationProvider.request(uId, uToken, taskId, locationId);
+            return ScanTargetLocationProvider.request(context , uId, uToken, taskId, locationId);
         }
 
         @Override
         public void onPostExecute(ResponseState result) {
+            ToastTool.show(context, "上架完成");
             setResult(RESULT_OK);
             finish();
+
         }
     }
 

@@ -1,6 +1,9 @@
 package com.elianshang.wms.app.receipt.provider;
 
+import android.content.Context;
+
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.receipt.bean.Info;
 import com.elianshang.wms.app.receipt.parser.ReceiptGetOrderInfoParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -14,7 +17,7 @@ import java.util.List;
 
 public class InfoProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -38,7 +41,7 @@ public class InfoProvider {
 
     private static final String _function = "/order/po/receipt/getorderinfo";
 
-    private static final String uId = "uId";
+    private static final String uId = "uid";
 
     private static final String uToken = "uToken";
 
@@ -58,14 +61,14 @@ public class InfoProvider {
     private static final String barCode = "barCode";
 
 
-    public static DataHull<Info> request(String uId, String uToken, String orderOtherId, String containerId, String barCode) {
+    public static DataHull<Info> request(Context context, String uId, String uToken, String orderOtherId, String containerId, String barCode) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(InfoProvider.app_key, ""));
-        headers.add(new DefaultKVPBean(InfoProvider.platform, ""));
-        headers.add(new DefaultKVPBean(InfoProvider.version, ""));
-        headers.add(new DefaultKVPBean(InfoProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(InfoProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(InfoProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(InfoProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(InfoProvider.api_version, "v1"));
         headers.add(new DefaultKVPBean(InfoProvider.uId, uId));
         headers.add(new DefaultKVPBean(InfoProvider.uToken, uToken));
 

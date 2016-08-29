@@ -52,7 +52,7 @@ public class MainActivity extends DLBasePluginActivity {
 
         @Override
         public DataHull<TakeStockList> doInBackground() {
-            return AssignProvider.request(uId, uToken);
+            return AssignProvider.request(context,uId, uToken);
         }
 
         @Override

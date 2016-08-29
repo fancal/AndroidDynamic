@@ -271,7 +271,7 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
 
         @Override
         public DataHull<Item> doInBackground() {
-            return GetItemProvider.request(uId, uToken, locationId, barCode);
+            return GetItemProvider.request(context, uId, uToken, locationId, barCode);
         }
 
         @Override
@@ -301,7 +301,7 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return CreateReturnProvider.request(uId, uToken, locationId, barCode, qty);
+            return CreateReturnProvider.request(context, uId, uToken, locationId, barCode, qty);
         }
 
         @Override

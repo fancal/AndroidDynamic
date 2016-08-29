@@ -264,7 +264,7 @@ public class CreateScrapActivity extends DLBasePluginActivity implements ScanEdi
 
         @Override
         public DataHull<Item> doInBackground() {
-            return GetItemProvider.request(uId, uToken, locationId, barCode);
+            return GetItemProvider.request(context, uId, uToken, locationId, barCode);
         }
 
         @Override
@@ -296,7 +296,7 @@ public class CreateScrapActivity extends DLBasePluginActivity implements ScanEdi
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return CreateCrapProvider.request(uId, uToken, locationId, barCode, qty);
+            return CreateCrapProvider.request(context, uId, uToken, locationId, barCode, qty);
         }
 
         @Override

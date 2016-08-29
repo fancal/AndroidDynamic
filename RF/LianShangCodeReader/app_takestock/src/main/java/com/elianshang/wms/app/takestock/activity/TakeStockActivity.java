@@ -22,6 +22,7 @@ import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
+import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.takestock.R;
 import com.elianshang.wms.app.takestock.bean.ResponseState;
 import com.elianshang.wms.app.takestock.bean.TakeStockDetail;
@@ -413,7 +414,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
         @Override
         public DataHull<TakeStockDetail> doInBackground() {
-            return GetTaskProvider.request(uId, uToken, taskId, locationId);
+            return GetTaskProvider.request(context, uId, uToken, taskId, locationId);
         }
 
         @Override
@@ -437,7 +438,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return DoOneProvider.request(uId, uToken, resultList);
+            return DoOneProvider.request(context, uId, uToken, resultList);
         }
 
         @Override
@@ -446,6 +447,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
             if (progress == takeStockList.size()) {
                 finish();
+                ToastTool.show(context, "盘点完成");
             } else {
                 fillNewTask();
             }

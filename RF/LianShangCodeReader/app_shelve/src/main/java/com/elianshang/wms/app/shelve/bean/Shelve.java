@@ -2,9 +2,6 @@ package com.elianshang.wms.app.shelve.bean;
 
 import com.xue.http.hook.BaseBean;
 
-/**
- * Created by xfilshy on 16/8/3.
- */
 public class Shelve implements BaseBean {
 
     private String id;

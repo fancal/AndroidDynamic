@@ -49,7 +49,7 @@ public class MainActivity extends DLBasePluginActivity {
 
         @Override
         public DataHull<Restore> doInBackground() {
-            return RestoreProvider.request(uId, uToken);
+            return RestoreProvider.request(context, uId, uToken);
         }
 
         @Override

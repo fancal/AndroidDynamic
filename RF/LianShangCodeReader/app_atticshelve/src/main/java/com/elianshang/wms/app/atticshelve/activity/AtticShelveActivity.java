@@ -95,6 +95,9 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         uToken = intent.getStringExtra("uToken");
         curAtticShelve = (AtticShelve) intent.getSerializableExtra("atticShelve");
 
+        uId = "123123";
+        uToken = "3131";
+
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
@@ -263,7 +266,7 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
     @Override
     public void OnBarCodeReceived(String s) {
-
+        scanEditTextTool.setScanText(s);
     }
 
     @Override
@@ -307,7 +310,7 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
         @Override
         public DataHull<AtticShelve> doInBackground() {
-            return ScanContainerProvider.request(uId, uToken, containerId);
+            return ScanContainerProvider.request(context, uId, uToken, containerId);
         }
 
         @Override
@@ -336,7 +339,7 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
         @Override
         public DataHull<AtticShelveNext> doInBackground() {
-            return ScanTargetLocationProvider.request(uId, uToken, taskId, allocLocationId, realLocationId, qty);
+            return ScanTargetLocationProvider.request(context, uId, uToken, taskId, allocLocationId, realLocationId, qty);
         }
 
         @Override

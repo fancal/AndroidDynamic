@@ -110,7 +110,7 @@ public class StockTransferController extends BaseStockTransferController impleme
 
         @Override
         public DataHull<TransferNext> doInBackground() {
-            return ScanLocationProvider.request(uId, uToken, type, taskId, locationId, qty);
+            return ScanLocationProvider.request(context, uId, uToken, type, taskId, locationId, qty);
         }
 
         @Override

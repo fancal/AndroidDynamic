@@ -1,6 +1,9 @@
 package com.elianshang.wms.app.pick.provider;
 
+import android.content.Context;
+
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.pick.bean.PickLocation;
 import com.elianshang.wms.app.pick.parser.PickLocationParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -14,7 +17,7 @@ import java.util.List;
 
 public class ScanPickLocationProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -50,14 +53,14 @@ public class ScanPickLocationProvider {
     private static final String operator = "operator";
 
 
-    public static DataHull<PickLocation> request(String uId, String uToken, String locationId, String qty) {
+    public static DataHull<PickLocation> request(Context context, String uId, String uToken, String locationId, String qty) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(ScanPickLocationProvider.app_key, ""));
-        headers.add(new DefaultKVPBean(ScanPickLocationProvider.platform, ""));
-        headers.add(new DefaultKVPBean(ScanPickLocationProvider.version, ""));
-        headers.add(new DefaultKVPBean(ScanPickLocationProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(ScanPickLocationProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(ScanPickLocationProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(ScanPickLocationProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(ScanPickLocationProvider.api_version, "v1"));
         headers.add(new DefaultKVPBean(ScanPickLocationProvider.uId, uId));
         headers.add(new DefaultKVPBean(ScanPickLocationProvider.uToken, uToken));
 

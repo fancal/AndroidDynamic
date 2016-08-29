@@ -1,6 +1,9 @@
 package com.elianshang.wms.app.create_scrap.provider;
 
+import android.content.Context;
+
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.create_scrap.bean.Item;
 import com.elianshang.wms.app.create_scrap.parser.ItemParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -17,7 +20,7 @@ import java.util.List;
  */
 public class GetItemProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -53,14 +56,14 @@ public class GetItemProvider {
     private static final String barCode = "barcode";
 
 
-    public static DataHull<Item> request(String uId, String uToken, String locationId, String barCode) {
+    public static DataHull<Item> request(Context context, String uId, String uToken, String locationId, String barCode) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(GetItemProvider.app_key, ""));
-        headers.add(new DefaultKVPBean(GetItemProvider.platform, ""));
-        headers.add(new DefaultKVPBean(GetItemProvider.version, ""));
-        headers.add(new DefaultKVPBean(GetItemProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(GetItemProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(GetItemProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(GetItemProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(GetItemProvider.api_version, "v1"));
         headers.add(new DefaultKVPBean(GetItemProvider.uId, uId));
         headers.add(new DefaultKVPBean(GetItemProvider.uToken, uToken));
 

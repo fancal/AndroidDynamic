@@ -17,7 +17,6 @@ import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.shelve.R;
 import com.elianshang.wms.app.shelve.bean.Shelve;
-import com.elianshang.wms.app.shelve.provider.CreateTaskProvider;
 import com.elianshang.wms.app.shelve.provider.ScanContainerProvider;
 import com.xue.http.impl.DataHull;
 
@@ -164,8 +163,7 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
 
         @Override
         public DataHull<Shelve> doInBackground() {
-            CreateTaskProvider.request(containerId);
-            return ScanContainerProvider.request(uId, uToken, containerId);
+            return ScanContainerProvider.request(context, uId, uToken, containerId);
         }
 
         @Override

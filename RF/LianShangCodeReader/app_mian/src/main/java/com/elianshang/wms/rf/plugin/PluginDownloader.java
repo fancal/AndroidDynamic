@@ -40,7 +40,7 @@ public class PluginDownloader extends AsyncTask<Void, Void, Boolean> {
         this.menu = menu;
         this.needRestart = needRestart;
 
-        this.dialog = DialogTools.showLoadingDialog(context);
+        this.dialog = DialogTools.showLoadingDialog(context, "下载/更新应用");
     }
 
     @Override

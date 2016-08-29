@@ -49,12 +49,7 @@ public class MainActivity extends DLBasePluginActivity {
 
         @Override
         public DataHull<Procurement> doInBackground() {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return FetchTaskProvider.request(uId, uToken);
+            return FetchTaskProvider.request(context, uId, uToken);
         }
 
         @Override

@@ -156,7 +156,7 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
         mEditMonth = (EditText) findViewById(R.id.et_month);
         mEditDay = (EditText) findViewById(R.id.et_day);
         mKeyboardView = (KeyboardView) findViewById(R.id.keyboard_view);
-        keyboardUtil = new DateKeyboardUtil(this, mKeyboardView, mEditYear, mEditMonth, mEditDay);
+        keyboardUtil = new DateKeyboardUtil(that, mKeyboardView, mEditYear, mEditMonth, mEditDay);
 
         submitButton.setOnClickListener(this);
 
@@ -215,7 +215,7 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
         String lotNum = lotNumEditText.getText().toString();
 
         if (!TextUtils.isEmpty(inboundQty) || !TextUtils.isEmpty(year) || !TextUtils.isEmpty(month) || !TextUtils.isEmpty(day) || !TextUtils.isEmpty(lotNum)) {
-            DialogTools.showTwoButtonDialog(this, "退出将清除已经输入的内容,确定离开吗", "取消", "确定", null, new DialogInterface.OnClickListener() {
+            DialogTools.showTwoButtonDialog(that, "退出将清除已经输入的内容,确定离开吗", "取消", "确定", null, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
@@ -253,24 +253,33 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
         }
 
         String inboundQty = inboundQtyEditView.getValue();
+
+        if (TextUtils.isEmpty(inboundQty)) {
+            Toast.makeText(that, "请填入收货数量", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String year = mEditYear.getText().toString();
         String month = mEditMonth.getText().toString();
         String day = mEditDay.getText().toString();
-        String proTime = year + "-" + month + "-" + day;
-        String lotNum = lotNumEditText.getText().toString();
-
-        if (TextUtils.isEmpty(inboundQty)) {
-            Toast.makeText(this, "请填入收货数量", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         if (TextUtils.isEmpty(year) || TextUtils.isEmpty(month) || TextUtils.isEmpty(day)) {
-            Toast.makeText(this, "请填入完整的生产日期", Toast.LENGTH_SHORT).show();
+            Toast.makeText(that, "请填入完整的生产日期", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        if(month.length() == 1){
+            month = "0" + month ;
+        }
+
+        if(day.length() == 1){
+            day = "0" + day ;
+        }
+
+        String proTime = year + "-" + month + "-" + day;
+        String lotNum = lotNumEditText.getText().toString();
         if ("1".equals(info.getBatchNeeded()) && TextUtils.isEmpty(lotNum)) {
-            Toast.makeText(this, "请填入批次号", Toast.LENGTH_SHORT).show();
+            Toast.makeText(that, "请填入批次号", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -287,7 +296,7 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
             e.printStackTrace();
         }
 
-        new ReceiptAddTask(this, orderOtherId, containerId, null, null, jsonArray.toString()).start();
+        new ReceiptAddTask(that, orderOtherId, containerId, null, null, jsonArray.toString()).start();
     }
 
     private class ReceiptAddTask extends HttpAsyncTask<ResponseState> {
@@ -329,7 +338,7 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return AddProvider.request(uId, uToken, orderOtherId, containerId, bookingNum, receiptWharf, items);
+            return AddProvider.request(context ,uId, uToken, orderOtherId, containerId, bookingNum, receiptWharf, items);
         }
 
         @Override

@@ -31,23 +31,45 @@ import com.elianshang.dynamic.internal.DLPluginPackage;
 
 public interface DLPlugin {
 
-    public void onCreate(Bundle savedInstanceState);
-    public void onStart();
-    public void onRestart();
-    public void onActivityResult(int requestCode, int resultCode, Intent data);
-    public void onResume();
-    public void onPause();
-    public void onStop();
-    public void onDestroy();
     public void attach(Activity proxyActivity, DLPluginPackage pluginPackage);
+
+    public void onCreate(Bundle savedInstanceState);
+
+    public void onStart();
+
+    public void onRestart();
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data);
+
+    public void onResume();
+
+    public void onPause();
+
+    public void onStop();
+
+    public void onDestroy();
+
     public void onSaveInstanceState(Bundle outState);
+
     public void onNewIntent(Intent intent);
+
     public void onRestoreInstanceState(Bundle savedInstanceState);
+
     public boolean onTouchEvent(MotionEvent event);
+
+    public boolean onKeyDown(int keyCode, KeyEvent event);
+
     public boolean onKeyUp(int keyCode, KeyEvent event);
+
     public void onWindowAttributesChanged(LayoutParams params);
+
     public void onWindowFocusChanged(boolean hasFocus);
+
     public void onBackPressed();
+
     public boolean onCreateOptionsMenu(Menu menu);
+
     public boolean onOptionsItemSelected(MenuItem item);
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults);
 }

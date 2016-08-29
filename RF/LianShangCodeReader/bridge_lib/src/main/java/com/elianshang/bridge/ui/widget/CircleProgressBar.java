@@ -102,7 +102,7 @@ public class CircleProgressBar extends ImageView {
 
         mBackGroundColor = a.getColor(R.styleable.CircleProgressBar_mlpb_background_color, DEFAULT_CIRCLE_BG_LIGHT);
 
-        mProgressColor = a.getColor(R.styleable.CircleProgressBar_mlpb_progress_color, 0xffff0000);
+        mProgressColor = a.getColor(R.styleable.CircleProgressBar_mlpb_progress_color, 0xff5C6BC0);
         mColors = new int[]{mProgressColor};
 
         mInnerRadius = a.getDimensionPixelOffset(R.styleable.CircleProgressBar_mlpb_inner_radius, -1);

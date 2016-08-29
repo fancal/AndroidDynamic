@@ -190,7 +190,7 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
 
         @Override
         public DataHull<Info> doInBackground() {
-            return InfoProvider.request(uId, uToken, orderOtherId, containerId, barCode);
+            return InfoProvider.request(context, uId, uToken, orderOtherId, containerId, barCode);
         }
 
         @Override

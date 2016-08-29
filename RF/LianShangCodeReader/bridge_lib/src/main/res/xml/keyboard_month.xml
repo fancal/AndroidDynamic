@@ -7,61 +7,61 @@
 
     <Row android:verticalGap="1%p">
         <Key
-            android:codes="1"
+            android:codes="01"
             android:horizontalGap="1%p"
             android:keyEdgeFlags="left"
-            android:keyLabel="1"
+            android:keyLabel="01"
             android:keyWidth="22%p" />
         <Key
-            android:codes="2"
+            android:codes="02"
             android:horizontalGap="3.3%p"
-            android:keyLabel="2"
+            android:keyLabel="02"
             android:keyWidth="22%p" />
 
         <Key
-            android:codes="3"
+            android:codes="03"
             android:horizontalGap="3.3%p"
-            android:keyLabel="3"
+            android:keyLabel="03"
             android:keyWidth="22%p" />
         <Key
-            android:codes="4"
+            android:codes="04"
             android:horizontalGap="3.3%p"
             android:keyEdgeFlags="right"
-            android:keyLabel="4"
+            android:keyLabel="04"
             android:keyWidth="22%p" />
     </Row>
 
     <Row android:verticalGap="1%p">
         <Key
-            android:codes="5"
+            android:codes="05"
             android:horizontalGap="1%p"
             android:keyEdgeFlags="left"
-            android:keyLabel="5"
+            android:keyLabel="05"
             android:keyWidth="22%p" />
         <Key
-            android:codes="6"
+            android:codes="06"
             android:horizontalGap="3.3%p"
-            android:keyLabel="6"
+            android:keyLabel="06"
             android:keyWidth="22%p" />
         <Key
-            android:codes="7"
+            android:codes="07"
             android:horizontalGap="3.3%p"
-            android:keyLabel="7"
+            android:keyLabel="07"
             android:keyWidth="22%p" />
         <Key
-            android:codes="8"
+            android:codes="08"
             android:horizontalGap="3.3%p"
             android:keyEdgeFlags="right"
-            android:keyLabel="8"
+            android:keyLabel="08"
             android:keyWidth="22%p" />
     </Row>
 
     <Row android:verticalGap="1%p">
         <Key
-            android:codes="9"
+            android:codes="09"
             android:horizontalGap="1%p"
             android:keyEdgeFlags="left"
-            android:keyLabel="9"
+            android:keyLabel="09"
             android:keyWidth="22%p" />
         <Key
             android:codes="10"

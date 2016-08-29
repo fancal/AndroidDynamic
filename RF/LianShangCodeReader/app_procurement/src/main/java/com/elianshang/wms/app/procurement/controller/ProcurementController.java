@@ -110,7 +110,7 @@ public class ProcurementController extends BaseProcurementController implements 
 
         @Override
         public DataHull<ProcurementNext> doInBackground() {
-            return ScanLocationProvider.request(uId, uToken, type, taskId, locationId, qty);
+            return ScanLocationProvider.request(context, uId, uToken, type, taskId, locationId, qty);
         }
 
         @Override

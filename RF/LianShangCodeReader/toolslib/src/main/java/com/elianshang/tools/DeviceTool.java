@@ -161,8 +161,7 @@ public class DeviceTool {
             return "";
         }
         try {
-            PackageInfo packInfo = context.getPackageManager().getPackageInfo(
-                    context.getPackageName(), 0);
+            PackageInfo packInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return packInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

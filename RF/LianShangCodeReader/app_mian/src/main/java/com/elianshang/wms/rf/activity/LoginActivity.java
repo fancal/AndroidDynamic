@@ -132,7 +132,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
 
         @Override
         public DataHull<User> doInBackground() {
-            DataHull<User> dataHull = LoginProvider.request(phone, password);
+            DataHull<User> dataHull = LoginProvider.request(context, phone, password);
             return dataHull;
         }
 

@@ -1,6 +1,9 @@
 package com.elianshang.wms.app.atticshelve.provider;
 
+import android.content.Context;
+
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.atticshelve.bean.AtticShelve;
 import com.elianshang.wms.app.atticshelve.parser.AtticShelveParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -12,12 +15,9 @@ import com.xue.http.okhttp.OkHttpHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xfilshy on 16/8/18.
- */
 public class ScanContainerProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -48,14 +48,14 @@ public class ScanContainerProvider {
     private static final String containerId = "containerId";
 
 
-    public static DataHull<AtticShelve> request(String uId, String uToken, String containerId) {
+    public static DataHull<AtticShelve> request(Context context, String uId, String uToken, String containerId) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(ScanContainerProvider.app_key, ""));
-        headers.add(new DefaultKVPBean(ScanContainerProvider.platform, ""));
-        headers.add(new DefaultKVPBean(ScanContainerProvider.version, ""));
-        headers.add(new DefaultKVPBean(ScanContainerProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(ScanContainerProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(ScanContainerProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(ScanContainerProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(ScanContainerProvider.api_version, "v1"));
         headers.add(new DefaultKVPBean(ScanContainerProvider.uId, uId));
         headers.add(new DefaultKVPBean(ScanContainerProvider.uToken, uToken));
 

@@ -1,6 +1,9 @@
 package com.elianshang.wms.rf.provider;
 
+import android.content.Context;
+
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.rf.bean.User;
 import com.elianshang.wms.rf.parser.UserParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -17,7 +20,7 @@ import java.util.List;
  */
 public class LoginProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     private static final String _function = "/user/login";
 
@@ -52,14 +55,14 @@ public class LoginProvider {
     private static final String passwd = "passwd";
 
 
-    public static DataHull<User> request(String userName, String passwd) {
+    public static DataHull<User> request(Context context, String userName, String passwd) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(LoginProvider.app_key, ""));
-        headers.add(new DefaultKVPBean(LoginProvider.platform, ""));
-        headers.add(new DefaultKVPBean(LoginProvider.version, ""));
-        headers.add(new DefaultKVPBean(LoginProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(LoginProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(LoginProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(LoginProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(LoginProvider.api_version, "v1"));
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(LoginProvider.userName, userName));

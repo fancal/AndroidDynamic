@@ -1,6 +1,9 @@
 package com.elianshang.wms.app.shelve.provider;
 
+import android.content.Context;
+
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.shelve.bean.Restore;
 import com.elianshang.wms.app.shelve.parser.RestoreParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -17,7 +20,7 @@ import java.util.List;
  */
 public class RestoreProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -48,14 +51,14 @@ public class RestoreProvider {
 
     private static final String operator = "operator";
 
-    public static DataHull<Restore> request(String uId, String uToken) {
+    public static DataHull<Restore> request(Context context, String uId, String uToken) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(RestoreProvider.app_key, ""));
-        headers.add(new DefaultKVPBean(RestoreProvider.platform, ""));
-        headers.add(new DefaultKVPBean(RestoreProvider.version, ""));
-        headers.add(new DefaultKVPBean(RestoreProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(RestoreProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(RestoreProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(RestoreProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(RestoreProvider.api_version, "v1"));
         headers.add(new DefaultKVPBean(RestoreProvider.uId, uId));
         headers.add(new DefaultKVPBean(RestoreProvider.uToken, uToken));
 

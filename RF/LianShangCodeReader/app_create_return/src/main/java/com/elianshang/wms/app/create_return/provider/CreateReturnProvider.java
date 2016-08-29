@@ -1,6 +1,9 @@
 package com.elianshang.wms.app.create_return.provider;
 
+import android.content.Context;
+
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.create_return.bean.ResponseState;
 import com.elianshang.wms.app.create_return.parser.ResponseStateParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -17,7 +20,7 @@ import java.util.List;
  */
 public class CreateReturnProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -55,14 +58,14 @@ public class CreateReturnProvider {
     private static final String udd = "uId";
 
 
-    public static DataHull<ResponseState> request(String uId, String uToken, String locationId, String barCode, String uomQty) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String locationId, String barCode, String uomQty) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(CreateReturnProvider.app_key, ""));
-        headers.add(new DefaultKVPBean(CreateReturnProvider.platform, ""));
-        headers.add(new DefaultKVPBean(CreateReturnProvider.version, ""));
-        headers.add(new DefaultKVPBean(CreateReturnProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(CreateReturnProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(CreateReturnProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(CreateReturnProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(CreateReturnProvider.api_version, "v1"));
         headers.add(new DefaultKVPBean(CreateReturnProvider.uId, uId));
         headers.add(new DefaultKVPBean(CreateReturnProvider.uToken, uToken));
 

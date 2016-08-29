@@ -1,6 +1,9 @@
 package com.elianshang.wms.app.takestock.provider;
 
+import android.content.Context;
+
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.takestock.bean.TakeStockDetail;
 import com.elianshang.wms.app.takestock.parser.TakeStockDetailParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -17,7 +20,7 @@ import java.util.List;
  */
 public class GetTaskProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -50,14 +53,14 @@ public class GetTaskProvider {
     private static final String locationId = "locationId";
 
 
-    public static DataHull<TakeStockDetail> request(String uId, String uToken, String taskId, String locationId) {
+    public static DataHull<TakeStockDetail> request(Context context, String uId, String uToken, String taskId, String locationId) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(GetTaskProvider.app_key, ""));
-        headers.add(new DefaultKVPBean(GetTaskProvider.platform, ""));
-        headers.add(new DefaultKVPBean(GetTaskProvider.version, ""));
-        headers.add(new DefaultKVPBean(GetTaskProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(GetTaskProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(GetTaskProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(GetTaskProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(GetTaskProvider.api_version, "v1"));
         headers.add(new DefaultKVPBean(GetTaskProvider.uId, uId));
         headers.add(new DefaultKVPBean(GetTaskProvider.uToken, uToken));
 

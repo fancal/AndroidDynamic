@@ -15,6 +15,7 @@ import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
+import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.qc.R;
 import com.elianshang.wms.app.qc.bean.QcList;
 import com.elianshang.wms.app.qc.bean.ResponseState;
@@ -79,12 +80,15 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogTools.showTwoButtonDialog(activity, "是否暂退任务,下次回来将会重新开始", "取消", "确定", null, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        activity.finish();
-                    }
-                }, true);
+                if (qcList == null) {
+                    DialogTools.showTwoButtonDialog(activity, "是否暂退任务,下次回来将会重新开始", "取消", "确定", null, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            activity.finish();
+                        }
+                    }, true);
+                }
+
             }
         });
     }
@@ -212,6 +216,9 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
         }
     }
 
+    public QcList getQcList() {
+        return qcList;
+    }
 
     /**
      * 缓存数量记录
@@ -242,11 +249,12 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return ConfirmAllProvider.request(uId, uToken, containerId, qcList);
+            return ConfirmAllProvider.request(context, uId, uToken, containerId, qcList);
         }
 
         @Override
         public void onPostExecute(ResponseState result) {
+            ToastTool.show(context, "QC完成");
             activity.finish();
         }
     }
@@ -266,7 +274,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
         @Override
         public DataHull<QcList> doInBackground() {
-            return ScanContainerProvider.request(uId, uToken, containerId);
+            return ScanContainerProvider.request(context, uId, uToken, containerId);
         }
 
         @Override

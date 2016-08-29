@@ -44,7 +44,7 @@ public class PluginStarter extends AsyncTask<Void, Void, DLPluginPackage> {
         this.menu = menu;
         this.retry = retry;
 
-        dialog = DialogTools.showLoadingDialog(context);
+        dialog = DialogTools.showLoadingDialog(context, "检测/启动应用");
     }
 
     @Override

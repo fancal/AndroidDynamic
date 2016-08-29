@@ -1,6 +1,9 @@
 package com.elianshang.wms.app.qc.provider;
 
+import android.content.Context;
+
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.qc.bean.ResponseState;
 import com.elianshang.wms.app.qc.parser.ResponseStateParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -17,7 +20,7 @@ import java.util.List;
  */
 public class ConfirmAllProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -50,14 +53,14 @@ public class ConfirmAllProvider {
     private static final String qcList = "qcList";
 
 
-    public static DataHull<ResponseState> request(String uId, String uToken, String containerId, String qcList) {
+    public static DataHull<ResponseState> request(Context context , String uId, String uToken, String containerId, String qcList) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(ConfirmAllProvider.app_key, ""));
-        headers.add(new DefaultKVPBean(ConfirmAllProvider.platform, ""));
-        headers.add(new DefaultKVPBean(ConfirmAllProvider.version, ""));
-        headers.add(new DefaultKVPBean(ConfirmAllProvider.api_version, ""));
+        headers.add(new DefaultKVPBean(ConfirmAllProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(ConfirmAllProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(ConfirmAllProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(ConfirmAllProvider.api_version, "v1"));
         headers.add(new DefaultKVPBean(ConfirmAllProvider.uId, uId));
         headers.add(new DefaultKVPBean(ConfirmAllProvider.uToken, uToken));
 
