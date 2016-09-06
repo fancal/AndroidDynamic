@@ -42,7 +42,7 @@ public class MainActivity extends DLBasePluginActivity {
         private String uToken;
 
         public FetchProcurementTask(String uId, String uToken) {
-            super(MainActivity.this.that, true, true, false);
+            super(MainActivity.this.that, true, true, false , false);
             this.uId = uId;
             this.uToken = uToken;
         }

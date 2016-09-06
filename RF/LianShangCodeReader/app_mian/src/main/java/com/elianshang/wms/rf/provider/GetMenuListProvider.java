@@ -17,7 +17,7 @@ import java.util.List;
 
 public class GetMenuListProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     private static final String _function = "/user/getMenuList";
 
@@ -43,7 +43,7 @@ public class GetMenuListProvider {
 
     private static final String uId = "uid";
 
-    private static final String uToken = "uToken";
+    private static final String uToken = "utoken";
 
 
     public static DataHull<MenuList> request(Context context ,String uId, String uToken) {

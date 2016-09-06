@@ -18,6 +18,7 @@ import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.create_return.R;
 import com.elianshang.wms.app.create_return.bean.Item;
@@ -82,10 +83,14 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
      */
     private ScanEditTextTool scanEditTextTool;
 
+    private String serialNumber;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_return);
+
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         if (readExtra()) {
             findViews();
@@ -301,11 +306,12 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return CreateReturnProvider.request(context, uId, uToken, locationId, barCode, qty);
+            return CreateReturnProvider.request(context, uId, uToken, locationId, barCode, qty, serialNumber);
         }
 
         @Override
         public void onPostExecute(ResponseState result) {
+            ToastTool.show(context, "转退货完成");
             finish();
         }
     }

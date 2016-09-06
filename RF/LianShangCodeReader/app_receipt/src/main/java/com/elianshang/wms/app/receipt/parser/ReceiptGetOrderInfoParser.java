@@ -1,6 +1,8 @@
 package com.elianshang.wms.app.receipt.parser;
 
 
+import android.text.TextUtils;
+
 import com.elianshang.bridge.parser.MasterParser;
 import com.elianshang.wms.app.receipt.bean.Info;
 
@@ -10,12 +12,27 @@ public class ReceiptGetOrderInfoParser extends MasterParser<Info> {
 
     @Override
     public Info parse(JSONObject data) throws Exception {
+        Info info = null;
 
-        Info info = new Info();
-        info.setSkuName(getString(data, "skuName"));
-        info.setOrderQty(getString(data, "orderQty"));
-        info.setPackUnit(getString(data, "packUnit"));
-        info.setBatchNeeded(getInt(data, "batchNeeded"));
+        if (data != null) {
+            String skuName = optString(data, "skuName");
+            String orderQty = optString(data, "orderQty");
+            String packName = optString(data, "packName");
+            int batchNeeded = optInt(data, "batchNeeded");
+
+            if (!TextUtils.isEmpty(skuName)
+                    && !TextUtils.isEmpty(orderQty)
+                    && !TextUtils.isEmpty(packName)
+                    && batchNeeded != -1) {
+                info = new Info();
+
+                info.setSkuName(skuName);
+                info.setOrderQty(orderQty);
+                info.setPackName(packName);
+                info.setBatchNeeded(batchNeeded);
+            }
+        }
+
         return info;
     }
 }

@@ -46,7 +46,7 @@
             android:orientation="vertical"
             android:paddingLeft="10dip"
             android:paddingRight="10dip"
-            android:visibility="gone">
+            android:visibility="visible">
 
 
             <TextView

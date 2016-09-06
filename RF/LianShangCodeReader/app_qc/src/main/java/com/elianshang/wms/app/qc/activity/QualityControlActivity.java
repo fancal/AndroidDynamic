@@ -43,13 +43,15 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     @Override
     public void onBackPressed() {
-        if(mQcControllerProxy.getQcList() != null){
+        if (mQcControllerProxy.getQcList() != null) {
             DialogTools.showTwoButtonDialog(that, "是否暂退任务,下次回来将会重新开始", "取消", "确定", null, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
                 }
             }, true);
+        } else {
+            super.onBackPressed();
         }
     }
 

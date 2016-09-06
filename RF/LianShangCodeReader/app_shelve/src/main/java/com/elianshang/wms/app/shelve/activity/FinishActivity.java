@@ -18,6 +18,7 @@ import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.shelve.R;
 import com.elianshang.wms.app.shelve.bean.ResponseState;
@@ -74,10 +75,14 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
      */
     private Toolbar mToolbar;
 
+    private String serialNumber;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelvefinish);
+
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         if (readExtras()) {
             findViews();
@@ -162,7 +167,7 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
     private void fillData() {
         if (shelve != null) {
             taskIdTextView.setText(shelve.getTaskId());
-            locationCodeTextView.setText(shelve.getAllocLocationId());
+            locationCodeTextView.setText(shelve.getAllocLocationCode());
         }
     }
 
@@ -211,13 +216,13 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return ScanTargetLocationProvider.request(context , uId, uToken, taskId, locationId);
+            return ScanTargetLocationProvider.request(context, uId, uToken, taskId, locationId, serialNumber);
         }
 
         @Override
         public void onPostExecute(ResponseState result) {
             ToastTool.show(context, "上架完成");
-            setResult(RESULT_OK);
+            that.setResult(RESULT_OK);
             finish();
 
         }

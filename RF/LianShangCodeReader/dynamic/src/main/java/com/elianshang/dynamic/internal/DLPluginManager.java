@@ -443,8 +443,10 @@ public class DLPluginManager {
     private void performStartActivityForResult(Context context, DLIntent dlIntent, int requestCode) {
         Log.d(TAG, "launch " + dlIntent.getPluginClass());
         if (context instanceof Activity) {
+            Log.e("xue", "回调启动");
             ((Activity) context).startActivityForResult(dlIntent, requestCode);
         } else {
+            Log.e("xue", "正常启动");
             context.startActivity(dlIntent);
         }
     }

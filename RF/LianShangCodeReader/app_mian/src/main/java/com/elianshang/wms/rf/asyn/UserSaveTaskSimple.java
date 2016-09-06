@@ -23,4 +23,9 @@ public class UserSaveTaskSimple extends SimpleAsyncTask<Void> {
     public void onPostExecute(Void result) {
 
     }
+
+    @Override
+    public void onCancelled() {
+
+    }
 }

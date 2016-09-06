@@ -21,6 +21,7 @@ import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.atticshelve.R;
 import com.elianshang.wms.app.atticshelve.bean.AtticShelve;
@@ -79,6 +80,8 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
     private AtticShelve curAtticShelve;
 
+    private String serialNumber;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,9 +97,6 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         uId = intent.getStringExtra("uId");
         uToken = intent.getStringExtra("uToken");
         curAtticShelve = (AtticShelve) intent.getSerializableExtra("atticShelve");
-
-        uId = "123123";
-        uToken = "3131";
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -170,6 +170,8 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
     }
 
     private void fillStepTwoLocationLayout() {
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+
         atticShelveOneLayout.setVisibility(View.GONE);
         atticShelveTwoLayout.setVisibility(View.VISIBLE);
         submitButton.setVisibility(View.GONE);
@@ -339,7 +341,7 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
         @Override
         public DataHull<AtticShelveNext> doInBackground() {
-            return ScanTargetLocationProvider.request(context, uId, uToken, taskId, allocLocationId, realLocationId, qty);
+            return ScanTargetLocationProvider.request(context, uId, uToken, taskId, allocLocationId, realLocationId, qty, serialNumber);
         }
 
         @Override

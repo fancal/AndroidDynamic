@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.tools.DeviceTool;
+import com.elianshang.tools.MD5Tool;
 import com.elianshang.wms.app.transfer.bean.TransferNext;
 import com.elianshang.wms.app.transfer.parser.StockTransferNextParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class ScanLocationProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -46,7 +47,12 @@ public class ScanLocationProvider {
 
     private static final String uId = "uid";
 
-    private static final String uToken = "uToken";
+    private static final String uToken = "utoken";
+
+    /**
+     * 流水号
+     */
+    private static final String serialNumber = "serialNumber";
 
 
     private static final String type = "type";
@@ -72,7 +78,7 @@ public class ScanLocationProvider {
     private static final String uomQty = "uomQty";
 
 
-    public static DataHull<TransferNext> request(Context context, String uId, String uToken, String type, String taskId, String locationId, String uomQty) {
+    public static DataHull<TransferNext> request(Context context, String uId, String uToken, String type, String taskId, String locationId, String uomQty, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -92,6 +98,8 @@ public class ScanLocationProvider {
         int hType = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<StockTransferNextParser> parameter = new HttpDynamicParameter<>(url, headers, params, hType, new StockTransferNextParser(), 0);
+
+        headers.add(new DefaultKVPBean(ScanLocationProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
 
         OkHttpHandler<TransferNext> handler = new OkHttpHandler();
         DataHull<TransferNext> dataHull = handler.requestData(parameter);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.TextUtils;
 
 import com.elianshang.bridge.tool.DialogTools;
@@ -48,6 +49,8 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
 
     private boolean cancelable = true;
 
+    private boolean retry = true;
+
     public HttpAsyncTask(Context context) {
         this.context = context;
     }
@@ -68,13 +71,20 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
         this.cancelable = cancelable;
     }
 
+    public HttpAsyncTask(Context context, boolean showToast, boolean showLoading, boolean cancelable, boolean retry) {
+        this(context, showToast);
+        this.showLoading = showLoading;
+        this.cancelable = cancelable;
+        this.retry = retry;
+    }
+
     @Override
     public final T run() {
         try {
             hasNet = NetWorkTool.isNetAvailable(context);
 
             if (!hasNet) {// 判断网络
-                if (showLoading && context instanceof Activity) {
+                if (retry && context instanceof Activity) {
                     postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
                         @Override
                         public void run(HttpAsyncTask httpAsyncTask) {
@@ -98,6 +108,7 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
                         }
                     }
                 });
+
                 return null;
             }
 
@@ -105,21 +116,40 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
                 showLoadingDialog();
                 DataHull<T> dh = doInBackground();
 
-                dissmissLoadingDialog();
+                dismissLoadingDialog();
 
                 final DataHull<T> dataHull = dh;
 
                 if (dataHull == null) {
-                    postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
-                        @Override
-                        public void run(HttpAsyncTask httpAsyncTask) {
-                            try {
-                                httpAsyncTask.netErr(null);
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                    if (dataHull.getStatus() == 131231) {
+                        final String message = dataHull.getMessage();
+                        postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+                            @Override
+                            public void run(HttpAsyncTask httpAsyncTask) {
+                                DialogTools.showOneButtonDialog((Activity) context, message, "知道了", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent();
+                                        intent.setAction("com.elianshang.bridge.logout");
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        intent.putExtra("close", true);
+                                        context.startActivity(intent);
+                                    }
+                                }, false);
                             }
-                        }
-                    });
+                        });
+                    } else {
+                        postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+                            @Override
+                            public void run(HttpAsyncTask httpAsyncTask) {
+                                try {
+                                    httpAsyncTask.netErr(null);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
                     return null;
                 } else {
                     this.message = dataHull.getMessage();
@@ -149,7 +179,7 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
                                 || dataHull.getDataType() == DataHull.DataType.RESPONSE_CODE_ERR
                                 || dataHull.getDataType() == DataHull.DataType.DATA_CAN_NOT_PARSE
                                 || dataHull.getDataType() == DataHull.DataType.DATA_IS_NULL) {
-                            if (showLoading && context instanceof Activity) {
+                            if (retry && context instanceof Activity) {
                                 postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
                                     @Override
                                     public void run(HttpAsyncTask httpAsyncTask) {
@@ -183,7 +213,7 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
         } catch (Exception e) {
             // 线程异常
             e.printStackTrace();
-            dissmissLoadingDialog();
+            dismissLoadingDialog();
             postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
                 @Override
                 public void run(HttpAsyncTask httpAsyncTask) {
@@ -205,6 +235,11 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
 
     @Override
     public void onPreExecute() {
+    }
+
+    @Override
+    public void onCancelled() {
+        ToastTool.show(context, "请求取消");
     }
 
     /**
@@ -260,14 +295,14 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
         }
     }
 
-    private void dissmissLoadingDialog() {
+    private void dismissLoadingDialog() {
         if (showLoading && null != context) {
             postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
                 @Override
                 public void run(HttpAsyncTask httpAsyncTask) {
                     try {
                         if (null != loadingDialog && loadingDialog.isShowing()) {
-                            loadingDialog.dismiss();
+                            loadingDialog.cancel();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

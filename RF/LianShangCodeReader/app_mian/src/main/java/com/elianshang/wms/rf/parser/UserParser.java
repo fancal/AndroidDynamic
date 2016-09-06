@@ -1,6 +1,8 @@
 package com.elianshang.wms.rf.parser;
 
 
+import android.text.TextUtils;
+
 import com.elianshang.bridge.parser.MasterParser;
 import com.elianshang.wms.rf.bean.User;
 
@@ -12,11 +14,15 @@ public class UserParser extends MasterParser<User> {
     public User parse(JSONObject data) throws Exception {
         User user = null;
         if (data != null) {
-            user = new User();
+            String uid = optString(data, "uid");
+            String utoken = optString(data, "utoken");
 
-            user.setUid(getString(data, "uid"));
-            user.setToken(getString(data, "utoken"));
-            user.setJsonData(data.toString());
+            if (!TextUtils.isEmpty(uid) && !TextUtils.isEmpty(utoken)) {
+                user = new User();
+                user.setUid(uid);
+                user.setToken(utoken);
+                user.setJsonData(data.toString());
+            }
         }
         return user;
     }

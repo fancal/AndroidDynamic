@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.tools.DeviceTool;
+import com.elianshang.tools.MD5Tool;
 import com.elianshang.wms.app.atticshelve.bean.AtticShelveNext;
 import com.elianshang.wms.app.atticshelve.parser.AtticShelveNextParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class ScanTargetLocationProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -43,7 +44,12 @@ public class ScanTargetLocationProvider {
 
     private static final String uId = "uId";
 
-    private static final String uToken = "uToken";
+    private static final String uToken = "utoken";
+
+    /**
+     * 流水号
+     */
+    private static final String serialNumber = "serialNumber";
 
     /**
      * 任务ID
@@ -54,7 +60,7 @@ public class ScanTargetLocationProvider {
     private static final String qty = "qty";
 
 
-    public static DataHull<AtticShelveNext> request(Context context, String uid, String uToken, String taskId, String allocLocationId, String realLocationId, String qty) {
+    public static DataHull<AtticShelveNext> request(Context context, String uid, String uToken, String taskId, String allocLocationId, String realLocationId, String qty, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -73,6 +79,8 @@ public class ScanTargetLocationProvider {
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<AtticShelveNextParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new AtticShelveNextParser(), 0);
+
+        headers.add(new DefaultKVPBean(ScanTargetLocationProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
 
         OkHttpHandler<AtticShelveNext> handler = new OkHttpHandler();
         DataHull<AtticShelveNext> dataHull = handler.requestData(parameter);

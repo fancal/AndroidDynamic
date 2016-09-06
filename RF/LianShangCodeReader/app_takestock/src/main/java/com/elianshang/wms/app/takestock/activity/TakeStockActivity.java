@@ -22,6 +22,7 @@ import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.takestock.R;
 import com.elianshang.wms.app.takestock.bean.ResponseState;
@@ -141,6 +142,8 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
      */
     private ArrayList<ViewHolder> vhList = new ArrayList();
 
+    private String serialNumber;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -226,6 +229,8 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     }
 
     private void fillNewTask() {
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+
         taskLocationIdEditText.setText("");
         detailInputLayout.removeAllViews();
 
@@ -438,7 +443,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return DoOneProvider.request(context, uId, uToken, resultList);
+            return DoOneProvider.request(context, uId, uToken, resultList, serialNumber);
         }
 
         @Override

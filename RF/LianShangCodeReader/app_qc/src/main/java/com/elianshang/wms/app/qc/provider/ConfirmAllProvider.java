@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.tools.DeviceTool;
+import com.elianshang.tools.MD5Tool;
 import com.elianshang.wms.app.qc.bean.ResponseState;
 import com.elianshang.wms.app.qc.parser.ResponseStateParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class ConfirmAllProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -46,14 +47,16 @@ public class ConfirmAllProvider {
 
     private static final String uId = "uid";
 
-    private static final String uToken = "uToken";
+    private static final String uToken = "utoken";
+
+    private static final String serialNumber = "serialNumber";
 
     private static final String containerId = "containerId";
 
     private static final String qcList = "qcList";
 
 
-    public static DataHull<ResponseState> request(Context context , String uId, String uToken, String containerId, String qcList) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String containerId, String qcList, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -70,6 +73,8 @@ public class ConfirmAllProvider {
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ResponseStateParser(), 0);
+
+        headers.add(new DefaultKVPBean(ConfirmAllProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
 
         OkHttpHandler<ResponseState> handler = new OkHttpHandler();
         DataHull<ResponseState> dataHull = handler.requestData(parameter);

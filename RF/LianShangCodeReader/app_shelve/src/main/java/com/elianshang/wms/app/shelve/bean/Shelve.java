@@ -22,6 +22,8 @@ public class Shelve implements BaseBean {
 
     private String allocLocationId;
 
+    private String allocLocationCode;
+
     private String realLocationId;
 
     private String containerId;
@@ -96,6 +98,14 @@ public class Shelve implements BaseBean {
 
     public void setAllocLocationId(String allocLocationId) {
         this.allocLocationId = allocLocationId;
+    }
+
+    public String getAllocLocationCode() {
+        return allocLocationCode;
+    }
+
+    public void setAllocLocationCode(String allocLocationCode) {
+        this.allocLocationCode = allocLocationCode;
     }
 
     public String getRealLocationId() {

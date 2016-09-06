@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.transfer.bean.Transfer;
 import com.elianshang.wms.app.transfer.bean.TransferNext;
@@ -17,12 +18,15 @@ import com.xue.http.impl.DataHull;
  */
 public class StockTransferController extends BaseStockTransferController implements BaseStockTransferController.TransferCompleteListener {
 
+    private String serialNumber;
+
     public StockTransferController(Activity activity, String uId, String uToken, Transfer transfer, StockTransferView stockTransferView) {
         super(activity, uId, uToken, transfer, stockTransferView);
         fillData();
     }
 
     public void fillData() {
+        serialNumber = DeviceTool.generateSerialNumber(activity, getClass().getName());
         if (curTransfer != null) {
             if (TextUtils.equals("2", curTransfer.getType())) {
                 fillInBound();
@@ -34,13 +38,13 @@ public class StockTransferController extends BaseStockTransferController impleme
 
     private void fillInBound() {
         if (stockTransferView != null) {
-            stockTransferView.showLocationConfirmView("转入到库位", "任务：" + curTransfer.getTaskId(), curTransfer.getLocationCode());
+            stockTransferView.showLocationConfirmView(true, "转入到库位", "任务：" + curTransfer.getTaskId(), "商品名称：" + curTransfer.getItemName(), "商品名称：" + curTransfer.getPackName(), "商品数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
         }
     }
 
     private void fillOutBound() {
         if (stockTransferView != null) {
-            stockTransferView.showLocationConfirmView("开始移库转出", "任务：" + curTransfer.getTaskId(), curTransfer.getLocationCode());
+            stockTransferView.showLocationConfirmView(false, "开始移库转出", "任务：" + curTransfer.getTaskId(), "商品名称：" + curTransfer.getItemName(), "商品名称：" + curTransfer.getPackName(), "商品数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
         }
     }
 
@@ -110,7 +114,7 @@ public class StockTransferController extends BaseStockTransferController impleme
 
         @Override
         public DataHull<TransferNext> doInBackground() {
-            return ScanLocationProvider.request(context, uId, uToken, type, taskId, locationId, qty);
+            return ScanLocationProvider.request(context, uId, uToken, type, taskId, locationId, qty, serialNumber);
         }
 
         @Override

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ScanContainerProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -43,7 +43,7 @@ public class ScanContainerProvider {
 
     private static final String uId = "uId";
 
-    private static final String uToken = "uToken";
+    private static final String uToken = "utoken";
 
     private static final String containerId = "containerId";
 

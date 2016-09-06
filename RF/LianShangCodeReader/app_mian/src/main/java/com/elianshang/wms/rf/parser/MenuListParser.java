@@ -16,7 +16,6 @@ public class MenuListParser extends MasterParser<MenuList> {
         MenuList menuList = null;
         if (data != null) {
             JSONArray jsonArray = optJSONArray(data, "menuList");
-
             int len = getLength(jsonArray);
 
             if (len > 0) {

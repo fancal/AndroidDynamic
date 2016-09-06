@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.tools.DeviceTool;
+import com.elianshang.tools.MD5Tool;
 import com.elianshang.wms.app.create_return.bean.ResponseState;
 import com.elianshang.wms.app.create_return.parser.ResponseStateParser;
 import com.xue.http.hook.BaseHttpParameter;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class CreateReturnProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -46,7 +47,12 @@ public class CreateReturnProvider {
 
     private static final String uId = "uid";
 
-    private static final String uToken = "uToken";
+    private static final String uToken = "utoken";
+
+    /**
+     * 流水号
+     */
+    private static final String serialNumber = "serialNumber";
 
 
     private static final String locationId = "locationId";
@@ -58,7 +64,7 @@ public class CreateReturnProvider {
     private static final String udd = "uId";
 
 
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String locationId, String barCode, String uomQty) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String locationId, String barCode, String uomQty, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -77,6 +83,8 @@ public class CreateReturnProvider {
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ResponseStateParser(), 0);
+
+        headers.add(new DefaultKVPBean(CreateReturnProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
 
         OkHttpHandler<ResponseState> handler = new OkHttpHandler();
         DataHull<ResponseState> dataHull = handler.requestData(parameter);

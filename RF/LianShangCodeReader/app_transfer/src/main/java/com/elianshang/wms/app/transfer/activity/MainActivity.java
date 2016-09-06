@@ -43,14 +43,14 @@ public class MainActivity extends DLBasePluginActivity {
         private String uToken;
 
         public FetchProcurementTask(String uId, String uToken) {
-            super(MainActivity.this.that, true, true, false);
+            super(MainActivity.this.that, true, true, false, false);
             this.uId = uId;
             this.uToken = uToken;
         }
 
         @Override
         public DataHull<Transfer> doInBackground() {
-            return FetchTaskProvider.request(context ,uId, uToken);
+            return FetchTaskProvider.request(context, uId, uToken);
         }
 
         @Override

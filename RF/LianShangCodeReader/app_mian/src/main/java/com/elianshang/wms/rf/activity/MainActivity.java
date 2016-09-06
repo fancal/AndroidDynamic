@@ -2,6 +2,7 @@ package com.elianshang.wms.rf.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,20 +14,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
+import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.wms.rf.BaseApplication;
 import com.elianshang.wms.rf.R;
-import com.elianshang.wms.rf.bean.MenuList;
 import com.elianshang.wms.rf.bean.Menu;
+import com.elianshang.wms.rf.bean.MenuList;
 import com.elianshang.wms.rf.plugin.PluginStarter;
 import com.elianshang.wms.rf.provider.GetMenuListProvider;
 import com.xue.http.impl.DataHull;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener {
 
     private MenuList menuList;
+
+    private Button logoutButton;
 
     private RecyclerView mRecyclerView;
 
@@ -48,6 +53,12 @@ public class MainActivity extends Activity {
     };
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        readCheckLogout(intent);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -67,6 +78,8 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         if (BaseApplication.get().isLogin()) {
+            logoutButton.setText("用户:(" + BaseApplication.get().getUser().getUid() + ")登出");
+
             boolean isNew = false;
             if (menuList == null) {
                 isNew = true;
@@ -80,8 +93,20 @@ public class MainActivity extends Activity {
         super.onPause();
     }
 
+    private void readCheckLogout(Intent intent) {
+        if (intent != null) {
+            if ("com.elianshang.bridge.logout".equals(intent.getAction())) {
+                BaseApplication.get().setUser(null);
+                LoginActivity.launch(MainActivity.this);
+            }
+        }
+    }
+
     private void findViews() {
+        logoutButton = (Button) findViewById(R.id.logout_Button);
         mRecyclerView = (RecyclerView) findViewById(R.id.pluginList_RecyclerView);
+
+        logoutButton.setOnClickListener(this);
     }
 
     private void fillData() {
@@ -92,10 +117,10 @@ public class MainActivity extends Activity {
             mRecyclerView.setAdapter(adapter);
         }
 
-        if (menuList == null || menuList.size() <= 3) {
+        if (menuList == null || menuList.size() <= 4) {
             GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
             mRecyclerView.setLayoutManager(layoutManager);
-        } else if (menuList.size() <= 6) {
+        } else if (menuList.size() <= 8) {
             GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
             mRecyclerView.setLayoutManager(layoutManager);
         } else {
@@ -139,6 +164,19 @@ public class MainActivity extends Activity {
                 handler.removeMessages(1);
                 handler.sendEmptyMessageDelayed(1, 200);
             }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == logoutButton) {
+            DialogTools.showTwoButtonDialog(this, "确认登出设备吗", "取消", "确认", null, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    BaseApplication.get().setUser(null);
+                    LoginActivity.launch(MainActivity.this);
+                }
+            }, true);
         }
     }
 

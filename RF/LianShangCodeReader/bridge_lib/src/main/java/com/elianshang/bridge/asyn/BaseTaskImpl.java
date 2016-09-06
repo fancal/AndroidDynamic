@@ -1,7 +1,6 @@
 package com.elianshang.bridge.asyn;
 
 
-import android.os.AsyncTask;
 import android.os.Looper;
 
 import com.elianshang.tools.WeakReferenceHandler;
@@ -20,17 +19,23 @@ public abstract class BaseTaskImpl<D, R> implements AsyncTaskInterface<D, R> {
         postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<BaseTaskImpl<D, R>>() {
             @Override
             public void run(BaseTaskImpl<D, R> hook) {
-                if (asyncTask != null) {
-                    asyncTask.cancel(true);
+                synchronized (handler) {
+                    if (asyncTask != null && !asyncTask.isCancelled()) {
+                        asyncTask.cancel(true);
+                    }
+                    asyncTask = new SiT();
+                    asyncTask.execute();
                 }
-                asyncTask = new SiT();
-                asyncTask.execute();
             }
         });
     }
 
     public void cancel() {
-        asyncTask.cancel(true);
+        synchronized (handler) {
+            if (asyncTask != null && !asyncTask.isCancelled()) {
+                asyncTask.cancel(true);
+            }
+        }
     }
 
     public boolean isCancel() {
@@ -69,11 +74,13 @@ public abstract class BaseTaskImpl<D, R> implements AsyncTaskInterface<D, R> {
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            BaseTaskImpl.this.onCancelled();
         }
 
         @Override
         protected void onCancelled(R r) {
             super.onCancelled(r);
+            BaseTaskImpl.this.onCancelled();
         }
 
         @Override

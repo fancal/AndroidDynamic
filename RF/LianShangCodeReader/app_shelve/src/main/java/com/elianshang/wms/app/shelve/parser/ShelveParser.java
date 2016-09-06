@@ -23,6 +23,7 @@ public class ShelveParser extends MasterParser<Shelve> {
         shelve.setLotId(getString(data, "lotId"));
         shelve.setSupplierId(getString(data, "supplierId"));
         shelve.setAllocLocationId(getString(data, "allocLocationId"));
+        shelve.setAllocLocationCode(getString(data, "allocLocationCode"));
         shelve.setRealLocationId(getString(data, "realLocationId"));
         shelve.setContainerId(getString(data, "containerId"));
         return shelve;

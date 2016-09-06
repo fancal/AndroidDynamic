@@ -22,6 +22,8 @@ import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
+import com.elianshang.tools.DeviceTool;
+import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.receipt.R;
 import com.elianshang.wms.app.receipt.bean.Info;
 import com.elianshang.wms.app.receipt.bean.ResponseState;
@@ -133,10 +135,15 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
      */
     private Toolbar mToolbar;
 
+    private String serialNumber;
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiptinfo);
+
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         if (readExtra()) {
             findView();
@@ -183,7 +190,7 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
         }
 
         info = (Info) intent.getSerializableExtra("info");
-        orderOtherId = intent.getStringExtra("orderId");
+        orderOtherId = intent.getStringExtra("orderOtherId");
         containerId = intent.getStringExtra("containerId");
         barCode = intent.getStringExtra("barCode");
 
@@ -195,7 +202,7 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
             return;
         }
         itemNameTextView.setText(info.getSkuName());
-        packUnitTextView.setText(info.getPackUnit());
+        packUnitTextView.setText(info.getPackName());
         orderQtyTextView.setText(info.getOrderQty());
         inboundQtyEditView.setHint(info.getOrderQty());
         inboundQtyEditView.setText(null);
@@ -268,12 +275,12 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
             return;
         }
 
-        if(month.length() == 1){
-            month = "0" + month ;
+        if (month.length() == 1) {
+            month = "0" + month;
         }
 
-        if(day.length() == 1){
-            day = "0" + day ;
+        if (day.length() == 1) {
+            day = "0" + day;
         }
 
         String proTime = year + "-" + month + "-" + day;
@@ -296,11 +303,14 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
             e.printStackTrace();
         }
 
-        new ReceiptAddTask(that, orderOtherId, containerId, null, null, jsonArray.toString()).start();
+        new ReceiptAddTask(that, uId, uToken, orderOtherId, containerId, null, null, jsonArray.toString()).start();
     }
 
     private class ReceiptAddTask extends HttpAsyncTask<ResponseState> {
 
+        String uid;
+
+        String uToken;
         /**
          * 物美订单编号
          */
@@ -326,9 +336,10 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
          */
         String items;
 
-
-        public ReceiptAddTask(Context context, String orderOtherId, String containerId, String bookingNum, String receiptWharf, String items) {
+        public ReceiptAddTask(Context context, String uid, String uToken, String orderOtherId, String containerId, String bookingNum, String receiptWharf, String items) {
             super(context, true, true);
+            this.uid = uid;
+            this.uToken = uToken;
             this.orderOtherId = orderOtherId;
             this.bookingNum = bookingNum;
             this.containerId = containerId;
@@ -338,13 +349,14 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return AddProvider.request(context ,uId, uToken, orderOtherId, containerId, bookingNum, receiptWharf, items);
+            return AddProvider.request(context, uId, uToken, orderOtherId, containerId, bookingNum, receiptWharf, items, serialNumber);
         }
 
         @Override
         public void onPostExecute(ResponseState result) {
-            setResult(RESULT_OK);
+            that.setResult(RESULT_OK);
             finish();
+            ToastTool.show(context, "收货完成");
         }
 
         @Override

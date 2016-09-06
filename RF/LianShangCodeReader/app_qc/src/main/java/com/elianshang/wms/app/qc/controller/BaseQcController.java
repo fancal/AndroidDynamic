@@ -15,6 +15,7 @@ import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.qc.R;
 import com.elianshang.wms.app.qc.bean.QcList;
@@ -56,6 +57,8 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
     protected Button submitButton;
 
+    protected String serialNumber;
+
     protected abstract void fillQcListData();
 
     protected abstract void onSubmitButtonClick();
@@ -63,6 +66,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
     protected abstract void onScan(String s);
 
     public BaseQcController(Activity activity, String uId, String uToken) {
+        serialNumber = DeviceTool.generateSerialNumber(activity, getClass().getName());
         this.activity = activity;
         this.uId = uId;
         this.uToken = uToken;
@@ -249,7 +253,7 @@ public abstract class BaseQcController implements View.OnClickListener, ScanMana
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return ConfirmAllProvider.request(context, uId, uToken, containerId, qcList);
+            return ConfirmAllProvider.request(context, uId, uToken, containerId, qcList, serialNumber);
         }
 
         @Override

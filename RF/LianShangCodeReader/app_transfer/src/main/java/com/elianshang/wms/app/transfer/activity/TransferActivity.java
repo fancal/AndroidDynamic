@@ -211,15 +211,32 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
     }
 
     @Override
-    public void showLocationConfirmView(String typeName, String taskId, String locationName) {
+    public void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String packName, String qty, String locationName) {
         mLocationView.setVisibility(View.VISIBLE);
-        mItemView.setVisibility(View.GONE);
         mSubmit.setVisibility(View.GONE);
+
+        if(isIn){
+            mItemView.setVisibility(View.VISIBLE);
+            mItemLocationView.setVisibility(View.GONE);
+            mItemQtyRealContainerView.setVisibility(View.GONE);
+            mItemNameView.setVisibility(View.VISIBLE);
+            mItemPackNameView.setVisibility(View.VISIBLE);
+            mItemQtyView.setVisibility(View.VISIBLE);
+
+            mItemNameView.setText(itemName);
+            mItemPackNameView.setText(packName);
+            mItemQtyView.setText(qty);
+        } else {
+            mItemView.setVisibility(View.GONE);
+        }
 
         mTaskView.setText(taskId);
         mTypeNameView.setText(typeName);
+
         mLocationIdView.setText(locationName);
         mLocationIdConfirmView.getText().clear();
+
+        mLocationIdConfirmView.requestFocus();
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -235,10 +252,17 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
         mSubmit.setVisibility(View.VISIBLE);
         mItemQtyRealView.requestFocus();
 
+        mItemLocationView.setVisibility(View.VISIBLE);
+        mItemQtyRealContainerView.setVisibility(View.VISIBLE);
+        mItemNameView.setVisibility(View.VISIBLE);
+        mItemPackNameView.setVisibility(View.VISIBLE);
+        mItemQtyView.setVisibility(View.VISIBLE);
+
         mTypeNameView.setText(typeName);
         mItemNameView.setText(itemName);
         mItemPackNameView.setText(packName);
         mItemQtyView.setText(qty);
+        mItemLocationView.setText(locationName);
         if (TextUtils.isEmpty(numQty)) {
             mItemQtyRealContainerView.setVisibility(View.GONE);
             mItemQtyRealView.setHint(null);
@@ -249,7 +273,6 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
             mItemQtyRealView.setText(null);
         }
 
-        mItemLocationView.setText(locationName);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();

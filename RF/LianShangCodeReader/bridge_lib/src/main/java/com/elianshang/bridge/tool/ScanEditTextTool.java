@@ -2,6 +2,7 @@ package com.elianshang.bridge.tool;
 
 import android.app.Activity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -111,6 +112,10 @@ public class ScanEditTextTool {
     public void setScanText(String s) {
         if (mActivity == null) {
             return;
+        }
+
+        if (!TextUtils.isEmpty(s)) {
+            s = s.trim();
         }
 
         View v = mActivity.getCurrentFocus();

@@ -5,7 +5,7 @@ package com.elianshang.wms.app.procurement.view;
  */
 public interface ProcurementView {
 
-    void showLocationConfirmView(String typeName, String taskId, String locationName);
+    void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String packName, String qty, String locationName);
 
     void showItemView(String typeName, String itemName, String packName, String qty, String locationName, String numQty);
 

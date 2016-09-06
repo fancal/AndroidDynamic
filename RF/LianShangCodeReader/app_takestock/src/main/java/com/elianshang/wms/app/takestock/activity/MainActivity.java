@@ -45,7 +45,7 @@ public class MainActivity extends DLBasePluginActivity {
         private String uToken;
 
         public StockTakingAssignTask(String uid, String uToken) {
-            super(MainActivity.this.that, true, true, false);
+            super(MainActivity.this.that, true, true, false , false);
             this.uId = uid;
             this.uToken = uToken;
         }

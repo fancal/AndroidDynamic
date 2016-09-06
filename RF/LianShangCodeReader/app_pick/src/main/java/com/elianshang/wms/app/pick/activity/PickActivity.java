@@ -21,6 +21,7 @@ import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.pick.R;
 import com.elianshang.wms.app.pick.bean.Pick;
@@ -131,6 +132,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
     private ArrayList<ViewHolder> viewHolderList = new ArrayList();
 
+    private String serialNumber;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,21 +154,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         }
 
         if (pickLocation != null) {
-            mPick = pickLocation.getPick();
-            if (pickLocation.isDone()) {
-                ToastTool.show(that, "拣货成功");
-                finish();
-            } else {
-                if (pickLocation.isPickDone()) {
-                    mCurPage = 2;
-                    setCurPageView();
-                    fillCollection();
-                } else {
-                    mCurPage = 1;
-                    setCurPageView();
-                    fillPickLocation();
-                }
-            }
+            fillPick(pickLocation);
         } else {
             mCurPage = 0;
             setCurPageView();
@@ -319,6 +308,29 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         vh.taskIdEditText = taskIdEditText;
         vh.containerIdEditText = containerIdEditText;
         viewHolderList.add(vh);
+    }
+
+    private void fillPick(PickLocation pickLocation) {
+        if (pickLocation != null) {
+            mPick = pickLocation.getPick();
+
+            if (pickLocation.isDone()) {
+                ToastTool.show(that, "拣货成功");
+                finish();
+            } else {
+                serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+
+                if (pickLocation.isPickDone()) {
+                    mCurPage = 2;
+                    setCurPageView();
+                    fillCollection();
+                } else {
+                    mCurPage = 1;
+                    setCurPageView();
+                    fillPickLocation();
+                }
+            }
+        }
     }
 
     /**
@@ -492,21 +504,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
         @Override
         public void onPostExecute(PickLocation result) {
-            mPick = result.getPick();
-            if (result.isDone()) {
-                ToastTool.show(context, "拣货成功");
-                finish();
-            } else {
-                if (result.isPickDone()) {
-                    mCurPage = 2;
-                    setCurPageView();
-                    fillCollection();
-                } else {
-                    mCurPage = 1;
-                    setCurPageView();
-                    fillPickLocation();
-                }
-            }
+            fillPick(result);
         }
     }
 
@@ -526,26 +524,12 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
         @Override
         public DataHull<PickLocation> doInBackground() {
-            return ScanPickLocationProvider.request(context, uId, uToken, locationId, qty);
+            return ScanPickLocationProvider.request(context, uId, uToken, locationId, qty, serialNumber);
         }
 
         @Override
         public void onPostExecute(PickLocation result) {
-            mPick = result.getPick();
-            if (result.isDone()) {
-                ToastTool.show(context, "拣货成功");
-                finish();
-            } else {
-                if (result.isPickDone()) {
-                    mCurPage = 2;
-                    setCurPageView();
-                    fillCollection();
-                } else {
-                    mCurPage = 1;
-                    setCurPageView();
-                    fillPickLocation();
-                }
-            }
+            fillPick(result);
         }
     }
 }

@@ -12,6 +12,18 @@ import java.lang.reflect.Method;
 
 public class DeviceTool {
 
+    /**
+     * 生成流水号
+     * MD5(IMEI + KEY + TIMESTAMP)
+     */
+    public static String generateSerialNumber(Context context, String key) {
+        String content = getIMEI(context);
+        content += key;
+        content += System.currentTimeMillis();
+
+        return MD5Tool.toMd5(content);
+    }
+
     public static String getAndroidOsSystemProperties(String key) {
         String ret;
         try {
@@ -69,7 +81,7 @@ public class DeviceTool {
 
     /**
      * 获取IMEI
-     * <p/>
+     * <p>
      * IMEI是International Mobile Equipment Identity （国际移动设备标识）的简称
      * IMEI由15位数字组成的”电子串号”，它与每台手机一一对应，而且该码是全世界唯一的
      * 其组成为：
@@ -84,13 +96,13 @@ public class DeviceTool {
 
     /**
      * 获取IMSI
-     * <p/>
+     * <p>
      * IMSI是国际移动用户识别码的简称(International Mobile Subscriber Identity)
      * IMSI共有15位，其结构如下：
      * MCC+MNC+MIN
      * MCC：Mobile Country Code，移动国家码，共3位，中国为460;
      * MNC:Mobile NetworkCode，移动网络码，共2位
-     * <p/>
+     * <p>
      * 在中国，移动的代码为电00和02，联通的代码为01，电信的代码为03
      * 合起来就是（也是Android手机中APN配置文件中的代码）：
      * 中国移动：46000 46002

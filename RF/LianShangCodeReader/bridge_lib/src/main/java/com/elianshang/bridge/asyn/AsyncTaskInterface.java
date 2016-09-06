@@ -5,6 +5,8 @@ package com.elianshang.bridge.asyn;
  */
 public interface AsyncTaskInterface<D, R> {
 
+    void onCancelled();
+
     /**
      * 异步任务开始前
      */

@@ -6,7 +6,7 @@ public class Info implements BaseBean {
 
     private String skuName;
 
-    private String packUnit;
+    private String packName;
 
     private int batchNeeded;
 
@@ -30,12 +30,12 @@ public class Info implements BaseBean {
         this.skuName = skuName;
     }
 
-    public String getPackUnit() {
-        return packUnit;
+    public String getPackName() {
+        return packName;
     }
 
-    public void setPackUnit(String packUnit) {
-        this.packUnit = packUnit;
+    public void setPackName(String packName) {
+        this.packName = packName;
     }
 
     public int getBatchNeeded() {

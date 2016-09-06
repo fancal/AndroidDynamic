@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by xfilshy on 16/8/18.
+ * 领取任务接口
  */
 public class FetchTaskProvider {
 
-    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -46,13 +46,13 @@ public class FetchTaskProvider {
 
     private static final String uId = "uid";
 
-    private static final String uToken = "uToken";
+    private static final String uToken = "utoken";
 
 
     private static final String udd = "uId";
 
 
-    public static DataHull<Procurement> request(Context context ,String uId, String uToken) {
+    public static DataHull<Procurement> request(Context context, String uId, String uToken) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();

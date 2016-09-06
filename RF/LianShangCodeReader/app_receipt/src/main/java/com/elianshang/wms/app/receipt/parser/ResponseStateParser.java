@@ -10,12 +10,13 @@ public class ResponseStateParser extends MasterParser<ResponseState> {
 
     @Override
     public ResponseState parse(JSONObject data) throws Exception {
+        ResponseState responseState = null;
         if (data != null) {
-            boolean state = getBoolean(data, "response");
+            boolean state = optBoolean(data, "response");
             if (state) {
-                return new ResponseState();
+                responseState = new ResponseState();
             }
         }
-        return null;
+        return responseState;
     }
 }

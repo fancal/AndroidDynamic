@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.procurement.bean.Procurement;
 import com.elianshang.wms.app.procurement.bean.ProcurementNext;
@@ -17,6 +18,8 @@ import com.xue.http.impl.DataHull;
  */
 public class ProcurementController extends BaseProcurementController implements BaseProcurementController.TransferCompleteListener {
 
+    private String serialNumber;
+
     public ProcurementController(Activity activity, String uId, String uToken, Procurement procurement, ProcurementView procurementView) {
         super(activity, uId, uToken, procurement, procurementView);
         fillData();
@@ -24,6 +27,7 @@ public class ProcurementController extends BaseProcurementController implements 
 
     public void fillData() {
         if (curProcurement != null) {
+            serialNumber = DeviceTool.generateSerialNumber(activity, getClass().getName());
             if (TextUtils.equals("2", curProcurement.getType())) {
                 fillInBound();
             } else if (TextUtils.equals("1", curProcurement.getType())) {
@@ -34,13 +38,13 @@ public class ProcurementController extends BaseProcurementController implements 
 
     private void fillInBound() {
         if (procurementView != null) {
-            procurementView.showLocationConfirmView("转入到库位", "任务：" + curProcurement.getTaskId(), curProcurement.getLocationCode());
+            procurementView.showLocationConfirmView(true, "转入到库位", "任务：" + curProcurement.getTaskId(), "商品名称：" + curProcurement.getItemName(), "商品名称：" + curProcurement.getPackName(), "商品数量：" + curProcurement.getUomQty(), curProcurement.getLocationCode());
         }
     }
 
     private void fillOutBound() {
         if (procurementView != null) {
-            procurementView.showLocationConfirmView("开始补货转出", "任务：" + curProcurement.getTaskId(), curProcurement.getLocationCode());
+            procurementView.showLocationConfirmView(false, "转入到库位", "任务：" + curProcurement.getTaskId(), "商品名称：" + curProcurement.getItemName(), "商品名称：" + curProcurement.getPackName(), "商品数量：" + curProcurement.getUomQty(), curProcurement.getLocationCode());
         }
     }
 
@@ -110,7 +114,7 @@ public class ProcurementController extends BaseProcurementController implements 
 
         @Override
         public DataHull<ProcurementNext> doInBackground() {
-            return ScanLocationProvider.request(context, uId, uToken, type, taskId, locationId, qty);
+            return ScanLocationProvider.request(context, uId, uToken, type, taskId, locationId, qty, serialNumber);
         }
 
         @Override
