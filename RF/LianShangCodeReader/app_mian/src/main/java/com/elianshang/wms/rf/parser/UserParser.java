@@ -16,10 +16,16 @@ public class UserParser extends MasterParser<User> {
         if (data != null) {
             String uid = optString(data, "uid");
             String utoken = optString(data, "utoken");
+            long validTime = optLong(data, "validTime") * 1000;
+            String userName = optString(data, "userName");
+            long activeTime = System.currentTimeMillis();
 
-            if (!TextUtils.isEmpty(uid) && !TextUtils.isEmpty(utoken)) {
+            if (!TextUtils.isEmpty(uid) && !TextUtils.isEmpty(utoken) && validTime > 0) {
                 user = new User();
                 user.setUid(uid);
+                user.setUserName(userName);
+                user.setValidTime(validTime);
+                user.setActiveTime(activeTime);
                 user.setToken(utoken);
                 user.setJsonData(data.toString());
             }

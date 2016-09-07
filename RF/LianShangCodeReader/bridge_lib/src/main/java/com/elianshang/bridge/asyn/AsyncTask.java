@@ -186,7 +186,7 @@ public abstract class AsyncTask<Params, Progress, Result> {
     private static final String LOG_TAG = "AsyncTask";
 
     private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
-    private static final int CORE_POOL_SIZE = CPU_COUNT * 5;
+    private static final int CORE_POOL_SIZE = CPU_COUNT * 3;
     private static final int MAXIMUM_POOL_SIZE = CPU_COUNT * 10;
     private static final int KEEP_ALIVE = 1;
 

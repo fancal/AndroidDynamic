@@ -81,6 +81,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     @Override
     public void OnBarCodeReceived(String s) {
+        if(mQcControllerProxy == null){
+            return;
+        }
         mQcControllerProxy.OnBarCodeReceived(s);
     }
 }

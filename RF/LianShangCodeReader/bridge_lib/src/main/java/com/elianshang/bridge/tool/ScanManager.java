@@ -34,7 +34,11 @@ public class ScanManager {
                     r.play();
                     if (listeners != null && listeners.size() > 0) {
                         for (OnBarCodeListener onBarCodeListener : listeners) {
-                            onBarCodeListener.OnBarCodeReceived(s);
+                            try {
+                                onBarCodeListener.OnBarCodeReceived(s);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -68,7 +72,7 @@ public class ScanManager {
             return;
         }
 
-        if(listeners == null){
+        if (listeners == null) {
             return;
         }
 
@@ -80,7 +84,7 @@ public class ScanManager {
             return;
         }
 
-        if(listeners == null){
+        if (listeners == null) {
             return;
         }
 

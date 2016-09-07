@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_weight="1"
     android:orientation="vertical">
 
 
@@ -30,7 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:text="11111111"
         android:textColor="#ffff0000"
         android:textSize="30dip" />
 
@@ -94,6 +94,7 @@
             android:id="@+id/inputQty_EditView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             android:minWidth="60dip"
             android:textSize="20dip" />
     </LinearLayout>

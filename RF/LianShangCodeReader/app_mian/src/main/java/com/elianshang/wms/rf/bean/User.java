@@ -6,23 +6,15 @@ public class User implements BaseBean {
 
     private String uid;
 
-    private String username;
-
-    private String cellphone;
-
-    private String status;//0为初始状态,1为正常
+    private String userName;
 
     private String token;
 
+    private long activeTime ;
+
+    private long validTime ;
+
     private String jsonData;
-
-    public void setCellphone(String cellphone) {
-        this.cellphone = cellphone;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public void setToken(String token) {
         this.token = token;
@@ -32,16 +24,8 @@ public class User implements BaseBean {
         this.uid = uid;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getCellphone() {
-        return cellphone;
-    }
-
-    public String getStatus() {
-        return status;
+    public void setUserName(String username) {
+        this.userName = username;
     }
 
     public String getToken() {
@@ -52,8 +36,24 @@ public class User implements BaseBean {
         return uid;
     }
 
-    public String getUsername() {
-        return username;
+    public long getActiveTime() {
+        return activeTime;
+    }
+
+    public void setActiveTime(long activeTime) {
+        this.activeTime = activeTime;
+    }
+
+    public long getValidTime() {
+        return validTime;
+    }
+
+    public void setValidTime(long validTime) {
+        this.validTime = validTime;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     public String getJsonData() {

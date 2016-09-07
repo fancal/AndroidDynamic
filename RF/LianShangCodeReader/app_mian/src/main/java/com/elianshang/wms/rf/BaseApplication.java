@@ -62,6 +62,13 @@ public class BaseApplication extends Application {
         new UserSaveTaskSimple(user).start();
     }
 
+    public void activeUser() {
+        if (mUser != null) {
+            mUser.setActiveTime(System.currentTimeMillis());
+            new UserSaveTaskSimple(mUser).start();
+        }
+    }
+
     public User getUser() {
         if (mUser == null) {
             mUser = PreferencesManager.get().getUser();

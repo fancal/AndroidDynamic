@@ -134,6 +134,9 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
 
     @Override
     public void OnBarCodeReceived(String s) {
+        if (scanEditTextTool == null) {
+            return;
+        }
         scanEditTextTool.setScanText(s);
     }
 

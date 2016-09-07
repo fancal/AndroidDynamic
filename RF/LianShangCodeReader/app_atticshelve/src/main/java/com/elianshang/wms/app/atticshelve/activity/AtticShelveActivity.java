@@ -268,6 +268,9 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
     @Override
     public void OnBarCodeReceived(String s) {
+        if (scanEditTextTool == null) {
+            return;
+        }
         scanEditTextTool.setScanText(s);
     }
 

@@ -367,6 +367,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
      * 第三页 集货位
      */
     private void fillCollection() {
+        mGroup3ConfirmCollectionIdView.requestFocus();
         mGroup3CollectionIdView.setText(mPick.getAllocCollectLocationCode());
     }
 
@@ -411,6 +412,9 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
     @Override
     public void OnBarCodeReceived(String s) {
+        if (scanEditTextTool == null) {
+            return;
+        }
         scanEditTextTool.setScanText(s);
 
     }

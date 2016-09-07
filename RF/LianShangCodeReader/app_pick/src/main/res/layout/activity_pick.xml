@@ -26,11 +26,6 @@
         android:id="@+id/pick_collection"
         layout="@layout/pick_collection" />
 
-    <View
-        android:layout_width="0dip"
-        android:layout_height="0dip"
-        android:layout_weight="1" />
-
     <Button
         android:id="@+id/submit_Button"
         android:layout_width="match_parent"

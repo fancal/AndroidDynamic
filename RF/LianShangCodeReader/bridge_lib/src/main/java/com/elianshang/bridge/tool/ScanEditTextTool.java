@@ -110,7 +110,7 @@ public class ScanEditTextTool {
 
 
     public void setScanText(String s) {
-        if (mActivity == null) {
+        if (mActivity == null || mEditTexts == null) {
             return;
         }
 

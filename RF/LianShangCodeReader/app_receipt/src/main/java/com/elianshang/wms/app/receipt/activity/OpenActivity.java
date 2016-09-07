@@ -182,7 +182,7 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
         private String barCode;
 
         public RequestGetOrderInfoTask(Context context, String orderOtherId, String containerId, String barCode) {
-            super(context, true, true);
+            super(context, true, true, true);
             this.orderOtherId = orderOtherId;
             this.containerId = containerId;
             this.barCode = barCode;
@@ -215,6 +215,9 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
 
     @Override
     public void OnBarCodeReceived(String s) {
+        if (scanEditTextTool == null) {
+            return;
+        }
         scanEditTextTool.setScanText(s);
     }
 

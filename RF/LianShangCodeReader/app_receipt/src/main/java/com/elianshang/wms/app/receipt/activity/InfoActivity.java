@@ -207,7 +207,7 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
         inboundQtyEditView.setHint(info.getOrderQty());
         inboundQtyEditView.setText(null);
 
-        if ("1".equals(info.getBatchNeeded())) {
+        if (1 == info.getBatchNeeded()) {
             lotNumLayout.setVisibility(View.VISIBLE);
         } else {
             lotNumLayout.setVisibility(View.GONE);
@@ -285,7 +285,7 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
 
         String proTime = year + "-" + month + "-" + day;
         String lotNum = lotNumEditText.getText().toString();
-        if ("1".equals(info.getBatchNeeded()) && TextUtils.isEmpty(lotNum)) {
+        if (1 == info.getBatchNeeded() && TextUtils.isEmpty(lotNum)) {
             Toast.makeText(that, "请填入批次号", Toast.LENGTH_SHORT).show();
             return;
         }

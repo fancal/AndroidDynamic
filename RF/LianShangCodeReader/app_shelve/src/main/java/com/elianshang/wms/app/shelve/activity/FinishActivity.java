@@ -173,6 +173,9 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
 
     @Override
     public void OnBarCodeReceived(String s) {
+        if (scanEditTextTool == null) {
+            return;
+        }
         scanEditTextTool.setScanText(s);
     }
 

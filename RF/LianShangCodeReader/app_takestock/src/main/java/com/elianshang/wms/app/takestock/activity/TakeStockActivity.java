@@ -324,9 +324,10 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
     @Override
     public void OnBarCodeReceived(String s) {
-        if (scanEditTextTool != null) {
-            scanEditTextTool.setScanText(s);
+        if (scanEditTextTool == null) {
+            return;
         }
+        scanEditTextTool.setScanText(s);
     }
 
     @Override

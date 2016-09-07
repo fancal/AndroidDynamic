@@ -11,7 +11,7 @@
         android:layout_marginBottom="5dip"
         android:layout_marginTop="5dip"
         android:text="任务1:"
-        android:textSize="20dip" />
+        android:textSize="16dip" />
 
     <TextView
         android:layout_width="match_parent"

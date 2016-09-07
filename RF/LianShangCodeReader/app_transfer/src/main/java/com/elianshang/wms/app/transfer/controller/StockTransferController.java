@@ -38,13 +38,13 @@ public class StockTransferController extends BaseStockTransferController impleme
 
     private void fillInBound() {
         if (stockTransferView != null) {
-            stockTransferView.showLocationConfirmView(true, "转入到库位", "任务：" + curTransfer.getTaskId(), "商品名称：" + curTransfer.getItemName(), "商品名称：" + curTransfer.getPackName(), "商品数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
+            stockTransferView.showLocationConfirmView(true, "转入到库位", "任务：" + curTransfer.getTaskId(), "商品名称：" + curTransfer.getItemName(), "商品规格：" + curTransfer.getPackName(), "商品数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
         }
     }
 
     private void fillOutBound() {
         if (stockTransferView != null) {
-            stockTransferView.showLocationConfirmView(false, "开始移库转出", "任务：" + curTransfer.getTaskId(), "商品名称：" + curTransfer.getItemName(), "商品名称：" + curTransfer.getPackName(), "商品数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
+            stockTransferView.showLocationConfirmView(false, "开始移库转出", "任务：" + curTransfer.getTaskId(), "商品名称：" + curTransfer.getItemName(), "商品规格：" + curTransfer.getPackName(), "商品数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
         }
     }
 

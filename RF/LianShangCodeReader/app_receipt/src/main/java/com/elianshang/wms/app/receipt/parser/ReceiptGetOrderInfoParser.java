@@ -20,6 +20,8 @@ public class ReceiptGetOrderInfoParser extends MasterParser<Info> {
             String packName = optString(data, "packName");
             int batchNeeded = optInt(data, "batchNeeded");
 
+            packName = "服务器问题,提醒他们改";
+
             if (!TextUtils.isEmpty(skuName)
                     && !TextUtils.isEmpty(orderQty)
                     && !TextUtils.isEmpty(packName)

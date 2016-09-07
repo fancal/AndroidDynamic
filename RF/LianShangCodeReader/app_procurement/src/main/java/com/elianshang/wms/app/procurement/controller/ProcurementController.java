@@ -38,13 +38,13 @@ public class ProcurementController extends BaseProcurementController implements 
 
     private void fillInBound() {
         if (procurementView != null) {
-            procurementView.showLocationConfirmView(true, "转入到库位", "任务：" + curProcurement.getTaskId(), "商品名称：" + curProcurement.getItemName(), "商品名称：" + curProcurement.getPackName(), "商品数量：" + curProcurement.getUomQty(), curProcurement.getLocationCode());
+            procurementView.showLocationConfirmView(true, "转入到库位", "任务：" + curProcurement.getTaskId(), "商品名称：" + curProcurement.getItemName(), "商品规格：" + curProcurement.getPackName(), "商品数量：" + curProcurement.getUomQty(), curProcurement.getLocationCode());
         }
     }
 
     private void fillOutBound() {
         if (procurementView != null) {
-            procurementView.showLocationConfirmView(false, "转入到库位", "任务：" + curProcurement.getTaskId(), "商品名称：" + curProcurement.getItemName(), "商品名称：" + curProcurement.getPackName(), "商品数量：" + curProcurement.getUomQty(), curProcurement.getLocationCode());
+            procurementView.showLocationConfirmView(false, "转入到库位", "任务：" + curProcurement.getTaskId(), "商品名称：" + curProcurement.getItemName(), "商品规格：" + curProcurement.getPackName(), "商品数量：" + curProcurement.getUomQty(), curProcurement.getLocationCode());
         }
     }
 

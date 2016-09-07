@@ -206,6 +206,9 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
 
     @Override
     public void OnBarCodeReceived(String s) {
+        if (scanEditTextTool == null) {
+            return;
+        }
         scanEditTextTool.setScanText(s);
 
     }
@@ -215,7 +218,7 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
         mLocationView.setVisibility(View.VISIBLE);
         mSubmit.setVisibility(View.GONE);
 
-        if(isIn){
+        if (isIn) {
             mItemView.setVisibility(View.VISIBLE);
             mItemLocationView.setVisibility(View.GONE);
             mItemQtyRealContainerView.setVisibility(View.GONE);
@@ -272,7 +275,6 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
             mItemQtyRealView.setHint(numQty);
             mItemQtyRealView.setText(null);
         }
-
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();

@@ -54,10 +54,10 @@ public class PreferencesManager {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (user == null) {
-            return editor.putString("info", null).commit();
+            return editor.putLong("activeTime", 0).putString("info", null).commit();
         }
 
-        return editor.putString("info", user.toString()).commit();
+        return editor.putLong("activeTime", user.getActiveTime()).putString("info", user.toString()).commit();
     }
 
 
@@ -68,8 +68,19 @@ public class PreferencesManager {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(USER, Context.MODE_PRIVATE);
         try {
             String userString = sharedPreferences.getString("info", null);
-            if (!TextUtils.isEmpty(userString)) {
-                return new UserParser().parse(new JSONObject(userString));
+            long activeTime = sharedPreferences.getLong("activeTime", 0);
+            if (!TextUtils.isEmpty(userString) && activeTime > 0) {
+                User user = new UserParser().parse(new JSONObject(userString));
+                long curTime = System.currentTimeMillis();
+                if (user != null) {
+                    if (curTime < activeTime + user.getValidTime()) {
+                        user.setActiveTime(activeTime);
+                    } else {
+                        user = null;
+                    }
+                }
+
+                return user;
             }
         } catch (Exception e) {
             e.printStackTrace();

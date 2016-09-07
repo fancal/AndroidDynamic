@@ -49,6 +49,11 @@
 
         <service android:name="com.elianshang.dynamic.DLProxyService" />
 
+        <receiver android:name=".ShareReceiver">
+            <intent-filter>
+                <action android:name="com.elianshang.user.active" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -218,6 +218,9 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
 
     @Override
     public void OnBarCodeReceived(String s) {
+        if (scanEditTextTool == null) {
+            return;
+        }
         scanEditTextTool.setScanText(s);
     }
 

@@ -120,25 +120,8 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
 
                 final DataHull<T> dataHull = dh;
 
-                if (dataHull == null) {
-                    if (dataHull.getStatus() == 131231) {
-                        final String message = dataHull.getMessage();
-                        postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
-                            @Override
-                            public void run(HttpAsyncTask httpAsyncTask) {
-                                DialogTools.showOneButtonDialog((Activity) context, message, "知道了", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent();
-                                        intent.setAction("com.elianshang.bridge.logout");
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        intent.putExtra("close", true);
-                                        context.startActivity(intent);
-                                    }
-                                }, false);
-                            }
-                        });
-                    } else {
+                if (!isCancel()) {
+                    if (dataHull == null) {
                         postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
                             @Override
                             public void run(HttpAsyncTask httpAsyncTask) {
@@ -149,63 +132,97 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
                                 }
                             }
                         });
-                    }
-                    return null;
-                } else {
-                    this.message = dataHull.getMessage();
-                    this.status = dataHull.getStatus();
-                    if (dataHull.getDataType() == DataHull.DataType.DATA_IS_INTEGRITY) {
-                        T t = dataHull.getDataEntity();
-                        if (t == null) {
+                        return null;
+                    } else {
+
+
+                        this.message = dataHull.getMessage();
+                        this.status = dataHull.getStatus();
+                        if (dataHull.getDataType() == DataHull.DataType.DATA_IS_INTEGRITY) {
+
+                            Intent intent = new Intent();
+                            intent.setAction("com.elianshang.user.active");
+                            context.sendBroadcast(intent);
+
+                            T t = dataHull.getDataEntity();
+                            if (t == null) {
+                                postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+                                    @Override
+                                    public void run(HttpAsyncTask httpAsyncTask) {
+                                        try {
+                                            httpAsyncTask.dataNull(message);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+
+                                return null;
+                            } else {
+                                return t;
+                            }
+                        } else {
+                            if (dataHull.getStatus() == 2660003) {//token过期判断位置
+                                final String message = dataHull.getMessage();
+                                postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+                                    @Override
+                                    public void run(HttpAsyncTask httpAsyncTask) {
+                                        DialogTools.showOneButtonDialog((Activity) context, message, "知道了", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent();
+                                                intent.setAction("com.elianshang.bridge.logout");
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                intent.putExtra("close", true);
+                                                context.startActivity(intent);
+                                            }
+                                        }, false);
+                                    }
+                                });
+
+                                return null;
+                            }
+
+                            Intent intent = new Intent();
+                            intent.setAction("com.elianshang.user.active");
+                            context.sendBroadcast(intent);
+
+                            if (dataHull.getDataType() == DataHull.DataType.DATA_CAN_NOT_PARSE) {
+
+                            } else if (dataHull.getDataType() == DataHull.DataType.CONNECTION_FAIL
+                                    || dataHull.getDataType() == DataHull.DataType.RESPONSE_CODE_ERR
+                                    || dataHull.getDataType() == DataHull.DataType.DATA_CAN_NOT_PARSE
+                                    || dataHull.getDataType() == DataHull.DataType.DATA_IS_NULL) {
+                                if (retry && context instanceof Activity) {
+                                    postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
+                                        @Override
+                                        public void run(HttpAsyncTask httpAsyncTask) {
+                                            DialogTools.showTwoButtonDialog((Activity) context, "网络异常,是否重试", "取消", "重试", null, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    HttpAsyncTask.this.start();
+                                                }
+                                            }, true);
+                                        }
+                                    });
+                                }
+                            }
+
                             postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
                                 @Override
                                 public void run(HttpAsyncTask httpAsyncTask) {
                                     try {
-                                        httpAsyncTask.dataNull(message);
+                                        httpAsyncTask.netErr(message);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
                             });
-
                             return null;
-                        } else {
-                            return t;
                         }
-                    } else {
-                        if (dataHull.getDataType() == DataHull.DataType.DATA_CAN_NOT_PARSE) {
-
-                        } else if (dataHull.getDataType() == DataHull.DataType.CONNECTION_FAIL
-                                || dataHull.getDataType() == DataHull.DataType.RESPONSE_CODE_ERR
-                                || dataHull.getDataType() == DataHull.DataType.DATA_CAN_NOT_PARSE
-                                || dataHull.getDataType() == DataHull.DataType.DATA_IS_NULL) {
-                            if (retry && context instanceof Activity) {
-                                postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
-                                    @Override
-                                    public void run(HttpAsyncTask httpAsyncTask) {
-                                        DialogTools.showTwoButtonDialog((Activity) context, "网络异常,是否重试", "取消", "重试", null, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                HttpAsyncTask.this.start();
-                                            }
-                                        }, true);
-                                    }
-                                });
-                            }
-                        }
-
-                        postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
-                            @Override
-                            public void run(HttpAsyncTask httpAsyncTask) {
-                                try {
-                                    httpAsyncTask.netErr(message);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                        return null;
                     }
+                } else {
+                    ToastTool.show(context, "任务取消了");
                 }
             } else {
                 ToastTool.show(context, "任务取消了");

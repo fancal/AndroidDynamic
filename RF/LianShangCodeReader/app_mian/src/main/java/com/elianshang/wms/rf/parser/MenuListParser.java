@@ -21,7 +21,7 @@ public class MenuListParser extends MasterParser<MenuList> {
             if (len > 0) {
                 menuList = new MenuList();
 
-                for (int i = 0; i < len; i++) {
+                for (int i = 0; i < len ; i++) {
                     JSONObject jo = getJSONObject(jsonArray, i);
                     if (jo != null) {
                         String url = optString(jo, "url");

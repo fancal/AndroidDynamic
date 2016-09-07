@@ -119,6 +119,7 @@
             android:id="@+id/inputQty_EditView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             android:minWidth="60dip"
             android:textSize="20dip" />
     </LinearLayout>
