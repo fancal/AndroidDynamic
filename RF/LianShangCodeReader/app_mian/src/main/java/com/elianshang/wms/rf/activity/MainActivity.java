@@ -11,7 +11,6 @@ import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,8 @@ import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
+import com.elianshang.bridge.tool.ScanManager;
+import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.rf.BaseApplication;
 import com.elianshang.wms.rf.R;
 import com.elianshang.wms.rf.bean.Menu;
@@ -72,8 +73,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         findViews();
 
-        Log.e("xue", "mRecyclerView getWidth" + mRecyclerView.getMeasuredWidth());
-        Log.e("xue", "mRecyclerView getHeight" + mRecyclerView.getMeasuredHeight());
+        ScanManager.get().open();
 
         PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
         mWklk = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "cn");
@@ -177,6 +177,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (doubleClickWaitView == v) {//第二下点击同一个view
                 doubleClickWaitView = null;
 
+                if (!ScanManager.get().isOpen()) {
+                    ToastTool.show(this, "正在启动扫描头,请稍等2秒重试");
+                    return;
+                }
+
                 PluginStarter starter = new PluginStarter(this, pluginSource);
                 starter.execute();
             } else {//第二下点击不同的view
@@ -264,6 +269,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
+
     private class RequestMenuListTask extends HttpAsyncTask<MenuList> {
 
         private String uId;
@@ -271,7 +277,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         private String uToken;
 
         public RequestMenuListTask(Context context, String uId, String uToken, boolean isNew) {
-            super(context, isNew, isNew, true);
+            super(context, isNew, isNew, true, isNew);
             this.uId = uId;
             this.uToken = uToken;
         }

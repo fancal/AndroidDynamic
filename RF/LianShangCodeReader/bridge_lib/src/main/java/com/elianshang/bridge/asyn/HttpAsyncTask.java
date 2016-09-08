@@ -222,10 +222,10 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
                         }
                     }
                 } else {
-                    ToastTool.show(context, "任务取消了");
+                    ToastTool.show(context, "任务取消");
                 }
             } else {
-                ToastTool.show(context, "任务取消了");
+                ToastTool.show(context, "任务取消");
             }
         } catch (Exception e) {
             // 线程异常
@@ -256,7 +256,7 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
 
     @Override
     public void onCancelled() {
-        ToastTool.show(context, "请求取消");
+//        ToastTool.show(context, "请求取消");
     }
 
     /**

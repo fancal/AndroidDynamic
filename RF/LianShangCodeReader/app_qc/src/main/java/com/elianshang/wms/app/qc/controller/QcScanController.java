@@ -59,10 +59,10 @@ public class QcScanController extends BaseQcController {
 
         if (submitMap.containsKey(item.getBarCode())) {
             BaseQcController.CacheQty cacheQty = submitMap.get(item.getBarCode());
-            inputQty = String.valueOf(cacheQty.qty);
-            inputQtyHint = null;
-            shoddyQty = String.valueOf(cacheQty.exceptionQty);
-            shoddyQtyHint = null;
+            inputQty = null;
+            inputQtyHint = String.valueOf(cacheQty.qty);
+            shoddyQty = null;
+            shoddyQtyHint = String.valueOf(cacheQty.exceptionQty);
         } else {
             inputQty = null;
             inputQtyHint = String.valueOf(item.getQty());

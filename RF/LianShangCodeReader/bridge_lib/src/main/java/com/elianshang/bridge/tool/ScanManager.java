@@ -21,10 +21,13 @@ public class ScanManager {
 
     private ArrayList<OnBarCodeListener> listeners;
 
+    private boolean isOpen = false;
+
     private ScanManager(final Context context) {
 
         if (checkClass()) {
             mBarCode = (BarCodeManager) context.getSystemService("barcode");
+            mBarCode.setBarCodeWaitTime(100);
 
             mainListener = new BarCodeManager.OnBarCodeReceivedListener() {
                 @Override
@@ -65,6 +68,19 @@ public class ScanManager {
             return null;
         }
         return scanManager;
+    }
+
+    public void open() {
+        if (mBarCode != null) {
+            if (!isOpen) {
+                mBarCode.open();
+                isOpen = true;
+            }
+        }
+    }
+
+    public boolean isOpen() {
+        return isOpen;
     }
 
     public void addListener(OnBarCodeListener listener) {

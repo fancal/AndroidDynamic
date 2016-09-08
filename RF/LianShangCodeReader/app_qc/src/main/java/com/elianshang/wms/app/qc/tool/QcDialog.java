@@ -36,10 +36,10 @@ public class QcDialog {
             barcodeTextView.setVisibility(View.VISIBLE);
         }
         if (isSetText) {
-            detailInputQtyEditText.setHint(null);
-            detailInputQtyEditText.setText(String.valueOf(qty));
-            detailShoddynQtyEditText.setHint(null);
-            detailShoddynQtyEditText.setText(String.valueOf(exceptionQty));
+            detailInputQtyEditText.setHint(String.valueOf(qty));
+            detailInputQtyEditText.setText(null);
+            detailShoddynQtyEditText.setHint(String.valueOf(exceptionQty));
+            detailShoddynQtyEditText.setText(null);
         } else {
             detailInputQtyEditText.setText(null);
             detailInputQtyEditText.setHint(String.valueOf(qty));
