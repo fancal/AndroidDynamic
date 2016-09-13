@@ -16,12 +16,12 @@
     <Button
         android:id="@+id/logout_Button"
         android:layout_width="match_parent"
-        android:layout_height="50dip"
+        android:layout_height="30dip"
         android:layout_alignParentBottom="true"
         android:background="@drawable/submit_button_bg"
         android:text="登出"
         android:textColor="@color/white"
-        android:textSize="24dp" />
+        android:textSize="18dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/pluginList_RecyclerView"

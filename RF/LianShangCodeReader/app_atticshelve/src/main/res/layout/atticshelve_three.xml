@@ -19,6 +19,6 @@
             android:layout_marginTop="10dip"
             android:gravity="center"
             android:text="上架完成"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
     </LinearLayout>
 </LinearLayout>

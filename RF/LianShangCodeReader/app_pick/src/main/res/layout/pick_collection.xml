@@ -20,31 +20,31 @@
             android:layout_marginTop="10dip"
             android:gravity="center"
             android:text="送托盘到集货位"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="集货位"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <TextView
             android:id="@+id/collection_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffff0000"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="扫描确认集货位:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.ScanEditText
             android:id="@+id/confirm_collection_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
     </LinearLayout>
 </LinearLayout>

@@ -21,7 +21,7 @@
         android:layout_marginTop="10dip"
         android:gravity="center"
         android:text="上架到库位"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:text="任务"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
     <TextView
         android:id="@+id/taskId_TextView"
@@ -37,8 +37,23 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:text="名称"
+        android:textSize="14dip" />
+
+    <TextView
+        android:id="@+id/itemName_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:textSize="14dip" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,7 +61,7 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:text="库位"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
     <TextView
         android:id="@+id/locationCode_TextView"
@@ -55,7 +70,7 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:textColor="#ffff0000"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,14 +78,14 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:text="扫描确认仓库ID:"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
     <com.elianshang.bridge.ui.view.ScanEditText
-        android:id="@+id/locationId_EditText"
+        android:id="@+id/locationCode_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
 </LinearLayout>

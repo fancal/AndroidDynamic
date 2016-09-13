@@ -10,9 +10,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
-        android:paddingBottom="40dip"
-        android:paddingTop="40dip"
-        android:text="QC"
         android:textColor="@color/white"
-        android:textSize="20dip" />
+        android:textSize="16dip" />
 </LinearLayout>

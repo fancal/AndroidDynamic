@@ -52,7 +52,7 @@
             android:id="@+id/confirm_location_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
     </LinearLayout>
 
     <LinearLayout
@@ -67,13 +67,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="商品数量:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <TextView
             android:id="@+id/allocQty_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
     </LinearLayout>
 
     <LinearLayout
@@ -88,13 +88,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="实际数量:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.QtyEditText
             android:id="@+id/inputQty_EditView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="60dip"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
     </LinearLayout>
 </LinearLayout>

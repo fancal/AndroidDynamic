@@ -4,25 +4,18 @@ import com.xue.http.hook.BaseBean;
 
 public class Pick implements BaseBean {
 
-    String allocPickLocationCode;
 
-    String allocPickLocationId;
+    private String allocPickLocationCode;
 
-    String allocCollectLocationCode;
+    private String allocCollectLocationCode;
 
-    String allocCollectLocationId;
+    private String allocQty;
 
-    String allocQty;
+    private String itemId;
 
-    String itemId;
+    private String itemName ;
 
-    public String getAllocPickLocationCode() {
-        return allocPickLocationCode;
-    }
-
-    public void setAllocPickLocationCode(String allocPickLocationCode) {
-        this.allocPickLocationCode = allocPickLocationCode;
-    }
+    private String packName ;
 
     public String getAllocQty() {
         return allocQty;
@@ -40,6 +33,14 @@ public class Pick implements BaseBean {
         this.itemId = itemId;
     }
 
+    public String getAllocPickLocationCode() {
+        return allocPickLocationCode;
+    }
+
+    public void setAllocPickLocationCode(String allocPickLocationCode) {
+        this.allocPickLocationCode = allocPickLocationCode;
+    }
+
     public String getAllocCollectLocationCode() {
         return allocCollectLocationCode;
     }
@@ -48,20 +49,20 @@ public class Pick implements BaseBean {
         this.allocCollectLocationCode = allocCollectLocationCode;
     }
 
-    public String getAllocPickLocationId() {
-        return allocPickLocationId;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setAllocPickLocationId(String allocPickLocationId) {
-        this.allocPickLocationId = allocPickLocationId;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
-    public String getAllocCollectLocationId() {
-        return allocCollectLocationId;
+    public String getPackName() {
+        return packName;
     }
 
-    public void setAllocCollectLocationId(String allocCollectLocationId) {
-        this.allocCollectLocationId = allocCollectLocationId;
+    public void setPackName(String packName) {
+        this.packName = packName;
     }
 
     @Override

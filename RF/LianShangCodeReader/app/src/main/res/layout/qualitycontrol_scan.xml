@@ -18,7 +18,7 @@
             android:layout_marginTop="10dip"
             android:gravity="center"
             android:text="请开始扫描商品条码开始QC"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
     </LinearLayout>
 
     <LinearLayout
@@ -42,13 +42,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="进度:"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <TextView
                 android:id="@+id/progress_TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
         </LinearLayout>
 
@@ -59,7 +59,7 @@
             android:layout_marginTop="10dip"
             android:gravity="center"
             android:text="扫描QC"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,13 +72,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="名称:"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <TextView
                 android:id="@+id/itemName_TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
         </LinearLayout>
 
@@ -93,13 +93,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="规格:"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <TextView
                 android:id="@+id/packName_TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
         </LinearLayout>
 
@@ -114,13 +114,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="数量:"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <TextView
                 android:id="@+id/qty_TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
         </LinearLayout>
 
@@ -135,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="实际数量:"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <com.elianshang.bridge.ui.view.QtyEditText
                 android:id="@+id/inputQty_EditView"
@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:minWidth="60dip"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
         </LinearLayout>
 
@@ -158,7 +158,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="残次数量:"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <com.elianshang.bridge.ui.view.QtyEditText
                 android:id="@+id/shoddyQty_EditView"
@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:minWidth="60dip"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
         </LinearLayout>
     </LinearLayout>

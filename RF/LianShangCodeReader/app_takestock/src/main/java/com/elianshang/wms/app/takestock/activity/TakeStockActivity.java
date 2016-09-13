@@ -90,7 +90,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     /**
      * 任务布局 库位扫描输入框
      */
-    private ScanEditText taskLocationIdEditText;
+    private ScanEditText taskLocationCodeEditText;
 
     /**
      * 详情布局
@@ -186,7 +186,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
         taskLayout = findViewById(R.id.task_Layout);
         taskLocationCodeTextView = (TextView) taskLayout.findViewById(R.id.locationCode_TextView);
-        taskLocationIdEditText = (ScanEditText) taskLayout.findViewById(R.id.locationId_EditText);
+        taskLocationCodeEditText = (ScanEditText) taskLayout.findViewById(R.id.locationCode_EditText);
 
         detailLayout = findViewById(R.id.detail_Layout);
         detailLocationCodeTextView = (TextView) detailLayout.findViewById(R.id.locationCode_TextView);
@@ -231,7 +231,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     private void fillNewTask() {
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
-        taskLocationIdEditText.setText("");
+        taskLocationCodeEditText.setText("");
         detailInputLayout.removeAllViews();
 
         final TakeStockList.TakeStockTask task = takeStockList.get(progress);
@@ -249,14 +249,14 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         }
 
         vhList.clear();
-        scanEditTextTool = new ScanEditTextTool(that, taskLocationIdEditText);
+        scanEditTextTool = new ScanEditTextTool(that, taskLocationCodeEditText);
 
         scanEditTextTool.setComplete(new ScanEditTextTool.OnStateChangeListener() {
             @Override
             public void onComplete() {
-                String locationId = taskLocationIdEditText.getText().toString();
-                if (TextUtils.equals(locationId, task.getLocationId())) {
-                    new StockTakingGetTask(TakeStockActivity.this.that, task.getTaskId(), locationId).start();
+                String locationCode = taskLocationCodeEditText.getText().toString();
+                if (TextUtils.equals(locationCode, task.getLocationCode())) {
+                    new StockTakingGetTask(TakeStockActivity.this.that, task.getTaskId(), locationCode).start();
                 } else {
                     Toast.makeText(TakeStockActivity.this.that, "错误的库位,请扫描正确库位", Toast.LENGTH_SHORT).show();
                 }
@@ -274,7 +274,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         detailLayout.setVisibility(View.VISIBLE);
 
         taskCodeTextView.setText(takeStockDetail.getTaskId());
-        detailLocationCodeTextView.setText(takeStockDetail.getLocationId());
+        detailLocationCodeTextView.setText(takeStockDetail.getLocationCode());
         detailItemNameTextView.setText(takeStockDetail.getItemName());
         detailPackNameTextView.setText(takeStockDetail.getPackName());
 
@@ -410,17 +410,17 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
         private String taskId;
 
-        private String locationId;
+        private String locationCode;
 
-        public StockTakingGetTask(Context context, String taskId, String locationId) {
+        public StockTakingGetTask(Context context, String taskId, String locationCode) {
             super(context, true, true);
             this.taskId = taskId;
-            this.locationId = locationId;
+            this.locationCode = locationCode;
         }
 
         @Override
         public DataHull<TakeStockDetail> doInBackground() {
-            return GetTaskProvider.request(context, uId, uToken, taskId, locationId);
+            return GetTaskProvider.request(context, uId, uToken, taskId, locationCode);
         }
 
         @Override

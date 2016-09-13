@@ -1,173 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/wait_Layout"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginTop="10dip"
+        android:gravity="center"
+        android:text="开始进行QC"
+        android:textSize="14dip" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="15dip"
-            android:layout_marginTop="10dip"
-            android:gravity="center"
-            android:text="请开始扫描商品条码开始QC"
-            android:textSize="20dip" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_Layout"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
-        android:orientation="vertical"
-        android:paddingRight="10dip"
-        android:visibility="gone">
+        android:layout_marginRight="10dip"
+        android:text="请扫描拣货签:"
+        android:textSize="14dip" />
 
+    <com.elianshang.bridge.ui.view.ScanEditText
+        android:id="@+id/pickTaskId_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:textSize="14dip" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginTop="10dip"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="进度:"
-                android:textSize="20dip" />
-
-            <TextView
-                android:id="@+id/progress_TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dip" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dip"
-            android:layout_marginTop="10dip"
-            android:gravity="center"
-            android:text="扫描QC"
-            android:textSize="20dip" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginTop="5dip"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="名称:"
-                android:textSize="20dip" />
-
-            <TextView
-                android:id="@+id/itemName_TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dip" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginTop="5dip"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="规格:"
-                android:textSize="20dip" />
-
-            <TextView
-                android:id="@+id/packName_TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dip" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginTop="5dip"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="数量:"
-                android:textSize="20dip" />
-
-            <TextView
-                android:id="@+id/qty_TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dip" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginTop="5dip"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="实际数量:"
-                android:textSize="20dip" />
-
-            <com.elianshang.bridge.ui.view.QtyEditText
-                android:id="@+id/inputQty_EditView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:minWidth="60dip"
-                android:textSize="20dip" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginTop="5dip"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="残次数量:"
-                android:textSize="20dip" />
-
-            <com.elianshang.bridge.ui.view.QtyEditText
-                android:id="@+id/shoddyQty_EditView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:minWidth="60dip"
-                android:textSize="20dip" />
-
-        </LinearLayout>
-    </LinearLayout>
-</merge>
+</LinearLayout>

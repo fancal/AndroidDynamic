@@ -16,9 +16,6 @@ import com.xue.http.okhttp.OkHttpHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xfilshy on 16/8/18.
- */
 public class CreatePlanProvider {
 
     private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
@@ -60,12 +57,7 @@ public class CreatePlanProvider {
     /**
      * 库位id
      */
-    private static final String locationId = "locationId";
-
-    /**
-     * 操作员id
-     */
-    private static final String udd = "uId";
+    private static final String locationCode = "locationCode";
 
     /**
      * 数量
@@ -73,7 +65,7 @@ public class CreatePlanProvider {
     private static final String uomQty = "uomQty";
 
 
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String locationId, String uomQty, String serialNumber) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String locationCode, String uomQty, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -85,8 +77,7 @@ public class CreatePlanProvider {
         headers.add(new DefaultKVPBean(CreatePlanProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(CreatePlanProvider.locationId, locationId));
-        params.add(new DefaultKVPBean(CreatePlanProvider.udd, uId));
+        params.add(new DefaultKVPBean(CreatePlanProvider.locationCode, locationCode));
         params.add(new DefaultKVPBean(CreatePlanProvider.uomQty, uomQty));
         int hType = BaseHttpParameter.Type.POST;
 

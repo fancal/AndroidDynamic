@@ -54,9 +54,9 @@ public class ReleaseCollectionRoadProvider {
     /**
      * 库位id
      */
-    private static final String locationId = "locationId";
+    private static final String locationCode = "locationCode";
 
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String locationId, String serialNumber) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String locationCode, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -68,7 +68,7 @@ public class ReleaseCollectionRoadProvider {
         headers.add(new DefaultKVPBean(ReleaseCollectionRoadProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(ReleaseCollectionRoadProvider.locationId, locationId));
+        params.add(new DefaultKVPBean(ReleaseCollectionRoadProvider.locationCode, locationCode));
         int hType = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, hType, new ResponseStateParser(), 0);

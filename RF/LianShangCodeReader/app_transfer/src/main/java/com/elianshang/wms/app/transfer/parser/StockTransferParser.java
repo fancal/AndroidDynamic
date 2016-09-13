@@ -20,7 +20,6 @@ public class StockTransferParser extends MasterParser<Transfer> {
             String type = optString(data, "type");
             String subType = optString(data, "subType");
             String locationCode = optString(data, "locationCode");
-            String locationId = optString(data, "locationId");
             String itemId = optString(data, "itemId");
             String itemName = optString(data, "itemName");
             String packName = optString(data, "packName");
@@ -30,7 +29,6 @@ public class StockTransferParser extends MasterParser<Transfer> {
                     && !TextUtils.isEmpty(type)
                     && !TextUtils.isEmpty(subType)
                     && !TextUtils.isEmpty(locationCode)
-                    && !TextUtils.isEmpty(locationId)
                     && !TextUtils.isEmpty(itemId)
                     && !TextUtils.isEmpty(itemName)
                     && !TextUtils.isEmpty(packName)
@@ -40,7 +38,6 @@ public class StockTransferParser extends MasterParser<Transfer> {
                 transfer.setType(type);
                 transfer.setSubType(subType);
                 transfer.setLocationCode(locationCode);
-                transfer.setLocationId(locationId);
                 transfer.setItemId(itemId);
                 transfer.setItemName(itemName);
                 transfer.setPackName(packName);

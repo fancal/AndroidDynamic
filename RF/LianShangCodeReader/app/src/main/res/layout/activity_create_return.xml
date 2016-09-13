@@ -30,31 +30,31 @@
             android:layout_marginTop="10dip"
             android:gravity="center"
             android:text="开始转退货"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="请扫描库位:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.ScanEditText
             android:id="@+id/locationId_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="请扫商品国条码:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.ScanEditText
             android:id="@+id/barCode_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,7 +71,7 @@
             android:layout_marginTop="10dip"
             android:gravity="center"
             android:text="确认转退货数量"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,13 +86,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="名称:"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <TextView
                 android:id="@+id/itemName_TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
         </LinearLayout>
 
         <LinearLayout
@@ -108,13 +108,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="规格:"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <TextView
                 android:id="@+id/packName_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
         </LinearLayout>
 
         <LinearLayout
@@ -130,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="数量:"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <com.elianshang.bridge.ui.view.QtyEditText
                 android:id="@+id/inputQty_EditView"
@@ -139,7 +139,7 @@
                 android:inputType="numberDecimal"
                 android:lines="1"
                 android:minWidth="60dip"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
         </LinearLayout>
 
         <View
@@ -150,13 +150,13 @@
         <Button
             android:id="@+id/submit_Button"
             android:layout_width="match_parent"
-            android:layout_height="50dip"
+            android:layout_height="40dip"
             android:layout_alignParentBottom="true"
             android:background="@drawable/submit_button_bg"
             android:gravity="center"
             android:text="提交"
             android:textColor="#ffffffff"
-            android:textSize="24dip" />
+            android:textSize="20dip" />
     </LinearLayout>
 
 

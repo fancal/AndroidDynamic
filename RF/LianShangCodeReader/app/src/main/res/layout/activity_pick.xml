@@ -41,6 +41,6 @@
         android:padding="20dip"
         android:text="提交"
         android:textColor="#ffffffff"
-        android:textSize="30dip" />
+        android:textSize="18dip" />
 
 </LinearLayout>

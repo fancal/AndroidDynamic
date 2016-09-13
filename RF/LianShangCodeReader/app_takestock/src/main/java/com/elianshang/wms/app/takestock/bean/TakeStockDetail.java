@@ -8,7 +8,7 @@ public class TakeStockDetail implements BaseBean {
 
     private String taskId;
 
-    private String locationId;
+    private String locationCode;
 
     private String itemName;
 
@@ -32,12 +32,12 @@ public class TakeStockDetail implements BaseBean {
         this.taskId = taskId;
     }
 
-    public String getLocationId() {
-        return locationId;
+    public String getLocationCode() {
+        return locationCode;
     }
 
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
+    public void setLocationCode(String locationCode) {
+        this.locationCode = locationCode;
     }
 
     public String getItemName() {

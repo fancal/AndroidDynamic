@@ -49,8 +49,6 @@ public class FetchTaskProvider {
     private static final String uToken = "utoken";
 
 
-    private static final String udd = "uId";
-
 
     public static DataHull<Procurement> request(Context context, String uId, String uToken) {
         String url = base_url + _function;
@@ -63,11 +61,9 @@ public class FetchTaskProvider {
         headers.add(new DefaultKVPBean(FetchTaskProvider.uId, uId));
         headers.add(new DefaultKVPBean(FetchTaskProvider.uToken, uToken));
 
-        List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(FetchTaskProvider.udd, uId));
         int type = BaseHttpParameter.Type.POST;
 
-        HttpDynamicParameter<ProcurementParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ProcurementParser(), 0);
+        HttpDynamicParameter<ProcurementParser> parameter = new HttpDynamicParameter<>(url, headers, null, type, new ProcurementParser(), 0);
 
         OkHttpHandler<Procurement> handler = new OkHttpHandler();
         DataHull<Procurement> dataHull = handler.requestData(parameter);

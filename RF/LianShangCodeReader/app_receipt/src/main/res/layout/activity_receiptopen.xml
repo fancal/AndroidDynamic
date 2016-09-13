@@ -21,7 +21,7 @@
         android:layout_marginTop="10dip"
         android:gravity="center"
         android:text="开始收货"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,37 +35,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="订单号:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.ScanEditText
             android:id="@+id/orderOtherId_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="托盘号:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.ScanEditText
             android:id="@+id/containerId_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="商品国条码:"
-            android:textSize="20dip" />Ω
+            android:textSize="14dip" />Ω
 
         <com.elianshang.bridge.ui.view.ScanEditText
             android:id="@+id/barCode_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
     </LinearLayout>
 
@@ -73,13 +73,13 @@
     <Button
         android:id="@+id/submit_Button"
         android:layout_width="match_parent"
-        android:layout_height="50dip"
+        android:layout_height="40dip"
         android:layout_alignParentBottom="true"
         android:background="@drawable/submit_button_bg"
         android:enabled="false"
         android:gravity="center"
         android:text="提交"
         android:textColor="@color/white"
-        android:textSize="24dip" />
+        android:textSize="20dip" />
 
 </LinearLayout>

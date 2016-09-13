@@ -61,6 +61,11 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
     private TextView taskIdTextView;
 
     /**
+     * 商品名
+     */
+    private TextView itemNameTextView;
+
+    /**
      * 库位TextView
      */
     private TextView locationCodeTextView;
@@ -68,7 +73,7 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
     /**
      * 库位扫描输入框
      */
-    private ScanEditText locationIdEditText;
+    private ScanEditText locationCodeEditText;
 
     /**
      * 工具栏
@@ -131,11 +136,14 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
 
     private void findViews() {
         taskIdTextView = (TextView) findViewById(R.id.taskId_TextView);
+        itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
         locationCodeTextView = (TextView) findViewById(R.id.locationCode_TextView);
-        locationIdEditText = (ScanEditText) findViewById(R.id.locationId_EditText);
+        locationCodeEditText = (ScanEditText) findViewById(R.id.locationCode_EditText);
 
-        scanEditTextTool = new ScanEditTextTool(that, locationIdEditText);
+        scanEditTextTool = new ScanEditTextTool(that, locationCodeEditText);
         scanEditTextTool.setComplete(this);
+
+        locationCodeEditText.requestFocus();
 
         initToolbar();
     }
@@ -167,6 +175,7 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
     private void fillData() {
         if (shelve != null) {
             taskIdTextView.setText(shelve.getTaskId());
+            itemNameTextView.setText(shelve.getItemName());
             locationCodeTextView.setText(shelve.getAllocLocationCode());
         }
     }
@@ -181,14 +190,14 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
 
     @Override
     public void onComplete() {
-        final String location = locationIdEditText.getText().toString();
-        if (location.equals(shelve.getAllocLocationId())) {
+        final String location = locationCodeEditText.getText().toString();
+        if (location.equals(shelve.getAllocLocationCode())) {
             new ShelveScanTargetLocationTask(that, shelve.getTaskId(), location).start();
         } else {
             DialogTools.showTwoButtonDialog(that, "扫描库位与目标库位不符,确认上架吗?", "取消", "确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    locationIdEditText.setText("");
+                    locationCodeEditText.setText("");
                 }
             }, new DialogInterface.OnClickListener() {
                 @Override
@@ -209,17 +218,17 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
 
         private String taskId;
 
-        private String locationId;
+        private String locationCode;
 
-        public ShelveScanTargetLocationTask(Context context, String taskId, String locationId) {
+        public ShelveScanTargetLocationTask(Context context, String taskId, String locationCode) {
             super(context, true, true);
             this.taskId = taskId;
-            this.locationId = locationId;
+            this.locationCode = locationCode;
         }
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return ScanTargetLocationProvider.request(context, uId, uToken, taskId, locationId, serialNumber);
+            return ScanTargetLocationProvider.request(context, uId, uToken, taskId, locationCode, serialNumber);
         }
 
         @Override

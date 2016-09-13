@@ -9,13 +9,13 @@ public class AtticShelve implements BaseBean{
 
     private String taskId ;
 
-    private String locationId ;
-
     private String locationCode ;
 
     private String qty ;
 
     private String packName ;
+
+    private String itemName ;
 
 
     public String getTaskId() {
@@ -24,14 +24,6 @@ public class AtticShelve implements BaseBean{
 
     public void setTaskId(String taskId) {
         this.taskId = taskId;
-    }
-
-    public String getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
     }
 
     public String getLocationCode() {
@@ -56,6 +48,14 @@ public class AtticShelve implements BaseBean{
 
     public void setPackName(String packName) {
         this.packName = packName;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     @Override

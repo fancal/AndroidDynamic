@@ -46,7 +46,7 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
     /**
      * 创建布局 库位扫描输入框
      */
-    private ScanEditText createLocationIdEditText;
+    private ScanEditText createLocationCodeEditText;
 
     /**
      * 创建布局 barCode扫描输入框
@@ -147,7 +147,7 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
 
     private void findViews() {
         createLayout = findViewById(R.id.create_Layout);
-        createLocationIdEditText = (ScanEditText) createLayout.findViewById(R.id.locationId_EditText);
+        createLocationCodeEditText = (ScanEditText) createLayout.findViewById(R.id.locationCode_EditText);
         createBarCodeEditText = (ScanEditText) createLayout.findViewById(R.id.barCode_EditText);
 
         detailLayout = findViewById(R.id.detail_Layout);
@@ -165,12 +165,12 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
         createLayout.setVisibility(View.VISIBLE);
         detailLayout.setVisibility(View.GONE);
 
-        createLocationIdEditText.requestFocus();
+        createLocationCodeEditText.requestFocus();
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
         }
-        scanEditTextTool = new ScanEditTextTool(that, createLocationIdEditText, createBarCodeEditText);
+        scanEditTextTool = new ScanEditTextTool(that, createLocationCodeEditText, createBarCodeEditText);
         scanEditTextTool.setComplete(this);
     }
 
@@ -206,9 +206,9 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
 
     @Override
     public void onComplete() {
-        String locationId = createLocationIdEditText.getText().toString();
+        String locationCode = createLocationCodeEditText.getText().toString();
         String barCode = createBarCodeEditText.getText().toString();
-        new StockGetItemTask(that, locationId, barCode).start();
+        new StockGetItemTask(that, locationCode, barCode).start();
     }
 
     @Override
@@ -235,11 +235,11 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
      * 提交
      */
     private void submit() {
-        String locationId = createLocationIdEditText.getText().toString();
+        String locationCode = createLocationCodeEditText.getText().toString();
         String barCode = createBarCodeEditText.getText().toString();
         String qty = detailInputQtyEditText.getValue();
 
-        if (TextUtils.isEmpty(locationId)) {
+        if (TextUtils.isEmpty(locationCode)) {
             ToastTool.show(that, "请输入正确的库位");
             return;
         }
@@ -258,7 +258,7 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
             uId = getIntent().getStringExtra("uId");
         }
         if (!TextUtils.isEmpty(uId)) {
-            new CreateScrapTask(that, locationId, barCode, qty, uId).start();
+            new CreateScrapTask(that, locationCode, barCode, qty, uId).start();
         }
     }
 
@@ -267,19 +267,19 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
      */
     private class StockGetItemTask extends HttpAsyncTask<Item> {
 
-        private String locationId;
+        private String locationCode;
 
         private String barCode;
 
-        public StockGetItemTask(Context context, String locationId, String barCode) {
+        public StockGetItemTask(Context context, String locationCode, String barCode) {
             super(context, true, true, false);
-            this.locationId = locationId;
+            this.locationCode = locationCode;
             this.barCode = barCode;
         }
 
         @Override
         public DataHull<Item> doInBackground() {
-            return GetItemProvider.request(context, uId, uToken, locationId, barCode);
+            return GetItemProvider.request(context, uId, uToken, locationCode, barCode);
         }
 
         @Override
@@ -293,15 +293,15 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
      */
     private class CreateScrapTask extends HttpAsyncTask<ResponseState> {
 
-        private String locationId;
+        private String locationCode;
         private String barCode;
         private String qty;
 
         private String uId;
 
-        public CreateScrapTask(Context context, String locationId, String barCode, String qty, String uId) {
+        public CreateScrapTask(Context context, String locationCode, String barCode, String qty, String uId) {
             super(context, true, true, false);
-            this.locationId = locationId;
+            this.locationCode = locationCode;
             this.barCode = barCode;
             this.qty = qty;
             this.uId = uId;
@@ -309,7 +309,7 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return CreateReturnProvider.request(context, uId, uToken, locationId, barCode, qty, serialNumber);
+            return CreateReturnProvider.request(context, uId, uToken, locationCode, barCode, qty, serialNumber);
         }
 
         @Override

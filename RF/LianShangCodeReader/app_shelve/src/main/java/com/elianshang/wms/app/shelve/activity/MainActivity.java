@@ -42,23 +42,23 @@ public class MainActivity extends DLBasePluginActivity {
         private String uToken;
 
         public FetchProcurementTask(String uId, String uToken) {
-            super(MainActivity.this.that, true, true, false , false);
+            super(MainActivity.this.that, true, true, false, false);
             this.uId = uId;
             this.uToken = uToken;
         }
 
         @Override
         public DataHull<Restore> doInBackground() {
-            return RestoreProvider.request(context , uId, uToken);
+            return RestoreProvider.request(context, uId, uToken);
         }
 
         @Override
         public void onPostExecute(Restore result) {
             if (result.isDone()) {
-                OpenActivity.launch(MainActivity.this, uId, uToken);
+                OpenActivity.launch(MainActivity.this, uId, uToken, null);
                 MainActivity.this.finish();
             } else {
-                FinishActivity.launch(MainActivity.this, uId, uToken, result.getShelve());
+                OpenActivity.launch(MainActivity.this, uId, uToken, result.getShelve());
                 MainActivity.this.finish();
             }
         }

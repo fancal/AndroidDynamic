@@ -13,4 +13,5 @@ public class ResponseState implements BaseBean {
     public String getDataKey() {
         return null;
     }
+
 }

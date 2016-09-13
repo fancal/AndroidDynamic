@@ -62,10 +62,10 @@ public class ScanTargetLocationProvider {
     /**
      * 位置ID
      */
-    private static final String locationId = "locationId";
+    private static final String locationCode = "locationCode";
 
 
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String taskId, String locationId, String serialNumber) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String taskId, String locationCode, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -78,7 +78,7 @@ public class ScanTargetLocationProvider {
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(ScanTargetLocationProvider.taskId, taskId));
-        params.add(new DefaultKVPBean(ScanTargetLocationProvider.locationId, locationId));
+        params.add(new DefaultKVPBean(ScanTargetLocationProvider.locationCode, locationCode));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ResponseStateParser(), 0);

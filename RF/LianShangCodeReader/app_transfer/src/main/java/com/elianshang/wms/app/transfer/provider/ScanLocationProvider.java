@@ -65,7 +65,7 @@ public class ScanLocationProvider {
     /**
      * 库位id
      */
-    private static final String locationId = "locationId";
+    private static final String locationCode = "locationCode";
 
     /**
      * 操作员id
@@ -78,7 +78,7 @@ public class ScanLocationProvider {
     private static final String uomQty = "uomQty";
 
 
-    public static DataHull<TransferNext> request(Context context, String uId, String uToken, String type, String taskId, String locationId, String uomQty, String serialNumber) {
+    public static DataHull<TransferNext> request(Context context, String uId, String uToken, String type, String taskId, String locationCode, String uomQty, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -92,7 +92,7 @@ public class ScanLocationProvider {
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(ScanLocationProvider.type, type));
         params.add(new DefaultKVPBean(ScanLocationProvider.taskId, taskId));
-        params.add(new DefaultKVPBean(ScanLocationProvider.locationId, locationId));
+        params.add(new DefaultKVPBean(ScanLocationProvider.locationCode, locationCode));
         params.add(new DefaultKVPBean(ScanLocationProvider.udd, uId));
         params.add(new DefaultKVPBean(ScanLocationProvider.uomQty, uomQty));
         int hType = BaseHttpParameter.Type.POST;

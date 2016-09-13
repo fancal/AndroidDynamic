@@ -51,12 +51,12 @@ public class GetItemProvider {
     /**
      * 位置ID
      */
-    private static final String locationId = "locationId";
+    private static final String locationCode = "locationCode";
 
     private static final String barCode = "barcode";
 
 
-    public static DataHull<Item> request(Context context, String uId, String uToken, String locationId, String barCode) {
+    public static DataHull<Item> request(Context context, String uId, String uToken, String locationCode, String barCode) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -68,7 +68,7 @@ public class GetItemProvider {
         headers.add(new DefaultKVPBean(GetItemProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(GetItemProvider.locationId, locationId));
+        params.add(new DefaultKVPBean(GetItemProvider.locationCode, locationCode));
         params.add(new DefaultKVPBean(GetItemProvider.barCode, barCode));
         int type = BaseHttpParameter.Type.POST;
 

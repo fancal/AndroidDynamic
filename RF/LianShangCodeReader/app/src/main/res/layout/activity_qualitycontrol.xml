@@ -34,7 +34,7 @@
                 android:layout_marginTop="10dip"
                 android:gravity="center"
                 android:text="开始进行QC"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
                 android:text="请扫描托盘码:"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <com.elianshang.bridge.ui.view.ScanEditText
                 android:id="@+id/containerId_EditText"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +70,7 @@
             android:enabled="true"
             android:text="已完成QC,提交结果"
             android:textColor="@color/white"
-            android:textSize="24dip" />
+            android:textSize="20dip" />
 
     </LinearLayout>
 

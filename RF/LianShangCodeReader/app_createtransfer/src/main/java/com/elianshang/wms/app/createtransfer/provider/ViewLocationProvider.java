@@ -15,9 +15,6 @@ import com.xue.http.okhttp.OkHttpHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xfilshy on 16/8/18.
- */
 public class ViewLocationProvider {
 
     private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
@@ -49,13 +46,9 @@ public class ViewLocationProvider {
 
     private static final String uToken = "utoken";
 
-    /**
-     * 操作员id
-     */
-    private static final String udd = "uId";
-    private static final String locationId = "locationId";
+    private static final String locationCode = "locationCode";
 
-    public static DataHull<LocationView> request(Context context, String uId, String uToken, String locationId) {
+    public static DataHull<LocationView> request(Context context, String uId, String uToken, String locationCode) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -67,8 +60,7 @@ public class ViewLocationProvider {
         headers.add(new DefaultKVPBean(ViewLocationProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(ViewLocationProvider.udd, uId));
-        params.add(new DefaultKVPBean(ViewLocationProvider.locationId, locationId));
+        params.add(new DefaultKVPBean(ViewLocationProvider.locationCode, locationCode));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<LocationViewParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new LocationViewParser(), 0);

@@ -20,13 +20,11 @@ public class Shelve implements BaseBean {
 
     private String supplierId;
 
-    private String allocLocationId;
-
     private String allocLocationCode;
 
-    private String realLocationId;
-
     private String containerId;
+
+    private String itemName;
 
     public String getId() {
         return id;
@@ -92,14 +90,6 @@ public class Shelve implements BaseBean {
         this.supplierId = supplierId;
     }
 
-    public String getAllocLocationId() {
-        return allocLocationId;
-    }
-
-    public void setAllocLocationId(String allocLocationId) {
-        this.allocLocationId = allocLocationId;
-    }
-
     public String getAllocLocationCode() {
         return allocLocationCode;
     }
@@ -108,20 +98,20 @@ public class Shelve implements BaseBean {
         this.allocLocationCode = allocLocationCode;
     }
 
-    public String getRealLocationId() {
-        return realLocationId;
-    }
-
-    public void setRealLocationId(String realLocationId) {
-        this.realLocationId = realLocationId;
-    }
-
     public String getContainerId() {
         return containerId;
     }
 
     public void setContainerId(String containerId) {
         this.containerId = containerId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     @Override

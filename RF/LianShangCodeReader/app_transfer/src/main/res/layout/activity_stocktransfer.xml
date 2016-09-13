@@ -22,7 +22,7 @@
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
         android:text="任务:"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
     <TextView
         android:id="@+id/transfer_type_name"
@@ -31,7 +31,7 @@
         android:layout_marginBottom="15dip"
         android:layout_marginTop="10dip"
         android:gravity="center"
-        android:textSize="20dp" />
+        android:textSize="14dip" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,13 +50,13 @@
 
 
             <TextView
-                android:id="@+id/item_locationId"
+                android:id="@+id/item_locationCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dip"
                 android:layout_marginTop="5dip"
                 android:text="库位:"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <TextView
                 android:id="@+id/item_name"
@@ -64,8 +64,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dip"
                 android:layout_marginTop="5dip"
-                android:text="商品名称:"
-                android:textSize="20dip" />
+                android:text="名称:"
+                android:textSize="14dip" />
 
 
             <TextView
@@ -74,8 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dip"
                 android:layout_marginTop="5dip"
-                android:text="包装单位:"
-                android:textSize="20dip" />
+                android:text="规格:"
+                android:textSize="14dip" />
 
             <TextView
                 android:id="@+id/item_qty"
@@ -83,8 +83,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dip"
                 android:layout_marginTop="5dip"
-                android:text="商品数量:"
-                android:textSize="20dip" />
+                android:text="数量:"
+                android:textSize="14dip" />
 
             <LinearLayout
                 android:id="@+id/item_qty_real_container"
@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="实际数量:"
-                    android:textSize="20dip" />
+                    android:textSize="14dip" />
 
                 <com.elianshang.bridge.ui.view.QtyEditText
                     android:id="@+id/item_qty_real"
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:minWidth="60dip"
-                    android:textSize="20dip" />
+                    android:textSize="14dip" />
             </LinearLayout>
         </LinearLayout>
 
@@ -122,7 +122,7 @@
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
                 android:text="库位"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
 
             <TextView
                 android:id="@+id/location_id"
@@ -131,7 +131,7 @@
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
                 android:textColor="#ffff0000"
-                android:textSize="30dip" />
+                android:textSize="18dip" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -140,7 +140,7 @@
                 android:layout_marginRight="10dip"
                 android:layout_marginTop="20dp"
                 android:text="扫描确认库位:"
-                android:textSize="20dp" />
+                android:textSize="14dip" />
 
             <com.elianshang.bridge.ui.view.ScanEditText
                 android:id="@+id/confirm_location_id"
@@ -148,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dip"
-                android:textSize="20dip" />
+                android:textSize="14dip" />
         </LinearLayout>
 
     </LinearLayout>
@@ -157,12 +157,12 @@
     <Button
         android:id="@+id/submit_button"
         android:layout_width="match_parent"
-        android:layout_height="50dip"
+        android:layout_height="40dip"
         android:layout_alignParentBottom="true"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
         android:text="提交"
         android:textColor="#ffffffff"
-        android:textSize="24dip" />
+        android:textSize="20dip" />
 
 </LinearLayout>

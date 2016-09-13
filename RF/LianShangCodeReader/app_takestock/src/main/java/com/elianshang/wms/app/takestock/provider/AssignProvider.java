@@ -48,10 +48,6 @@ public class AssignProvider {
 
     private static final String uToken = "utoken";
 
-
-    private static final String udd = "uId";
-
-
     public static DataHull<TakeStockList> request(Context context, String uId, String uToken) {
         String url = base_url + _function;
 
@@ -64,7 +60,6 @@ public class AssignProvider {
         headers.add(new DefaultKVPBean(AssignProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(AssignProvider.udd, uId));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<TakeStockListParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new TakeStockListParser(), 0);

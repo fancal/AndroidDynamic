@@ -54,16 +54,14 @@ public class CreateCrapProvider {
      */
     private static final String serialNumber = "serialNumber";
 
-    private static final String locationId = "locationId";
+    private static final String locationCode = "locationCode";
 
     private static final String barCode = "barcode";
 
     private static final String uomQty = "uomQty";
 
-    private static final String udd = "uId";
 
-
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String locationId, String barCode, String uomQty, String serialNumber) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String locationCode, String barCode, String uomQty, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -75,10 +73,9 @@ public class CreateCrapProvider {
         headers.add(new DefaultKVPBean(CreateCrapProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(CreateCrapProvider.locationId, locationId));
+        params.add(new DefaultKVPBean(CreateCrapProvider.locationCode, locationCode));
         params.add(new DefaultKVPBean(CreateCrapProvider.barCode, barCode));
         params.add(new DefaultKVPBean(CreateCrapProvider.uomQty, uomQty));
-        params.add(new DefaultKVPBean(CreateCrapProvider.udd, uId));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ResponseStateParser(), 0);

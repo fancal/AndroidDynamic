@@ -13,7 +13,7 @@
         android:layout_marginRight="10dip"
         android:layout_marginTop="10dip"
         android:gravity="center"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:text="库位"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
     <TextView
         android:id="@+id/locationCode_TextView"
@@ -30,10 +30,10 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:textColor="#ffff0000"
-        android:textSize="30dip" />
+        android:textSize="18dip" />
 
     <LinearLayout
-        android:id="@+id/locationId_Layout"
+        android:id="@+id/locationCode_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -44,76 +44,99 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="扫描确认库位:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.ScanEditText
-            android:id="@+id/locationId_EditText"
+            android:id="@+id/locationCode_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/itemName_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dip"
+        android:layout_marginTop="5dip"
+        android:orientation="horizontal"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="名称:"
+            android:textSize="14dip" />
+
+        <TextView
+            android:id="@+id/itemName_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dip" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/packName_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dip"
+        android:layout_marginTop="5dip"
         android:orientation="horizontal"
         android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:layout_marginTop="5dip"
-        android:layout_marginBottom="5dip">
+        android:paddingRight="10dip">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="规格:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <TextView
             android:id="@+id/packName_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/systemQty_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dip"
+        android:layout_marginTop="5dip"
         android:orientation="horizontal"
         android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:layout_marginTop="5dip"
-        android:layout_marginBottom="5dip">
+        android:paddingRight="10dip">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="数量:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <TextView
             android:id="@+id/allocQty_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/inputQty_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dip"
+        android:layout_marginTop="5dip"
         android:orientation="horizontal"
         android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:layout_marginTop="5dip"
-        android:layout_marginBottom="5dip">
+        android:paddingRight="10dip">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="实际数量:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.QtyEditText
             android:id="@+id/inputQty_EditView"
@@ -121,6 +144,6 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:minWidth="60dip"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
     </LinearLayout>
 </LinearLayout>

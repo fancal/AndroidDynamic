@@ -7,6 +7,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="titleTextColor">@color/white</item>
+        <item name="toolbarStyle">@style/supToolbarStyle</item>
+    </style>
+
+    <style name="supToolbarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:minHeight">40dip</item>
+        <item name="maxButtonHeight">40dip</item>
     </style>
 
 </resources>

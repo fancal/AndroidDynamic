@@ -52,14 +52,12 @@ public class ScanPickLocationProvider {
     private static final String serialNumber = "serialNumber";
 
 
-    private static final String locationId = "locationId";
+    private static final String locationCode = "locationCode";
 
     private static final String qty = "qty";
 
-    private static final String operator = "operator";
 
-
-    public static DataHull<PickLocation> request(Context context, String uId, String uToken, String locationId, String qty, String serialNumber) {
+    public static DataHull<PickLocation> request(Context context, String uId, String uToken, String locationCode, String qty, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -71,9 +69,8 @@ public class ScanPickLocationProvider {
         headers.add(new DefaultKVPBean(ScanPickLocationProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(ScanPickLocationProvider.locationId, locationId));
+        params.add(new DefaultKVPBean(ScanPickLocationProvider.locationCode, locationCode));
         params.add(new DefaultKVPBean(ScanPickLocationProvider.qty, qty));
-        params.add(new DefaultKVPBean(ScanPickLocationProvider.operator, uId));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<PickLocationParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new PickLocationParser(), 0);

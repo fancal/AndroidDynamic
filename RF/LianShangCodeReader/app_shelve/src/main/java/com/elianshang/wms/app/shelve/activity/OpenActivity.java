@@ -25,10 +25,13 @@ import com.xue.http.impl.DataHull;
  */
 public class OpenActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener {
 
-    public static void launch(DLBasePluginActivity activity, String uId, String uToken) {
+    public static void launch(DLBasePluginActivity activity, String uId, String uToken, Shelve shelve) {
         DLIntent intent = new DLIntent(activity.getPackageName(), OpenActivity.class);
         intent.putExtra("uId", uId);
         intent.putExtra("uToken", uToken);
+        if (shelve != null) {
+            intent.putExtra("shelve", shelve);
+        }
         activity.startPluginActivity(intent);
     }
 
@@ -63,10 +66,15 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
+        Shelve shelve = (Shelve) getIntent().getSerializableExtra("shelve");
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
+        }
+
+        if (shelve != null) {
+            FinishActivity.launch(OpenActivity.this, uId, uToken, shelve);
         }
 
         return true;
@@ -77,6 +85,8 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
 
         scanEditTextTool = new ScanEditTextTool(that, containerIdEditText);
         scanEditTextTool.setComplete(this);
+
+        containerIdEditText.requestFocus();
 
         initToolbar();
     }
@@ -120,6 +130,9 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
+            containerIdEditText.setText(null);
+            containerIdEditText.requestFocus();
+        } else {
             finish();
         }
     }

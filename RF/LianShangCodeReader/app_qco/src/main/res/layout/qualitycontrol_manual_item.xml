@@ -90,6 +90,6 @@
         android:gravity="center"
         android:text="异\n常"
         android:textColor="@color/white"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
 </LinearLayout>

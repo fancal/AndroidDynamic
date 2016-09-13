@@ -44,6 +44,6 @@
             android:id="@+id/confirm_collection_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
     </LinearLayout>
 </LinearLayout>

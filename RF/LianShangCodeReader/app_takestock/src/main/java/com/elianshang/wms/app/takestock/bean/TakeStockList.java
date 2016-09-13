@@ -45,17 +45,7 @@ public class TakeStockList implements BaseBean {
 
         private String taskId;
 
-        private String locationId;
-
         private String locationCode;
-
-        public String getLocationCode() {
-            return locationCode;
-        }
-
-        public void setLocationCode(String locationCode) {
-            this.locationCode = locationCode;
-        }
 
         public String getTaskId() {
             return taskId;
@@ -65,12 +55,12 @@ public class TakeStockList implements BaseBean {
             this.taskId = taskId;
         }
 
-        public String getLocationId() {
-            return locationId;
+        public String getLocationCode() {
+            return locationCode;
         }
 
-        public void setLocationId(String locationId) {
-            this.locationId = locationId;
+        public void setLocationCode(String locationCode) {
+            this.locationCode = locationCode;
         }
 
         @Override

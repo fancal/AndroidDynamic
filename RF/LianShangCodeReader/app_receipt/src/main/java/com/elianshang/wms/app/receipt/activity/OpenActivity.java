@@ -119,7 +119,6 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
         submitButton = (Button) findViewById(R.id.submit_Button);
 
         submitButton.setEnabled(false);
-//        submitButton.setClickable(false);
         scanEditTextTool = new ScanEditTextTool(that, orderOtherIdEditText, containerIdEditText, barCodeEditText);
         scanEditTextTool.setComplete(this);
 

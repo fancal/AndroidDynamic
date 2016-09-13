@@ -48,10 +48,7 @@ public class ScanPickProvider {
 
     private static final String uToken = "utoken";
 
-    private static final String operator = "operator";
-
     private static final String taskList = "taskList";
-
 
     public static DataHull<PickLocation> request(Context context, String uId, String uToken, String taskList) {
         String url = base_url + _function;
@@ -65,7 +62,6 @@ public class ScanPickProvider {
         headers.add(new DefaultKVPBean(ScanPickProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(ScanPickProvider.operator, uId));
         params.add(new DefaultKVPBean(ScanPickProvider.taskList, taskList));
         int type = BaseHttpParameter.Type.POST;
 

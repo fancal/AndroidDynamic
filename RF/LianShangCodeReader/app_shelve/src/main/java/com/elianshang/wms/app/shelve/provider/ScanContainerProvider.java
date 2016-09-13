@@ -49,11 +49,6 @@ public class ScanContainerProvider {
     private static final String uToken = "utoken";
 
     /**
-     * 操作员
-     */
-    private static final String operator = "operator";
-
-    /**
      * 托盘码
      */
     private static final String containerId = "containerId";
@@ -71,7 +66,6 @@ public class ScanContainerProvider {
         headers.add(new DefaultKVPBean(ScanContainerProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(ScanContainerProvider.operator, uId));
         params.add(new DefaultKVPBean(ScanContainerProvider.containerId, containerId));
         int type = BaseHttpParameter.Type.POST;
 

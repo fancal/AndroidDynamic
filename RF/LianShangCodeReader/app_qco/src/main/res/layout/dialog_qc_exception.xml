@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dip"
         android:layout_marginTop="5dip"
-        android:textSize="20dip"
+        android:textSize="14dip"
         android:textStyle="bold"
         android:visibility="gone" />
 
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="实际数量:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.QtyEditText
             android:id="@+id/inputQty_EditView"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:minWidth="60dip"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
     </LinearLayout>
 
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="残次数量:"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.QtyEditText
             android:id="@+id/shoddyQty_EditView"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:minWidth="60dip"
-            android:textSize="20dip" />
+            android:textSize="14dip" />
 
     </LinearLayout>
 </LinearLayout>

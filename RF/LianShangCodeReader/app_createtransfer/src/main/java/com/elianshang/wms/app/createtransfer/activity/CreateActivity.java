@@ -36,7 +36,7 @@ public class CreateActivity extends DLBasePluginActivity implements ScanManager.
 
     private View createLayout;
 
-    private ScanEditText createLocationIdEditText;
+    private ScanEditText createLocationCodeEditText;
 
     private View detailLayout;
 
@@ -90,7 +90,7 @@ public class CreateActivity extends DLBasePluginActivity implements ScanManager.
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(scanEditTextTool != null){
+        if (scanEditTextTool != null) {
             scanEditTextTool.release();
         }
     }
@@ -133,7 +133,7 @@ public class CreateActivity extends DLBasePluginActivity implements ScanManager.
 
     private void findView() {
         createLayout = findViewById(R.id.create_Layout);
-        createLocationIdEditText = (ScanEditText) createLayout.findViewById(R.id.locationId_EditText);
+        createLocationCodeEditText = (ScanEditText) createLayout.findViewById(R.id.locationCode_EditText);
         detailLayout = findViewById(R.id.detail_Layout);
         detailLocationCodeTextView = (TextView) detailLayout.findViewById(R.id.locationCode_TextView);
         detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);
@@ -151,13 +151,13 @@ public class CreateActivity extends DLBasePluginActivity implements ScanManager.
         createLayout.setVisibility(View.VISIBLE);
         detailLayout.setVisibility(View.GONE);
 
-        createLocationIdEditText.setText(null);
+        createLocationCodeEditText.setText(null);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
         }
 
-        scanEditTextTool = new ScanEditTextTool(that, createLocationIdEditText);
+        scanEditTextTool = new ScanEditTextTool(that, createLocationCodeEditText);
         scanEditTextTool.setComplete(this);
 
     }
@@ -188,18 +188,18 @@ public class CreateActivity extends DLBasePluginActivity implements ScanManager.
     @Override
     public void onClick(View v) {
         if (v == detailSubmitButton) {
-            String locationId = locationView.getLocationId();
+            String locationCode = locationView.getLocationCode();
             String qty = detailInputQtyEditText.getValue();
 
-            new CreatePlanTask(that, uId, uToken, locationId, qty).start();
+            new CreatePlanTask(that, uId, uToken, locationCode, qty).start();
         }
     }
 
     @Override
     public void onComplete() {
         if (createLayout.getVisibility() == View.VISIBLE) {
-            String locationId = createLocationIdEditText.getText().toString();
-            new ViewLocationTask(that, uId, uToken, locationId).start();
+            String locationCode = createLocationCodeEditText.getText().toString();
+            new ViewLocationTask(that, uId, uToken, locationCode).start();
         }
     }
 
@@ -217,18 +217,18 @@ public class CreateActivity extends DLBasePluginActivity implements ScanManager.
 
         private String uToken;
 
-        private String locationId;
+        private String locationCode;
 
-        public ViewLocationTask(Context context, String uId, String uToken, String locationId) {
+        public ViewLocationTask(Context context, String uId, String uToken, String locationCode) {
             super(context, true, true, false, false);
             this.uId = uId;
             this.uToken = uToken;
-            this.locationId = locationId;
+            this.locationCode = locationCode;
         }
 
         @Override
         public DataHull<LocationView> doInBackground() {
-            return ViewLocationProvider.request(context, uId, uToken, locationId);
+            return ViewLocationProvider.request(context, uId, uToken, locationCode);
         }
 
         @Override
@@ -247,21 +247,21 @@ public class CreateActivity extends DLBasePluginActivity implements ScanManager.
 
         private String uToken;
 
-        private String locationId;
+        private String locationCode;
 
         private String qty;
 
-        public CreatePlanTask(Context context, String uId, String uToken, String locationId, String qty) {
+        public CreatePlanTask(Context context, String uId, String uToken, String locationCode, String qty) {
             super(context, true, true, false, false);
             this.uId = uId;
             this.uToken = uToken;
-            this.locationId = locationId;
+            this.locationCode = locationCode;
             this.qty = qty;
         }
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return CreatePlanProvider.request(context, uId, uToken, locationId, qty, serialNumber);
+            return CreatePlanProvider.request(context, uId, uToken, locationCode, qty, serialNumber);
         }
 
         @Override

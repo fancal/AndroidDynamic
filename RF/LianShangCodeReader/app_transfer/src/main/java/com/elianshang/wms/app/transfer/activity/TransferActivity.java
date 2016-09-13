@@ -65,11 +65,11 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
     /**
      * 库位Id
      */
-    private TextView mLocationIdView;
+    private TextView mLocationCodeView;
     /**
      * 确认库位Id
      */
-    private ScanEditText mLocationIdConfirmView;
+    private ScanEditText mLocationCodeConfirmView;
     /**
      * 转入/转出
      */
@@ -164,13 +164,13 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
         mItemQtyView = (TextView) findViewById(R.id.item_qty);
         mItemQtyRealView = (QtyEditText) findViewById(R.id.item_qty_real);
         mItemQtyRealContainerView = findViewById(R.id.item_qty_real_container);
-        mLocationIdView = (TextView) findViewById(R.id.location_id);
-        mLocationIdConfirmView = (ScanEditText) findViewById(R.id.confirm_location_id);
+        mLocationCodeView = (TextView) findViewById(R.id.location_id);
+        mLocationCodeConfirmView = (ScanEditText) findViewById(R.id.confirm_location_id);
         mSubmit = (Button) findViewById(R.id.submit_button);
         mTypeNameView = (TextView) findViewById(R.id.transfer_type_name);
         mItemView = findViewById(R.id.item);
         mLocationView = findViewById(R.id.location);
-        mItemLocationView = (TextView) findViewById(R.id.item_locationId);
+        mItemLocationView = (TextView) findViewById(R.id.item_locationCode);
 
         mSubmit.setOnClickListener(this);
         mSubmit.setVisibility(View.GONE);
@@ -197,7 +197,7 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
 
     @Override
     public void onComplete() {
-        stockTransferController.onComplete(mLocationIdConfirmView.getText().toString());
+        stockTransferController.onComplete(mLocationCodeConfirmView.getText().toString());
     }
 
     @Override
@@ -236,15 +236,15 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
         mTaskView.setText(taskId);
         mTypeNameView.setText(typeName);
 
-        mLocationIdView.setText(locationName);
-        mLocationIdConfirmView.getText().clear();
+        mLocationCodeView.setText(locationName);
+        mLocationCodeConfirmView.getText().clear();
 
-        mLocationIdConfirmView.requestFocus();
+        mLocationCodeConfirmView.requestFocus();
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
         }
-        scanEditTextTool = new ScanEditTextTool(that, mLocationIdConfirmView);
+        scanEditTextTool = new ScanEditTextTool(that, mLocationCodeConfirmView);
         scanEditTextTool.setComplete(this);
     }
 

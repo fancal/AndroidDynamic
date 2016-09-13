@@ -3,16 +3,11 @@ package com.elianshang.wms.app.createtransfer.bean;
 
 import com.xue.http.hook.BaseBean;
 
-/**
- * Created by xfilshy on 16/8/20.
- */
 public class LocationView implements BaseBean {
 
     private String itemId;
 
     private String itemName;
-
-    private String locationId;
 
     private String locationCode;
 
@@ -44,14 +39,6 @@ public class LocationView implements BaseBean {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
-    }
-
-    public String getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
     }
 
     public String getLocationCode() {

@@ -55,12 +55,15 @@ public class ScanTargetLocationProvider {
      * 任务ID
      */
     private static final String taskId = "taskId";
-    private static final String allocLocationId = "allocLocationId";
-    private static final String realLocationId = "realLocationId";
+
+    private static final String allocLocationCode = "allocLocationCode";
+
+    private static final String realLocationCode = "realLocationCode";
+
     private static final String qty = "qty";
 
 
-    public static DataHull<AtticShelveNext> request(Context context, String uid, String uToken, String taskId, String allocLocationId, String realLocationId, String qty, String serialNumber) {
+    public static DataHull<AtticShelveNext> request(Context context, String uid, String uToken, String taskId, String allocLocationCode, String realLocationCode, String qty, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -73,8 +76,8 @@ public class ScanTargetLocationProvider {
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(ScanTargetLocationProvider.taskId, taskId));
-        params.add(new DefaultKVPBean(ScanTargetLocationProvider.allocLocationId, allocLocationId));
-        params.add(new DefaultKVPBean(ScanTargetLocationProvider.realLocationId, realLocationId));
+        params.add(new DefaultKVPBean(ScanTargetLocationProvider.allocLocationCode, allocLocationCode));
+        params.add(new DefaultKVPBean(ScanTargetLocationProvider.realLocationCode, realLocationCode));
         params.add(new DefaultKVPBean(ScanTargetLocationProvider.qty, qty));
         int type = BaseHttpParameter.Type.POST;
 

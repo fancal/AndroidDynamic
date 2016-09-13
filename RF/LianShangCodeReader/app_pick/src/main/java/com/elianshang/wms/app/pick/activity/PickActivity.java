@@ -84,11 +84,16 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     /**
      * 第二页 库位码
      */
-    private TextView mGroup2LocationIdView;
+    private TextView mGroup2LocationCodeView;
     /**
      * 第二页 确认库位码
      */
-    private ScanEditText mGroup2ConfirmLocationIdView;
+    private ScanEditText mGroup2ConfirmLocationCodeView;
+
+    private TextView mGroup2ItemName;
+
+    private TextView mGroup2PackName;
+
     /**
      * 第二页 分配商品数量
      */
@@ -101,7 +106,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     /**
      * 第二页 确认库位布局
      */
-    private View mGroup2LocationIdLayout;
+    private View mGroup2LocationCodeLayout;
 
     /**
      * 第二页 系统数量布局
@@ -112,6 +117,10 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
      * 第二页 输入数量布局
      */
     private View mGroup2InputQtyLayot;
+
+    private View mGroup2ItemNameLayot;
+
+    private View mGroup2PackNameLayot;
 
     /**
      * 第三页 集货码
@@ -202,13 +211,17 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         mGroup1AddButton = (Button) mGroup1.findViewById(R.id.add_Button);
 
         mGroup2HeadTextView = (TextView) mGroup2.findViewById(R.id.head_TextView);
-        mGroup2LocationIdView = (TextView) mGroup2.findViewById(R.id.location_id);
-        mGroup2ConfirmLocationIdView = (ScanEditText) mGroup2.findViewById(R.id.confirm_location_id);
+        mGroup2LocationCodeView = (TextView) mGroup2.findViewById(R.id.location_id);
+        mGroup2ConfirmLocationCodeView = (ScanEditText) mGroup2.findViewById(R.id.confirm_location_id);
+        mGroup2ItemName = (TextView) mGroup2.findViewById(R.id.itemName_TextView);
+        mGroup2PackName = (TextView) mGroup2.findViewById(R.id.packName_TextView);
         mGroup2AllocQty = (TextView) mGroup2.findViewById(R.id.allocQty_TextView);
         mGroup2Qty = (QtyEditText) mGroup2.findViewById(R.id.inputQty_EditView);
-        mGroup2LocationIdLayout = mGroup2.findViewById(R.id.locationId_Layout);
+        mGroup2LocationCodeLayout = mGroup2.findViewById(R.id.locationCode_Layout);
         mGroup2SystemQtyLayout = mGroup2.findViewById(R.id.systemQty_Layout);
         mGroup2InputQtyLayot = mGroup2.findViewById(R.id.inputQty_Layout);
+        mGroup2ItemNameLayot = mGroup2.findViewById(R.id.itemName_Layout);
+        mGroup2PackNameLayot = mGroup2.findViewById(R.id.packName_Layout);
 
         mGroup3CollectionIdView = (TextView) mGroup3.findViewById(R.id.collection_id);
         mGroup3ConfirmCollectionIdView = (ScanEditText) mGroup3.findViewById(R.id.confirm_collection_id);
@@ -229,8 +242,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     /**
      * 扫拣货位/集货位
      */
-    private void requestPickLocation(String locationId, String qty) {
-        new RequestPickLocationTask(that, locationId, qty).start();
+    private void requestPickLocation(String locationCode, String qty) {
+        new RequestPickLocationTask(that, locationCode, qty).start();
     }
 
     private void setCurPageView() {
@@ -262,7 +275,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 if (scanEditTextTool != null) {
                     scanEditTextTool.release();
                 }
-                scanEditTextTool = new ScanEditTextTool(that, mGroup2ConfirmLocationIdView);
+                scanEditTextTool = new ScanEditTextTool(that, mGroup2ConfirmLocationCodeView);
                 scanEditTextTool.setComplete(this);
 
                 break;
@@ -339,16 +352,20 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     private void fillPickLocation() {
         mGroup2HeadTextView.setText("扫描确认拣货位");
 
-        mGroup2ConfirmLocationIdView.requestFocus();
-        mGroup2LocationIdView.setText(mPick.getAllocPickLocationCode());
-        mGroup2ConfirmLocationIdView.getText().clear();
+        mGroup2ConfirmLocationCodeView.requestFocus();
+        mGroup2LocationCodeView.setText(mPick.getAllocPickLocationCode());
+        mGroup2ItemName.setText(mPick.getItemName());
+        mGroup2PackName.setText(mPick.getPackName());
+        mGroup2ConfirmLocationCodeView.getText().clear();
         mGroup2AllocQty.setText(mPick.getAllocQty());
         mGroup2Qty.getText().clear();
         mGroup2Qty.setHint(mPick.getAllocQty());
 
-        mGroup2LocationIdLayout.setVisibility(View.VISIBLE);
+        mGroup2LocationCodeLayout.setVisibility(View.VISIBLE);
         mGroup2SystemQtyLayout.setVisibility(View.GONE);
         mGroup2InputQtyLayot.setVisibility(View.GONE);
+        mGroup2ItemNameLayot.setVisibility(View.GONE);
+        mGroup2PackNameLayot.setVisibility(View.GONE);
     }
 
     /**
@@ -357,9 +374,11 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     private void fillPickQty() {
         mGroup2HeadTextView.setText("确认拣货数量");
 
-        mGroup2LocationIdLayout.setVisibility(View.GONE);
+        mGroup2LocationCodeLayout.setVisibility(View.GONE);
         mGroup2SystemQtyLayout.setVisibility(View.VISIBLE);
         mGroup2InputQtyLayot.setVisibility(View.VISIBLE);
+        mGroup2ItemNameLayot.setVisibility(View.VISIBLE);
+        mGroup2PackNameLayot.setVisibility(View.VISIBLE);
         mGroup2Qty.requestFocus();
     }
 
@@ -380,8 +399,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 mGroup1AddButton.setEnabled(true);
                 break;
             case 1:
-                String locationId = mGroup2ConfirmLocationIdView.getText().toString();
-                if (TextUtils.equals(locationId, mPick.getAllocPickLocationId())) {
+                String locationCode = mGroup2ConfirmLocationCodeView.getText().toString();
+                if (TextUtils.equals(locationCode, mPick.getAllocPickLocationCode())) {
                     fillPickQty();
                 } else {
                     ToastTool.show(that, "错误的拣货位,请重新扫描");
@@ -389,7 +408,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 break;
             case 2:
                 String collectionId = mGroup3ConfirmCollectionIdView.getText().toString();
-                if (TextUtils.equals(mPick.getAllocCollectLocationId(), collectionId)) {
+                if (TextUtils.equals(mPick.getAllocCollectLocationCode(), collectionId)) {
                     requestPickLocation(collectionId, "");
                 } else {
                     ToastTool.show(that, "错误的集货位，请重新扫描");
@@ -465,7 +484,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
             requestPick(uId, jsonArray.toString());
         } else if (mCurPage == 1) {
-            if (TextUtils.isEmpty(mGroup2ConfirmLocationIdView.getText().toString())) {
+            if (TextUtils.isEmpty(mGroup2ConfirmLocationCodeView.getText().toString())) {
                 return;
             }
 
@@ -474,7 +493,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
             if (TextUtils.isEmpty(qty)) {
                 return;
             }
-            requestPickLocation(mGroup2ConfirmLocationIdView.getText().toString(), qty);
+            requestPickLocation(mGroup2ConfirmLocationCodeView.getText().toString(), qty);
         }
     }
 
@@ -517,18 +536,18 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
      */
     private class RequestPickLocationTask extends HttpAsyncTask<PickLocation> {
 
-        private String locationId;
+        private String locationCode;
         private String qty;
 
-        public RequestPickLocationTask(Context context, String locationId, String qty) {
+        public RequestPickLocationTask(Context context, String locationCode, String qty) {
             super(context, true, true, false);
-            this.locationId = locationId;
+            this.locationCode = locationCode;
             this.qty = qty;
         }
 
         @Override
         public DataHull<PickLocation> doInBackground() {
-            return ScanPickLocationProvider.request(context, uId, uToken, locationId, qty, serialNumber);
+            return ScanPickLocationProvider.request(context, uId, uToken, locationCode, qty, serialNumber);
         }
 
         @Override

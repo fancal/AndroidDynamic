@@ -70,9 +70,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
         scanEditTextTool = new ScanEditTextTool(this, userNameEditText, passWdEditText);
         scanEditTextTool.setComplete(this);
         initToolBar();
-
-        userNameEditText.setText("xueliyu");
-        passWdEditText.setText("123456");
     }
 
     private void initToolBar() {

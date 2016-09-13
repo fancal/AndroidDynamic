@@ -15,8 +15,6 @@ public class Transfer implements BaseBean {
 
     private String locationCode;
 
-    private String locationId;
-
     private String itemId;
 
     private String itemName;
@@ -55,14 +53,6 @@ public class Transfer implements BaseBean {
 
     public void setLocationCode(String locationCode) {
         this.locationCode = locationCode;
-    }
-
-    public String getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
     }
 
     public String getItemId() {

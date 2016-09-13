@@ -67,7 +67,7 @@
     <Button
         android:id="@+id/login_Button"
         android:layout_width="match_parent"
-        android:layout_height="50dip"
+        android:layout_height="40dip"
         android:layout_alignParentBottom="true"
         android:background="@drawable/submit_button_bg"
         android:enabled="false"

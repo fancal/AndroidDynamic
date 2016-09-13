@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:gravity="center"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
     <com.elianshang.bridge.ui.view.QtyEditText
         android:id="@+id/realityqty_edittext"
@@ -23,6 +23,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:inputType="numberDecimal"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
 </LinearLayout>

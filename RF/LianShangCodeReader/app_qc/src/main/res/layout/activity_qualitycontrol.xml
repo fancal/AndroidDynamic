@@ -14,64 +14,43 @@
         app:navigationIcon="@drawable/toolbar_back"
         app:title="QC" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/create_Layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="visible">
+        <include
+            android:id="@+id/scan_Layout"
+            layout="@layout/qualitycontrol_scan" />
 
+        <include
+            android:id="@+id/start_Layout"
+            layout="@layout/qualitycontrol_start" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dip"
-                android:layout_marginTop="10dip"
-                android:gravity="center"
-                android:text="开始进行QC"
-                android:textSize="20dip" />
+        <include
+            android:id="@+id/prompt_Layout"
+            layout="@layout/qualitycontrol_prompt" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
-                android:text="请扫描托盘码:"
-                android:textSize="20dip" />
+        <include
+            android:id="@+id/item_Layout"
+            layout="@layout/qualitycontrol_item" />
 
-            <com.elianshang.bridge.ui.view.ScanEditText
-                android:id="@+id/containerId_EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
-                android:textSize="20dip" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/qc_main"
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-        </LinearLayout>
+        <include
+            android:id="@+id/confirm_Layout"
+            layout="@layout/qualitycontrol_confirm" />
 
         <Button
-            android:id="@+id/submit_Button"
-            android:layout_width="match_parent"
-            android:layout_height="50dip"
+            android:id="@+id/check_progress"
+            android:layout_width="50dip"
+            android:layout_height="40dip"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="60dip"
+            android:layout_marginRight="20dip"
             android:background="@drawable/submit_button_bg"
             android:enabled="true"
-            android:text="已完成QC,提交结果"
+            android:text="检查"
             android:textColor="@color/white"
-            android:textSize="24dip" />
+            android:textSize="16dip" />
+    </FrameLayout>
 
-    </LinearLayout>
 
 </LinearLayout>

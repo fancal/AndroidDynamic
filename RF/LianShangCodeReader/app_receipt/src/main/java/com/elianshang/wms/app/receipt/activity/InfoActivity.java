@@ -209,8 +209,10 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
 
         if (1 == info.getBatchNeeded()) {
             lotNumLayout.setVisibility(View.VISIBLE);
+            lotNumEditText.setHint("必填");
         } else {
-            lotNumLayout.setVisibility(View.GONE);
+            lotNumLayout.setVisibility(View.VISIBLE);
+            lotNumEditText.setHint("选填");
         }
     }
 

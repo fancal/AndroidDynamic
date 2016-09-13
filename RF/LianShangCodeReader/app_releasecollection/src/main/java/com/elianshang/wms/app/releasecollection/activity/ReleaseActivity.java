@@ -29,7 +29,7 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
 
     private Toolbar toolbar;
 
-    private ScanEditText locationIdEditText;
+    private ScanEditText locationCodeEditText;
 
     private ScanEditTextTool scanEditTextTool;
 
@@ -93,9 +93,9 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
     }
 
     private void findView() {
-        locationIdEditText = (ScanEditText) findViewById(R.id.locationId_EditText);
+        locationCodeEditText = (ScanEditText) findViewById(R.id.locationCode_EditText);
 
-        scanEditTextTool = new ScanEditTextTool(that, locationIdEditText);
+        scanEditTextTool = new ScanEditTextTool(that, locationCodeEditText);
         scanEditTextTool.setComplete(this);
 
         initToolbar();
@@ -111,11 +111,11 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
 
     @Override
     public void onComplete() {
-        final String locationId = locationIdEditText.getText().toString();
+        final String locationCode = locationCodeEditText.getText().toString();
         DialogTools.showTwoButtonDialog(that, "确认释放集货道", "取消", "确认", null, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                new ReleaseCollectionTask(that, uId, uToken, locationId).start();
+                new ReleaseCollectionTask(that, uId, uToken, locationCode).start();
             }
         }, true);
     }
@@ -134,18 +134,18 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
 
         private String uToken;
 
-        private String locationId;
+        private String locationCode;
 
-        public ReleaseCollectionTask(Context context, String uId, String uToken, String locationId) {
+        public ReleaseCollectionTask(Context context, String uId, String uToken, String locationCode) {
             super(context, true, true, false, false);
             this.uId = uId;
             this.uToken = uToken;
-            this.locationId = locationId;
+            this.locationCode = locationCode;
         }
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return ReleaseCollectionRoadProvider.request(context, uId, uToken, locationId, serialNumber);
+            return ReleaseCollectionRoadProvider.request(context, uId, uToken, locationCode, serialNumber);
         }
 
         @Override

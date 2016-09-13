@@ -13,9 +13,6 @@ import com.elianshang.wms.app.transfer.provider.ScanLocationProvider;
 import com.elianshang.wms.app.transfer.view.StockTransferView;
 import com.xue.http.impl.DataHull;
 
-/**
- * Created by liuhanzhi on 16/8/15.
- */
 public class StockTransferController extends BaseStockTransferController implements BaseStockTransferController.TransferCompleteListener {
 
     private String serialNumber;
@@ -38,13 +35,13 @@ public class StockTransferController extends BaseStockTransferController impleme
 
     private void fillInBound() {
         if (stockTransferView != null) {
-            stockTransferView.showLocationConfirmView(true, "转入到库位", "任务：" + curTransfer.getTaskId(), "商品名称：" + curTransfer.getItemName(), "商品规格：" + curTransfer.getPackName(), "商品数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
+            stockTransferView.showLocationConfirmView(true, "转入到库位", "任务：" + curTransfer.getTaskId(), "名称：" + curTransfer.getItemName(), "规格：" + curTransfer.getPackName(), "数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
         }
     }
 
     private void fillOutBound() {
         if (stockTransferView != null) {
-            stockTransferView.showLocationConfirmView(false, "开始移库转出", "任务：" + curTransfer.getTaskId(), "商品名称：" + curTransfer.getItemName(), "商品规格：" + curTransfer.getPackName(), "商品数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
+            stockTransferView.showLocationConfirmView(false, "开始移库转出", "任务：" + curTransfer.getTaskId(), "名称：" + curTransfer.getItemName(), "规格：" + curTransfer.getPackName(), "数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
         }
     }
 
@@ -61,7 +58,7 @@ public class StockTransferController extends BaseStockTransferController impleme
     @Override
     public void onComplete(String s) {
         if (curTransfer != null) {
-            boolean check = TextUtils.equals(curTransfer.getLocationId(), s);
+            boolean check = TextUtils.equals(curTransfer.getLocationCode(), s);
             if (!check) {
                 ToastTool.show(activity, "库位不一致");
             } else {
@@ -70,7 +67,7 @@ public class StockTransferController extends BaseStockTransferController impleme
                 } else if (TextUtils.equals("1", curTransfer.getType())) {
                     if (stockTransferView != null) {
                         String numQty = "1".equals(curTransfer.getSubType()) ? null : curTransfer.getUomQty();
-                        stockTransferView.showItemView("填写转出数量", "商品名称：" + curTransfer.getItemName(), "商品名称：" + curTransfer.getPackName(), "商品数量：" + curTransfer.getUomQty(), "库位：" + curTransfer.getLocationCode(), numQty);
+                        stockTransferView.showItemView("填写转出数量", "名称：" + curTransfer.getItemName(), "规格：" + curTransfer.getPackName(), "数量：" + curTransfer.getUomQty(), "库位：" + curTransfer.getLocationCode(), numQty);
                     }
                 }
             }
@@ -78,7 +75,7 @@ public class StockTransferController extends BaseStockTransferController impleme
     }
 
     private void submit(String qty) {
-        new ScanLocationTask(activity, uId, uToken, curTransfer.getType(), curTransfer.getTaskId(), curTransfer.getLocationId(), qty).start();
+        new ScanLocationTask(activity, uId, uToken, curTransfer.getType(), curTransfer.getTaskId(), curTransfer.getLocationCode(), qty).start();
     }
 
 
@@ -98,23 +95,23 @@ public class StockTransferController extends BaseStockTransferController impleme
 
         private String taskId;
 
-        private String locationId;
+        private String locationCode;
 
         private String qty;
 
-        public ScanLocationTask(Context context, String uId, String uToken, String type, String taskId, String locationId, String qty) {
+        public ScanLocationTask(Context context, String uId, String uToken, String type, String taskId, String locationCode, String qty) {
             super(context, true, true, false);
             this.uId = uId;
             this.uToken = uToken;
             this.type = type;
-            this.locationId = locationId;
+            this.locationCode = locationCode;
             this.qty = qty;
             this.taskId = taskId;
         }
 
         @Override
         public DataHull<TransferNext> doInBackground() {
-            return ScanLocationProvider.request(context, uId, uToken, type, taskId, locationId, qty, serialNumber);
+            return ScanLocationProvider.request(context, uId, uToken, type, taskId, locationCode, qty, serialNumber);
         }
 
         @Override

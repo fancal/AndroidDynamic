@@ -14,19 +14,23 @@ public class AtticShelveParser extends MasterParser<AtticShelve> {
         AtticShelve atticShelve = null;
         if (data != null) {
             String taskId = optString(data, "taskId");
-            String locationId = optString(data, "locationId");
             String locationCode = optString(data, "locationCode");
             String qty = optString(data, "qty");
             String packName = optString(data, "packName");
+            String itemName = optString(data, "skuName");
 
-            if (!TextUtils.isEmpty(taskId) && !TextUtils.isEmpty(locationCode) && !TextUtils.isEmpty(locationId) && !TextUtils.isEmpty(qty) && !TextUtils.isEmpty(packName)) {
+            if (!TextUtils.isEmpty(taskId)
+                    && !TextUtils.isEmpty(locationCode)
+                    && !TextUtils.isEmpty(qty)
+                    && !TextUtils.isEmpty(packName)
+                    && !TextUtils.isEmpty(itemName)) {
                 atticShelve = new AtticShelve();
 
                 atticShelve.setTaskId(taskId);
-                atticShelve.setLocationId(locationId);
                 atticShelve.setLocationCode(locationCode);
                 atticShelve.setQty(qty);
                 atticShelve.setPackName(packName);
+                atticShelve.setItemName(itemName);
             }
         }
         return atticShelve;

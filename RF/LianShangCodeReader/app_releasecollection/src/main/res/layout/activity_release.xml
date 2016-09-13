@@ -21,7 +21,7 @@
         android:layout_marginTop="10dip"
         android:gravity="center"
         android:text="确认集货道"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
 
     <TextView
@@ -30,15 +30,15 @@
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
         android:text="请扫描集货道:"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
     <com.elianshang.bridge.ui.view.ScanEditText
-        android:id="@+id/locationId_EditText"
+        android:id="@+id/locationCode_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:textSize="20dip" />
+        android:textSize="14dip" />
 
 
 </LinearLayout>

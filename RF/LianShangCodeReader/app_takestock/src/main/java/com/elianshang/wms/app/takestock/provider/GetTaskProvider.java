@@ -50,10 +50,10 @@ public class GetTaskProvider {
 
     private static final String taskId = "taskId";
 
-    private static final String locationId = "locationId";
+    private static final String locationCode = "locationCode";
 
 
-    public static DataHull<TakeStockDetail> request(Context context, String uId, String uToken, String taskId, String locationId) {
+    public static DataHull<TakeStockDetail> request(Context context, String uId, String uToken, String taskId, String locationCode) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -66,7 +66,7 @@ public class GetTaskProvider {
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(GetTaskProvider.taskId, taskId));
-        params.add(new DefaultKVPBean(GetTaskProvider.locationId, locationId));
+        params.add(new DefaultKVPBean(GetTaskProvider.locationCode, locationCode));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<TakeStockDetailParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new TakeStockDetailParser(), 0);
