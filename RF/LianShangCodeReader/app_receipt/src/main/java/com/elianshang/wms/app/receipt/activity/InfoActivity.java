@@ -36,7 +36,7 @@ import org.json.JSONObject;
 /**
  * 收货详情完成页
  */
-public class InfoActivity extends DLBasePluginActivity implements View.OnClickListener {
+public class InfoActivity extends DLBasePluginActivity implements View.OnClickListener, DateKeyboardUtil.OnKeyBoardUtilListener {
 
     public static void launch(DLBasePluginActivity activity, String uId, String uToken, String orderOtherId, String containerId, String barCode, Info info) {
         DLIntent intent = new DLIntent(activity.getPackageName(), InfoActivity.class);
@@ -110,6 +110,8 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
 
     private KeyboardView mKeyboardView;
 
+    private TextView mKeyboardTextView;
+
     /**
      * 年输入框
      */
@@ -163,8 +165,9 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
         mEditMonth = (EditText) findViewById(R.id.et_month);
         mEditDay = (EditText) findViewById(R.id.et_day);
         mKeyboardView = (KeyboardView) findViewById(R.id.keyboard_view);
+        mKeyboardTextView = (TextView) findViewById(R.id.keyboard_text);
         keyboardUtil = new DateKeyboardUtil(that, mKeyboardView, mEditYear, mEditMonth, mEditDay);
-
+        keyboardUtil.setOnKeyBoardUtilListener(this);
         submitButton.setOnClickListener(this);
 
         initToolbar();
@@ -217,6 +220,10 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
     }
 
     private void pressBack() {
+        if (keyboardUtil.isShow()) {
+            keyboardUtil.hideKeyboard();
+            return;
+        }
         String inboundQty = inboundQtyEditView.getValue();
         String year = mEditYear.getText().toString();
         String month = mEditMonth.getText().toString();
@@ -306,6 +313,31 @@ public class InfoActivity extends DLBasePluginActivity implements View.OnClickLi
         }
 
         new ReceiptAddTask(that, uId, uToken, orderOtherId, containerId, null, null, jsonArray.toString()).start();
+    }
+
+    @Override
+    public void onShow() {
+        mKeyboardTextView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onHide() {
+        mKeyboardTextView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onTextChange(String year, String mouth, String day) {
+        StringBuilder sb = new StringBuilder();
+        if (!TextUtils.isEmpty(year)) {
+            sb.append(year + '年');
+        }
+        if (!TextUtils.isEmpty(mouth)) {
+            sb.append(mouth + "月");
+        }
+        if (!TextUtils.isEmpty(day)) {
+            sb.append(day + "日");
+        }
+        mKeyboardTextView.setText(sb.toString());
     }
 
     private class ReceiptAddTask extends HttpAsyncTask<ResponseState> {

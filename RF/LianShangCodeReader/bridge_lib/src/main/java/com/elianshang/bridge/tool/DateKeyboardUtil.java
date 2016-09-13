@@ -16,7 +16,7 @@ import com.elianshang.bridge.R;
 import java.util.Calendar;
 import java.util.List;
 
-public class DateKeyboardUtil implements View.OnTouchListener {
+public class DateKeyboardUtil implements View.OnTouchListener, View.OnFocusChangeListener {
 
     private Activity mActivity;
     private KeyboardView mKeyboardView;
@@ -41,6 +41,8 @@ public class DateKeyboardUtil implements View.OnTouchListener {
 
     private boolean isInit = false;
 
+    private OnKeyBoardUtilListener onKeyBoardUtilListener;
+
     public DateKeyboardUtil(Activity activity, KeyboardView keyboardView, EditText... edit) {
         mActivity = activity;
         this.mKeyboardView = keyboardView;
@@ -49,7 +51,12 @@ public class DateKeyboardUtil implements View.OnTouchListener {
         for (EditText editText : mAllEdit) {
             editText.setInputType(InputType.TYPE_NULL);
             editText.setOnTouchListener(this);
+            editText.setOnFocusChangeListener(this);
         }
+    }
+
+    public void setOnKeyBoardUtilListener(OnKeyBoardUtilListener onKeyBoardUtilListener) {
+        this.onKeyBoardUtilListener = onKeyBoardUtilListener;
     }
 
     private synchronized void init() {
@@ -99,6 +106,31 @@ public class DateKeyboardUtil implements View.OnTouchListener {
         return false;
     }
 
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+            int step = -1;
+            for (int i = 0; i < mAllEdit.length; i++) {
+                if (v == mAllEdit[i]) {
+                    step = i;
+                    break;
+                }
+            }
+            if (step >= 0) {
+                if (this.step != step) {
+                    init();
+                    this.step = step;
+                    mCurEdit = mAllEdit[step];
+                    mCurEdit.requestFocus();
+                }
+                hideSoftInputMethod();
+                showKeyboard();
+            }
+        } else {
+            hideKeyboard();
+        }
+    }
+
     private OnKeyboardActionListener listener = new OnKeyboardActionListener() {
         @Override
         public void swipeUp() {
@@ -142,6 +174,9 @@ public class DateKeyboardUtil implements View.OnTouchListener {
                 setKeyboard();
             } else {
                 mCurEdit.setText(String.valueOf(primaryCode));
+                if (onKeyBoardUtilListener != null) {
+                    onKeyBoardUtilListener.onTextChange(mAllEdit[0].getText().toString(), mAllEdit[1].getText().toString(), mAllEdit[2].getText().toString());
+                }
                 if (step == 2) {
                     hideKeyboard();
                     return;
@@ -182,6 +217,9 @@ public class DateKeyboardUtil implements View.OnTouchListener {
         int visibility = mKeyboardView.getVisibility();
         if (visibility == View.GONE || visibility == View.INVISIBLE) {
             mKeyboardView.setVisibility(View.VISIBLE);
+            if (onKeyBoardUtilListener != null) {
+                onKeyBoardUtilListener.onShow();
+            }
         }
         setKeyboard();
     }
@@ -193,6 +231,9 @@ public class DateKeyboardUtil implements View.OnTouchListener {
         int visibility = mKeyboardView.getVisibility();
         if (visibility == View.VISIBLE) {
             mKeyboardView.setVisibility(View.INVISIBLE);
+            if (onKeyBoardUtilListener != null) {
+                onKeyBoardUtilListener.onHide();
+            }
         }
     }
 
@@ -204,6 +245,15 @@ public class DateKeyboardUtil implements View.OnTouchListener {
 //        imm.hideSoftInputFromWindow(mActivity.getCurrentFocus().getWindowToken(), 0); //强制隐藏键盘
 
         ((InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(mActivity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // (WidgetSearchActivity是当前的Activity)
+    }
+
+    public interface OnKeyBoardUtilListener {
+
+        public void onShow();
+
+        public void onHide();
+
+        public void onTextChange(String year, String mouth, String day);
     }
 
 }
