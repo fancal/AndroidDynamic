@@ -94,7 +94,7 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
 
     private void findView() {
         locationCodeEditText = (ScanEditText) findViewById(R.id.locationCode_EditText);
-
+        locationCodeEditText.setCode(true);
         scanEditTextTool = new ScanEditTextTool(that, locationCodeEditText);
         scanEditTextTool.setComplete(this);
 

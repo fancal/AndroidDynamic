@@ -166,6 +166,7 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
         mItemQtyRealContainerView = findViewById(R.id.item_qty_real_container);
         mLocationCodeView = (TextView) findViewById(R.id.location_id);
         mLocationCodeConfirmView = (ScanEditText) findViewById(R.id.confirm_location_id);
+        mLocationCodeConfirmView.setCode(true);
         mSubmit = (Button) findViewById(R.id.submit_button);
         mTypeNameView = (TextView) findViewById(R.id.transfer_type_name);
         mItemView = findViewById(R.id.item);

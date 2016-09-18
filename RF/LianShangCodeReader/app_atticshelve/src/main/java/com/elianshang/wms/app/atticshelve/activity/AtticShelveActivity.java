@@ -148,6 +148,7 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         twoLocationCodeLayout = atticShelveTwoLayout.findViewById(R.id.locationCode_Layout);
         twoLocationCodeTextView = (TextView) atticShelveTwoLayout.findViewById(R.id.locationCode_TextView);
         twoLocationCodeEditText = (ScanEditText) atticShelveTwoLayout.findViewById(R.id.locationCode_EditText);
+        twoLocationCodeEditText.setCode(true);
         twoItemNameLayout = atticShelveTwoLayout.findViewById(R.id.itemName_Layout);
         twoItemNameTextView = (TextView) atticShelveTwoLayout.findViewById(R.id.itemName_TextView);
         twoPackNameLayout = atticShelveTwoLayout.findViewById(R.id.packName_Layout);

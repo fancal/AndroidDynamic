@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="商品国条码:"
-            android:textSize="14dip" />Ω
+            android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.ScanEditText
             android:id="@+id/barCode_EditText"

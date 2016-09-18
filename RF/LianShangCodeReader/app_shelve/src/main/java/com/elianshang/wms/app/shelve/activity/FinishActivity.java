@@ -139,7 +139,7 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
         locationCodeTextView = (TextView) findViewById(R.id.locationCode_TextView);
         locationCodeEditText = (ScanEditText) findViewById(R.id.locationCode_EditText);
-
+        locationCodeEditText.setCode(true);
         scanEditTextTool = new ScanEditTextTool(that, locationCodeEditText);
         scanEditTextTool.setComplete(this);
 
@@ -236,7 +236,6 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
             ToastTool.show(context, "上架完成");
             that.setResult(RESULT_OK);
             finish();
-
         }
     }
 

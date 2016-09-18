@@ -187,7 +187,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         taskLayout = findViewById(R.id.task_Layout);
         taskLocationCodeTextView = (TextView) taskLayout.findViewById(R.id.locationCode_TextView);
         taskLocationCodeEditText = (ScanEditText) taskLayout.findViewById(R.id.locationCode_EditText);
-
+        taskLocationCodeEditText.setCode(true);
         detailLayout = findViewById(R.id.detail_Layout);
         detailLocationCodeTextView = (TextView) detailLayout.findViewById(R.id.locationCode_TextView);
         detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);

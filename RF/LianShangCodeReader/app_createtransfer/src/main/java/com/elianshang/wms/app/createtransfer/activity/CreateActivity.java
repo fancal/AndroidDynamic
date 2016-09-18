@@ -134,6 +134,7 @@ public class CreateActivity extends DLBasePluginActivity implements ScanManager.
     private void findView() {
         createLayout = findViewById(R.id.create_Layout);
         createLocationCodeEditText = (ScanEditText) createLayout.findViewById(R.id.locationCode_EditText);
+        createLocationCodeEditText.setCode(true);
         detailLayout = findViewById(R.id.detail_Layout);
         detailLocationCodeTextView = (TextView) detailLayout.findViewById(R.id.locationCode_TextView);
         detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);

@@ -148,6 +148,7 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
     private void findViews() {
         createLayout = findViewById(R.id.create_Layout);
         createLocationCodeEditText = (ScanEditText) createLayout.findViewById(R.id.locationCode_EditText);
+        createLocationCodeEditText.setCode(true);
         createBarCodeEditText = (ScanEditText) createLayout.findViewById(R.id.barCode_EditText);
 
         detailLayout = findViewById(R.id.detail_Layout);

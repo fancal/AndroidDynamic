@@ -213,7 +213,7 @@ public class DialogTools {
      * 显示带输入框的dialog（带title）
      */
     public static AlertDialog showEditViewDialog(Activity context, String tile, String textHint, String button1Text, String button2Text, final DialogInterface.OnClickListener clickListener1,
-                                                 final OnEditViewPositiveButtonClick clickListener2, boolean cancelable) {
+                                                 final OnEditViewPositiveButtonClick clickListener2, boolean cancelable, boolean isCode) {
 
         if (context == null || context.isFinishing()) {
             return null;
@@ -241,7 +241,11 @@ public class DialogTools {
         layoutParams.leftMargin = UITool.dipToPx(context, 20);
         editText.setLayoutParams(layoutParams);
         editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        if (isCode) {
+            editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        } else {
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        }
         editText.setGravity(Gravity.CENTER_VERTICAL);
         editText.setSingleLine();
 

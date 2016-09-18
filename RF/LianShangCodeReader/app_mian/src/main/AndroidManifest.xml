@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".BaseApplication"
@@ -18,7 +18,8 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="com.elianshang.bridge.logout" />
@@ -28,10 +29,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.LoginActivity" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.elianshang.dynamic.DLProxyActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent">
             <intent-filter>
                 <action android:name="com.ryg.dynamicload.proxy.activity.VIEW" />
@@ -41,6 +45,7 @@
 
         <activity
             android:name="com.elianshang.dynamic.DLProxyFragmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent">
             <intent-filter>
                 <action android:name="com.ryg.dynamicload.proxy.fragmentactivity.VIEW" />

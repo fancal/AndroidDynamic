@@ -2,11 +2,13 @@ package com.elianshang.bridge.ui.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.elianshang.bridge.R;
 import com.elianshang.bridge.tool.DialogTools;
 
 
@@ -17,31 +19,37 @@ public class ScanEditText extends ContentEditText {
 
     private OnSetInputEnd inputEnd;
 
+    private boolean isCode;
+
     public ScanEditText(Context context) {
         super(context);
-        init();
+        init(context, null, 0);
     }
 
     public ScanEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context, attrs, 0);
     }
 
     public ScanEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context, attrs, defStyleAttr);
     }
 
     public ScanEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
+        init(context, attrs, defStyleAttr);
     }
 
-
-    private void init() {
+    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressBar, defStyleAttr, 0);
+        a.recycle();
         setInputType(InputType.TYPE_NULL);
-        Log.e("xue", "getContext() == " + getContext());
         setOnLongClickListener(getContext());
+    }
+
+    public void setCode(boolean code) {
+        isCode = code;
     }
 
     private void setOnLongClickListener(final Context context) {
@@ -56,6 +64,8 @@ public class ScanEditText extends ContentEditText {
         setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                Log.e("xue" , "iscode == " + isCode);
+
                 DialogTools.showEditViewDialog((Activity) context, "请入码值", "", "取消", "确认", null, new DialogTools.OnEditViewPositiveButtonClick() {
                     @Override
                     public void onClick(String editText) {
@@ -64,7 +74,7 @@ public class ScanEditText extends ContentEditText {
                             inputEnd.onSetInputEnd(editText);
                         }
                     }
-                }, false);
+                }, true, isCode);
 
                 return false;
             }
