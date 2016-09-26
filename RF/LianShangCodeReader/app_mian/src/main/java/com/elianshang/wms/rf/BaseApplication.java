@@ -53,7 +53,6 @@ public class BaseApplication extends Application {
         if (TextUtils.isEmpty(uToken)) {
             return false;
         }
-
         return true;
     }
 
