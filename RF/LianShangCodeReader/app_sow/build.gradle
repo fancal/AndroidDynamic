@@ -16,7 +16,7 @@ android {
      * 默认配置项，包名、最小SDK版本、目标SDK版本、版本号、版本名
      * */
     defaultConfig {
-        applicationId "com.elianshang.wms.app.createtransfer"
+        applicationId "com.elianshang.wms.app.sow"
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
@@ -83,7 +83,7 @@ android {
             /**
              * 测试默认值,直接运行安装方便使用
              * */
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "test", PCODE_VALUE: "test", CONFIG_VALUE: "test"]
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "test", PCODE_VALUE: "test", CONFIG_VALUE: "test"]
 
         }
 
@@ -129,7 +129,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "g_app_createtransfer_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        def fileName = "m_app_sow_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
                         output.outputFile = new File(System.getProperty("user.home")+"/rf/", fileName)
                     }
                 }
@@ -166,9 +166,9 @@ android {
      * */
     productFlavors.all { flavor ->
         if ("tttt" == name) {
-            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: "test", PCODE_VALUE: "test", CONFIG_VALUE: "test"]
+//            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: "test", PCODE_VALUE: "test", CONFIG_VALUE: "test"]
         } else {
-            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name, PCODE_VALUE: name, CONFIG_VALUE: "public"]
+//            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name, PCODE_VALUE: name, CONFIG_VALUE: "public"]
         }
     }
 }

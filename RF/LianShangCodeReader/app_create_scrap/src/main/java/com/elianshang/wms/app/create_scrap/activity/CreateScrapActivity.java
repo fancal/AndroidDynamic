@@ -248,13 +248,7 @@ public class CreateScrapActivity extends DLBasePluginActivity implements ScanEdi
             return;
         }
 
-        String uId = null;
-        if (getIntent() != null) {
-            uId = getIntent().getStringExtra("uId");
-        }
-        if (!TextUtils.isEmpty(uId)) {
-            new CreateScrapTask(that, locationCode, barCode, qty, uId).start();
-        }
+        new CreateScrapTask(that, locationCode, barCode, qty, uId).start();
     }
 
     /**
