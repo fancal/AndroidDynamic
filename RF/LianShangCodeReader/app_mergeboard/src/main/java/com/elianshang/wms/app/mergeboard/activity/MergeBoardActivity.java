@@ -84,9 +84,9 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
 
     private String serialNumber;
     /**
-     * 最大允许合板熟
+     * 最大允许合板数
      */
-    private final int MAX_BOARD_NUM = 2;
+    private final int MAX_BOARD_NUM = 8;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -179,7 +179,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
 
         vhList.clear();
         inputLayout.removeAllViews();
-        for (int i = 0; i < MAX_BOARD_NUM; i++) {
+        for (int i = 0; i < 2; i++) {
             addItemView();
         }
         if (vhList.size() > 0) {
@@ -217,6 +217,9 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         ViewHolder vh = new ViewHolder();
         vh.containerIdEditText = containerIdEditText;
         vhList.add(vh);
+        if(vhList.size() >= MAX_BOARD_NUM){
+            inputAddButton.setVisibility(View.GONE);
+        }
     }
 
     private void addDetailItemView(BoardDetailList.BoardDetail boardDetail) {
