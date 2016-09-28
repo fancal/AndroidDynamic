@@ -254,13 +254,7 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
             ToastTool.show(that, "请输入正确的数量");
             return;
         }
-        String uId = null;
-        if (getIntent() != null) {
-            uId = getIntent().getStringExtra("uId");
-        }
-        if (!TextUtils.isEmpty(uId)) {
-            new CreateScrapTask(that, locationCode, barCode, qty, uId).start();
-        }
+        new CreateReturnTask(that, locationCode, barCode, qty, uId).start();
     }
 
     /**
@@ -292,7 +286,7 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
     /**
      * 提交退货数量
      */
-    private class CreateScrapTask extends HttpAsyncTask<ResponseState> {
+    private class CreateReturnTask extends HttpAsyncTask<ResponseState> {
 
         private String locationCode;
         private String barCode;
@@ -300,7 +294,7 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
 
         private String uId;
 
-        public CreateScrapTask(Context context, String locationCode, String barCode, String qty, String uId) {
+        public CreateReturnTask(Context context, String locationCode, String barCode, String qty, String uId) {
             super(context, true, true, false);
             this.locationCode = locationCode;
             this.barCode = barCode;

@@ -124,7 +124,7 @@ android {
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         def fileName = "i_app_procurement_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
-                        output.outputFile = new File("/Users/xfilshy/rf/", fileName)
+                        output.outputFile = new File(System.getProperty("user.home")+"/rf/", fileName)
                     }
                 }
             }
