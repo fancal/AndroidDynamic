@@ -534,7 +534,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             if (qcList.isQcTaskDone()) {
                 finish();
             } else {
-                popNextItem(null, false);
+                popNextItem(null, true);
             }
         } else if (v == confirmSubmitButton) {
             String itemBoxNum = confirmItemBoxNumEditText.getValue();

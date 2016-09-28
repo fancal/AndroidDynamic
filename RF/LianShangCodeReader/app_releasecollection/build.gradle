@@ -63,7 +63,7 @@ android {
             /**
              * 移除无用的resource文件
              * */
-            shrinkResources true
+            shrinkResources false
 
             /**
              * 是否进行混淆
