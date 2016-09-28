@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIcon="@drawable/toolbar_back"
+        app:title="门店收货" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginTop="10dip"
+        android:gravity="center"
+        android:text="开始收货"
+        android:textSize="14dip" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="门店:"
+            android:textSize="14dip" />
+
+        <com.elianshang.bridge.ui.view.ScanEditText
+            android:id="@+id/storeId_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dip" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="托盘号:"
+            android:textSize="14dip" />
+
+        <com.elianshang.bridge.ui.view.ScanEditText
+            android:id="@+id/containerId_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dip" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="商品国条码:"
+            android:textSize="14dip" />
+
+        <com.elianshang.bridge.ui.view.ScanEditText
+            android:id="@+id/barCode_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dip" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/submit_Button"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/submit_button_bg"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="20dip" />
+
+</LinearLayout>

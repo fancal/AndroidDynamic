@@ -2,20 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="10dip"
+    android:layout_marginRight="10dip"
+    android:background="@color/grey_dark"
     android:orientation="vertical"
-    android:padding="10dip">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px" />
+    android:padding="1dip">
 
     <Button
-        android:id="@+id/submit_Button"
+        android:id="@+id/orderReceipt_Button"
         android:layout_width="match_parent"
         android:layout_height="60dip"
         android:background="@drawable/white_button_bg"
         android:gravity="center"
-        android:text="载库收货"
+        android:text="订单收货"
         android:textColor="@color/black"
         android:textSize="16dip" />
 
@@ -25,47 +24,13 @@
         android:background="@color/grey_dark" />
 
     <Button
-        android:id="@+id/submit_Button"
+        android:id="@+id/storeReceipt_Button"
         android:layout_width="match_parent"
         android:layout_height="60dip"
         android:background="@drawable/white_button_bg"
         android:gravity="center"
-        android:text="大店直流收货"
+        android:text="门店收货"
         android:textColor="@color/black"
         android:textSize="16dip" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/grey_dark" />
-
-    <Button
-        android:id="@+id/submit_Button"
-        android:layout_width="match_parent"
-        android:layout_height="60dip"
-        android:background="@drawable/white_button_bg"
-        android:gravity="center"
-        android:text="小店直流收货"
-        android:textColor="@color/black"
-        android:textSize="16dip" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/grey_dark" />
-
-    <Button
-        android:id="@+id/submit_Button"
-        android:layout_width="match_parent"
-        android:layout_height="60dip"
-        android:background="@drawable/white_button_bg"
-        android:gravity="center"
-        android:text="不收货"
-        android:textColor="@color/black"
-        android:textSize="16dip" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/grey_dark" />
 </LinearLayout>

@@ -17,24 +17,32 @@ import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.receipt.R;
 import com.elianshang.wms.app.receipt.bean.Info;
-import com.elianshang.wms.app.receipt.provider.InfoProvider;
+import com.elianshang.wms.app.receipt.provider.StoreInfoProvider;
 import com.xue.http.impl.DataHull;
 
 /**
  * 收货扫描页,扫描 订单号,托盘码,商品barcode
  */
-public class OpenActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener, View.OnClickListener {
+public class StoreOpenActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener, View.OnClickListener {
+
+    public static void launch(DLBasePluginActivity activity, String uId, String uToken) {
+        DLIntent intent = new DLIntent(activity.getPackageName(), StoreOpenActivity.class);
+        intent.putExtra("uId", uId);
+        intent.putExtra("uToken", uToken);
+        activity.startPluginActivity(intent);
+    }
 
     private String uId;
 
     private String uToken;
 
     /**
-     * 订单号扫描输入框
+     * 门店编码输入框
      */
-    private ScanEditText orderOtherIdEditText;
+    private ScanEditText storeIdEditText;
 
     /**
      * 托盘码扫描输入框
@@ -65,7 +73,7 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_receiptopen);
+        setContentView(R.layout.activity_storereceiptopen);
 
         if (readExtras()) {
             findViews();
@@ -113,13 +121,13 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
     }
 
     private void findViews() {
-        orderOtherIdEditText = (ScanEditText) findViewById(R.id.orderOtherId_EditText);
+        storeIdEditText = (ScanEditText) findViewById(R.id.storeId_EditText);
         containerIdEditText = (ScanEditText) findViewById(R.id.containerId_EditText);
         barCodeEditText = (ScanEditText) findViewById(R.id.barCode_EditText);
         submitButton = (Button) findViewById(R.id.submit_Button);
 
         submitButton.setEnabled(false);
-        scanEditTextTool = new ScanEditTextTool(that, orderOtherIdEditText, containerIdEditText, barCodeEditText);
+        scanEditTextTool = new ScanEditTextTool(that, storeIdEditText, containerIdEditText, barCodeEditText);
         scanEditTextTool.setComplete(this);
 
         submitButton.setOnClickListener(this);
@@ -138,17 +146,17 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
     }
 
     private void submit() {
-        String orderStr = orderOtherIdEditText.getText().toString().trim();
-        String tuoStr = containerIdEditText.getText().toString().trim();
+        String storeString = storeIdEditText.getText().toString().trim();
+        String containerStr = containerIdEditText.getText().toString().trim();
         String productStr = barCodeEditText.getText().toString().trim();
-        new RequestGetOrderInfoTask(that, orderStr, tuoStr, productStr).start();
+        new RequestGetOrderInfoTask(that, storeString, containerStr, productStr).start();
     }
 
     private void pressBack() {
-        String orderOtherId = orderOtherIdEditText.getText().toString().trim();
+        String storeId = storeIdEditText.getText().toString().trim();
         String containerId = containerIdEditText.getText().toString().trim();
         String barCode = barCodeEditText.getText().toString().trim();
-        if (!TextUtils.isEmpty(orderOtherId) || !TextUtils.isEmpty(containerId) || !TextUtils.isEmpty(barCode)) {
+        if (!TextUtils.isEmpty(storeId) || !TextUtils.isEmpty(containerId) || !TextUtils.isEmpty(barCode)) {
             DialogTools.showTwoButtonDialog(that, "退出将清除已经输入的内容,确定离开吗", "取消", "确定", null, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -174,27 +182,27 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
 
     private class RequestGetOrderInfoTask extends HttpAsyncTask<Info> {
 
-        private String orderOtherId;
+        private String storeId;
 
         private String containerId;
 
         private String barCode;
 
-        public RequestGetOrderInfoTask(Context context, String orderOtherId, String containerId, String barCode) {
+        public RequestGetOrderInfoTask(Context context, String storeId, String containerId, String barCode) {
             super(context, true, true, true);
-            this.orderOtherId = orderOtherId;
+            this.storeId = storeId;
             this.containerId = containerId;
             this.barCode = barCode;
         }
 
         @Override
         public DataHull<Info> doInBackground() {
-            return InfoProvider.request(context, uId, uToken, orderOtherId, containerId, barCode);
+            return StoreInfoProvider.request(context, uId, uToken, storeId, containerId, barCode);
         }
 
         @Override
         public void onPostExecute(Info result) {
-            InfoActivity.launch(OpenActivity.this, uId, uToken, orderOtherId, containerId, barCode, result);
+            StoreInfoActivity.launch(StoreOpenActivity.this, uId, uToken, storeId, containerId, barCode, result);
         }
 
         @Override

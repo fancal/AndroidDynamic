@@ -15,7 +15,7 @@ import com.xue.http.okhttp.OkHttpHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InfoProvider {
+public class OrderInfoProvider {
 
     private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
 
@@ -65,17 +65,17 @@ public class InfoProvider {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(InfoProvider.app_key, DeviceTool.getIMEI(context)));
-        headers.add(new DefaultKVPBean(InfoProvider.platform, "2"));
-        headers.add(new DefaultKVPBean(InfoProvider.version, DeviceTool.getClientVersionName(context)));
-        headers.add(new DefaultKVPBean(InfoProvider.api_version, "v1"));
-        headers.add(new DefaultKVPBean(InfoProvider.uId, uId));
-        headers.add(new DefaultKVPBean(InfoProvider.uToken, uToken));
+        headers.add(new DefaultKVPBean(OrderInfoProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(OrderInfoProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(OrderInfoProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(OrderInfoProvider.api_version, "v1"));
+        headers.add(new DefaultKVPBean(OrderInfoProvider.uId, uId));
+        headers.add(new DefaultKVPBean(OrderInfoProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(InfoProvider.orderOtherId, orderOtherId));
-        params.add(new DefaultKVPBean(InfoProvider.containerId, containerId));
-        params.add(new DefaultKVPBean(InfoProvider.barCode, barCode));
+        params.add(new DefaultKVPBean(OrderInfoProvider.orderOtherId, orderOtherId));
+        params.add(new DefaultKVPBean(OrderInfoProvider.containerId, containerId));
+        params.add(new DefaultKVPBean(OrderInfoProvider.barCode, barCode));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ReceiptGetOrderInfoParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ReceiptGetOrderInfoParser(), 0);

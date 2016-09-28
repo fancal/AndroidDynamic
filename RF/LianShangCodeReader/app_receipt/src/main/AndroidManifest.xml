@@ -22,11 +22,19 @@
         </activity>
 
         <activity
-            android:name=".activity.OpenActivity"
+            android:name=".activity.OrderOpenActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.InfoActivity"
+            android:name=".activity.StoreOpenActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.OrderInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.StoreInfoActivity"
             android:screenOrientation="portrait" />
     </application>
 
