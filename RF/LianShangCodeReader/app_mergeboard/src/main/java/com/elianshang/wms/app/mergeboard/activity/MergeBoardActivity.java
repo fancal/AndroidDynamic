@@ -156,7 +156,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         //Fixme test
         uId = "141871359725260";
         uToken = "131370164694198";
-        ScanManager.init(this);
+        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -205,6 +205,10 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
     }
 
     private void addItemView() {
+        if(vhList.size() >= MAX_BOARD_NUM){
+            ToastTool.show(that,"超出最大合板数");
+            return;
+        }
         View view = View.inflate(that, R.layout.input_item_view, null);
 
         ScanEditText containerIdEditText = (ScanEditText) view.findViewById(R.id.containerId_EditText);
@@ -217,9 +221,6 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         ViewHolder vh = new ViewHolder();
         vh.containerIdEditText = containerIdEditText;
         vhList.add(vh);
-        if(vhList.size() >= MAX_BOARD_NUM){
-            inputAddButton.setVisibility(View.GONE);
-        }
     }
 
     private void addDetailItemView(BoardDetailList.BoardDetail boardDetail) {
