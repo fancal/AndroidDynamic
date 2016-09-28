@@ -2,18 +2,25 @@ package com.elianshang.wms.app.sow.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.wms.app.sow.R;
 import com.elianshang.wms.app.sow.bean.Restore;
 import com.elianshang.wms.app.sow.provider.RestoreProvider;
 import com.xue.http.impl.DataHull;
 
-public class MainActivity extends DLBasePluginActivity {
+public class ChooseActivity extends DLBasePluginActivity implements View.OnClickListener {
 
     private String uId;
 
     private String uToken;
+
+    private Button orderSowButton;
+
+    private Button containerSowButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,9 @@ public class MainActivity extends DLBasePluginActivity {
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
+        //Fixme test
+        uId = "141871359725260";
+        uToken = "131370164694198";
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -35,6 +45,29 @@ public class MainActivity extends DLBasePluginActivity {
         return true;
     }
 
+    private void showChooseView() {
+
+        setContentView(R.layout.activity_choose);
+
+        orderSowButton = (Button) findViewById(R.id.orderSow_Button);
+        containerSowButton = (Button) findViewById(R.id.containerSow_Button);
+
+        orderSowButton.setOnClickListener(this);
+        containerSowButton.setOnClickListener(this);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        if (orderSowButton == v) {
+            SowActivity.launch(ChooseActivity.this, uId, uToken, null, SowActivity.Type.ORDER);
+            finish();
+        } else if (containerSowButton == v) {
+            SowActivity.launch(ChooseActivity.this, uId, uToken, null, SowActivity.Type.CONTAINER);
+            finish();
+        }
+    }
+
     private class FetchProcurementTask extends HttpAsyncTask<Restore> {
 
         private String uId;
@@ -42,7 +75,7 @@ public class MainActivity extends DLBasePluginActivity {
         private String uToken;
 
         public FetchProcurementTask(String uId, String uToken) {
-            super(MainActivity.this.that, true, true, false , false);
+            super(ChooseActivity.this.that, true, true, false, false);
             this.uId = uId;
             this.uToken = uToken;
         }
@@ -54,12 +87,11 @@ public class MainActivity extends DLBasePluginActivity {
 
         @Override
         public void onPostExecute(Restore result) {
-            if (result.isDone()) {
-                SowActivity.launch(MainActivity.this, uId, uToken, null);
-                MainActivity.this.finish();
+            if (result.isDone() || result.getSow() == null) {
+                showChooseView();
             } else {
-                SowActivity.launch(MainActivity.this, uId, uToken, result.getSow());
-                MainActivity.this.finish();
+                SowActivity.launch(ChooseActivity.this, uId, uToken, result.getSow(), null);
+                ChooseActivity.this.finish();
             }
         }
 
@@ -67,19 +99,19 @@ public class MainActivity extends DLBasePluginActivity {
         @Override
         public void netErr(String errMsg) {
             super.netErr(errMsg);
-            MainActivity.this.finish();
+            ChooseActivity.this.finish();
         }
 
         @Override
         public void netNull() {
             super.netNull();
-            MainActivity.this.finish();
+            ChooseActivity.this.finish();
         }
 
         @Override
         public void dataNull(String errMsg) {
             super.dataNull(errMsg);
-            MainActivity.this.finish();
+            ChooseActivity.this.finish();
         }
     }
 }

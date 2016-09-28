@@ -39,7 +39,7 @@ public class RestoreProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/inbound/pick_up_shelve/restore";
+    private static final String _function = "/inbound/seed/restore";
 
     private static final String uId = "uid";
 

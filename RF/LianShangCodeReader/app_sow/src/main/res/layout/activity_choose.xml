@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dip"
+    android:layout_marginRight="10dip"
+    android:background="@color/grey_dark"
+    android:orientation="vertical"
+    android:padding="1dip">
+
+    <Button
+        android:id="@+id/orderSow_Button"
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:background="@drawable/white_button_bg"
+        android:gravity="center"
+        android:text="订单播种"
+        android:textColor="@color/black"
+        android:textSize="16dip" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/grey_dark" />
+
+    <Button
+        android:id="@+id/containerSow_Button"
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:background="@drawable/white_button_bg"
+        android:gravity="center"
+        android:text="托盘播种"
+        android:textColor="@color/black"
+        android:textSize="16dip" />
+
+</LinearLayout>
