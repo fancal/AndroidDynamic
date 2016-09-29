@@ -19,7 +19,7 @@ import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.receipt.R;
-import com.elianshang.wms.app.receipt.bean.Info;
+import com.elianshang.wms.app.receipt.bean.StoreReceiptInfo;
 import com.elianshang.wms.app.receipt.provider.StoreInfoProvider;
 import com.xue.http.impl.DataHull;
 
@@ -180,7 +180,7 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
         }
     }
 
-    private class RequestGetOrderInfoTask extends HttpAsyncTask<Info> {
+    private class RequestGetOrderInfoTask extends HttpAsyncTask<StoreReceiptInfo> {
 
         private String storeId;
 
@@ -196,12 +196,12 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
         }
 
         @Override
-        public DataHull<Info> doInBackground() {
+        public DataHull<StoreReceiptInfo> doInBackground() {
             return StoreInfoProvider.request(context, uId, uToken, storeId, containerId, barCode);
         }
 
         @Override
-        public void onPostExecute(Info result) {
+        public void onPostExecute(StoreReceiptInfo result) {
             StoreInfoActivity.launch(StoreOpenActivity.this, uId, uToken, storeId, containerId, barCode, result);
         }
 

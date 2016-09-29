@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.tools.DeviceTool;
-import com.elianshang.wms.app.receipt.bean.Info;
-import com.elianshang.wms.app.receipt.parser.ReceiptGetOrderInfoParser;
+import com.elianshang.wms.app.receipt.bean.StoreReceiptInfo;
+import com.elianshang.wms.app.receipt.parser.ReceiptGetStoreInfoParser;
 import com.xue.http.hook.BaseHttpParameter;
 import com.xue.http.hook.BaseKVP;
 import com.xue.http.impl.DataHull;
@@ -61,7 +61,7 @@ public class StoreInfoProvider {
     private static final String barCode = "barCode";
 
 
-    public static DataHull<Info> request(Context context, String uId, String uToken, String storeId, String containerId, String barCode) {
+    public static DataHull<StoreReceiptInfo> request(Context context, String uId, String uToken, String storeId, String containerId, String barCode) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -78,10 +78,10 @@ public class StoreInfoProvider {
         params.add(new DefaultKVPBean(StoreInfoProvider.barCode, barCode));
         int type = BaseHttpParameter.Type.POST;
 
-        HttpDynamicParameter<ReceiptGetOrderInfoParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ReceiptGetOrderInfoParser(), 0);
+        HttpDynamicParameter<ReceiptGetStoreInfoParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ReceiptGetStoreInfoParser(), 0);
 
-        OkHttpHandler<Info> handler = new OkHttpHandler();
-        DataHull<Info> dataHull = handler.requestData(parameter);
+        OkHttpHandler<StoreReceiptInfo> handler = new OkHttpHandler();
+        DataHull<StoreReceiptInfo> dataHull = handler.requestData(parameter);
         return dataHull;
 
     }

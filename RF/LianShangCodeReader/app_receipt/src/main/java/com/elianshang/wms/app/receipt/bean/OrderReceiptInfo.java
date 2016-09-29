@@ -2,7 +2,7 @@ package com.elianshang.wms.app.receipt.bean;
 
 import com.xue.http.hook.BaseBean;
 
-public class Info implements BaseBean {
+public class OrderReceiptInfo implements BaseBean {
 
     private String skuName;
 

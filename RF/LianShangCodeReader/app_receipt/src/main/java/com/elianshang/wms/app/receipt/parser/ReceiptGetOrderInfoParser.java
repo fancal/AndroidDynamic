@@ -4,15 +4,15 @@ package com.elianshang.wms.app.receipt.parser;
 import android.text.TextUtils;
 
 import com.elianshang.bridge.parser.MasterParser;
-import com.elianshang.wms.app.receipt.bean.Info;
+import com.elianshang.wms.app.receipt.bean.OrderReceiptInfo;
 
 import org.json.JSONObject;
 
-public class ReceiptGetOrderInfoParser extends MasterParser<Info> {
+public class ReceiptGetOrderInfoParser extends MasterParser<OrderReceiptInfo> {
 
     @Override
-    public Info parse(JSONObject data) throws Exception {
-        Info info = null;
+    public OrderReceiptInfo parse(JSONObject data) throws Exception {
+        OrderReceiptInfo orderReceiptInfo = null;
 
         if (data != null) {
             String skuName = optString(data, "skuName");
@@ -24,15 +24,15 @@ public class ReceiptGetOrderInfoParser extends MasterParser<Info> {
                     && !TextUtils.isEmpty(orderQty)
                     && !TextUtils.isEmpty(packName)
                     && batchNeeded != -1) {
-                info = new Info();
+                orderReceiptInfo = new OrderReceiptInfo();
 
-                info.setSkuName(skuName);
-                info.setOrderQty(orderQty);
-                info.setPackName(packName);
-                info.setBatchNeeded(batchNeeded);
+                orderReceiptInfo.setSkuName(skuName);
+                orderReceiptInfo.setOrderQty(orderQty);
+                orderReceiptInfo.setPackName(packName);
+                orderReceiptInfo.setBatchNeeded(batchNeeded);
             }
         }
 
-        return info;
+        return orderReceiptInfo;
     }
 }

@@ -25,7 +25,7 @@ import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.receipt.R;
-import com.elianshang.wms.app.receipt.bean.Info;
+import com.elianshang.wms.app.receipt.bean.OrderReceiptInfo;
 import com.elianshang.wms.app.receipt.bean.ResponseState;
 import com.elianshang.wms.app.receipt.provider.OrderAddProvider;
 import com.xue.http.impl.DataHull;
@@ -38,12 +38,12 @@ import org.json.JSONObject;
  */
 public class OrderInfoActivity extends DLBasePluginActivity implements View.OnClickListener, DateKeyboardUtil.OnKeyBoardUtilListener {
 
-    public static void launch(DLBasePluginActivity activity, String uId, String uToken, String orderOtherId, String containerId, String barCode, Info info) {
+    public static void launch(DLBasePluginActivity activity, String uId, String uToken, String orderOtherId, String containerId, String barCode, OrderReceiptInfo orderReceiptInfo) {
         DLIntent intent = new DLIntent(activity.getPackageName(), OrderInfoActivity.class);
         intent.putExtra("orderOtherId", orderOtherId);
         intent.putExtra("containerId", containerId);
         intent.putExtra("barCode", barCode);
-        intent.putExtra("info", info);
+        intent.putExtra("orderReceiptInfo", orderReceiptInfo);
         intent.putExtra("uId", uId);
         intent.putExtra("uToken", uToken);
         activity.startPluginActivityForResult(intent, 1);
@@ -71,7 +71,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
     /**
      * 收货商品详情,上一页传入
      */
-    private Info info;
+    private OrderReceiptInfo orderReceiptInfo;
 
     /**
      * 商品名称TextView
@@ -192,7 +192,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             return false;
         }
 
-        info = (Info) intent.getSerializableExtra("info");
+        orderReceiptInfo = (OrderReceiptInfo) intent.getSerializableExtra("orderReceiptInfo");
         orderOtherId = intent.getStringExtra("orderOtherId");
         containerId = intent.getStringExtra("containerId");
         barCode = intent.getStringExtra("barCode");
@@ -201,16 +201,16 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
     }
 
     private void fillData() {
-        if (info == null) {
+        if (orderReceiptInfo == null) {
             return;
         }
-        itemNameTextView.setText(info.getSkuName());
-        packUnitTextView.setText(info.getPackName());
-        orderQtyTextView.setText(info.getOrderQty());
-        inboundQtyEditView.setHint(info.getOrderQty());
+        itemNameTextView.setText(orderReceiptInfo.getSkuName());
+        packUnitTextView.setText(orderReceiptInfo.getPackName());
+        orderQtyTextView.setText(orderReceiptInfo.getOrderQty());
+        inboundQtyEditView.setHint(orderReceiptInfo.getOrderQty());
         inboundQtyEditView.setText(null);
 
-        if (1 == info.getBatchNeeded()) {
+        if (1 == orderReceiptInfo.getBatchNeeded()) {
             lotNumLayout.setVisibility(View.VISIBLE);
             lotNumEditText.setHint("必填");
         } else {
@@ -264,7 +264,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
     }
 
     private void submit() {
-        if (info == null) {
+        if (orderReceiptInfo == null) {
             return;
         }
 
@@ -294,7 +294,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
 
         String proTime = year + "-" + month + "-" + day;
         String lotNum = lotNumEditText.getText().toString();
-        if (1 == info.getBatchNeeded() && TextUtils.isEmpty(lotNum)) {
+        if (1 == orderReceiptInfo.getBatchNeeded() && TextUtils.isEmpty(lotNum)) {
             Toast.makeText(that, "请填入批次号", Toast.LENGTH_SHORT).show();
             return;
         }

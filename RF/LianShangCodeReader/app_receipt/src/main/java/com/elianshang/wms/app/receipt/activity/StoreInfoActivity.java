@@ -20,8 +20,8 @@ import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.receipt.R;
-import com.elianshang.wms.app.receipt.bean.Info;
 import com.elianshang.wms.app.receipt.bean.ResponseState;
+import com.elianshang.wms.app.receipt.bean.StoreReceiptInfo;
 import com.elianshang.wms.app.receipt.provider.StoreAddProvider;
 import com.xue.http.impl.DataHull;
 
@@ -33,12 +33,12 @@ import org.json.JSONObject;
  */
 public class StoreInfoActivity extends DLBasePluginActivity implements View.OnClickListener {
 
-    public static void launch(DLBasePluginActivity activity, String uId, String uToken, String storeId, String containerId, String barCode, Info info) {
+    public static void launch(DLBasePluginActivity activity, String uId, String uToken, String storeId, String containerId, String barCode, StoreReceiptInfo storeReceiptInfo) {
         DLIntent intent = new DLIntent(activity.getPackageName(), StoreInfoActivity.class);
         intent.putExtra("storeId", storeId);
         intent.putExtra("containerId", containerId);
         intent.putExtra("barCode", barCode);
-        intent.putExtra("info", info);
+        intent.putExtra("storeReceiptInfo", storeReceiptInfo);
         intent.putExtra("uId", uId);
         intent.putExtra("uToken", uToken);
         activity.startPluginActivityForResult(intent, 1);
@@ -66,7 +66,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
     /**
      * 收货商品详情,上一页传入
      */
-    private Info info;
+    private StoreReceiptInfo storeReceiptInfo;
 
     /**
      * 商品名称TextView
@@ -144,7 +144,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
             return false;
         }
 
-        info = (Info) intent.getSerializableExtra("info");
+        storeReceiptInfo = (StoreReceiptInfo) intent.getSerializableExtra("storeReceiptInfo");
         storeId = intent.getStringExtra("storeId");
         containerId = intent.getStringExtra("containerId");
         barCode = intent.getStringExtra("barCode");
@@ -153,13 +153,13 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
     }
 
     private void fillData() {
-        if (info == null) {
+        if (storeReceiptInfo == null) {
             return;
         }
-        itemNameTextView.setText(info.getSkuName());
-        packUnitTextView.setText(info.getPackName());
-        orderQtyTextView.setText(info.getOrderQty());
-        inboundQtyEditView.setHint(info.getOrderQty());
+        itemNameTextView.setText(storeReceiptInfo.getSkuName());
+        packUnitTextView.setText(storeReceiptInfo.getPackName());
+        orderQtyTextView.setText(storeReceiptInfo.getSumPackQty());
+        inboundQtyEditView.setHint(storeReceiptInfo.getSumPackQty());
         inboundQtyEditView.setText(null);
     }
 
@@ -191,7 +191,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
     }
 
     private void submit() {
-        if (info == null) {
+        if (storeReceiptInfo == null) {
             return;
         }
 

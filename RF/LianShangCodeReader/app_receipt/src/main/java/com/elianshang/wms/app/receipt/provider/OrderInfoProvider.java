@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.tools.DeviceTool;
-import com.elianshang.wms.app.receipt.bean.Info;
+import com.elianshang.wms.app.receipt.bean.OrderReceiptInfo;
 import com.elianshang.wms.app.receipt.parser.ReceiptGetOrderInfoParser;
 import com.xue.http.hook.BaseHttpParameter;
 import com.xue.http.hook.BaseKVP;
@@ -61,7 +61,7 @@ public class OrderInfoProvider {
     private static final String barCode = "barCode";
 
 
-    public static DataHull<Info> request(Context context, String uId, String uToken, String orderOtherId, String containerId, String barCode) {
+    public static DataHull<OrderReceiptInfo> request(Context context, String uId, String uToken, String orderOtherId, String containerId, String barCode) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -80,8 +80,8 @@ public class OrderInfoProvider {
 
         HttpDynamicParameter<ReceiptGetOrderInfoParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ReceiptGetOrderInfoParser(), 0);
 
-        OkHttpHandler<Info> handler = new OkHttpHandler();
-        DataHull<Info> dataHull = handler.requestData(parameter);
+        OkHttpHandler<OrderReceiptInfo> handler = new OkHttpHandler();
+        DataHull<OrderReceiptInfo> dataHull = handler.requestData(parameter);
         return dataHull;
 
     }
