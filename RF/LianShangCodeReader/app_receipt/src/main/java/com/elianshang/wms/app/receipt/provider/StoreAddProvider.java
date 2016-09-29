@@ -76,27 +76,6 @@ public class StoreAddProvider {
      */
     private static final String items = "items";
 
-    /**
-     * 批次号
-     */
-    private static final String items_lotNum = "lotNum";
-
-    /**
-     * 商品国条码
-     */
-    private static final String barCode = "barCode";
-
-    /**
-     * 实际收货数
-     */
-    private static final String items_inboundQty = "inboundQty";
-
-    /**
-     * 生产日期
-     */
-    private static final String items_proTime = "proTime";
-
-
     public static DataHull<ResponseState> request(Context context, String uId, String uToken, String storeId, String containerId, String bookingNum, String receiptWharf, String items, String serialNumber) {
         String url = base_url + _function;
 

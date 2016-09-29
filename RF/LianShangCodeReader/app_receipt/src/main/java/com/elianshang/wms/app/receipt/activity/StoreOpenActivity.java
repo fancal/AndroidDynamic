@@ -24,7 +24,7 @@ import com.elianshang.wms.app.receipt.provider.StoreInfoProvider;
 import com.xue.http.impl.DataHull;
 
 /**
- * 收货扫描页,扫描 订单号,托盘码,商品barcode
+ * 收货扫描页,扫描 超市id,托盘码,商品barcode
  */
 public class StoreOpenActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener, View.OnClickListener {
 
