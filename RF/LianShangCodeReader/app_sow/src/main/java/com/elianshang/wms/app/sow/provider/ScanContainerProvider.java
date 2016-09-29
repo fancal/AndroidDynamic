@@ -4,8 +4,9 @@ import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.tools.DeviceTool;
-import com.elianshang.wms.app.sow.bean.Sow;
-import com.elianshang.wms.app.sow.parser.SowParser;
+import com.elianshang.tools.MD5Tool;
+import com.elianshang.wms.app.sow.bean.SowNext;
+import com.elianshang.wms.app.sow.parser.SowNextParser;
 import com.xue.http.hook.BaseHttpParameter;
 import com.xue.http.hook.BaseKVP;
 import com.xue.http.impl.DataHull;
@@ -39,16 +40,30 @@ public class ScanContainerProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/inbound/pick_up_shelve/scanContainer";
+    private static final String _function = "/inbound/seed/scanContainer";
 
     private static final String uId = "uId";
 
     private static final String uToken = "utoken";
 
+    /**
+     * 流水号
+     */
+    private static final String serialNumber = "serialNumber";
+
+    /**
+     * 任务ID
+     */
+    private static final String taskId = "taskId";
+
+    private static final String allocContainerId = "allocContainerId";
+
     private static final String containerId = "containerId";
 
+    private static final String qty = "qty";
 
-    public static DataHull<Sow> request(Context context, String uId, String uToken, String containerId) {
+
+    public static DataHull<SowNext> request(Context context, String uid, String uToken, String taskId, String allocContainerId, String containerId, String qty, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -56,18 +71,22 @@ public class ScanContainerProvider {
         headers.add(new DefaultKVPBean(ScanContainerProvider.platform, "2"));
         headers.add(new DefaultKVPBean(ScanContainerProvider.version, DeviceTool.getClientVersionName(context)));
         headers.add(new DefaultKVPBean(ScanContainerProvider.api_version, "v1"));
-        headers.add(new DefaultKVPBean(ScanContainerProvider.uId, uId));
+        headers.add(new DefaultKVPBean(ScanContainerProvider.uId, uid));
         headers.add(new DefaultKVPBean(ScanContainerProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(ScanContainerProvider.uId, uId));
+        params.add(new DefaultKVPBean(ScanContainerProvider.taskId, taskId));
+        params.add(new DefaultKVPBean(ScanContainerProvider.allocContainerId, allocContainerId));
         params.add(new DefaultKVPBean(ScanContainerProvider.containerId, containerId));
+        params.add(new DefaultKVPBean(ScanContainerProvider.qty, qty));
         int type = BaseHttpParameter.Type.POST;
 
-        HttpDynamicParameter<SowParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new SowParser(), 0);
+        HttpDynamicParameter<SowNextParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new SowNextParser(), 0);
 
-        OkHttpHandler<Sow> handler = new OkHttpHandler();
-        DataHull<Sow> dataHull = handler.requestData(parameter);
+        headers.add(new DefaultKVPBean(ScanContainerProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
+
+        OkHttpHandler<SowNext> handler = new OkHttpHandler();
+        DataHull<SowNext> dataHull = handler.requestData(parameter);
         return dataHull;
 
     }

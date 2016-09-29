@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.ChooseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentDialog">
             <intent-filter>
