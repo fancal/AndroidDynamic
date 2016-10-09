@@ -33,7 +33,8 @@
             android:id="@+id/userName_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textNoSuggestions"
+            android:singleLine="true"
+            android:inputType="textEmailAddress|textNoSuggestions"
             android:hint="请输入用户名"
             android:textSize="14dip" />
 
@@ -58,6 +59,7 @@
             android:id="@+id/passWd_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:hint="请输入密码"
             android:inputType="textPassword"
             android:textSize="14dip" />

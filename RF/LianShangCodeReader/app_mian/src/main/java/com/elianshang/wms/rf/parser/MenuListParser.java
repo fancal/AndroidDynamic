@@ -18,32 +18,29 @@ public class MenuListParser extends MasterParser<MenuList> {
             JSONArray jsonArray = optJSONArray(data, "menuList");
             int len = getLength(jsonArray);
 
-            if (len > 0) {
-                menuList = new MenuList();
+            menuList = new MenuList();
+            for (int i = 0; i < len; i++) {
+                JSONObject jo = getJSONObject(jsonArray, i);
+                if (jo != null) {
+                    String url = optString(jo, "url");
+                    String name = optString(jo, "name");
+                    String fileName = optString(jo, "fileName");
+                    String identity = optString(jo, "identity");
 
-                for (int i = 0; i < len ; i++) {
-                    JSONObject jo = getJSONObject(jsonArray, i);
-                    if (jo != null) {
-                        String url = optString(jo, "url");
-                        String name = optString(jo, "name");
-                        String fileName = optString(jo, "fileName");
-                        String identity = optString(jo, "identity");
+                    if (!TextUtils.isEmpty(url)
+                            && !TextUtils.isEmpty(name)
+                            && !TextUtils.isEmpty(fileName)
+                            && !TextUtils.isEmpty(identity)) {
+                        Menu menu = new Menu();
+                        menu.setName(name);
+                        menu.setUrl(url);
+                        menu.setFileName(fileName);
+                        menu.setIdentity(identity);
 
-                        if (!TextUtils.isEmpty(url)
-                                && !TextUtils.isEmpty(name)
-                                && !TextUtils.isEmpty(fileName)
-                                && !TextUtils.isEmpty(identity)) {
-                            Menu menu = new Menu();
-                            menu.setName(name);
-                            menu.setUrl(url);
-                            menu.setFileName(fileName);
-                            menu.setIdentity(identity);
-
-                            menuList.add(menu);
-                        }
+                        menuList.add(menu);
                     }
-
                 }
+
             }
         }
         return menuList;
