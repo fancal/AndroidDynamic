@@ -7,16 +7,15 @@ import com.xue.http.hook.BaseBean;
  */
 public class Sow implements BaseBean{
 
+    private String storeName;
+
     private String taskId ;
 
-    private String containerId ;
+    private String skuName;
 
     private String qty ;
 
     private String packName ;
-
-    private String itemName ;
-
 
     public String getTaskId() {
         return taskId;
@@ -26,12 +25,12 @@ public class Sow implements BaseBean{
         this.taskId = taskId;
     }
 
-    public String getContainerId() {
-        return containerId;
+    public String getSkuName() {
+        return skuName;
     }
 
-    public void setContainerId(String containerId) {
-        this.containerId = containerId;
+    public void setSkuName(String skuName) {
+        this.skuName = skuName;
     }
 
     public String getQty() {
@@ -50,12 +49,12 @@ public class Sow implements BaseBean{
         this.packName = packName;
     }
 
-    public String getItemName() {
-        return itemName;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     @Override

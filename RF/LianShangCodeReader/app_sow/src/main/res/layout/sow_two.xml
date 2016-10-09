@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <TextView
@@ -16,23 +15,6 @@
         android:gravity="center"
         android:textSize="14dip" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:text="托盘码"
-        android:textSize="14dip" />
-
-    <TextView
-        android:id="@+id/containerId_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textColor="#ffff0000"
-        android:textSize="18dip" />
-
     <LinearLayout
         android:id="@+id/containerId_Layout"
         android:layout_width="match_parent"
@@ -44,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="扫描确认托盘码:"
+            android:text="请扫描托盘码:"
             android:textSize="14dip" />
 
         <com.elianshang.bridge.ui.view.ScanEditText
@@ -55,6 +37,29 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/storeName_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dip"
+        android:layout_marginTop="5dip"
+        android:orientation="horizontal"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="门店名称:"
+            android:textSize="14dip" />
+
+        <TextView
+            android:id="@+id/storeName_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dip" />
+    </LinearLayout>
+
+ <LinearLayout
         android:id="@+id/itemName_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="名称:"
+            android:text="商品名称:"
             android:textSize="14dip" />
 
         <TextView
@@ -90,7 +95,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="规格:"
+            android:text="商品规格:"
             android:textSize="14dip" />
 
         <TextView
@@ -113,7 +118,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="数量:"
+            android:text="商品数量:"
             android:textSize="14dip" />
 
         <TextView
@@ -146,5 +151,13 @@
             android:inputType="numberDecimal"
             android:minWidth="60dip"
             android:textSize="14dip" />
+
+        <CheckBox
+            android:id="@+id/inputQty_CheckView"
+            android:text="不播种,确认缺交"
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

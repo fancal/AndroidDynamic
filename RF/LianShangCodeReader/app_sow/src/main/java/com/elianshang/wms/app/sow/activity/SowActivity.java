@@ -8,8 +8,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
@@ -30,7 +32,7 @@ import com.elianshang.wms.app.sow.provider.AssignByOrderIdProvider;
 import com.elianshang.wms.app.sow.provider.ScanContainerProvider;
 import com.xue.http.impl.DataHull;
 
-public class SowActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class SowActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener, TextWatcher {
 
     public static void launch(DLBasePluginActivity activity, String uid, String uToken, Sow sow, Type type) {
         DLIntent intent = new DLIntent(activity.getPackageName(), SowActivity.class);
@@ -69,9 +71,11 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     private View twoContainerIdLayout;
 
-    private TextView twoContainerIdTextView;
-
     private ScanEditText twoContainerIdEditText;
+
+    private View twoStoreNameLayout;
+
+    private TextView twoStoreNameTextView;
 
     private View twoItemNameLayout;
 
@@ -88,6 +92,8 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     private View twoInputQtyLayout;
 
     private QtyEditText twoInputQtyEditView;
+
+    private CheckBox twoInputQtyCheckView;
 
     private Button submitButton;
 
@@ -188,6 +194,10 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
         }
+        if (twoInputQtyEditView != null) {
+            twoInputQtyEditView.removeTextChangedListener(this);
+        }
+
     }
 
     private void findViews() {
@@ -201,9 +211,10 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         twoLayout = findViewById(R.id.sow_two);
         twoHeadTextView = (TextView) twoLayout.findViewById(R.id.head_TextView);
         twoContainerIdLayout = twoLayout.findViewById(R.id.containerId_Layout);
-        twoContainerIdTextView = (TextView) twoLayout.findViewById(R.id.containerId_TextView);
         twoContainerIdEditText = (ScanEditText) twoLayout.findViewById(R.id.containerId_EditText);
         twoContainerIdEditText.setCode(true);
+        twoStoreNameLayout = twoLayout.findViewById(R.id.storeName_Layout);
+        twoStoreNameTextView = (TextView) twoLayout.findViewById(R.id.storeName_TextView);
         twoItemNameLayout = twoLayout.findViewById(R.id.itemName_Layout);
         twoItemNameTextView = (TextView) twoLayout.findViewById(R.id.itemName_TextView);
         twoPackNameLayout = twoLayout.findViewById(R.id.packName_Layout);
@@ -212,6 +223,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         twoAllocQtyTextView = (TextView) twoLayout.findViewById(R.id.allocQty_TextView);
         twoInputQtyLayout = twoLayout.findViewById(R.id.inputQty_Layout);
         twoInputQtyEditView = (QtyEditText) twoLayout.findViewById(R.id.inputQty_EditView);
+        twoInputQtyCheckView = (CheckBox) twoLayout.findViewById(R.id.inputQty_CheckView);
 
         submitButton = (Button) findViewById(R.id.submit_Button);
 
@@ -251,12 +263,12 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
         submitButton.setOnClickListener(null);
 
-        twoHeadTextView.setText("确认播种托盘码");
+        twoHeadTextView.setText("扫描播种托盘码");
 
-        twoContainerIdTextView.setText(curSow.getContainerId());
         twoContainerIdEditText.setText(null);
 
         twoContainerIdLayout.setVisibility(View.VISIBLE);
+        twoStoreNameLayout.setVisibility(View.GONE);
         twoItemNameLayout.setVisibility(View.GONE);
         twoPackNameLayout.setVisibility(View.GONE);
         twoSystemQtyLayout.setVisibility(View.GONE);
@@ -280,15 +292,18 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
         twoHeadTextView.setText("确认播种数量");
 
-        twoItemNameTextView.setText(curSow.getItemName());
+        twoStoreNameTextView.setText(curSow.getStoreName());
+        twoItemNameTextView.setText(curSow.getSkuName());
         twoPackNameTextView.setText(curSow.getPackName());
         twoAllocQtyTextView.setText(curSow.getQty());
         twoInputQtyEditView.setHint(curSow.getQty());
         twoInputQtyEditView.setText(null);
+        twoInputQtyEditView.addTextChangedListener(this);
 
         twoInputQtyEditView.requestFocus();
 
         twoContainerIdLayout.setVisibility(View.GONE);
+        twoStoreNameLayout.setVisibility(View.VISIBLE);
         twoItemNameLayout.setVisibility(View.VISIBLE);
         twoPackNameLayout.setVisibility(View.VISIBLE);
         twoSystemQtyLayout.setVisibility(View.VISIBLE);
@@ -329,7 +344,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             } else {
                 Editable editable1 = oneOrderIdEditText.getText();
                 Editable editable2 = oneOrderBarcodeEditText.getText();
-                if (editable1 != null) {
+                if (editable1 != null && editable2 != null) {
                     String orderId = editable1.toString();
                     String barcode = editable2.toString();
                     if (!TextUtils.isEmpty(orderId) && !TextUtils.isEmpty(barcode)) {
@@ -341,17 +356,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         } else if (twoLayout.getVisibility() == View.VISIBLE) {
             Editable editable = twoContainerIdEditText.getText();
             if (editable != null) {
-                final String containerId = editable.toString();
-                if (!TextUtils.equals(containerId, curSow.getContainerId())) {
-                    DialogTools.showTwoButtonDialog(that, "扫描的托盘码与目标托盘码不一致,确认播种", "取消", "确认", null, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            fillStepTwoQtyLayout();
-                        }
-                    }, true);
-                } else {
-                    fillStepTwoQtyLayout();
-                }
+                fillStepTwoQtyLayout();
             }
         }
     }
@@ -366,6 +371,28 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             return;
         }
         scanEditTextTool.setScanText(s);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        try {
+            float realQty = Float.parseFloat(twoInputQtyEditView.getValue());
+            float qty = Float.parseFloat(curSow.getQty());
+            twoInputQtyCheckView.setVisibility(qty > realQty ? View.VISIBLE : View.GONE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -387,11 +414,14 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     public void onClick(View v) {
         if (v == submitButton) {
             String taskId = curSow.getTaskId();
-            String allocContainerId = curSow.getContainerId();
-            String realContainerId = twoContainerIdEditText.getText().toString();
+            String containerId = twoContainerIdEditText.getText().toString();
             String qty = twoInputQtyEditView.getValue();
+            String type = "";
+            if (twoInputQtyCheckView.getVisibility() == View.VISIBLE) {
+                type = twoInputQtyCheckView.isChecked() ? "1" : "2";
+            }
 
-            new ScanTargetContainerTask(that, uId, taskId, allocContainerId, realContainerId, qty).start();
+            new ScanTargetContainerTask(that, uId, taskId, containerId, qty, type).start();
         }
     }
 
@@ -450,22 +480,22 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
         private String uId;
         private String taskId;
-        private String allocContainerId;
-        private String realContainerId;
+        private String containerId;
         private String qty;
+        private String type;
 
-        public ScanTargetContainerTask(Context context, String uId, String taskId, String allocContainerId, String realContainerId, String qty) {
+        public ScanTargetContainerTask(Context context, String uId, String taskId, String containerId, String qty, String type) {
             super(context, true, true, false);
             this.uId = uId;
             this.taskId = taskId;
             this.qty = qty;
-            this.allocContainerId = allocContainerId;
-            this.realContainerId = realContainerId;
+            this.containerId = containerId;
+            this.type = type;
         }
 
         @Override
         public DataHull<SowNext> doInBackground() {
-            return ScanContainerProvider.request(context, uId, uToken, taskId, allocContainerId, realContainerId, qty, serialNumber);
+            return ScanContainerProvider.request(context, uId, uToken, taskId, containerId, qty, type, serialNumber);
         }
 
         @Override

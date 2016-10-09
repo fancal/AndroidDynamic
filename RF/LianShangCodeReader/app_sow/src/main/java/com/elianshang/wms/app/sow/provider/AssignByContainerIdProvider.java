@@ -39,7 +39,7 @@ public class AssignByContainerIdProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/inbound/seed/assign";
+    private static final String _function = "/seed/assign";
 
     private static final String uId = "uId";
 

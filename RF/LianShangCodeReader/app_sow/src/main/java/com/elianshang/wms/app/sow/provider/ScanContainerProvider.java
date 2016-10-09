@@ -40,7 +40,7 @@ public class ScanContainerProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/inbound/seed/scanContainer";
+    private static final String _function = "/seed/scanContainer";
 
     private static final String uId = "uId";
 
@@ -56,14 +56,14 @@ public class ScanContainerProvider {
      */
     private static final String taskId = "taskId";
 
-    private static final String allocContainerId = "allocContainerId";
-
     private static final String containerId = "containerId";
 
     private static final String qty = "qty";
 
+    private static final String type = "type";
 
-    public static DataHull<SowNext> request(Context context, String uid, String uToken, String taskId, String allocContainerId, String containerId, String qty, String serialNumber) {
+
+    public static DataHull<SowNext> request(Context context, String uid, String uToken, String taskId, String containerId, String qty, String scanType, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -76,9 +76,9 @@ public class ScanContainerProvider {
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(ScanContainerProvider.taskId, taskId));
-        params.add(new DefaultKVPBean(ScanContainerProvider.allocContainerId, allocContainerId));
         params.add(new DefaultKVPBean(ScanContainerProvider.containerId, containerId));
         params.add(new DefaultKVPBean(ScanContainerProvider.qty, qty));
+        params.add(new DefaultKVPBean(ScanContainerProvider.type, scanType));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<SowNextParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new SowNextParser(), 0);

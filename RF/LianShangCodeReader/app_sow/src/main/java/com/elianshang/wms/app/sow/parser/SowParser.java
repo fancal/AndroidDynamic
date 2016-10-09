@@ -14,23 +14,23 @@ public class SowParser extends MasterParser<Sow> {
         Sow sow = null;
         if (data != null) {
             String taskId = optString(data, "taskId");
-            String containerId = optString(data, "containerId");
+            String storeName = optString(data, "storeName");
             String qty = optString(data, "qty");
             String packName = optString(data, "packName");
-            String itemName = optString(data, "skuName");
+            String skuName = optString(data, "skuName");
 
             if (!TextUtils.isEmpty(taskId)
-                    && !TextUtils.isEmpty(containerId)
+                    && !TextUtils.isEmpty(storeName)
                     && !TextUtils.isEmpty(qty)
                     && !TextUtils.isEmpty(packName)
-                    && !TextUtils.isEmpty(itemName)) {
+                    && !TextUtils.isEmpty(skuName)) {
                 sow = new Sow();
 
                 sow.setTaskId(taskId);
-                sow.setContainerId(containerId);
+                sow.setStoreName(storeName);
                 sow.setQty(qty);
                 sow.setPackName(packName);
-                sow.setItemName(itemName);
+                sow.setSkuName(skuName);
             }
         }
         return sow;

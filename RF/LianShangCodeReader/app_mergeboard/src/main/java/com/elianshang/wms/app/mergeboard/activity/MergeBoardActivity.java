@@ -86,7 +86,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
     /**
      * 最大允许合板数
      */
-    private final int MAX_BOARD_NUM = 8;
+    private final int MAX_BOARD_NUM = Integer.MAX_VALUE;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
