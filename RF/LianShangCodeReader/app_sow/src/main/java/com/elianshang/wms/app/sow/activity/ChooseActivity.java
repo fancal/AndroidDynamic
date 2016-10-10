@@ -35,7 +35,7 @@ public class ChooseActivity extends DLBasePluginActivity implements View.OnClick
         uToken = getIntent().getStringExtra("uToken");
         //Fixme test
         uId = "141871359725260";
-        uToken = "131370164694198";
+        uToken = "239697829824942";
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();

@@ -23,7 +23,6 @@ import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
-import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.sow.R;
 import com.elianshang.wms.app.sow.bean.Sow;
 import com.elianshang.wms.app.sow.bean.SowNext;
@@ -69,27 +68,15 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     private TextView twoHeadTextView;
 
-    private View twoContainerIdLayout;
-
     private ScanEditText twoContainerIdEditText;
-
-    private View twoStoreNameLayout;
 
     private TextView twoStoreNameTextView;
 
-    private View twoItemNameLayout;
-
     private TextView twoItemNameTextView;
-
-    private View twoPackNameLayout;
 
     private TextView twoPackNameTextView;
 
-    private View twoSystemQtyLayout;
-
     private TextView twoAllocQtyTextView;
-
-    private View twoInputQtyLayout;
 
     private QtyEditText twoInputQtyEditView;
 
@@ -164,7 +151,8 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         }
 
         if (curSow != null) {
-            fillStepTwoContainerLayout();
+//            fillStepTwoContainerLayout();
+            fillStepTwo();
         } else {
             fillStepOne();
         }
@@ -210,18 +198,12 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
         twoLayout = findViewById(R.id.sow_two);
         twoHeadTextView = (TextView) twoLayout.findViewById(R.id.head_TextView);
-        twoContainerIdLayout = twoLayout.findViewById(R.id.containerId_Layout);
         twoContainerIdEditText = (ScanEditText) twoLayout.findViewById(R.id.containerId_EditText);
         twoContainerIdEditText.setCode(true);
-        twoStoreNameLayout = twoLayout.findViewById(R.id.storeName_Layout);
         twoStoreNameTextView = (TextView) twoLayout.findViewById(R.id.storeName_TextView);
-        twoItemNameLayout = twoLayout.findViewById(R.id.itemName_Layout);
         twoItemNameTextView = (TextView) twoLayout.findViewById(R.id.itemName_TextView);
-        twoPackNameLayout = twoLayout.findViewById(R.id.packName_Layout);
         twoPackNameTextView = (TextView) twoLayout.findViewById(R.id.packName_TextView);
-        twoSystemQtyLayout = twoLayout.findViewById(R.id.systemQty_Layout);
         twoAllocQtyTextView = (TextView) twoLayout.findViewById(R.id.allocQty_TextView);
-        twoInputQtyLayout = twoLayout.findViewById(R.id.inputQty_Layout);
         twoInputQtyEditView = (QtyEditText) twoLayout.findViewById(R.id.inputQty_EditView);
         twoInputQtyCheckView = (CheckBox) twoLayout.findViewById(R.id.inputQty_CheckView);
 
@@ -254,36 +236,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     }
 
-    private void fillStepTwoContainerLayout() {
-        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
-
-        oneLayout.setVisibility(View.GONE);
-        twoLayout.setVisibility(View.VISIBLE);
-        submitButton.setVisibility(View.GONE);
-
-        submitButton.setOnClickListener(null);
-
-        twoHeadTextView.setText("扫描播种托盘码");
-
-        twoContainerIdEditText.setText(null);
-
-        twoContainerIdLayout.setVisibility(View.VISIBLE);
-        twoStoreNameLayout.setVisibility(View.GONE);
-        twoItemNameLayout.setVisibility(View.GONE);
-        twoPackNameLayout.setVisibility(View.GONE);
-        twoSystemQtyLayout.setVisibility(View.GONE);
-        twoInputQtyLayout.setVisibility(View.GONE);
-
-        if (scanEditTextTool != null) {
-            scanEditTextTool.release();
-        }
-
-        twoContainerIdEditText.requestFocus();
-        scanEditTextTool = new ScanEditTextTool(that, twoContainerIdEditText);
-        scanEditTextTool.setComplete(this);
-    }
-
-    private void fillStepTwoQtyLayout() {
+    private void fillStepTwo() {
         oneLayout.setVisibility(View.GONE);
         twoLayout.setVisibility(View.VISIBLE);
         submitButton.setVisibility(View.VISIBLE);
@@ -302,16 +255,13 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
         twoInputQtyEditView.requestFocus();
 
-        twoContainerIdLayout.setVisibility(View.GONE);
-        twoStoreNameLayout.setVisibility(View.VISIBLE);
-        twoItemNameLayout.setVisibility(View.VISIBLE);
-        twoPackNameLayout.setVisibility(View.VISIBLE);
-        twoSystemQtyLayout.setVisibility(View.VISIBLE);
-        twoInputQtyLayout.setVisibility(View.VISIBLE);
-
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
         }
+
+        twoContainerIdEditText.requestFocus();
+        scanEditTextTool = new ScanEditTextTool(that, twoContainerIdEditText);
+        scanEditTextTool.setComplete(this);
     }
 
     private void fillStepThree() {
@@ -353,12 +303,12 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
                 }
             }
 
-        } else if (twoLayout.getVisibility() == View.VISIBLE) {
+        } /*else if (twoLayout.getVisibility() == View.VISIBLE) {
             Editable editable = twoContainerIdEditText.getText();
             if (editable != null) {
-                fillStepTwoQtyLayout();
+                fillStepTwo();
             }
-        }
+        }*/
     }
 
     @Override
@@ -416,10 +366,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             String taskId = curSow.getTaskId();
             String containerId = twoContainerIdEditText.getText().toString();
             String qty = twoInputQtyEditView.getValue();
-            String type = "";
-            if (twoInputQtyCheckView.getVisibility() == View.VISIBLE) {
-                type = twoInputQtyCheckView.isChecked() ? "1" : "2";
-            }
+            String type = twoInputQtyCheckView.isChecked() && twoInputQtyCheckView.getVisibility() == View.VISIBLE ? "1" : "2";
 
             new ScanTargetContainerTask(that, uId, taskId, containerId, qty, type).start();
         }
@@ -445,7 +392,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         @Override
         public void onPostExecute(Sow result) {
             curSow = result;
-            fillStepTwoContainerLayout();
+            fillStepTwo();
         }
     }
 
@@ -472,7 +419,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         @Override
         public void onPostExecute(Sow result) {
             curSow = result;
-            fillStepTwoContainerLayout();
+            fillStepTwo();
         }
     }
 
@@ -504,7 +451,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
                 fillStepThree();
             } else {
                 curSow = result.getSow();
-                fillStepTwoContainerLayout();
+                fillStepTwo();
             }
         }
     }

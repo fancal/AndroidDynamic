@@ -16,27 +16,6 @@
         android:textSize="14dip" />
 
     <LinearLayout
-        android:id="@+id/containerId_Layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="请扫描托盘码:"
-            android:textSize="14dip" />
-
-        <com.elianshang.bridge.ui.view.ScanEditText
-            android:id="@+id/containerId_EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14dip"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/storeName_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -129,10 +108,31 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/containerId_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请扫描托盘码:"
+            android:textSize="14dip" />
+
+        <com.elianshang.bridge.ui.view.ScanEditText
+            android:id="@+id/containerId_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dip"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/inputQty_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
         android:layout_marginTop="5dip"
         android:orientation="horizontal"
         android:paddingLeft="10dip"
@@ -152,12 +152,14 @@
             android:minWidth="60dip"
             android:textSize="14dip" />
 
-        <CheckBox
-            android:id="@+id/inputQty_CheckView"
-            android:text="不播种,确认缺交"
-            android:layout_marginLeft="10dp"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/inputQty_CheckView"
+        android:text="不播种,确认缺交"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
