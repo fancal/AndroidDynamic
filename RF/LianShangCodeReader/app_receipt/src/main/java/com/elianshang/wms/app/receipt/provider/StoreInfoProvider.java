@@ -56,12 +56,17 @@ public class StoreInfoProvider {
     private static final String containerId = "containerId";
 
     /**
+     * 订单号(扫描获得)
+     */
+    private static final String orderOtherId = "orderOtherId";
+
+    /**
      * 商品国条(扫描获得)
      */
     private static final String barCode = "barCode";
 
 
-    public static DataHull<StoreReceiptInfo> request(Context context, String uId, String uToken, String storeId, String containerId, String barCode) {
+    public static DataHull<StoreReceiptInfo> request(Context context, String uId, String uToken, String storeId, String containerId, String orderOtherId, String barCode) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -75,6 +80,7 @@ public class StoreInfoProvider {
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(StoreInfoProvider.storeId, storeId));
         params.add(new DefaultKVPBean(StoreInfoProvider.containerId, containerId));
+        params.add(new DefaultKVPBean(StoreInfoProvider.orderOtherId, orderOtherId));
         params.add(new DefaultKVPBean(StoreInfoProvider.barCode, barCode));
         int type = BaseHttpParameter.Type.POST;
 
@@ -83,6 +89,5 @@ public class StoreInfoProvider {
         OkHttpHandler<StoreReceiptInfo> handler = new OkHttpHandler();
         DataHull<StoreReceiptInfo> dataHull = handler.requestData(parameter);
         return dataHull;
-
     }
 }

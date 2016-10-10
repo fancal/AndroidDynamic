@@ -1,6 +1,7 @@
 package com.elianshang.wms.app.pickup.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
+import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
@@ -59,6 +61,7 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
 
         if (readExtra()) {
             findView();
+            fillScan();
         }
     }
 
@@ -90,6 +93,9 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
         Intent intent = getIntent();
         uId = intent.getStringExtra("uId");
         uToken = intent.getStringExtra("uToken");
+
+        uId = "141871359725260";
+        uToken = "131370164694198";
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -146,6 +152,11 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
         scanLayout.setVisibility(View.GONE);
         viewLayout.setVisibility(View.VISIBLE);
 
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+            scanEditTextTool = null;
+        }
+
         if (pickUpView != null) {
             viewContainerIdTextView.setText(pickUpView.getContainerId());
             viewLocationCodeTextView.setText(pickUpView.getLocationCode());
@@ -158,6 +169,22 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
                 viewSubmitButton.setText("集货");
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (viewLayout.getVisibility() == View.VISIBLE) {
+            DialogTools.showTwoButtonDialog(that, "是否退出集货", "取消", "确定", null, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            }, true);
+            return;
+        }
+
+        finish();
     }
 
     @Override

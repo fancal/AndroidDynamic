@@ -67,6 +67,5 @@ public class PickUpViewProvider {
         OkHttpHandler<PickUpView> handler = new OkHttpHandler();
         DataHull<PickUpView> dataHull = handler.requestData(parameter);
         return dataHull;
-
     }
 }
