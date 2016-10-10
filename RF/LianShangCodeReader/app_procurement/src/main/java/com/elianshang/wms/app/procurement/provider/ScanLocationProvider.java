@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class ScanLocationProvider {
 
-    private static final String base_url = "http://rf.wmdev.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
