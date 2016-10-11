@@ -2,25 +2,23 @@ package com.elianshang.wms.app.receipt.bean;
 
 import com.xue.http.hook.BaseBean;
 
-import java.util.ArrayList;
-
 public class StoreReceiptInfo implements BaseBean {
+
+    private String location ;
 
     private String proTime;
 
-    private String sumUnitQty;
+    private String packUnit ;
 
     private String skuName;
 
     private String barCode;
 
-    private String orderIds;
-
     private String packName;
 
-    private String sumPackQty;
+    private String orderId;
 
-    private ArrayList<OrderInfo> orderInfos;
+    private String orderQty ;
 
     @Override
     public void setDataKey(String dataKey) {
@@ -32,6 +30,38 @@ public class StoreReceiptInfo implements BaseBean {
         return null;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getPackUnit() {
+        return packUnit;
+    }
+
+    public void setPackUnit(String packUnit) {
+        this.packUnit = packUnit;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getOrderQty() {
+        return orderQty;
+    }
+
+    public void setOrderQty(String orderQty) {
+        this.orderQty = orderQty;
+    }
+
     public String getProTime() {
         return proTime;
     }
@@ -40,13 +70,6 @@ public class StoreReceiptInfo implements BaseBean {
         this.proTime = proTime;
     }
 
-    public String getSumUnitQty() {
-        return sumUnitQty;
-    }
-
-    public void setSumUnitQty(String sumUnitQty) {
-        this.sumUnitQty = sumUnitQty;
-    }
 
     public String getSkuName() {
         return skuName;
@@ -64,88 +87,11 @@ public class StoreReceiptInfo implements BaseBean {
         this.barCode = barCode;
     }
 
-    public String getOrderIds() {
-        return orderIds;
-    }
-
-    public void setOrderIds(String orderIds) {
-        this.orderIds = orderIds;
-    }
-
     public String getPackName() {
         return packName;
     }
 
     public void setPackName(String packName) {
         this.packName = packName;
-    }
-
-    public String getSumPackQty() {
-        return sumPackQty;
-    }
-
-    public void setSumPackQty(String sumPackQty) {
-        this.sumPackQty = sumPackQty;
-    }
-
-    public ArrayList<OrderInfo> getOrderInfos() {
-        return orderInfos;
-    }
-
-    public void setOrderInfos(ArrayList<OrderInfo> orderInfos) {
-        this.orderInfos = orderInfos;
-    }
-
-    public static class OrderInfo implements BaseBean {
-
-        String createTime;
-
-        String obdQty;
-
-        String packName;
-
-        String orderId;
-
-        public String getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(String createTime) {
-            this.createTime = createTime;
-        }
-
-        public String getObdQty() {
-            return obdQty;
-        }
-
-        public void setObdQty(String obdQty) {
-            this.obdQty = obdQty;
-        }
-
-        public String getPackName() {
-            return packName;
-        }
-
-        public void setPackName(String packName) {
-            this.packName = packName;
-        }
-
-        public String getOrderId() {
-            return orderId;
-        }
-
-        public void setOrderId(String orderId) {
-            this.orderId = orderId;
-        }
-
-        @Override
-        public void setDataKey(String dataKey) {
-
-        }
-
-        @Override
-        public String getDataKey() {
-            return null;
-        }
     }
 }

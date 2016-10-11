@@ -1,4 +1,4 @@
-package com.elianshang.wms.app.pickup.activity;
+package com.elianshang.wms.app.setofgoods.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,14 +18,14 @@ import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.tools.DeviceTool;
-import com.elianshang.wms.app.pickup.R;
-import com.elianshang.wms.app.pickup.bean.PickUpView;
-import com.elianshang.wms.app.pickup.bean.ResponseState;
-import com.elianshang.wms.app.pickup.provider.PickUpDoProvider;
-import com.elianshang.wms.app.pickup.provider.PickUpViewProvider;
+import com.elianshang.wms.app.setofgoods.R;
+import com.elianshang.wms.app.setofgoods.bean.SetOfGoodsView;
+import com.elianshang.wms.app.setofgoods.bean.ResponseState;
+import com.elianshang.wms.app.setofgoods.provider.SetOfGoodsDoProvider;
+import com.elianshang.wms.app.setofgoods.provider.SetOfGoodsViewProvider;
 import com.xue.http.impl.DataHull;
 
-public class PickUpActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class SetOfGoodsActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
 
     private Toolbar mToolbar;
 
@@ -49,7 +49,7 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
 
     private String uToken;
 
-    private PickUpView pickUpView;
+    private SetOfGoodsView setOfGoodsView;
 
     private String serialNumber;
 
@@ -95,7 +95,7 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
         uToken = intent.getStringExtra("uToken");
 
         uId = "141871359725260";
-        uToken = "131370164694198";
+        uToken = "178601920061783";
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -145,8 +145,8 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
         scanEditTextTool.setComplete(this);
     }
 
-    private void fillView(PickUpView pickUpView) {
-        this.pickUpView = pickUpView;
+    private void fillView(SetOfGoodsView setOfGoodsView) {
+        this.setOfGoodsView = setOfGoodsView;
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         scanLayout.setVisibility(View.GONE);
@@ -157,11 +157,11 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
             scanEditTextTool = null;
         }
 
-        if (pickUpView != null) {
-            viewContainerIdTextView.setText(pickUpView.getContainerId());
-            viewLocationCodeTextView.setText(pickUpView.getLocationCode());
+        if (setOfGoodsView != null) {
+            viewContainerIdTextView.setText(setOfGoodsView.getContainerId());
+            viewLocationCodeTextView.setText(setOfGoodsView.getLocationCode());
 
-            if ("2".equals(pickUpView.getStatus())) {
+            if ("2".equals(setOfGoodsView.getStatus())) {
                 viewStatusTextView.setText("已集货");
                 viewSubmitButton.setText("知道了");
             } else {
@@ -190,10 +190,10 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
     @Override
     public void onClick(View v) {
         if (v == viewSubmitButton) {
-            if ("2".equals(pickUpView.getStatus())) {
+            if ("2".equals(setOfGoodsView.getStatus())) {
                 fillScan();
             } else {
-                new RequestPickUpDoTask(that, pickUpView.getContainerId()).start();
+                new RequestPickUpDoTask(that, setOfGoodsView.getContainerId()).start();
             }
         }
     }
@@ -218,7 +218,7 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
         }
     }
 
-    private class RequestPickUpViewTask extends HttpAsyncTask<PickUpView> {
+    private class RequestPickUpViewTask extends HttpAsyncTask<SetOfGoodsView> {
 
         private String containerId;
 
@@ -228,12 +228,12 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
         }
 
         @Override
-        public DataHull<PickUpView> doInBackground() {
-            return PickUpViewProvider.request(context, uId, uToken, containerId);
+        public DataHull<SetOfGoodsView> doInBackground() {
+            return SetOfGoodsViewProvider.request(context, uId, uToken, containerId);
         }
 
         @Override
-        public void onPostExecute(PickUpView result) {
+        public void onPostExecute(SetOfGoodsView result) {
             fillView(result);
         }
     }
@@ -249,7 +249,7 @@ public class PickUpActivity extends DLBasePluginActivity implements ScanEditText
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return PickUpDoProvider.request(context, uId, uToken, containerId, serialNumber);
+            return SetOfGoodsDoProvider.request(context, uId, uToken, containerId, serialNumber);
         }
 
         @Override
