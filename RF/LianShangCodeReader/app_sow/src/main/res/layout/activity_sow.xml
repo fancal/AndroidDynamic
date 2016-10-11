@@ -28,14 +28,35 @@
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/submit_Button"
+        android:id="@+id/goonsubmit_Button"
         android:layout_width="match_parent"
         android:layout_height="40dip"
         android:layout_alignParentBottom="true"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
-        android:text="提交"
+        android:text="提交,继续播种当前门店"
         android:textColor="#ffffffff"
         android:textSize="20dip" />
 
+    <Button
+        android:id="@+id/skipsubmit_Button"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/submit_button_bg"
+        android:gravity="center"
+        android:text="提交,继续播种下个门店"
+        android:textColor="#ffffffff"
+        android:textSize="20dip" />
+
+    <Button
+        android:id="@+id/stopsubmit_Button"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/submit_button_bg"
+        android:gravity="center"
+        android:text="提交,结束全部播种"
+        android:textColor="#ffffffff"
+        android:textSize="20dip" />
 </LinearLayout>
