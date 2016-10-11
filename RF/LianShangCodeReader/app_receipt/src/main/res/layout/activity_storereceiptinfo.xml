@@ -48,6 +48,27 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="位置:"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:id="@+id/location_TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dip" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="名称:"
                     android:textSize="14dip" />
 
@@ -69,32 +90,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="包装单位:"
+                    android:text="规格:"
                     android:textSize="14dip" />
 
                 <TextView
-                    android:id="@+id/packUnit_TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="14dip" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dip"
-                android:layout_marginTop="5dip"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="订单数量:"
-                    android:textSize="14dip" />
-
-                <TextView
-                    android:id="@+id/orderQty_TextView"
+                    android:id="@+id/packName_TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14dip" />
@@ -116,6 +116,27 @@
 
                 <TextView
                     android:id="@+id/proTime_TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dip" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="订单数量:"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:id="@+id/orderQty_TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14dip" />

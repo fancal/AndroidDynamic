@@ -1,12 +1,12 @@
-package com.elianshang.wms.app.pickup.provider;
+package com.elianshang.wms.app.setofgoods.provider;
 
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.MD5Tool;
-import com.elianshang.wms.app.pickup.bean.ResponseState;
-import com.elianshang.wms.app.pickup.parser.ResponseStateParser;
+import com.elianshang.wms.app.setofgoods.bean.ResponseState;
+import com.elianshang.wms.app.setofgoods.parser.ResponseStateParser;
 import com.xue.http.hook.BaseHttpParameter;
 import com.xue.http.hook.BaseKVP;
 import com.xue.http.impl.DataHull;
@@ -16,7 +16,7 @@ import com.xue.http.okhttp.OkHttpHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PickUpDoProvider {
+public class SetOfGoodsDoProvider {
 
     private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
@@ -55,20 +55,20 @@ public class PickUpDoProvider {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(PickUpDoProvider.app_key, DeviceTool.getIMEI(context)));
-        headers.add(new DefaultKVPBean(PickUpDoProvider.platform, "2"));
-        headers.add(new DefaultKVPBean(PickUpDoProvider.version, DeviceTool.getClientVersionName(context)));
-        headers.add(new DefaultKVPBean(PickUpDoProvider.api_version, "v1"));
-        headers.add(new DefaultKVPBean(PickUpDoProvider.uId, uId));
-        headers.add(new DefaultKVPBean(PickUpDoProvider.uToken, uToken));
+        headers.add(new DefaultKVPBean(SetOfGoodsDoProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(SetOfGoodsDoProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(SetOfGoodsDoProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(SetOfGoodsDoProvider.api_version, "v1"));
+        headers.add(new DefaultKVPBean(SetOfGoodsDoProvider.uId, uId));
+        headers.add(new DefaultKVPBean(SetOfGoodsDoProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(PickUpDoProvider.containerId, containerId));
+        params.add(new DefaultKVPBean(SetOfGoodsDoProvider.containerId, containerId));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ResponseStateParser(), 0);
 
-        headers.add(new DefaultKVPBean(PickUpDoProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
+        headers.add(new DefaultKVPBean(SetOfGoodsDoProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
 
         OkHttpHandler<ResponseState> handler = new OkHttpHandler();
         DataHull<ResponseState> dataHull = handler.requestData(parameter);

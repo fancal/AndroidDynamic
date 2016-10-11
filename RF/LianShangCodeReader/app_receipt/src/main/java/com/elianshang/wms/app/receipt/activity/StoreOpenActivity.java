@@ -50,6 +50,11 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
     private ScanEditText containerIdEditText;
 
     /**
+     * 订单号输入框
+     */
+    private ScanEditText orderOtherIdEditText;
+
+    /**
      * 国条码扫描输入框
      */
     private ScanEditText barCodeEditText;
@@ -113,26 +118,29 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            containerIdEditText.setText("");
-            barCodeEditText.setText("");
-
-            containerIdEditText.requestFocus();
+            orderOtherIdEditText.requestFocus();
         }
     }
 
     private void findViews() {
         storeIdEditText = (ScanEditText) findViewById(R.id.storeId_EditText);
         containerIdEditText = (ScanEditText) findViewById(R.id.containerId_EditText);
+        orderOtherIdEditText = (ScanEditText) findViewById(R.id.orderOtherId_EditText);
         barCodeEditText = (ScanEditText) findViewById(R.id.barCode_EditText);
         submitButton = (Button) findViewById(R.id.submit_Button);
 
         submitButton.setEnabled(false);
-        scanEditTextTool = new ScanEditTextTool(that, storeIdEditText, containerIdEditText, barCodeEditText);
+        scanEditTextTool = new ScanEditTextTool(that, storeIdEditText, containerIdEditText, orderOtherIdEditText, barCodeEditText);
         scanEditTextTool.setComplete(this);
 
         submitButton.setOnClickListener(this);
 
         initToolbar();
+
+        storeIdEditText.setText("23123");
+        containerIdEditText.setText("110986249910654");
+        orderOtherIdEditText.setText("572988905471");
+        barCodeEditText.setText("6943171293564");
     }
 
     private void initToolbar() {
@@ -146,10 +154,11 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
     }
 
     private void submit() {
-        String storeString = storeIdEditText.getText().toString().trim();
-        String containerStr = containerIdEditText.getText().toString().trim();
-        String productStr = barCodeEditText.getText().toString().trim();
-        new RequestGetOrderInfoTask(that, storeString, containerStr, productStr).start();
+        String storeId = storeIdEditText.getText().toString().trim();
+        String containerId = containerIdEditText.getText().toString().trim();
+        String orderOtherId = orderOtherIdEditText.getText().toString().trim();
+        String barCode = barCodeEditText.getText().toString().trim();
+        new RequestGetOrderInfoTask(that, storeId, containerId, orderOtherId, barCode).start();
     }
 
     private void pressBack() {
@@ -186,23 +195,26 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
 
         private String containerId;
 
+        private String orderOtherId;
+
         private String barCode;
 
-        public RequestGetOrderInfoTask(Context context, String storeId, String containerId, String barCode) {
+        public RequestGetOrderInfoTask(Context context, String storeId, String containerId, String orderOtherId, String barCode) {
             super(context, true, true, true);
             this.storeId = storeId;
             this.containerId = containerId;
             this.barCode = barCode;
+            this.orderOtherId = orderOtherId;
         }
 
         @Override
         public DataHull<StoreReceiptInfo> doInBackground() {
-            return StoreInfoProvider.request(context, uId, uToken, storeId, containerId, barCode);
+            return StoreInfoProvider.request(context, uId, uToken, storeId, containerId, orderOtherId, barCode);
         }
 
         @Override
         public void onPostExecute(StoreReceiptInfo result) {
-            StoreInfoActivity.launch(StoreOpenActivity.this, uId, uToken, storeId, containerId, barCode, result);
+            StoreInfoActivity.launch(StoreOpenActivity.this, uId, uToken, storeId, containerId, orderOtherId, barCode, result);
         }
 
         @Override

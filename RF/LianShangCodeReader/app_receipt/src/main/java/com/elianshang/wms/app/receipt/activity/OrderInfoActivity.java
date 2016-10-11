@@ -27,7 +27,7 @@ import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.receipt.R;
 import com.elianshang.wms.app.receipt.bean.OrderReceiptInfo;
 import com.elianshang.wms.app.receipt.bean.ResponseState;
-import com.elianshang.wms.app.receipt.provider.OrderAddProvider;
+import com.elianshang.wms.app.receipt.provider.AddProvider;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;
@@ -383,7 +383,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return OrderAddProvider.request(context, uId, uToken, orderOtherId, containerId, bookingNum, receiptWharf, items, serialNumber);
+            return AddProvider.request(context, uId, uToken, null, orderOtherId, containerId, bookingNum, receiptWharf, items, serialNumber);
         }
 
         @Override

@@ -1,8 +1,8 @@
-package com.elianshang.wms.app.pickup.parser;
+package com.elianshang.wms.app.setofgoods.parser;
 
 
 import com.elianshang.bridge.parser.MasterParser;
-import com.elianshang.wms.app.pickup.bean.ResponseState;
+import com.elianshang.wms.app.setofgoods.bean.ResponseState;
 
 import org.json.JSONObject;
 

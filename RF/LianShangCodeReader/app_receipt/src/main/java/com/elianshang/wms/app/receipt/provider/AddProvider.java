@@ -16,7 +16,7 @@ import com.xue.http.okhttp.OkHttpHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderAddProvider {
+public class AddProvider {
 
     private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
@@ -50,6 +50,11 @@ public class OrderAddProvider {
      * 流水号
      */
     private static final String serialNumber = "serialNumber";
+
+    /**
+     * 物美门店ID
+     */
+    private static final String storeId = "storeId";
 
     /**
      * 物美订单编号
@@ -97,28 +102,29 @@ public class OrderAddProvider {
 //    private static final String items_proTime = "proTime";
 
 
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String orderOtherId, String containerId, String bookingNum, String receiptWharf, String items, String serialNumber) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String storeId, String orderOtherId, String containerId, String bookingNum, String receiptWharf, String items, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(OrderAddProvider.app_key, DeviceTool.getIMEI(context)));
-        headers.add(new DefaultKVPBean(OrderAddProvider.platform, "2"));
-        headers.add(new DefaultKVPBean(OrderAddProvider.version, DeviceTool.getClientVersionName(context)));
-        headers.add(new DefaultKVPBean(OrderAddProvider.api_version, "v1"));
-        headers.add(new DefaultKVPBean(OrderAddProvider.uId, uId));
-        headers.add(new DefaultKVPBean(OrderAddProvider.uToken, uToken));
+        headers.add(new DefaultKVPBean(AddProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(AddProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(AddProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(AddProvider.api_version, "v1"));
+        headers.add(new DefaultKVPBean(AddProvider.uId, uId));
+        headers.add(new DefaultKVPBean(AddProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(OrderAddProvider.orderOtherId, orderOtherId));
-        params.add(new DefaultKVPBean(OrderAddProvider.containerId, containerId));
-        params.add(new DefaultKVPBean(OrderAddProvider.bookingNum, bookingNum));
-        params.add(new DefaultKVPBean(OrderAddProvider.receiptWharf, receiptWharf));
-        params.add(new DefaultKVPBean(OrderAddProvider.items, items));
+        params.add(new DefaultKVPBean(AddProvider.storeId, storeId));
+        params.add(new DefaultKVPBean(AddProvider.orderOtherId, orderOtherId));
+        params.add(new DefaultKVPBean(AddProvider.containerId, containerId));
+        params.add(new DefaultKVPBean(AddProvider.bookingNum, bookingNum));
+        params.add(new DefaultKVPBean(AddProvider.receiptWharf, receiptWharf));
+        params.add(new DefaultKVPBean(AddProvider.items, items));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ResponseStateParser(), 0);
 
-        headers.add(new DefaultKVPBean(OrderAddProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
+        headers.add(new DefaultKVPBean(AddProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
 
         OkHttpHandler<ResponseState> handler = new OkHttpHandler();
         DataHull<ResponseState> dataHull = handler.requestData(parameter);

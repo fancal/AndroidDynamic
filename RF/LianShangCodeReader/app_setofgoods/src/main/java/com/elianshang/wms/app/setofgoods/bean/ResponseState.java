@@ -1,4 +1,4 @@
-package com.elianshang.wms.app.pickup.bean;
+package com.elianshang.wms.app.setofgoods.bean;
 
 import com.xue.http.hook.BaseBean;
 

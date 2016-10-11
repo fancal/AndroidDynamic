@@ -22,7 +22,7 @@ import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.receipt.R;
 import com.elianshang.wms.app.receipt.bean.ResponseState;
 import com.elianshang.wms.app.receipt.bean.StoreReceiptInfo;
-import com.elianshang.wms.app.receipt.provider.StoreAddProvider;
+import com.elianshang.wms.app.receipt.provider.AddProvider;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;
@@ -33,10 +33,11 @@ import org.json.JSONObject;
  */
 public class StoreInfoActivity extends DLBasePluginActivity implements View.OnClickListener {
 
-    public static void launch(DLBasePluginActivity activity, String uId, String uToken, String storeId, String containerId, String barCode, StoreReceiptInfo storeReceiptInfo) {
+    public static void launch(DLBasePluginActivity activity, String uId, String uToken, String storeId, String containerId, String orderOtherId, String barCode, StoreReceiptInfo storeReceiptInfo) {
         DLIntent intent = new DLIntent(activity.getPackageName(), StoreInfoActivity.class);
         intent.putExtra("storeId", storeId);
         intent.putExtra("containerId", containerId);
+        intent.putExtra("orderOtherId", orderOtherId);
         intent.putExtra("barCode", barCode);
         intent.putExtra("storeReceiptInfo", storeReceiptInfo);
         intent.putExtra("uId", uId);
@@ -58,6 +59,8 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
      */
     private String containerId;
 
+    private String orderOtherId;
+
     /**
      * 商品条码,上一页传入
      */
@@ -68,6 +71,10 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
      */
     private StoreReceiptInfo storeReceiptInfo;
 
+    private TextView locationTextView;
+
+    private TextView proTimeTextView;
+
     /**
      * 商品名称TextView
      */
@@ -76,7 +83,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
     /**
      * 商品包装数TextView
      */
-    private TextView packUnitTextView;
+    private TextView packNameTextView;
 
     /**
      * 订单商品数
@@ -115,8 +122,10 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
     }
 
     private void findView() {
+        locationTextView = (TextView) findViewById(R.id.location_TextView);
+        proTimeTextView = (TextView) findViewById(R.id.proTime_TextView);
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
-        packUnitTextView = (TextView) findViewById(R.id.packUnit_TextView);
+        packNameTextView = (TextView) findViewById(R.id.packName_TextView);
         orderQtyTextView = (TextView) findViewById(R.id.orderQty_TextView);
         inboundQtyEditView = (QtyEditText) findViewById(R.id.inboundQty_EditView);
         submitButton = (Button) findViewById(R.id.submit_Button);
@@ -147,6 +156,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         storeReceiptInfo = (StoreReceiptInfo) intent.getSerializableExtra("storeReceiptInfo");
         storeId = intent.getStringExtra("storeId");
         containerId = intent.getStringExtra("containerId");
+        orderOtherId = intent.getStringExtra("orderOtherId");
         barCode = intent.getStringExtra("barCode");
 
         return true;
@@ -156,10 +166,12 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         if (storeReceiptInfo == null) {
             return;
         }
+        locationTextView.setText(storeReceiptInfo.getLocation());
+        proTimeTextView.setText(storeReceiptInfo.getProTime());
         itemNameTextView.setText(storeReceiptInfo.getSkuName());
-        packUnitTextView.setText(storeReceiptInfo.getPackName());
-        orderQtyTextView.setText(storeReceiptInfo.getSumPackQty());
-        inboundQtyEditView.setHint(storeReceiptInfo.getSumPackQty());
+        packNameTextView.setText(storeReceiptInfo.getPackName());
+        orderQtyTextView.setText(storeReceiptInfo.getOrderQty());
+        inboundQtyEditView.setHint(storeReceiptInfo.getOrderQty());
         inboundQtyEditView.setText(null);
     }
 
@@ -213,7 +225,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
             e.printStackTrace();
         }
 
-        new ReceiptAddTask(that, uId, uToken, storeId, containerId, null, null, jsonArray.toString()).start();
+        new ReceiptAddTask(that, uId, uToken, storeId, orderOtherId, containerId, null, null, jsonArray.toString()).start();
     }
 
     private class ReceiptAddTask extends HttpAsyncTask<ResponseState> {
@@ -225,6 +237,8 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
          * 物美订单编号
          */
         String storeId;
+
+        String orderOtherId;
 
         /**
          * 预约单号
@@ -246,11 +260,12 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
          */
         String items;
 
-        public ReceiptAddTask(Context context, String uid, String uToken, String storeId, String containerId, String bookingNum, String receiptWharf, String items) {
+        public ReceiptAddTask(Context context, String uid, String uToken, String storeId, String orderOtherId, String containerId, String bookingNum, String receiptWharf, String items) {
             super(context, true, true);
             this.uid = uid;
             this.uToken = uToken;
             this.storeId = storeId;
+            this.orderOtherId = orderOtherId;
             this.bookingNum = bookingNum;
             this.containerId = containerId;
             this.receiptWharf = receiptWharf;
@@ -259,7 +274,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return StoreAddProvider.request(context, uId, uToken, storeId, containerId, bookingNum, receiptWharf, items, serialNumber);
+            return AddProvider.request(context, uId, uToken, storeId, orderOtherId, containerId, bookingNum, receiptWharf, items, serialNumber);
         }
 
         @Override
