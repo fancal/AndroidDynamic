@@ -276,6 +276,9 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         fillStepOne();
         curSow = null;
         oneContainerIdEditText.setText(null);
+        oneOrderIdEditText.setText(null);
+        oneOrderBarcodeEditText.setText(null);
+
     }
 
     private void initToolbar() {
