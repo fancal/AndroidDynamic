@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
@@ -80,9 +79,11 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     private QtyEditText twoInputQtyEditView;
 
-    private CheckBox twoInputQtyCheckView;
+    private Button goOnSubmitButton;
 
-    private Button submitButton;
+    private Button skipSubmitButton;
+
+    private Button stopSubmitButton;
 
     private ScanEditTextTool scanEditTextTool;
 
@@ -205,9 +206,10 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         twoPackNameTextView = (TextView) twoLayout.findViewById(R.id.packName_TextView);
         twoAllocQtyTextView = (TextView) twoLayout.findViewById(R.id.allocQty_TextView);
         twoInputQtyEditView = (QtyEditText) twoLayout.findViewById(R.id.inputQty_EditView);
-        twoInputQtyCheckView = (CheckBox) twoLayout.findViewById(R.id.inputQty_CheckView);
 
-        submitButton = (Button) findViewById(R.id.submit_Button);
+        goOnSubmitButton = (Button) findViewById(R.id.goonsubmit_Button);
+        skipSubmitButton = (Button) findViewById(R.id.skipsubmit_Button);
+        stopSubmitButton = (Button) findViewById(R.id.stopsubmit_Button);
 
         initToolbar();
     }
@@ -215,7 +217,9 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     private void fillStepOne() {
         oneLayout.setVisibility(View.VISIBLE);
         twoLayout.setVisibility(View.GONE);
-        submitButton.setVisibility(View.GONE);
+        goOnSubmitButton.setVisibility(View.GONE);
+        skipSubmitButton.setVisibility(View.GONE);
+        stopSubmitButton.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -239,9 +243,13 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     private void fillStepTwo() {
         oneLayout.setVisibility(View.GONE);
         twoLayout.setVisibility(View.VISIBLE);
-        submitButton.setVisibility(View.VISIBLE);
+        goOnSubmitButton.setVisibility(View.VISIBLE);
+        skipSubmitButton.setVisibility(View.VISIBLE);
+        stopSubmitButton.setVisibility(View.VISIBLE);
 
-        submitButton.setOnClickListener(this);
+        goOnSubmitButton.setOnClickListener(this);
+        skipSubmitButton.setOnClickListener(this);
+        stopSubmitButton.setOnClickListener(this);
 
         twoHeadTextView.setText("确认播种数量");
 
@@ -268,6 +276,9 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         fillStepOne();
         curSow = null;
         oneContainerIdEditText.setText(null);
+        oneOrderIdEditText.setText(null);
+        oneOrderBarcodeEditText.setText(null);
+
     }
 
     private void initToolbar() {
@@ -338,7 +349,8 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         try {
             float realQty = Float.parseFloat(twoInputQtyEditView.getValue());
             float qty = Float.parseFloat(curSow.getQty());
-            twoInputQtyCheckView.setVisibility(qty > realQty ? View.VISIBLE : View.GONE);
+            skipSubmitButton.setVisibility(qty > realQty ? View.VISIBLE : View.GONE);
+            stopSubmitButton.setVisibility(qty > realQty ? View.VISIBLE : View.GONE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -362,11 +374,25 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     @Override
     public void onClick(View v) {
-        if (v == submitButton) {
+        if (v == goOnSubmitButton) {
             String taskId = curSow.getTaskId();
             String containerId = twoContainerIdEditText.getText().toString();
             String qty = twoInputQtyEditView.getValue();
-            String type = twoInputQtyCheckView.isChecked() && twoInputQtyCheckView.getVisibility() == View.VISIBLE ? "1" : "2";
+            String type = "2";
+
+            new ScanTargetContainerTask(that, uId, taskId, containerId, qty, type).start();
+        } else if(v == skipSubmitButton){
+            String taskId = curSow.getTaskId();
+            String containerId = twoContainerIdEditText.getText().toString();
+            String qty = twoInputQtyEditView.getValue();
+            String type = "3";
+
+            new ScanTargetContainerTask(that, uId, taskId, containerId, qty, type).start();
+        } else if(v == stopSubmitButton){
+            String taskId = curSow.getTaskId();
+            String containerId = twoContainerIdEditText.getText().toString();
+            String qty = twoInputQtyEditView.getValue();
+            String type = "1";
 
             new ScanTargetContainerTask(that, uId, taskId, containerId, qty, type).start();
         }

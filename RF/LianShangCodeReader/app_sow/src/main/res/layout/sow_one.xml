@@ -50,7 +50,7 @@
             android:id="@+id/orderId_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="135746736372176"
+            android:text="199870598091838"
             android:textSize="14dip" />
 
         <TextView
@@ -63,7 +63,7 @@
             android:id="@+id/barcode_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="6943171293564"
+            android:text="6921168593576"
             android:textSize="14dip" />
     </LinearLayout>
 </LinearLayout>
