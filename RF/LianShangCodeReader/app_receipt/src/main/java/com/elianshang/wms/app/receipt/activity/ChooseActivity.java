@@ -40,9 +40,6 @@ public class ChooseActivity extends DLBasePluginActivity implements View.OnClick
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
-        uId = "141871359725260";
-        uToken = "178601920061783";
-
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;

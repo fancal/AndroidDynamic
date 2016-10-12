@@ -36,6 +36,11 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     private String uToken;
 
+    /**
+     * QC模式 0 流式 1 列表式
+     * */
+    private int mode = 0 ;
+
     private Toolbar toolbar;
 
     private View checkProgressButton;

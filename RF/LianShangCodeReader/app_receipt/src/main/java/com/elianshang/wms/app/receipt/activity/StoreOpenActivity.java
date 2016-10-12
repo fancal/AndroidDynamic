@@ -220,7 +220,6 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
         @Override
         public void netErr(String errMsg) {
             super.netErr(errMsg);
-
         }
     }
 

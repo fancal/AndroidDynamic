@@ -35,7 +35,7 @@
         android:layout_marginRight="10dip"
         android:layout_marginTop="10dip"
         android:gravity="center"
-        android:text="扫描QC"
+        android:text="商品QC"
         android:textSize="14dip" />
 
     <LinearLayout
