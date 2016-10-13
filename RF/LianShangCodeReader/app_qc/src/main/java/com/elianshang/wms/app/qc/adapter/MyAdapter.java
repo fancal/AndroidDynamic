@@ -69,16 +69,18 @@ public class MyAdapter extends BaseAdapter {
             viewHolder.name = (TextView) convertView.findViewById(R.id.itemName_TextView);
             viewHolder.packUnit = (TextView) convertView.findViewById(R.id.packUnit_TextView);
             viewHolder.qty = (TextView) convertView.findViewById(R.id.qty_TextView);
-            viewHolder.statusError = (TextView) convertView.findViewById(R.id.status_error);
-            viewHolder.statusDone = (TextView) convertView.findViewById(R.id.status_done);
+            viewHolder.isPrompt = (TextView) convertView.findViewById(R.id.prompt_TextView);
+            viewHolder.statusNotDone = (TextView) convertView.findViewById(R.id.status_no_done);
+            viewHolder.statusNotQcfirst = (TextView) convertView.findViewById(R.id.status_no_qcfirst);
+            convertView.setTag(viewHolder);
         }
         final QcList.Item item = getItem(position);
         viewHolder.name.setText(item.getItemName());
         viewHolder.packUnit.setText(item.getPackName());
         viewHolder.qty.setText(item.getUomQty());
-        viewHolder.qty.setText(item.isSplit() ? "是" : "否");
-        viewHolder.statusDone.setVisibility(item.isQcDone() ? VISIBLE : GONE);
-        viewHolder.statusError.setVisibility(item.isQcError() ? VISIBLE : GONE);
+        viewHolder.isPrompt.setText(item.isSplit() ? "是" : "否");
+        viewHolder.statusNotQcfirst.setVisibility(!item.isFirst() ? VISIBLE : GONE);
+        viewHolder.statusNotDone.setVisibility((!item.isFirst() && !item.isQcDone()) ? VISIBLE : GONE);
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,9 +102,9 @@ public class MyAdapter extends BaseAdapter {
 
         TextView isPrompt;
 
-        TextView statusError;
+        TextView statusNotDone;
 
-        TextView statusDone;
+        TextView statusNotQcfirst;
 
 
     }

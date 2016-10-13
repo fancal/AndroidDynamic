@@ -286,6 +286,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         });
         toolbar.inflateMenu(R.menu.menu_activity_qc);
         mMenuItem = (ActionMenuItemView) toolbar.findViewById(R.id.model);
+        mMenuItem.setTextColor(getResources().getColor(R.color.white));
         mMenuItem.setOnClickListener(this);
         mMenuItem.setVisibility(View.GONE);
     }
@@ -323,12 +324,12 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
 
         startTaskIdTextView.setText(qcList.getQcTaskId());
-        startStateTextView.setText((qcList.isQcTaskDone() && !qcList.isQcTaskError()) ? "完成" : "未完成");
+        startStateTextView.setText(qcList.isQcDone() ? "完成" : "未完成");
         startCollectionCodeTextView.setText(qcList.getCollectionRoadCode());
         startShopTextView.setText(qcList.getCustomerName());
         startAllBoxNumTextView.setText(qcList.getAllBoxNum());
         startLineNumTextView.setText(qcList.getItemLineNum());
-        startSubmitButton.setText((qcList.isQcTaskDone() && !qcList.isQcTaskError()) ? "退出" : "开始QC");
+        startSubmitButton.setText(qcList.isQcDone() ? "退出" : "开始QC");
     }
 
     private void fillPromptLayout() {
@@ -358,6 +359,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout.setVisibility(View.VISIBLE);
         confirmLayout.setVisibility(View.GONE);
         listView.setVisibility(View.GONE);
+        mMenuItem.setVisibility(qcList.isFirst() ? View.VISIBLE : View.GONE);
+        mMenuItem.setText(mode == 0 ? "流式qc" : "列表qc");
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -384,6 +387,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
+        mMenuItem.setVisibility(qcList.isFirst() ? View.VISIBLE : View.GONE);
+        mMenuItem.setText(mode == 0 ? "流式qc" : "列表qc");
 
         if (listView.getAdapter() == null) {
             myAdapter = new MyAdapter(this);
@@ -409,6 +414,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.VISIBLE);
         listView.setVisibility(View.GONE);
+        mMenuItem.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -426,111 +432,84 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         confirmTurnoverBoxNumEditText.setHint(qcList.getTurnoverBoxNum());
     }
 
-    private QcList getSortedQcList() {
-        QcList sortedQcList = new QcList();
-        sortedQcList.addAll(qcList);
-        if (qcList.isQcTaskDone()) {//qc完成,按照是否异常优先级排序
-            Collections.sort(sortedQcList, new Comparator<QcList.Item>() {
-                @Override
-                public int compare(QcList.Item lhs, QcList.Item rhs) {
-                    int lhsPriority = 0;
-                    int rhsPriority = 0;
-                    if (lhs.isQcDone()) {
-                        lhsPriority += 1;
-                    }
-                    if (!lhs.isQcError()) {
-                        lhsPriority += 4;
-                    }
-                    if (lhs.isSplit()) {
-                        lhsPriority += 2;
-                    }
-                    if (rhs.isQcDone()) {
-                        rhsPriority += 1;
-                    }
-                    if (!rhs.isQcError()) {
-                        rhsPriority += 4;
-                    }
-                    if (rhs.isSplit()) {
-                        rhsPriority += 2;
-                    }
-                    return lhsPriority - rhsPriority;
-                }
-            });
-        } else {//未qc,按照是否qc优先级排序
-            Collections.sort(sortedQcList, new Comparator<QcList.Item>() {
-                @Override
-                public int compare(QcList.Item lhs, QcList.Item rhs) {
-                    int lhsPriority = 0;
-                    int rhsPriority = 0;
-                    if (lhs.isQcDone()) {
-                        lhsPriority += 4;
-                    }
-                    if (!lhs.isQcError()) {
-                        lhsPriority += 1;
-                    }
-                    if (lhs.isSplit()) {
-                        lhsPriority += 2;
-                    }
-                    if (rhs.isQcDone()) {
-                        rhsPriority += 4;
-                    }
-                    if (!rhs.isQcError()) {
-                        rhsPriority += 1;
-                    }
-                    if (rhs.isSplit()) {
-                        rhsPriority += 2;
-                    }
-                    return lhsPriority - rhsPriority;
-                }
-            });
-        }
-
-        return sortedQcList;
-    }
 
     /**
      * 根据请求接口任务
      */
     private void popItem(String barCode) {
-
         for (int i = 0; i < qcList.size(); i++) {
             QcList.Item item = qcList.get(i);
             if (TextUtils.equals(barCode, item.getBarCode())) {
-                if (item.isSplit()) {
-                    fillPromptLayout();
-                } else {
-                    fillItemLayout(item);
-                }
+//                if (item.isSplit()) {
+//                    fillPromptLayout();
+//                } else {
+                fillItemLayout(item);
+//                }
                 return;
             }
         }
-
     }
 
     /**
      * 根据请求接口找下一个任务
      */
-    private void popNextItem(String barCode, boolean qcDone) {
+    private void popNextItem(String barCode, String uomQty, boolean qcDone) {
         for (int i = 0; i < qcList.size(); i++) {
             QcList.Item item = qcList.get(i);
             if (TextUtils.equals(barCode, item.getBarCode())) {//QC过了的,就改变下状态
-                item.setQcDone(true);
+                item.setFirst(false);
+                item.setQcDone(TextUtils.equals(item.getUomQty(), uomQty));
             }
         }
 
         for (int i = 0; i < qcList.size(); i++) {
             QcList.Item item = qcList.get(i);
-            if (!item.isQcDone()) {
-                if (item.isSplit()) {
-                    fillPromptLayout();
-                } else {
+            if(qcList.isFirst()){//首次qc 检查是否qc
+                if (item.isFirst()) {
+//                if (item.isSplit()) {
+//                    fillPromptLayout();
+//                } else {
                     fillItemLayout(item);
+//                }
+                    return;
                 }
-
-                return;
+            } else {//复qc 检查qc异常
+                if (!item.isQcDone()) {
+//                if (item.isSplit()) {
+//                    fillPromptLayout();
+//                } else {
+                    fillItemLayout(item);
+//                }
+                    return;
+                }
             }
         }
 
+        checkConfirm(qcDone);
+    }
+
+    private void popList(String barCode, String uomQty, boolean qcDone) {
+        for (int i = 0; i < qcList.size(); i++) {
+            QcList.Item item = qcList.get(i);
+            if (TextUtils.equals(barCode, item.getBarCode())) {//QC过了的,就改变下状态
+                item.setFirst(false);
+                item.setQcDone(TextUtils.equals(item.getUomQty(), uomQty));
+            }
+        }
+        for (int i = 0; i < qcList.size(); i++) {
+            QcList.Item item = qcList.get(i);
+            if(qcList.isFirst()){//首次qc 检查是否qc
+                if (item.isFirst()) {
+                    fillListLayout();
+                    return;
+                }
+            } else {//复qc 检查qc异常
+                if (!item.isQcDone()) {
+                    fillListLayout();
+                    return;
+                }
+            }
+        }
         checkConfirm(qcDone);
     }
 
@@ -541,7 +520,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         for (int i = 0; i < qcList.size(); i++) {
             QcList.Item item = qcList.get(i);
             if (TextUtils.equals(barCode, item.getBarCode())) {
-                if (item.isQcDone()) {
+                if (!item.isFirst()) {
                     ToastTool.show(that, "该商品已经QC过了,不要重复QC");
                 } else {
                     fillItemLayout(item);
@@ -572,7 +551,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
         QcList missList = new QcList();
         for (QcList.Item item : qcList) {
-            if (!item.isQcDone()) {
+            if (!item.isFirst()) {
                 missList.add(item);
             }
         }
@@ -596,9 +575,69 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
     }
 
+    private QcList getSortedQcList() {
+        QcList sortedQcList = new QcList();
+        sortedQcList.addAll(qcList);
+        if (!qcList.isFirst()) {//qc完成,按照是否异常优先级排序
+            Collections.sort(sortedQcList, new Comparator<QcList.Item>() {
+                @Override
+                public int compare(QcList.Item lhs, QcList.Item rhs) {
+                    int lhsPriority = 0;
+                    int rhsPriority = 0;
+                    if (lhs.isQcDone()) {
+                        lhsPriority += 4;
+                    }
+                    if (lhs.isSplit()) {
+                        lhsPriority += 2;
+                    }
+                    if (rhs.isQcDone()) {
+                        rhsPriority += 4;
+                    }
+                    if (rhs.isSplit()) {
+                        rhsPriority += 2;
+                    }
+                    return lhsPriority - rhsPriority;
+                }
+            });
+        } else {//未qc,按照是否qc优先级排序
+            Collections.sort(sortedQcList, new Comparator<QcList.Item>() {
+                @Override
+                public int compare(QcList.Item lhs, QcList.Item rhs) {
+                    int lhsPriority = 0;
+                    int rhsPriority = 0;
+                    if (!lhs.isFirst()) {
+                        lhsPriority += 4;
+                    }
+                    if (lhs.isQcDone()) {
+                        lhsPriority += 1;
+                    }
+                    if (lhs.isSplit()) {
+                        lhsPriority += 2;
+                    }
+                    if (!rhs.isFirst()) {
+                        rhsPriority += 4;
+                    }
+                    if (rhs.isQcDone()) {
+                        rhsPriority += 1;
+                    }
+                    if (rhs.isSplit()) {
+                        rhsPriority += 2;
+                    }
+                    return lhsPriority - rhsPriority;
+                }
+            });
+        }
+
+        return sortedQcList;
+    }
+
     @Override
     public void onBackPressed() {
         if (qcList != null) {
+            if (mode == 1 && (promptLayout.getVisibility() == View.VISIBLE || itemLayout.getVisibility() == View.VISIBLE)) {
+                fillListLayout();
+                return;
+            }
             DialogTools.showTwoButtonDialog(that, "是否暂退任务,下次回来将会继续", "取消", "确定", null, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -667,24 +706,18 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
             new QcOneTask(that, qcTaskId, code, uomQty, defectQty).start();
         } else if (v == startSubmitButton) {
-            if (qcList.isQcTaskDone() && !qcList.isQcTaskError()) {
+            if (qcList.isQcDone()) {
                 finish();
             } else {
-                boolean qcTaskDone = qcList.isQcTaskDone();
-                if (qcTaskDone) {//已qc,有异常---只显示列表
-                    fillListLayout();
-                    mMenuItem.setVisibility(View.GONE);
-                } else {//未qc---支持显示列表和流式
-                    if (mode == 0) {
-                        popNextItem(null, true);
-                        mMenuItem.setText("流式qc");
-                    } else {
-                        fillListLayout();
-                        mMenuItem.setText("列表qc");
-                    }
-                    mMenuItem.setVisibility(View.VISIBLE);
+                boolean isFirst = qcList.isFirst();
+                if (!isFirst) {//已qc---只显示列表
+                    mode = 1;
                 }
-
+                if (mode == 0) {
+                    popNextItem(null, null, true);
+                } else {
+                    popList(null, null, true);
+                }
             }
         } else if (v == confirmSubmitButton) {
             String itemBoxNum = confirmItemBoxNumEditText.getValue();
@@ -692,14 +725,13 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
             new ConfirmTask(that, qcList.getQcTaskId(), itemBoxNum, turnoverBoxNum).start();
         } else if (v == mMenuItem) {
+
             if (mode == 0) {
                 mode = 1;
-                mMenuItem.setText("列表qc");
-                fillListLayout();
+                popList(null, null, true);
             } else {
                 mode = 0;
-                mMenuItem.setText("流式qc");
-                popNextItem(null, true);
+                popNextItem(null, null, true);
             }
 
         }
@@ -759,9 +791,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         @Override
         public void onPostExecute(QCDoneState result) {
             if (mode == 0) {
-                popNextItem(code, result.isDone());
+                popNextItem(code, uomQty, result.isDone());
             } else {
-                fillListLayout();
+                popList(code, uomQty, result.isDone());
             }
         }
     }
