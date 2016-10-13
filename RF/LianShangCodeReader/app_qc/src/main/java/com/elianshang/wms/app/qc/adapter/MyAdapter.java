@@ -69,16 +69,14 @@ public class MyAdapter extends BaseAdapter {
             viewHolder.name = (TextView) convertView.findViewById(R.id.itemName_TextView);
             viewHolder.packUnit = (TextView) convertView.findViewById(R.id.packUnit_TextView);
             viewHolder.qty = (TextView) convertView.findViewById(R.id.qty_TextView);
-            viewHolder.isPrompt = (TextView) convertView.findViewById(R.id.prompt_TextView);
             viewHolder.statusNotDone = (TextView) convertView.findViewById(R.id.status_no_done);
             viewHolder.statusNotQcfirst = (TextView) convertView.findViewById(R.id.status_no_qcfirst);
             convertView.setTag(viewHolder);
         }
         final QcList.Item item = getItem(position);
-        viewHolder.name.setText(item.getItemName());
+        viewHolder.name.setText( (item.isSplit()?"[拆零]":"[整箱]") + item.getItemName());
         viewHolder.packUnit.setText(item.getPackName());
         viewHolder.qty.setText(item.getUomQty());
-        viewHolder.isPrompt.setText(item.isSplit() ? "是" : "否");
         viewHolder.statusNotQcfirst.setVisibility(!item.isFirst() ? VISIBLE : GONE);
         viewHolder.statusNotDone.setVisibility((!item.isFirst() && !item.isQcDone()) ? VISIBLE : GONE);
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -99,8 +97,6 @@ public class MyAdapter extends BaseAdapter {
         TextView packUnit;
 
         TextView qty;
-
-        TextView isPrompt;
 
         TextView statusNotDone;
 
