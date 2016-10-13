@@ -38,6 +38,10 @@
             android:id="@+id/confirm_Layout"
             layout="@layout/qualitycontrol_confirm" />
 
+        <include
+            android:id="@+id/list_Layout"
+            layout="@layout/qualitycontrol_list" />
+
         <Button
             android:id="@+id/check_progress"
             android:layout_width="50dip"

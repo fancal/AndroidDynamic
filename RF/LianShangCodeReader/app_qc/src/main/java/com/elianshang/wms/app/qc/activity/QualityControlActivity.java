@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
@@ -21,6 +23,7 @@ import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.qc.R;
+import com.elianshang.wms.app.qc.adapter.MyAdapter;
 import com.elianshang.wms.app.qc.bean.QCDoneState;
 import com.elianshang.wms.app.qc.bean.QcList;
 import com.elianshang.wms.app.qc.bean.ResponseState;
@@ -29,8 +32,11 @@ import com.elianshang.wms.app.qc.provider.QCOneItemProvider;
 import com.elianshang.wms.app.qc.provider.ScanProvider;
 import com.xue.http.impl.DataHull;
 
+import java.util.Collections;
+import java.util.Comparator;
 
-public class QualityControlActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener, View.OnClickListener {
+
+public class QualityControlActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener, View.OnClickListener, MyAdapter.OnItemClickListener {
 
     private String uId;
 
@@ -38,10 +44,12 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     /**
      * QC模式 0 流式 1 列表式
-     * */
-    private int mode = 0 ;
+     */
+    private int mode = 0;
 
     private Toolbar toolbar;
+
+    private ActionMenuItemView mMenuItem;
 
     private View checkProgressButton;
 
@@ -185,6 +193,10 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
      */
     private Button confirmSubmitButton;
 
+    private ListView listView;
+
+    private MyAdapter myAdapter;
+
     private QcList qcList;
 
     private ScanEditTextTool scanEditTextTool;
@@ -256,8 +268,10 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         confirmItemBoxNumEditText = (QtyEditText) confirmLayout.findViewById(R.id.itemBoxNum_EditText);
         confirmTurnoverBoxNumEditText = (QtyEditText) confirmLayout.findViewById(R.id.turnoverBoxNum_EditText);
         confirmSubmitButton = (Button) confirmLayout.findViewById(R.id.submit_Button);
+        listView = (ListView) findViewById(R.id.list_Layout);
 
         confirmSubmitButton.setOnClickListener(this);
+
     }
 
     private void initToolbar() {
@@ -268,6 +282,10 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 onBackPressed();
             }
         });
+        toolbar.inflateMenu(R.menu.menu_activity_qc);
+        mMenuItem = (ActionMenuItemView) toolbar.findViewById(R.id.model);
+        mMenuItem.setOnClickListener(this);
+        mMenuItem.setVisibility(View.GONE);
     }
 
     private void fillScanLayout() {
@@ -277,6 +295,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         promptLayout.setVisibility(View.GONE);
         itemLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.GONE);
+        listView.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -294,6 +313,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         promptLayout.setVisibility(View.GONE);
         itemLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.GONE);
+        listView.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -301,12 +321,12 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
 
         startTaskIdTextView.setText(qcList.getQcTaskId());
-        startStateTextView.setText(qcList.isQcTaskDone() ? "完成" : "未完成");
+        startStateTextView.setText((qcList.isQcTaskDone() && !qcList.isQcTaskError()) ? "完成" : "未完成");
         startCollectionCodeTextView.setText(qcList.getCollectionRoadCode());
         startShopTextView.setText(qcList.getCustomerName());
         startAllBoxNumTextView.setText(qcList.getAllBoxNum());
         startLineNumTextView.setText(qcList.getItemLineNum());
-        startSubmitButton.setText(qcList.isQcTaskDone() ? "退出" : "开始QC");
+        startSubmitButton.setText((qcList.isQcTaskDone() && !qcList.isQcTaskError()) ? "退出" : "开始QC");
     }
 
     private void fillPromptLayout() {
@@ -316,6 +336,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         promptLayout.setVisibility(View.VISIBLE);
         itemLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.GONE);
+        listView.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -334,6 +355,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         promptLayout.setVisibility(View.GONE);
         itemLayout.setVisibility(View.VISIBLE);
         confirmLayout.setVisibility(View.GONE);
+        listView.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -350,6 +372,31 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemShoddyQtyEditView.setText(null);
     }
 
+    private void fillListLayout() {
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+
+        checkProgressButton.setVisibility(View.GONE);
+        scanLayout.setVisibility(View.GONE);
+        startLayout.setVisibility(View.GONE);
+        promptLayout.setVisibility(View.GONE);
+        itemLayout.setVisibility(View.GONE);
+        confirmLayout.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
+
+        if (listView.getAdapter() == null) {
+            myAdapter = new MyAdapter(this);
+            myAdapter.setOnItemClickListener(this);
+            listView.setAdapter(myAdapter);
+        }
+        myAdapter.setQcList(getSortedQcList());
+        myAdapter.notifyDataSetChanged();
+
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+            scanEditTextTool = null;
+        }
+    }
+
     private void fillConfirmLayout() {
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
@@ -359,6 +406,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         promptLayout.setVisibility(View.GONE);
         itemLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -374,6 +422,87 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         confirmItemBoxNumEditText.setHint(qcList.getItemBoxNum());
         confirmTurnoverBoxNumEditText.setText(null);
         confirmTurnoverBoxNumEditText.setHint(qcList.getTurnoverBoxNum());
+    }
+
+    private QcList getSortedQcList() {
+        QcList sortedQcList = new QcList();
+        sortedQcList.addAll(qcList);
+        if (qcList.isQcTaskDone()) {//qc完成,按照是否异常优先级排序
+            Collections.sort(sortedQcList, new Comparator<QcList.Item>() {
+                @Override
+                public int compare(QcList.Item lhs, QcList.Item rhs) {
+                    int lhsPriority = 0;
+                    int rhsPriority = 0;
+                    if (lhs.isQcDone()) {
+                        lhsPriority += 1;
+                    }
+                    if (!lhs.isQcError()) {
+                        lhsPriority += 4;
+                    }
+                    if (lhs.isSplit()) {
+                        lhsPriority += 2;
+                    }
+                    if (rhs.isQcDone()) {
+                        rhsPriority += 1;
+                    }
+                    if (!rhs.isQcError()) {
+                        rhsPriority += 4;
+                    }
+                    if (rhs.isSplit()) {
+                        rhsPriority += 2;
+                    }
+                    return lhsPriority - rhsPriority;
+                }
+            });
+        } else {//未qc,按照是否qc优先级排序
+            Collections.sort(sortedQcList, new Comparator<QcList.Item>() {
+                @Override
+                public int compare(QcList.Item lhs, QcList.Item rhs) {
+                    int lhsPriority = 0;
+                    int rhsPriority = 0;
+                    if (lhs.isQcDone()) {
+                        lhsPriority += 4;
+                    }
+                    if (!lhs.isQcError()) {
+                        lhsPriority += 1;
+                    }
+                    if (lhs.isSplit()) {
+                        lhsPriority += 2;
+                    }
+                    if (rhs.isQcDone()) {
+                        rhsPriority += 4;
+                    }
+                    if (!rhs.isQcError()) {
+                        rhsPriority += 1;
+                    }
+                    if (rhs.isSplit()) {
+                        rhsPriority += 2;
+                    }
+                    return lhsPriority - rhsPriority;
+                }
+            });
+        }
+
+        return sortedQcList;
+    }
+
+    /**
+     * 根据请求接口任务
+     */
+    private void popItem(String barCode) {
+
+        for (int i = 0; i < qcList.size(); i++) {
+            QcList.Item item = qcList.get(i);
+            if (TextUtils.equals(barCode, item.getBarCode())) {
+                if (item.isSplit()) {
+                    fillPromptLayout();
+                } else {
+                    fillItemLayout(item);
+                }
+                return;
+            }
+        }
+
     }
 
     /**
@@ -536,17 +665,47 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
             new QcOneTask(that, qcTaskId, code, uomQty, defectQty).start();
         } else if (v == startSubmitButton) {
-            if (qcList.isQcTaskDone()) {
+            if (qcList.isQcTaskDone() && !qcList.isQcTaskError()) {
                 finish();
             } else {
-                popNextItem(null, true);
+                boolean qcTaskDone = qcList.isQcTaskDone();
+                if (qcTaskDone) {//已qc,有异常---只显示列表
+                    fillListLayout();
+                    mMenuItem.setVisibility(View.GONE);
+                } else {//未qc---支持显示列表和流式
+                    if (mode == 0) {
+                        popNextItem(null, true);
+                        mMenuItem.setText("流式qc");
+                    } else {
+                        fillListLayout();
+                        mMenuItem.setText("列表qc");
+                    }
+                    mMenuItem.setVisibility(View.VISIBLE);
+                }
+
             }
         } else if (v == confirmSubmitButton) {
             String itemBoxNum = confirmItemBoxNumEditText.getValue();
             String turnoverBoxNum = confirmTurnoverBoxNumEditText.getValue();
 
             new ConfirmTask(that, qcList.getQcTaskId(), itemBoxNum, turnoverBoxNum).start();
+        } else if (v == mMenuItem) {
+            if (mode == 0) {
+                mode = 1;
+                mMenuItem.setText("列表qc");
+                fillListLayout();
+            } else {
+                mode = 0;
+                mMenuItem.setText("流式qc");
+                popNextItem(null, true);
+            }
+
         }
+    }
+
+    @Override
+    public void onItemClick(String barCode) {
+        popItem(barCode);
     }
 
     private class ScanTask extends HttpAsyncTask<QcList> {
@@ -597,7 +756,11 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         @Override
         public void onPostExecute(QCDoneState result) {
-            popNextItem(code, result.isDone());
+            if (mode == 0) {
+                popNextItem(code, result.isDone());
+            } else {
+                fillListLayout();
+            }
         }
     }
 

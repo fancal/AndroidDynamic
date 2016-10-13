@@ -18,6 +18,8 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
 
     private boolean qcTaskDone;
 
+    private boolean qcTaskError;
+
     private String itemBoxNum;
 
     private String allBoxNum;
@@ -126,11 +128,21 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
         this.itemLineNum = itemLineNum;
     }
 
+    public boolean isQcTaskError() {
+        return qcTaskError;
+    }
+
+    public void setQcTaskError(boolean qcTaskError) {
+        this.qcTaskError = qcTaskError;
+    }
+
     public static class Item {
 
         boolean qcDone;
 
         boolean isSplit;
+
+        boolean qcError;
 
         String itemName;
 
@@ -216,6 +228,14 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
 
         public void setUomQty(String uomQty) {
             this.uomQty = uomQty;
+        }
+
+        public boolean isQcError() {
+            return qcError;
+        }
+
+        public void setQcError(boolean qcError) {
+            this.qcError = qcError;
         }
     }
 }
