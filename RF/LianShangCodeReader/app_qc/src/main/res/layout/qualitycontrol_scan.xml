@@ -18,11 +18,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:text="请扫描拣货签:"
+        android:text="请扫描拣货签或托盘码:"
         android:textSize="14dip" />
 
     <com.elianshang.bridge.ui.view.ScanEditText
-        android:id="@+id/pickTaskId_EditText"
+        android:id="@+id/unknownCode_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"

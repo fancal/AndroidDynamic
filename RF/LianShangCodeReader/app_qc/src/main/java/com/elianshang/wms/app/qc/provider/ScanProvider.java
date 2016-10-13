@@ -48,10 +48,10 @@ public class ScanProvider {
 
     private static final String uToken = "utoken";
 
-    private static final String pickTaskId = "pickTaskId";
+    private static final String code = "code";
 
 
-    public static DataHull<QcList> request(Context context, String uId, String uToken, String pickTaskId) {
+    public static DataHull<QcList> request(Context context, String uId, String uToken, String code) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -63,7 +63,7 @@ public class ScanProvider {
         headers.add(new DefaultKVPBean(ScanProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(ScanProvider.pickTaskId, pickTaskId));
+        params.add(new DefaultKVPBean(ScanProvider.code, code));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<QcListParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new QcListParser(), 0);

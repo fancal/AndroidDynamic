@@ -131,11 +131,9 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sow);
-        findViews();
 
-        //Fixme test
-        ScanManager.init(this);
         if (readExtra()) {
+            findViews();
         }
     }
 
@@ -151,12 +149,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             return false;
         }
 
-        if (curSow != null) {
-//            fillStepTwoContainerLayout();
-            fillStepTwo();
-        } else {
-            fillStepOne();
-        }
+
 
         return true;
     }
@@ -212,6 +205,13 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         stopSubmitButton = (Button) findViewById(R.id.stopsubmit_Button);
 
         initToolbar();
+
+
+        if (curSow != null) {
+            fillStepTwo();
+        } else {
+            fillStepOne();
+        }
     }
 
     private void fillStepOne() {

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.elianshang.bridge.R;
@@ -64,13 +63,12 @@ public class ScanEditText extends ContentEditText {
         setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Log.e("xue" , "iscode == " + isCode);
-
                 DialogTools.showEditViewDialog((Activity) context, "请入码值", "", "取消", "确认", null, new DialogTools.OnEditViewPositiveButtonClick() {
                     @Override
                     public void onClick(String editText) {
-                        if (inputEnd != null && editText.trim().length() > 0) {
+                        if (inputEnd != null) {
                             requestFocus();
+                            editText = editText == null ? "" : editText.trim();
                             inputEnd.onSetInputEnd(editText);
                         }
                     }

@@ -35,7 +35,6 @@ import com.xue.http.impl.DataHull;
 import java.util.Collections;
 import java.util.Comparator;
 
-
 public class QualityControlActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener, View.OnClickListener, MyAdapter.OnItemClickListener {
 
     private String uId;
@@ -61,7 +60,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     /**
      * 扫描拣货签EditText
      */
-    private ScanEditText scanPickTaskIdEditText;
+    private ScanEditText scanUnknownCodeEditText;
 
     /**
      * 开始任务布局
@@ -220,6 +219,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
+        uId = "141871359725260";
+        uToken = "25061134202027";
+
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
@@ -235,7 +237,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         checkProgressButton.setOnClickListener(this);
 
         scanLayout = findViewById(R.id.scan_Layout);
-        scanPickTaskIdEditText = (ScanEditText) scanLayout.findViewById(R.id.pickTaskId_EditText);
+        scanUnknownCodeEditText = (ScanEditText) scanLayout.findViewById(R.id.unknownCode_EditText);
 
         startLayout = findViewById(R.id.start_Layout);
         startTaskIdTextView = (TextView) startLayout.findViewById(R.id.qcTaskId_TextView);
@@ -302,7 +304,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             scanEditTextTool = null;
         }
 
-        scanEditTextTool = new ScanEditTextTool(that, scanPickTaskIdEditText);
+        scanEditTextTool = new ScanEditTextTool(that, scanUnknownCodeEditText);
         scanEditTextTool.setComplete(this);
     }
 
@@ -644,8 +646,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     @Override
     public void onComplete() {
-        String pickTaskId = scanPickTaskIdEditText.getText().toString();
-        new ScanTask(that, pickTaskId).start();
+        String unknownCode = scanUnknownCodeEditText.getText().toString();
+        new ScanTask(that, unknownCode).start();
     }
 
     @Override
@@ -710,17 +712,17 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     private class ScanTask extends HttpAsyncTask<QcList> {
 
-        private String pickTaskId;
+        private String unknownCode;
 
-        public ScanTask(Context context, String pickTaskId) {
+        public ScanTask(Context context, String unknownCode) {
             super(context, true, true);
 
-            this.pickTaskId = pickTaskId;
+            this.unknownCode = unknownCode;
         }
 
         @Override
         public DataHull<QcList> doInBackground() {
-            return ScanProvider.request(context, uId, uToken, pickTaskId);
+            return ScanProvider.request(context, uId, uToken, unknownCode);
         }
 
         @Override

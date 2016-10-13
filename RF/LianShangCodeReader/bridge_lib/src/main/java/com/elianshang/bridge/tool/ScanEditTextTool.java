@@ -119,21 +119,28 @@ public class ScanEditTextTool {
         }
 
         View v = mActivity.getCurrentFocus();
-
         if (!(v instanceof ScanEditText)) {
             return;
         }
 
-        boolean request = false;
-        for (EditText editText : mEditTexts) {
-            if (request) {
-                v.clearFocus();
-                editText.requestFocus();
-                break;
-            } else {
+        if (TextUtils.isEmpty(s)) {
+            for (EditText editText : mEditTexts) {
                 if (v == editText) {
                     editText.setText(s);
-                    request = true;
+                }
+            }
+        } else {
+            boolean request = false;
+            for (EditText editText : mEditTexts) {
+                if (request) {
+                    v.clearFocus();
+                    editText.requestFocus();
+                    break;
+                } else {
+                    if (v == editText) {
+                        editText.setText(s);
+                        request = true;
+                    }
                 }
             }
         }

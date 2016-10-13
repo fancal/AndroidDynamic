@@ -136,11 +136,6 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
         submitButton.setOnClickListener(this);
 
         initToolbar();
-
-        storeIdEditText.setText("23123");
-        containerIdEditText.setText("110986249910654");
-        orderOtherIdEditText.setText("572988905471");
-        barCodeEditText.setText("6943171293564");
     }
 
     private void initToolbar() {
