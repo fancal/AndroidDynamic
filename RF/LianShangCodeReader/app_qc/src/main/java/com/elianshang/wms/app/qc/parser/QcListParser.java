@@ -24,6 +24,7 @@ public class QcListParser extends MasterParser<QcList> {
             String collectionRoadCode = optString(data, "collectionRoadCode");
             String containerType = optString(data, "containerType");
             boolean qcTaskDone = optBoolean(data, "qcTaskDone");
+            boolean isFirst = optBoolean(data, "isFristQc");
             String itemBoxNum = optString(data, "itemBoxNum");
             String allBoxNum = optString(data, "allBoxNum");
             String turnoverBoxNum = optString(data, "turnoverBoxNum");
@@ -40,7 +41,8 @@ public class QcListParser extends MasterParser<QcList> {
                 qcList.setCustomerName(customerName);
                 qcList.setCustomerId(customerId);
                 qcList.setContainerType(containerType);
-                qcList.setQcTaskDone(qcTaskDone);
+                qcList.setQcDone(qcTaskDone);
+                qcList.setFirst(isFirst);
                 qcList.setItemBoxNum(itemBoxNum);
                 qcList.setAllBoxNum(allBoxNum);
                 qcList.setTurnoverBoxNum(turnoverBoxNum);
@@ -56,6 +58,7 @@ public class QcListParser extends MasterParser<QcList> {
                     JSONObject jo = optJSONObject(jsonArray, i);
                     if (jo != null) {
                         boolean qcDone = optBoolean(jo, "qcDone");
+                        boolean isFirstQc = optBoolean(jo, "isFristQc");
                         String itemName = optString(jo, "itemName");
                         String packName = optString(jo, "uom");
                         String skuId = optString(jo, "skuId");
@@ -75,6 +78,7 @@ public class QcListParser extends MasterParser<QcList> {
 
                             QcList.Item item = new QcList.Item();
                             item.setQcDone(qcDone);
+                            item.setFirst(isFirstQc);
                             item.setItemName(itemName);
                             item.setPackName(packName);
                             item.setSkuId(skuId);

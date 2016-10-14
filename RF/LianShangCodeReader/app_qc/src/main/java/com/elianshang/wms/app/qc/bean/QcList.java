@@ -16,9 +16,9 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
 
     private String pickTaskId;
 
-    private boolean qcTaskDone;
+    private boolean isFirst;
 
-    private boolean qcTaskError;
+    private boolean qcDone;
 
     private String itemBoxNum;
 
@@ -104,12 +104,12 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
         this.pickTaskId = pickTaskId;
     }
 
-    public boolean isQcTaskDone() {
-        return qcTaskDone;
+    public boolean isFirst() {
+        return isFirst;
     }
 
-    public void setQcTaskDone(boolean qcTaskDone) {
-        this.qcTaskDone = qcTaskDone;
+    public void setFirst(boolean first) {
+        this.isFirst = first;
     }
 
     public String getItemBoxNum() {
@@ -128,21 +128,21 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
         this.itemLineNum = itemLineNum;
     }
 
-    public boolean isQcTaskError() {
-        return qcTaskError;
+    public boolean isQcDone() {
+        return qcDone;
     }
 
-    public void setQcTaskError(boolean qcTaskError) {
-        this.qcTaskError = qcTaskError;
+    public void setQcDone(boolean qcDone) {
+        this.qcDone = qcDone;
     }
 
     public static class Item {
 
-        boolean qcDone;
+        boolean isFirst;
 
         boolean isSplit;
 
-        boolean qcError;
+        boolean qcDone;
 
         String itemName;
 
@@ -190,12 +190,12 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
             this.barCode = barCode;
         }
 
-        public boolean isQcDone() {
-            return qcDone;
+        public boolean isFirst() {
+            return isFirst;
         }
 
-        public void setQcDone(boolean qcDone) {
-            this.qcDone = qcDone;
+        public void setFirst(boolean first) {
+            this.isFirst = first;
         }
 
         public String getItemId() {
@@ -230,12 +230,12 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
             this.uomQty = uomQty;
         }
 
-        public boolean isQcError() {
-            return qcError;
+        public boolean isQcDone() {
+            return qcDone;
         }
 
-        public void setQcError(boolean qcError) {
-            this.qcError = qcError;
+        public void setQcDone(boolean qcDone) {
+            this.qcDone = qcDone;
         }
     }
 }
