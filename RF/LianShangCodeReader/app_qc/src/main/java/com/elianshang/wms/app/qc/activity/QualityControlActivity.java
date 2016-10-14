@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -54,7 +53,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     private Toolbar toolbar;
 
-    private ActionMenuItemView mMenuItem;
+    private TextView mMenuItem;
 
     private View checkProgressButton;
 
@@ -225,8 +224,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
-        uId = "141871359725260";
-        uToken = "25061134202027";
+//        uId = "141871359725260";
+//        uToken = "25061134202027";
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -290,9 +289,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 onBackPressed();
             }
         });
-        toolbar.inflateMenu(R.menu.menu_activity_qc);
-        mMenuItem = (ActionMenuItemView) toolbar.findViewById(R.id.model);
-        mMenuItem.setTextColor(getResources().getColor(R.color.white));
+        mMenuItem = (TextView) findViewById(R.id.menu_item);
         mMenuItem.setOnClickListener(this);
         mMenuItem.setVisibility(View.GONE);
     }
