@@ -16,10 +16,7 @@ import com.xue.http.okhttp.OkHttpHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xfilshy on 16/8/18.
- */
-public class MergeBoardProvider {
+public class MergeContainersProvider {
 
     private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
@@ -43,7 +40,7 @@ public class MergeBoardProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/inhouse/stock_taking/getTask";
+    private static final String _function = "/outbound/merge/mergeContainers";
 
     private static final String uId = "uid";
 
@@ -51,26 +48,26 @@ public class MergeBoardProvider {
 
     private static final String serialNumber = "serialNumber";
 
-    private static final String containerIdList = "containerIdList";
+    private static final String containerIds = "containerIds";
 
 
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String containerIdList, String serialNumber) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String containerIds, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(MergeBoardProvider.app_key, DeviceTool.getIMEI(context)));
-        headers.add(new DefaultKVPBean(MergeBoardProvider.platform, "2"));
-        headers.add(new DefaultKVPBean(MergeBoardProvider.version, DeviceTool.getClientVersionName(context)));
-        headers.add(new DefaultKVPBean(MergeBoardProvider.api_version, "v1"));
-        headers.add(new DefaultKVPBean(MergeBoardProvider.uId, uId));
-        headers.add(new DefaultKVPBean(MergeBoardProvider.uToken, uToken));
+        headers.add(new DefaultKVPBean(MergeContainersProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(MergeContainersProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(MergeContainersProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(MergeContainersProvider.api_version, "v1"));
+        headers.add(new DefaultKVPBean(MergeContainersProvider.uId, uId));
+        headers.add(new DefaultKVPBean(MergeContainersProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(MergeBoardProvider.containerIdList, containerIdList));
+        params.add(new DefaultKVPBean(MergeContainersProvider.containerIds, containerIds));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ResponseStateParser(), 0);
-        headers.add(new DefaultKVPBean(MergeBoardProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
+        headers.add(new DefaultKVPBean(MergeContainersProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
         OkHttpHandler<ResponseState> handler = new OkHttpHandler();
         DataHull<ResponseState> dataHull = handler.requestData(parameter);
         return dataHull;
