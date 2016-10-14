@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -48,13 +47,13 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     private int mode = 0;
 
     /**
-     * 是否支持流式布局
+     * 是否显示menu
      */
-    private boolean showFlow = true;
+    private boolean showMenuItem = true;
 
     private Toolbar toolbar;
 
-    private ActionMenuItemView mMenuItem;
+    private TextView mMenuItem;
 
     private View checkProgressButton;
 
@@ -225,8 +224,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
-        uId = "141871359725260";
-        uToken = "25061134202027";
+//        uId = "141871359725260";
+//        uToken = "25061134202027";
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -290,9 +289,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 onBackPressed();
             }
         });
-        toolbar.inflateMenu(R.menu.menu_activity_qc);
-        mMenuItem = (ActionMenuItemView) toolbar.findViewById(R.id.model);
-        mMenuItem.setTextColor(getResources().getColor(R.color.white));
+        mMenuItem = (TextView) findViewById(R.id.menu_item);
         mMenuItem.setOnClickListener(this);
         mMenuItem.setVisibility(View.GONE);
     }
@@ -365,7 +362,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout.setVisibility(View.VISIBLE);
         confirmLayout.setVisibility(View.GONE);
         listView.setVisibility(View.GONE);
-        mMenuItem.setVisibility(showFlow ? View.VISIBLE : View.GONE);
+        mMenuItem.setVisibility(showMenuItem ? View.VISIBLE : View.GONE);
         mMenuItem.setText(mode == 1 ? "流式qc" : "列表qc");
 
         if (scanEditTextTool != null) {
@@ -393,11 +390,11 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
-        mMenuItem.setVisibility(showFlow ? View.VISIBLE : View.GONE);
+        mMenuItem.setVisibility(showMenuItem ? View.VISIBLE : View.GONE);
         mMenuItem.setText(mode == 1 ? "流式qc" : "列表qc");
 
         if (listView.getAdapter() == null) {
-            myAdapter = new MyAdapter(this);
+            myAdapter = new MyAdapter(that);
             myAdapter.setOnItemClickListener(this);
             listView.setAdapter(myAdapter);
         }
@@ -484,7 +481,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 if (item.isFirst()) {
                     if (item.isSplit()) {
                         mode = 1;
-                        showFlow = false;
+                        showMenuItem = false;
                         pop();
                     } else {
                         fillItemLayout(item);
@@ -495,7 +492,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 if (!item.isQcDone()) {
                     if (item.isSplit()) {
                         mode = 1;
-                        showFlow = false;
+                        showMenuItem = false;
                         pop();
                     } else {
                         fillItemLayout(item);
@@ -732,7 +729,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 boolean isFirst = qcList.isFirst();
                 if (!isFirst) {//已qc---只显示列表
                     mode = 1;
-                    showFlow = false;
+                    showMenuItem = false;
                 }
                 pop();
             }
