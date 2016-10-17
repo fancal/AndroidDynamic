@@ -2,19 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="请扫描托盘码:"
-        android:textSize="14dip" />
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <com.elianshang.bridge.ui.view.ScanEditText
         android:id="@+id/containerId_EditText"
-        android:layout_width="match_parent"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:focusable="false"
         android:textSize="14dip" />
 
+    <TextView
+        android:id="@+id/delete_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:text="删除"
+        android:textSize="14dip"/>
 
 </LinearLayout>

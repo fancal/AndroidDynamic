@@ -9,25 +9,23 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
-import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.mergeboard.R;
-import com.elianshang.wms.app.mergeboard.bean.BoardDetailList;
+import com.elianshang.wms.app.mergeboard.bean.CheckMerge;
 import com.elianshang.wms.app.mergeboard.bean.ResponseState;
-import com.elianshang.wms.app.mergeboard.provider.BoardDetailListProvider;
-import com.elianshang.wms.app.mergeboard.provider.MergeBoardProvider;
+import com.elianshang.wms.app.mergeboard.provider.CheckMergeContainersProvider;
+import com.elianshang.wms.app.mergeboard.provider.MergeContainersProvider;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -52,10 +50,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
      */
     private LinearLayout inputLayout;
 
-    /**
-     * 添加托盘布局 添加按钮
-     */
-    private Button inputAddButton;
+    private TextView titleTextView;
 
     /**
      * 详情布局
@@ -73,11 +68,6 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
     private Button submitButton;
 
     /**
-     * EditText工具
-     */
-    private ScanEditTextTool scanEditTextTool;
-
-    /**
      * 动态布局记录列表
      */
     private ArrayList<ViewHolder> vhList = new ArrayList<>();
@@ -86,7 +76,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
     /**
      * 最大允许合板数
      */
-    private final int MAX_BOARD_NUM = Integer.MAX_VALUE;
+    private final int MAX_BOARD_NUM = 10;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,21 +109,17 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (scanEditTextTool != null) {
-            scanEditTextTool.release();
-        }
     }
 
     private void findView() {
 
         inputView = findViewById(R.id.container_input);
         inputLayout = (LinearLayout) inputView.findViewById(R.id.input_Layout);
-        inputAddButton = (Button) inputView.findViewById(R.id.add_Button);
-        detailView = findViewById(R.id.detail_Layout);
+        titleTextView = (TextView) inputView.findViewById(R.id.title_TextView);
+        detailView = findViewById(R.id.container_detail);
         detailLayout = (LinearLayout) detailView.findViewById(R.id.detail_Layout);
         submitButton = (Button) findViewById(R.id.submit_Button);
 
-        inputAddButton.setOnClickListener(this);
         submitButton.setOnClickListener(this);
 
         initToolbar();
@@ -167,144 +153,205 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
     }
 
     private void fillInitBoard() {
-        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
-
         inputView.setVisibility(View.VISIBLE);
         detailView.setVisibility(View.GONE);
 
-        if (scanEditTextTool != null) {
-            scanEditTextTool.release();
-        }
-        scanEditTextTool = new ScanEditTextTool(that);
-
         vhList.clear();
         inputLayout.removeAllViews();
-        for (int i = 0; i < 2; i++) {
-            addItemView();
-        }
-        if (vhList.size() > 0) {
-            vhList.get(0).containerIdEditText.requestFocus();
-        }
+        titleTextView.setText("请扫描添加托盘码:");
+        submitButton.setEnabled(false);
     }
 
-    private void fillBoardDetail(BoardDetailList boardDetailList) {
+    private void fillBoardDetail(CheckMerge checkMerge) {
+        detailLayout.removeAllViews();
+
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+
         inputView.setVisibility(View.GONE);
         detailView.setVisibility(View.VISIBLE);
 
-        if (scanEditTextTool != null) {
-            scanEditTextTool.release();
+        addDetailHeadView(checkMerge);
+
+        for (CheckMerge.Item item : checkMerge) {
+            addDetailItemView(item);
         }
-
-        vhList.clear();
-        detailLayout.removeAllViews();
-        for (BoardDetailList.BoardDetail boardDetail : boardDetailList) {
-            addDetailItemView(boardDetail);
-        }
-
-
     }
 
-    private void addItemView() {
-        if(vhList.size() >= MAX_BOARD_NUM){
-            ToastTool.show(that,"超出最大合板数");
+    private void addItemView(String containerId) {
+        if (vhList.size() >= MAX_BOARD_NUM) {
+            ToastTool.show(that, "超出最大合板数");
             return;
         }
-        View view = View.inflate(that, R.layout.input_item_view, null);
+
+        for (ViewHolder viewHolder : vhList) {
+            if (TextUtils.equals(containerId, viewHolder.containerIdEditText.getText().toString())) {
+                ToastTool.show(that, "该托盘码已经存在");
+                return;
+            }
+        }
+
+        final View view = View.inflate(that, R.layout.input_item_view, null);
 
         ScanEditText containerIdEditText = (ScanEditText) view.findViewById(R.id.containerId_EditText);
-
-        scanEditTextTool.addEditText(containerIdEditText);
+        TextView deleteTextView = (TextView) view.findViewById(R.id.delete_TextView);
 
         inputLayout.addView(view);
-        containerIdEditText.requestFocus();
+        containerIdEditText.setText(containerId);
 
-        ViewHolder vh = new ViewHolder();
+        final ViewHolder vh = new ViewHolder();
+        vh.layout = view;
         vh.containerIdEditText = containerIdEditText;
+        vh.deleteTextView = deleteTextView;
         vhList.add(vh);
+
+        titleTextView.setText("托盘数:" + vhList.size());
+
+        deleteTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeItemView(vh);
+            }
+        });
+
+        if (vhList.size() < 2) {
+            submitButton.setEnabled(false);
+        } else {
+            submitButton.setEnabled(true);
+        }
     }
 
-    private void addDetailItemView(BoardDetailList.BoardDetail boardDetail) {
+    private void removeItemView(ViewHolder viewHolder) {
+        inputLayout.removeView(viewHolder.layout);
+        vhList.remove(viewHolder);
+
+        if (vhList.size() == 0) {
+            titleTextView.setText("请扫描添加托盘码:");
+        } else {
+            titleTextView.setText("托盘数:" + vhList.size());
+        }
+
+        if (vhList.size() < 2) {
+            submitButton.setEnabled(false);
+        } else {
+            submitButton.setEnabled(true);
+        }
+    }
+
+    private void addDetailHeadView(CheckMerge checkMerge) {
+
+        View view = View.inflate(that, R.layout.detail_head_view, null);
+
+        TextView deliveryNameTextView = (TextView) view.findViewById(R.id.deliveryName_TextView);
+        TextView containerCountTextView = (TextView) view.findViewById(R.id.containerCount_TextView);
+        TextView packCountTextView = (TextView) view.findViewById(R.id.packCount_TextView);
+        TextView turnoverBoxCountTextView = (TextView) view.findViewById(R.id.turnoverBoxCount_TextView);
+
+        deliveryNameTextView.setText(checkMerge.getDeliveryName());
+        containerCountTextView.setText(checkMerge.getContainerCount());
+        packCountTextView.setText(checkMerge.getPackCount());
+        turnoverBoxCountTextView.setText(checkMerge.getTurnoverBoxCount());
+
+        detailLayout.addView(view);
+    }
+
+    private void addDetailItemView(CheckMerge.Item item) {
+
         View view = View.inflate(that, R.layout.detail_item_view, null);
+
+        TextView containerIdTextView = (TextView) view.findViewById(R.id.containerId_TextView);
+        TextView packCountTextView = (TextView) view.findViewById(R.id.packCount_TextView);
+        TextView turnoverBoxCountTextView = (TextView) view.findViewById(R.id.turnoverBoxCount_TextView);
+        TextView statusTextView = (TextView) view.findViewById(R.id.status_TextView);
+
+        containerIdTextView.setText(item.getContainerId());
+        packCountTextView.setText(item.getPackCount());
+        turnoverBoxCountTextView.setText(item.getTurnoverBoxCount());
+
+        if (item.isMerged()) {
+            statusTextView.setTextColor(0xffff0000);
+            statusTextView.setText("已合板");
+        } else {
+            statusTextView.setTextColor(0xff00ee44);
+            statusTextView.setText("未合板");
+        }
+
         detailLayout.addView(view);
     }
 
 
     @Override
     public void onBackPressed() {
-        DialogTools.showTwoButtonDialog(that, "是否退出合板,下次回来将重新开始", "取消", "确定", null, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        }, true);
+        if (detailView.getVisibility() == View.VISIBLE) {
+            DialogTools.showTwoButtonDialog(that, "是否放弃合板合板", "取消", "确定", null, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    inputView.setVisibility(View.VISIBLE);
+                    detailView.setVisibility(View.GONE);
+                }
+            }, true);
+
+            return;
+        }
+
+        finish();
     }
 
     @Override
     public void OnBarCodeReceived(String s) {
-        if (scanEditTextTool == null) {
-            return;
+        if(inputView.getVisibility() == View.VISIBLE){
+            addItemView(s);
         }
-        scanEditTextTool.setScanText(s);
     }
 
     @Override
     public void onClick(View v) {
-        if (inputAddButton == v) {
-            addItemView();
-        } else if (submitButton == v) {
+        if (submitButton == v) {
             if (inputView.getVisibility() == View.VISIBLE) {
-                new GetBoardDetailListTask(that, getBoardListString()).start();
+                new CheckMergeContainersTask(that, getBoardListString()).start();
             } else {
-                new MergeBoardTask(that, getBoardListString()).start();
+                new MergeContainersTask(that, getBoardListString()).start();
             }
         }
     }
 
     private String getBoardListString() {
-        final JSONObject jsonObject = new JSONObject();
         final JSONArray jsonarray = new JSONArray();
 
-        try {
-            for (ViewHolder vh : vhList) {
-                String containerId = vh.containerIdEditText.getText().toString();
-                if (TextUtils.isEmpty(containerId)) {
-                } else {
-                    JSONObject jso = new JSONObject();
-                    jso.put("containerId", containerId);
-                    jsonarray.put(jso);
-                }
+        for (ViewHolder vh : vhList) {
+            String containerId = vh.containerIdEditText.getText().toString();
+            if (!TextUtils.isEmpty(containerId)) {
+                jsonarray.put(containerId);
             }
-
-            jsonObject.put("list", jsonarray);
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-        return jsonObject.toString();
+
+        return jsonarray.toString();
     }
 
     private class ViewHolder {
+        View layout;
         ScanEditText containerIdEditText;
+        TextView deleteTextView;
     }
 
     /**
      * 拖板列表详情
      */
-    private class GetBoardDetailListTask extends HttpAsyncTask<BoardDetailList> {
+    private class CheckMergeContainersTask extends HttpAsyncTask<CheckMerge> {
 
         private String resultList;
 
-        private GetBoardDetailListTask(Context context, String resultList) {
+        private CheckMergeContainersTask(Context context, String resultList) {
             super(context, true, true);
             this.resultList = resultList;
         }
 
         @Override
-        public DataHull<BoardDetailList> doInBackground() {
-            return BoardDetailListProvider.request(context, uId, uToken, resultList);
+        public DataHull<CheckMerge> doInBackground() {
+            return CheckMergeContainersProvider.request(context, uId, uToken, resultList);
         }
 
         @Override
-        public void onPostExecute(BoardDetailList result) {
+        public void onPostExecute(CheckMerge result) {
             fillBoardDetail(result);
         }
 
@@ -313,23 +360,23 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
     /**
      * 合板
      */
-    private class MergeBoardTask extends HttpAsyncTask<ResponseState> {
+    private class MergeContainersTask extends HttpAsyncTask<ResponseState> {
 
         private String resultList;
 
-        private MergeBoardTask(Context context, String resultList) {
+        private MergeContainersTask(Context context, String resultList) {
             super(context, true, true);
             this.resultList = resultList;
         }
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return MergeBoardProvider.request(context, uId, uToken, resultList, serialNumber);
+            return MergeContainersProvider.request(context, uId, uToken, resultList, serialNumber);
         }
 
         @Override
         public void onPostExecute(ResponseState result) {
-            finish();
+            fillInitBoard();
             ToastTool.show(context, "合板完成");
         }
     }
