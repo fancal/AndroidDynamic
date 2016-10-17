@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
+import com.elianshang.bridge.tool.FloatUtils;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
@@ -150,7 +151,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         }
 
 
-
         return true;
     }
 
@@ -244,7 +244,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         oneLayout.setVisibility(View.GONE);
         twoLayout.setVisibility(View.VISIBLE);
         goOnSubmitButton.setVisibility(View.VISIBLE);
-        skipSubmitButton.setVisibility(View.VISIBLE);
+        skipSubmitButton.setVisibility(View.GONE);
         stopSubmitButton.setVisibility(View.VISIBLE);
 
         goOnSubmitButton.setOnClickListener(this);
@@ -289,6 +289,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
                 onBackPressed();
             }
         });
+        mToolbar.setTitle(mType == Type.CONTAINER ? "托盘播种" : "订单播种");
     }
 
     @Override
@@ -336,7 +337,15 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        try {
+            float realQty = Float.parseFloat(twoInputQtyEditView.getValue());
+            float qty = Float.parseFloat(curSow.getQty());
+            if (realQty > qty) {
+                twoInputQtyEditView.setText(curSow.getQty());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -347,10 +356,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     @Override
     public void afterTextChanged(Editable s) {
         try {
-            float realQty = Float.parseFloat(twoInputQtyEditView.getValue());
-            float qty = Float.parseFloat(curSow.getQty());
-            skipSubmitButton.setVisibility(qty > realQty ? View.VISIBLE : View.GONE);
-            stopSubmitButton.setVisibility(qty > realQty ? View.VISIBLE : View.GONE);
+            skipSubmitButton.setVisibility(FloatUtils.equals(twoInputQtyEditView.getValue(), curSow.getQty()) ? View.GONE : View.VISIBLE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -381,14 +387,14 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             String type = "2";
 
             new ScanTargetContainerTask(that, uId, taskId, containerId, qty, type).start();
-        } else if(v == skipSubmitButton){
+        } else if (v == skipSubmitButton) {
             String taskId = curSow.getTaskId();
             String containerId = twoContainerIdEditText.getText().toString();
             String qty = twoInputQtyEditView.getValue();
             String type = "3";
 
             new ScanTargetContainerTask(that, uId, taskId, containerId, qty, type).start();
-        } else if(v == stopSubmitButton){
+        } else if (v == stopSubmitButton) {
             String taskId = curSow.getTaskId();
             String containerId = twoContainerIdEditText.getText().toString();
             String qty = twoInputQtyEditView.getValue();

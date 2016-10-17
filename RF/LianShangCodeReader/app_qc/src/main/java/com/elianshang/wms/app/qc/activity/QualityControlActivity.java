@@ -695,7 +695,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             }
 
             scanEditTextTool.setScanText(s);
-        } else if (promptLayout.getVisibility() == View.VISIBLE) {
+        } else if (listView.getVisibility() == View.VISIBLE) {
             findItem(s);
         }
     }
