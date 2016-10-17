@@ -58,7 +58,7 @@ public class QcListParser extends MasterParser<QcList> {
                     JSONObject jo = optJSONObject(jsonArray, i);
                     if (jo != null) {
                         boolean qcDone = optBoolean(jo, "qcDone");
-                        boolean isFirstQc = optBoolean(jo, "isFristQc");
+                        boolean isFirstQc = optBoolean(jo, "isFristTime");
                         String itemName = optString(jo, "itemName");
                         String packName = optString(jo, "uom");
                         String skuId = optString(jo, "skuId");
@@ -105,4 +105,5 @@ public class QcListParser extends MasterParser<QcList> {
         }
         return null;
     }
+
 }
