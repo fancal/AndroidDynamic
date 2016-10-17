@@ -298,7 +298,9 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
 
     @Override
     public void OnBarCodeReceived(String s) {
-        addItemView(s);
+        if(inputView.getVisibility() == View.VISIBLE){
+            addItemView(s);
+        }
     }
 
     @Override
