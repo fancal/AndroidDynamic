@@ -355,6 +355,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             if (realQty > qty) {
                 realQtyString = qtyString;
                 twoInputQtyEditView.setText(realQtyString);
+                twoInputQtyEditView.setSelection(realQtyString.length());
             }
 
             skipSubmitButton.setVisibility(FloatUtils.equals(realQtyString, qtyString) ? View.GONE : View.VISIBLE);
