@@ -41,6 +41,6 @@ public class WelcomeActivity extends Activity {
         setContentView(R.layout.activity_welcome);
 
         handler.sendEmptyMessageDelayed(1, 200);
-        handler.sendEmptyMessageDelayed(2, 500);
+        handler.sendEmptyMessageDelayed(2, 1000);
     }
 }

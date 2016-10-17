@@ -139,9 +139,6 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
-        //Fixme test
-        uId = "141871359725260";
-        uToken = "131370164694198";
         ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
@@ -208,7 +205,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
 
         deleteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public  void onClick(View v) {
                 removeItemView(vh);
             }
         });

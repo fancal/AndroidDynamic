@@ -337,15 +337,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        try {
-            float realQty = Float.parseFloat(twoInputQtyEditView.getValue());
-            float qty = Float.parseFloat(curSow.getQty());
-            if (realQty > qty) {
-                twoInputQtyEditView.setText(curSow.getQty());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
@@ -356,11 +348,19 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     @Override
     public void afterTextChanged(Editable s) {
         try {
-            skipSubmitButton.setVisibility(FloatUtils.equals(twoInputQtyEditView.getValue(), curSow.getQty()) ? View.GONE : View.VISIBLE);
+            String realQtyString = twoInputQtyEditView.getValue();
+            String qtyString = curSow.getQty();
+            float realQty = Float.parseFloat(realQtyString);
+            float qty = Float.parseFloat(qtyString);
+            if (realQty > qty) {
+                realQtyString = qtyString;
+                twoInputQtyEditView.setText(realQtyString);
+            }
+
+            skipSubmitButton.setVisibility(FloatUtils.equals(realQtyString, qtyString) ? View.GONE : View.VISIBLE);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

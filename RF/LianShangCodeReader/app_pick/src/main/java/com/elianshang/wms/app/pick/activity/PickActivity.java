@@ -226,6 +226,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
         mGroup3CollectionIdView = (TextView) mGroup3.findViewById(R.id.collection_id);
         mGroup3ConfirmCollectionIdView = (ScanEditText) mGroup3.findViewById(R.id.confirm_collection_id);
+        mGroup3ConfirmCollectionIdView.setCode(true);
+
 
         mSubmit = (Button) findViewById(R.id.submit_Button);
 

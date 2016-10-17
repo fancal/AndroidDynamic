@@ -94,9 +94,6 @@ public class SetOfGoodsActivity extends DLBasePluginActivity implements ScanEdit
         uId = intent.getStringExtra("uId");
         uToken = intent.getStringExtra("uToken");
 
-        uId = "141871359725260";
-        uToken = "178601920061783";
-
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
