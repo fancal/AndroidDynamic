@@ -246,6 +246,8 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         goOnSubmitButton.setVisibility(View.VISIBLE);
         skipSubmitButton.setVisibility(View.GONE);
         stopSubmitButton.setVisibility(View.VISIBLE);
+        goOnSubmitButton.setEnabled(false);
+        stopSubmitButton.setEnabled(false);
 
         goOnSubmitButton.setOnClickListener(this);
         skipSubmitButton.setOnClickListener(this);
@@ -260,6 +262,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         twoInputQtyEditView.setHint(curSow.getQty());
         twoInputQtyEditView.setText(null);
         twoInputQtyEditView.addTextChangedListener(this);
+        goOnSubmitButton.setText("提交");
 
         twoInputQtyEditView.requestFocus();
 
@@ -268,6 +271,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         }
 
         twoContainerIdEditText.requestFocus();
+        twoContainerIdEditText.setText(null);
         scanEditTextTool = new ScanEditTextTool(that, twoContainerIdEditText);
         scanEditTextTool.setComplete(this);
     }
@@ -315,12 +319,15 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
                 }
             }
 
-        } /*else if (twoLayout.getVisibility() == View.VISIBLE) {
+        } else if (twoLayout.getVisibility() == View.VISIBLE) {
             Editable editable = twoContainerIdEditText.getText();
             if (editable != null) {
-                fillStepTwo();
+                if(!TextUtils.isEmpty(editable.toString())){
+                    goOnSubmitButton.setEnabled(true);
+                    stopSubmitButton.setEnabled(true);
+                }
             }
-        }*/
+        }
     }
 
     @Override
