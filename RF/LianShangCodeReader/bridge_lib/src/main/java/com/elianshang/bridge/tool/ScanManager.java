@@ -1,11 +1,12 @@
 package com.elianshang.bridge.tool;
 
+import android.app.Activity;
 import android.barcode.BarCodeManager;
 import android.content.Context;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.util.Log;
+
+import com.elianshang.bridge.R;
+import com.elianshang.tools.SoundManager;
 
 import java.util.ArrayList;
 
@@ -23,18 +24,20 @@ public class ScanManager {
 
     private boolean isOpen = false;
 
+    private SoundManager soundManager;
+
     private ScanManager(final Context context) {
 
         if (checkClass()) {
             mBarCode = (BarCodeManager) context.getSystemService("barcode");
             mBarCode.setBarCodeWaitTime(100);
 
+            soundManager = new SoundManager(context, R.raw.beep);
+
             mainListener = new BarCodeManager.OnBarCodeReceivedListener() {
                 @Override
                 public void OnBarCodeReceived(String s) {
-                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                    Ringtone r = RingtoneManager.getRingtone(context, notification);
-                    r.play();
+                    soundManager.playBeepSoundAndVibrate();
                     if (listeners != null && listeners.size() > 0) {
                         for (OnBarCodeListener onBarCodeListener : listeners) {
                             try {
@@ -52,6 +55,10 @@ public class ScanManager {
         }
 
         listeners = new ArrayList();
+    }
+
+    public synchronized void openSoundControl(Activity activity) {
+        soundManager.openSoundControl(activity);
     }
 
     public synchronized static void init(Context context) {

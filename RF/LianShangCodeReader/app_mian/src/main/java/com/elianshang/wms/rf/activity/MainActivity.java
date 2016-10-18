@@ -70,6 +70,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(ScanManager.get() != null){
+            ScanManager.get().openSoundControl(this);
+        }
+
         if (!BaseApplication.get().isLogin()) {
             LoginActivity.launch(this);
         }
