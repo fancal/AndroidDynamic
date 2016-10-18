@@ -158,11 +158,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     private View confirmLayout;
 
     /**
-     * 确认布局任务
-     */
-    private TextView confirmPickTaskIdTextView;
-
-    /**
      * 确认布局集货道
      */
     private TextView confirmCollectionCodeTextView;
@@ -267,7 +262,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemSubmitButton.setOnClickListener(this);
 
         confirmLayout = findViewById(R.id.confirm_Layout);
-        confirmPickTaskIdTextView = (TextView) confirmLayout.findViewById(R.id.pickTaskId_TextView);
         confirmCollectionCodeTextView = (TextView) confirmLayout.findViewById(R.id.collectionCode_TextView);
         confirmShopTextView = (TextView) confirmLayout.findViewById(R.id.shop_TextView);
         confirmItemBoxNumTextView = (TextView) confirmLayout.findViewById(R.id.itemBoxNum_TextView);
@@ -424,7 +418,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             scanEditTextTool = null;
         }
 
-        confirmPickTaskIdTextView.setText(qcList.getPickTaskId());
         confirmCollectionCodeTextView.setText(qcList.getCollectionRoadCode());
         confirmShopTextView.setText(qcList.getCustomerName());
         confirmItemBoxNumTextView.setText(qcList.getItemBoxNum());
