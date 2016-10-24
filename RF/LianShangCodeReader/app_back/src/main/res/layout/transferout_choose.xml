@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/quik_Button"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:background="@drawable/submit_button_bg"
+            android:enabled="true"
+            android:text="一键出库"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+
+        <Button
+            android:layout_marginTop="10dip"
+            android:id="@+id/edit_Button"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:background="@drawable/submit_button_bg"
+            android:enabled="true"
+            android:text="编辑出库"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+
+    </LinearLayout>
+</RelativeLayout>
