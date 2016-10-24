@@ -260,6 +260,8 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         twoPackNameTextView.setText(curSow.getPackName());
         twoAllocQtyTextView.setText(curSow.getQty());
         twoInputQtyEditView.setHint(curSow.getQty());
+        goOnSubmitButton.setText("提交");
+
         twoInputQtyEditView.setText(null);
         twoInputQtyEditView.addTextChangedListener(this);
         goOnSubmitButton.setText("提交");
@@ -362,6 +364,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             if (realQty > qty) {
                 realQtyString = qtyString;
                 twoInputQtyEditView.setText(realQtyString);
+                twoInputQtyEditView.setSelection(realQtyString.length());
             }
 
             boolean isEqual = FloatUtils.equals(realQtyString, qtyString);

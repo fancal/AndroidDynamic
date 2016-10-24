@@ -678,6 +678,11 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+            scanEditTextTool = null ;
+        }
     }
 
     @Override

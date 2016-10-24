@@ -38,7 +38,7 @@ public final class SoundManager implements
     private static final float BEEP_VOLUME = 1.0f;
     private static final long VIBRATE_DURATION = 500L;
 
-    private final Activity activity;
+    private final Context context;
     private MediaPlayer mediaPlayer;
     private boolean playBeep;
 
@@ -47,8 +47,8 @@ public final class SoundManager implements
 
     private int rawId;
 
-    public SoundManager(Activity activity, int rawId) {
-        this.activity = activity;
+    public SoundManager(Context context, int rawId) {
+        this.context = context;
         this.mediaPlayer = null;
         this.rawId = rawId;
         updatePrefs(rawId);
@@ -83,12 +83,25 @@ public final class SoundManager implements
     }
 
     public synchronized void updatePrefs(int rawId) {
-        playBeep = shouldBeep(beepEnabled, activity);
+        playBeep = shouldBeep(beepEnabled, context);
         if (playBeep && mediaPlayer == null) {
-            // The volume on STREAM_SYSTEM is not adjustable, and users found it too loud,
-            // so we now play on the music stream.
-            activity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-            mediaPlayer = buildMediaPlayer(activity, rawId);
+
+            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            if (audioManager != null) {
+                if (audioManager.getMode() == AudioManager.MODE_INVALID) {
+                    audioManager.setMode(AudioManager.MODE_NORMAL);
+
+                    int max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, max / 2, 0);
+                }
+            }
+            mediaPlayer = buildMediaPlayer(context, rawId);
+        }
+    }
+
+    public synchronized void openSoundControl(Activity activity) {
+        if (context instanceof Activity) {
+            ((Activity) context).setVolumeControlStream(AudioManager.STREAM_MUSIC);
         }
     }
 
@@ -97,7 +110,7 @@ public final class SoundManager implements
             mediaPlayer.start();
         }
         if (vibrateEnabled) {
-            Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(VIBRATE_DURATION);
         }
     }
@@ -108,7 +121,7 @@ public final class SoundManager implements
             // See if sound settings overrides this
             AudioManager audioService = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
             if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
-                shouldPlayBeep = false;
+//                shouldPlayBeep = false;
             }
         }
         return shouldPlayBeep;
@@ -149,7 +162,7 @@ public final class SoundManager implements
     public synchronized boolean onError(MediaPlayer mp, int what, int extra) {
         if (what == MediaPlayer.MEDIA_ERROR_SERVER_DIED) {
             // we are finished, so put up an appropriate error toast if required and finish
-            activity.finish();
+//            context.finish();
         } else {
             // possibly media player error, so release and recreate
             mp.release();
