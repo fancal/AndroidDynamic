@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginTop="10dip"
+        android:gravity="center"
+        android:text="开始进行装车"
+        android:textSize="14dip" />
+
+    <TextView
+        android:id="@+id/containerId_TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14dip" />
+
+    <TextView
+        android:id="@+id/boxNum_TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:textSize="14dip" />
+
+    <TextView
+        android:id="@+id/turnOverBoxNum_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/next_Button"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:background="@drawable/submit_button_bg"
+        android:enabled="true"
+        android:text="下一步"
+        android:textColor="@color/white"
+        android:textSize="20dip" />
+
+</LinearLayout>
