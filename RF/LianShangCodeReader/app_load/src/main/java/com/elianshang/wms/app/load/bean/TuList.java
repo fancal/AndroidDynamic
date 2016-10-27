@@ -35,6 +35,16 @@ public class TuList extends ArrayList<TuList.Item> implements BaseBean {
 
         ArrayList<Store> stores;
 
+        String status;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
         public String getTu() {
             return tu;
         }

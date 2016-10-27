@@ -6,26 +6,27 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.load.R;
+import com.elianshang.wms.app.load.adapter.TuListAdapter;
 import com.elianshang.wms.app.load.bean.TuJobList;
 import com.elianshang.wms.app.load.bean.TuList;
 import com.elianshang.wms.app.load.provider.TuJobListProvier;
-import com.elianshang.wms.app.load.view.TuDetailView;
-import com.elianshang.wms.app.load.view.TuListView;
+import com.elianshang.wms.app.load.provider.TuListProvier;
 import com.xue.http.impl.DataHull;
 
 /**
  * Created by liuhanzhi on 16/10/25.
  */
 
-public class TuPageActivity extends DLBasePluginActivity implements View.OnClickListener, TuListView.OnItemClickListener, TuDetailView.OnNextButtonClick {
+public class TuPageActivity extends DLBasePluginActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private String uId;
 
@@ -33,19 +34,51 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
 
     private Toolbar toolbar;
 
+    private View tabLayout;
+
     private Button tab1;
 
     private Button tab2;
 
-    private TuListView unloadTuListView;
+    private View unloadLayout;
 
-    private TuListView loadedTuListView;
+    private ListView unloadListView;
 
-    private TuDetailView tuDetailView;
+    private View unloadEmptyView;
 
-    private RelativeLayout content;
+    private View loadedLayout;
+
+    private ListView loadedListView;
+
+    private View loadedEmptyView;
+
+    private View detailLayout;
+
+    private TextView detailTuTextView;
+
+    private TextView detailCarNumberTextView;
+
+    private TextView detailDriverNameTextView;
+
+    private TextView detailPreBoardTextView;
+
+    private TextView detailStoresTextView;
+
+    private Button detailNextButton;
 
     private String[] status = new String[]{"1", "5"};
+
+    private TuListAdapter unloadListAdapter;
+
+    private TuListAdapter loadedListAdapter;
+
+    private TuList unloadTuList;
+
+    private TuList loadedTuList;
+
+    private TuList.Item curItem;
+
+    private TuListTask tuListTask;
 
     private TuJobListTask tuJobListTask;
 
@@ -78,10 +111,27 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
     private void findView() {
         initToolbar();
 
-        tab1 = (Button) findViewById(R.id.tab1);
-        tab2 = (Button) findViewById(R.id.tab2);
-        content = (RelativeLayout) findViewById(R.id.content);
+        tabLayout = findViewById(R.id.tabLayout);
+        tab1 = (Button) tabLayout.findViewById(R.id.tab1);
+        tab2 = (Button) tabLayout.findViewById(R.id.tab2);
 
+        unloadLayout = findViewById(R.id.unloadLayout);
+        unloadListView = (ListView) unloadLayout.findViewById(R.id.listview);
+        unloadEmptyView = unloadLayout.findViewById(R.id.empty_TextView);
+
+        loadedLayout = findViewById(R.id.loadedLayout);
+        loadedListView = (ListView) loadedLayout.findViewById(R.id.listview);
+        loadedEmptyView = loadedLayout.findViewById(R.id.empty_TextView);
+
+        detailLayout = findViewById(R.id.detailLayout);
+        detailTuTextView = (TextView) detailLayout.findViewById(R.id.tu_TextView);
+        detailCarNumberTextView = (TextView) detailLayout.findViewById(R.id.carNumber_TextView);
+        detailDriverNameTextView = (TextView) detailLayout.findViewById(R.id.driverName_TextView);
+        detailPreBoardTextView = (TextView) detailLayout.findViewById(R.id.preBoard_TextView);
+        detailStoresTextView = (TextView) detailLayout.findViewById(R.id.stores_TextView);
+        detailNextButton = (Button) detailLayout.findViewById(R.id.next_Button);
+
+        detailNextButton.setOnClickListener(this);
         tab1.setOnClickListener(this);
         tab2.setOnClickListener(this);
 
@@ -100,85 +150,144 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
 
     @Override
     public void onBackPressed() {
-        if (content.getChildAt(0) instanceof TuDetailView) {
+        if (detailLayout.getVisibility() == View.VISIBLE) {
             if (tab1.isSelected()) {
-                fillUnloadList();
+                requestUnloadList();
             } else {
-                fillLoadedList();
+                requestLoadedList();
             }
             return;
         }
         finish();
     }
 
-    private void fillUnloadList() {
-        content.removeAllViews();
-        if (unloadTuListView == null) {
-            unloadTuListView = new TuListView(that);
-        }
-        unloadTuListView.initTuList(uId, uToken, status[0]);
-        unloadTuListView.setOnItemClickListener(this);
-        content.addView(unloadTuListView);
+    private void requestUnloadList() {
+        tabLayout.setVisibility(View.VISIBLE);
+        unloadLayout.setVisibility(View.VISIBLE);
+        loadedLayout.setVisibility(View.GONE);
+        detailLayout.setVisibility(View.GONE);
 
+        if (tuListTask != null) {
+            tuListTask.cancel();
+            tuListTask = null;
+        }
+        tuListTask = new TuListTask(that, status[0]);
+        tuListTask.start();
+
+    }
+
+    private void requestLoadedList() {
+        tabLayout.setVisibility(View.VISIBLE);
+        unloadLayout.setVisibility(View.GONE);
+        loadedLayout.setVisibility(View.VISIBLE);
+        detailLayout.setVisibility(View.GONE);
+
+        if (tuListTask != null) {
+            tuListTask.cancel();
+            tuListTask = null;
+        }
+        tuListTask = new TuListTask(that, status[1]);
+        tuListTask.start();
+    }
+
+    private void fillUnloadList() {
+        if (unloadTuList != null) {
+            unloadEmptyView.setVisibility(View.GONE);
+            unloadListView.setVisibility(View.VISIBLE);
+            if (unloadListAdapter == null) {
+                unloadListAdapter = new TuListAdapter(that);
+                unloadListView.setAdapter(unloadListAdapter);
+            }
+            unloadListAdapter.setTuList(unloadTuList);
+            unloadListAdapter.notifyDataSetChanged();
+            unloadListView.setOnItemClickListener(this);
+        } else {
+            unloadEmptyView.setVisibility(View.VISIBLE);
+            unloadListView.setVisibility(View.GONE);
+        }
     }
 
     private void fillLoadedList() {
-        content.removeAllViews();
-        if (loadedTuListView == null) {
-            loadedTuListView = new TuListView(that);
+        if (loadedTuList != null) {
+            loadedEmptyView.setVisibility(View.GONE);
+            loadedListView.setVisibility(View.VISIBLE);
+            if (loadedListAdapter == null) {
+                loadedListAdapter = new TuListAdapter(that);
+                loadedListView.setAdapter(unloadListAdapter);
+            }
+            loadedListAdapter.setTuList(unloadTuList);
+            loadedListAdapter.notifyDataSetChanged();
+            loadedListView.setOnItemClickListener(this);
+        } else {
+            loadedEmptyView.setVisibility(View.VISIBLE);
+            loadedListView.setVisibility(View.GONE);
         }
-        loadedTuListView.initTuList(uId, uToken, status[1]);
-        loadedTuListView.setOnItemClickListener(this);
-        content.addView(loadedTuListView);
     }
 
     private void fillTuDetail(TuList.Item item) {
-        content.removeAllViews();
-        if (tuDetailView == null) {
-            tuDetailView = new TuDetailView(that);
-        }
-        tuDetailView.setOnNextButtonClick(this);
-        tuDetailView.fillTuDetail(item);
-        content.addView(tuDetailView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-    }
+        tabLayout.setVisibility(View.GONE);
+        unloadLayout.setVisibility(View.GONE);
+        loadedLayout.setVisibility(View.GONE);
+        detailLayout.setVisibility(View.VISIBLE);
 
+        detailTuTextView.setText("TU号:" + item.getTu());
+        detailCarNumberTextView.setText("车牌号:" + item.getCarNumber());
+        detailDriverNameTextView.setText("司机电话:" + item.getCellphone());
+        detailPreBoardTextView.setText("预装版数:" + item.getPreBoard());
+        if (item.getStores() != null && item.getStores().size() > 0) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < item.getStores().size(); i++) {
+                TuList.Item.Store store = item.getStores().get(i);
+                sb.append("门店");
+                sb.append(String.valueOf(i + 1));
+                sb.append(":");
+                sb.append("【");
+                sb.append(store.getStoreNo());
+                sb.append("】");
+                if (i != item.getStores().size() - 1) {
+                    sb.append("\r\n");
+                }
+            }
+            detailStoresTextView.setText(sb.toString());
+        }
+
+        detailNextButton.setText(TextUtils.equals("1", item.getStatus()) ? "开始装车" : "追加装车");
+    }
 
     @Override
     public void onClick(View v) {
         if (v == tab1) {
             tab1.setSelected(true);
             tab2.setSelected(false);
-            fillUnloadList();
+            requestUnloadList();
         } else if (v == tab2) {
             tab1.setSelected(false);
             tab2.setSelected(true);
-            fillLoadedList();
+            requestLoadedList();
+        } else if (v == detailNextButton) {
+            if (tuJobListTask != null) {
+                tuJobListTask.cancel();
+                tuJobListTask = null;
+            }
+            tuJobListTask = new TuJobListTask(that, curItem.getTu());
+            tuJobListTask.start();
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            if(tab2.isSelected()){//FIXME
-                return;
-            }
-            fillUnloadList();
+            requestUnloadList();
         }
     }
 
     @Override
-    public void onItemClick(TuList.Item item) {
-        fillTuDetail(item);
-    }
-
-    @Override
-    public void onNextClick(TuList.Item item) {
-        if (tuJobListTask != null) {
-            tuJobListTask.cancel();
-            tuJobListTask = null;
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (tab1.isSelected()) {
+            fillTuDetail(unloadTuList.get(position));
+        } else if (tab2.isSelected()) {
+            fillTuDetail(loadedTuList.get(position));
         }
-        tuJobListTask = new TuJobListTask(that, item.getTu());
-        tuJobListTask.start();
     }
 
     /**
@@ -205,7 +314,51 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
 
         @Override
         public void dataNull(String errMsg) {
-            super.dataNull(errMsg);
+            TuJobActivity.launch(TuPageActivity.this, uId, uToken, tu, null);
         }
     }
+
+    /**
+     * 获取 未装车/已装车列表
+     */
+    private class TuListTask extends HttpAsyncTask<TuList> {
+
+        private String status;
+
+        public TuListTask(Context context, String status) {
+            super(context, true, true, false);
+            this.status = status;
+        }
+
+        @Override
+        public DataHull<TuList> doInBackground() {
+            return TuListProvier.request(context, uId, uToken, status);
+        }
+
+        @Override
+        public void onPostExecute(TuList result) {
+            unloadTuList = result;
+            for (TuList.Item item : unloadTuList) {//手动设置每个item的status
+                item.setStatus(status);
+            }
+            if (TextUtils.equals(TuPageActivity.this.status[0], status)) {
+                unloadTuList = result;
+                fillUnloadList();
+            } else {
+                loadedTuList = result;
+                fillLoadedList();
+            }
+        }
+
+        @Override
+        public void dataNull(String errMsg) {
+            super.dataNull(errMsg);
+            if (TextUtils.equals(TuPageActivity.this.status[0], status)) {
+                fillUnloadList();
+            } else {
+                fillLoadedList();
+            }
+        }
+    }
+
 }

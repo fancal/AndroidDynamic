@@ -2,42 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dip"
-        android:layout_marginTop="10dip"
-        android:gravity="center"
-        android:text="开始进行装车"
-        android:textSize="14dip" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/containerId_TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14dip" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center"
+            android:text="开始进行装车"
+            android:textSize="14dip" />
 
-    <TextView
-        android:id="@+id/boxNum_TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dip"
-        android:textSize="14dip" />
+        <TextView
+            android:id="@+id/containerId_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dip" />
 
-    <TextView
-        android:id="@+id/turnOverBoxNum_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dip" />
+        <TextView
+            android:id="@+id/boxNum_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:textSize="14dip" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" />
+        <TextView
+            android:id="@+id/turnOverBoxNum_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/next_Button"
