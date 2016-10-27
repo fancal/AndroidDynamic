@@ -230,6 +230,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
         loadedLayout.setVisibility(View.GONE);
         detailLayout.setVisibility(View.VISIBLE);
 
+        this.curItem = item;
         detailTuTextView.setText("TU号:" + item.getTu());
         detailCarNumberTextView.setText("车牌号:" + item.getCarNumber());
         detailDriverNameTextView.setText("司机电话:" + item.getCellphone());
