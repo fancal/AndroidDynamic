@@ -65,7 +65,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
 
     private Button detailNextButton;
 
-    private String[] status = new String[]{"1", "5"};
+    private String[] statusArray = new String[]{"1", "5"};
 
     private TuListAdapter unloadListAdapter;
 
@@ -170,7 +170,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
             tuListTask.cancel();
             tuListTask = null;
         }
-        tuListTask = new TuListTask(that, status[0]);
+        tuListTask = new TuListTask(that, statusArray[0]);
         tuListTask.start();
 
     }
@@ -185,7 +185,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
             tuListTask.cancel();
             tuListTask = null;
         }
-        tuListTask = new TuListTask(that, status[1]);
+        tuListTask = new TuListTask(that, statusArray[1]);
         tuListTask.start();
     }
 
@@ -251,7 +251,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
             detailStoresTextView.setText(sb.toString());
         }
 
-        detailNextButton.setText(TextUtils.equals("1", item.getStatus()) ? "开始装车" : "追加装车");
+        detailNextButton.setText(TextUtils.equals(statusArray[0], item.getStatus()) ? "开始装车" : "追加装车");
     }
 
     @Override
@@ -341,7 +341,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
             for (TuList.Item item : unloadTuList) {//手动设置每个item的status
                 item.setStatus(status);
             }
-            if (TextUtils.equals(TuPageActivity.this.status[0], status)) {
+            if (TextUtils.equals(TuPageActivity.this.statusArray[0], status)) {
                 unloadTuList = result;
                 fillUnloadList();
             } else {
@@ -353,7 +353,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
         @Override
         public void dataNull(String errMsg) {
             super.dataNull(errMsg);
-            if (TextUtils.equals(TuPageActivity.this.status[0], status)) {
+            if (TextUtils.equals(TuPageActivity.this.statusArray[0], status)) {
                 fillUnloadList();
             } else {
                 fillLoadedList();

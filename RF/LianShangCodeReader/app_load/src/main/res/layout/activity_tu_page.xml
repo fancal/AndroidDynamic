@@ -38,7 +38,7 @@
             android:textColor="@drawable/tab_text_color"
             android:textSize="14dp" />
 
-        <View
+        <Space
             android:layout_width="1dp"
             android:layout_height="match_parent" />
 
