@@ -43,7 +43,7 @@ public class TuJobListParser extends MasterParser<TuJobList> {
                 String turnoverBoxNum = optString(data, "turnoverBoxNum");
                 String containerNum = optString(data, "containerNum");
                 String storeNo = optString(data, "storeNo");
-                String mergedTime = optString(data, "mergedTime");
+                long mergedTime = optLong(data, "mergedTime");
                 String turnoverBoxCount = optString(data, "turnoverBoxCount");
                 String storeId = optString(data, "storeId");
                 String packCount = optString(data, "packCount");

@@ -60,7 +60,7 @@ public class TuJobList implements BaseBean {
 
         boolean isExpensive;
 
-        String mergedTime;
+        long mergedTime;
 
         String turnoverBoxCount;
 
@@ -120,11 +120,11 @@ public class TuJobList implements BaseBean {
             isExpensive = expensive;
         }
 
-        public String getMergedTime() {
+        public long getMergedTime() {
             return mergedTime;
         }
 
-        public void setMergedTime(String mergedTime) {
+        public void setMergedTime(long mergedTime) {
             this.mergedTime = mergedTime;
         }
 

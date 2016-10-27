@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.elianshang.wms.app.load.R;
 import com.elianshang.wms.app.load.bean.TuJobList;
+import com.elianshang.wms.app.load.tool.DateTool;
+
+import java.text.ParseException;
 
 /**
  * Created by liuhanzhi on 16/10/25.
@@ -66,8 +69,12 @@ public class TuJobListAdapter extends BaseAdapter {
         viewHolder.containerIdTextView.setText("托盘码:" + item.getContainerId());
         viewHolder.boxNumTextView.setText("总箱数:" + item.getBoxNum());
         viewHolder.turnOverBoxNumTextView.setText("总周转箱数:" + item.getTurnoverBoxNum());
-        viewHolder.mergeTimeTextView.setText("合板日期:" + item.getMergedTime());
         viewHolder.isLoadTextView.setText("是否装车:" + (item.isLoaded() ? "是" : "否"));
+        try {
+            viewHolder.mergeTimeTextView.setText("合板日期:" + DateTool.longToString(item.getMergedTime() * 1000, "yyyy-MM-dd"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return convertView;
     }
 
