@@ -212,9 +212,9 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
             loadedListView.setVisibility(View.VISIBLE);
             if (loadedListAdapter == null) {
                 loadedListAdapter = new TuListAdapter(that);
-                loadedListView.setAdapter(unloadListAdapter);
+                loadedListView.setAdapter(loadedListAdapter);
             }
-            loadedListAdapter.setTuList(unloadTuList);
+            loadedListAdapter.setTuList(loadedTuList);
             loadedListAdapter.notifyDataSetChanged();
             loadedListView.setOnItemClickListener(this);
         } else {
