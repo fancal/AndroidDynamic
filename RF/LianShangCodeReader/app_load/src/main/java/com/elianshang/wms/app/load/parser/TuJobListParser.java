@@ -19,12 +19,14 @@ public class TuJobListParser extends MasterParser<TuJobList> {
         TuJobList tuJob = null;
         if (data != null) {
             JSONArray jsonArray = optJSONArray(data, "result");
+            boolean openSwitch = optBoolean(data, "openSwitch");
             int length = getLength(jsonArray);
             if (length > 0) {
                 tuJob = new TuJobList();
+                tuJob.setOpenSwitch(openSwitch);
                 for (int i = 0; i < length; i++) {
                     TuJobList.Item item = parseItem(optJSONObject(jsonArray, i));
-                    if (item != null){
+                    if (item != null) {
                         tuJob.add(item);
                     }
                 }
@@ -47,12 +49,12 @@ public class TuJobListParser extends MasterParser<TuJobList> {
                 String turnoverBoxCount = optString(data, "turnoverBoxCount");
                 String storeId = optString(data, "storeId");
                 String packCount = optString(data, "packCount");
-                String containerId = optString(data, "containerId");
+                String mardContainerId = optString(data, "markContainerId");
                 boolean isRest = optBoolean(data, "isRest");
                 boolean isExpensive = optBoolean(data, "isExpensive");
                 boolean isLoaded = optBoolean(data, "isLoaded");
 
-                if (!TextUtils.isEmpty(containerId)) {
+                if (!TextUtils.isEmpty(mardContainerId)) {
                     item = new TuJobList.Item();
                     item.setContainerCount(containerCount);
                     item.setBoxNum(boxNum);
@@ -63,7 +65,7 @@ public class TuJobListParser extends MasterParser<TuJobList> {
                     item.setTurnoverBoxCount(turnoverBoxCount);
                     item.setStoreId(storeId);
                     item.setPackCount(packCount);
-                    item.setContainerId(containerId);
+                    item.setMarkContainerId(mardContainerId);
                     item.setRest(isRest);
                     item.setExpensive(isExpensive);
                     item.setLoaded(isLoaded);

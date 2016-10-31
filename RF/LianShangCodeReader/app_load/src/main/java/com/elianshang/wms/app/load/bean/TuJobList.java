@@ -12,6 +12,8 @@ public class TuJobList implements BaseBean {
 
     private ArrayList<Item> tuJobList;
 
+    private boolean openSwitch;
+
     public ArrayList<Item> getTuJobList() {
         return tuJobList;
     }
@@ -44,6 +46,21 @@ public class TuJobList implements BaseBean {
         return tuJobList.get(index);
     }
 
+    public boolean isOpenSwitch() {
+        return openSwitch;
+    }
+
+    public void setOpenSwitch(boolean openSwitch) {
+        this.openSwitch = openSwitch;
+    }
+
+    public void clear() {
+        if (tuJobList == null) {
+            return;
+        }
+        tuJobList.clear();
+    }
+
     public static class Item implements BaseBean {
 
         String containerCount;
@@ -68,7 +85,7 @@ public class TuJobList implements BaseBean {
 
         String packCount;
 
-        String containerId;
+        String markContainerId;
 
         boolean isLoaded;
 
@@ -152,12 +169,12 @@ public class TuJobList implements BaseBean {
             this.packCount = packCount;
         }
 
-        public String getContainerId() {
-            return containerId;
+        public String getMarkContainerId() {
+            return markContainerId;
         }
 
-        public void setContainerId(String containerId) {
-            this.containerId = containerId;
+        public void setMarkContainerId(String markContainerId) {
+            this.markContainerId = markContainerId;
         }
 
         public boolean isLoaded() {

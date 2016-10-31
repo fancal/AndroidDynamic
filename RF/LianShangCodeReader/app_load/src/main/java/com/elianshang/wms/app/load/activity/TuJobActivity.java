@@ -19,6 +19,7 @@ import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.tools.DeviceTool;
+import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.load.R;
 import com.elianshang.wms.app.load.adapter.TuJobListAdapter;
 import com.elianshang.wms.app.load.bean.ContainerInfo;
@@ -52,11 +53,17 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
     private Button listFinishButton;
 
+    private Button listSplitButton;
+
+    private View tuJobLayout;
+
+    private Button tuJobNextButton;
+
+    private Button tuJobFinishButton;
+
     private View scanLayout;
 
     private ScanEditText scanContainerCodeEditText;
-
-    private Button scanFinishButton;
 
     private View nextLayout;
 
@@ -65,8 +72,6 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     private TextView nexBoxNumTextView;
 
     private TextView nexTurnOverBoxNumTextView;
-
-    private Button nextButton;
 
     private String uId;
 
@@ -96,7 +101,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         setContentView(R.layout.activity_tujob);
         if (readExtras()) {
             findView();
-            if (tuJobList != null) {
+            if (tuJobList != null && tuJobList.size() > 0) {
                 fillListLayout();
             } else {
                 fillScanLayout();
@@ -124,29 +129,32 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         listLayout = findViewById(R.id.list_layout);
         listView = (ListView) listLayout.findViewById(R.id.listview);
         listFinishButton = (Button) listLayout.findViewById(R.id.finish_Button);
+        listSplitButton = (Button) listLayout.findViewById(R.id.split_Button);
+
+        tuJobLayout = findViewById(R.id.tuJob_layout);
+        tuJobNextButton = (Button) tuJobLayout.findViewById(R.id.next_Button);
+        tuJobFinishButton = (Button) tuJobLayout.findViewById(R.id.finish_Button);
 
         scanLayout = findViewById(R.id.scan_layout);
         scanContainerCodeEditText = (ScanEditText) scanLayout.findViewById(R.id.containerId_EditText);
-        scanFinishButton = (Button) scanLayout.findViewById(R.id.finish_Button);
-
 
         nextLayout = findViewById(R.id.next_layout);
         nextContainerIdTextView = (TextView) nextLayout.findViewById(R.id.containerId_TextView);
         nexBoxNumTextView = (TextView) nextLayout.findViewById(R.id.boxNum_TextView);
         nexTurnOverBoxNumTextView = (TextView) nextLayout.findViewById(R.id.turnOverBoxNum_TextView);
-        nextButton = (Button) nextLayout.findViewById(R.id.next_Button);
 
         listFinishButton.setOnClickListener(this);
-        scanFinishButton.setOnClickListener(this);
-        nextButton.setOnClickListener(this);
+        listSplitButton.setOnClickListener(this);
+        tuJobFinishButton.setOnClickListener(this);
+        tuJobNextButton.setOnClickListener(this);
+        tuJobNextButton.setEnabled(false);
     }
 
     private void fillListLayout() {
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         listLayout.setVisibility(View.VISIBLE);
-        scanLayout.setVisibility(View.GONE);
-        nextLayout.setVisibility(View.GONE);
+        tuJobLayout.setVisibility(View.GONE);
 
 
         if (scanEditTextTool != null) {
@@ -161,14 +169,19 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         adapter.setTuJobList(tuJobList);
         adapter.notifyDataSetChanged();
         listView.setOnItemClickListener(this);
+
+        listSplitButton.setVisibility(tuJobList.isOpenSwitch() ? View.VISIBLE : View.GONE);
     }
 
     private void fillScanLayout() {
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         listLayout.setVisibility(View.GONE);
+        tuJobLayout.setVisibility(View.VISIBLE);
         scanLayout.setVisibility(View.VISIBLE);
         nextLayout.setVisibility(View.GONE);
+        tuJobNextButton.setVisibility(View.GONE);
+        tuJobFinishButton.setVisibility(View.VISIBLE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -185,8 +198,11 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         listLayout.setVisibility(View.GONE);
+        tuJobLayout.setVisibility(View.VISIBLE);
         scanLayout.setVisibility(View.GONE);
         nextLayout.setVisibility(View.VISIBLE);
+        tuJobNextButton.setVisibility(View.VISIBLE);
+        tuJobFinishButton.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -197,10 +213,39 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         nexBoxNumTextView.setText("总箱数" + containerInfo.getBoxNum());
         nexTurnOverBoxNumTextView.setText("总周转箱数:" + containerInfo.getTurnoverBoxNum());
 
-        nextButton.setText(containerInfo.isLoaded() ? "知道了" : "下一步");
+        tuJobNextButton.setText(containerInfo.isLoaded() ? "知道了" : "下一步");
+        tuJobNextButton.setEnabled(true);
+    }
+
+    private void fillTuJobLayout() {
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+
+        listLayout.setVisibility(View.GONE);
+        tuJobLayout.setVisibility(View.VISIBLE);
+        scanLayout.setVisibility(View.VISIBLE);
+        nextLayout.setVisibility(View.VISIBLE);
+        tuJobNextButton.setVisibility(View.VISIBLE);
+        tuJobFinishButton.setVisibility(View.GONE);
+
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+            scanEditTextTool = null;
+        }
+        scanContainerCodeEditText.setText(null);
+        scanContainerCodeEditText.requestFocus();
+        scanEditTextTool = new ScanEditTextTool(that, scanContainerCodeEditText);
+        scanEditTextTool.setComplete(this);
+
+        nextContainerIdTextView.setText("托盘码:" + containerInfo.getContainerId());
+        nexBoxNumTextView.setText("总箱数" + containerInfo.getBoxNum());
+        nexTurnOverBoxNumTextView.setText("总周转箱数:" + containerInfo.getTurnoverBoxNum());
+
+        tuJobNextButton.setText(containerInfo.isLoaded() ? "知道了" : "下一步");
+        tuJobNextButton.setEnabled(false);
     }
 
     private void popNext() {
+        checkContainerInfo();
         if (tuJobList != null && tuJobList.size() > 0) {
             fillListLayout();
         } else {
@@ -214,7 +259,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         }
         if (tuJobList != null && tuJobList.size() > 0) {
             for (TuJobList.Item item : tuJobList.getTuJobList()) {
-                if (TextUtils.equals(item.getContainerId(), containerInfo.getContainerId())) {
+                if (TextUtils.equals(item.getMarkContainerId(), containerInfo.getContainerId())) {
                     tuJobList.remove(item);
                     break;
                 }
@@ -278,6 +323,15 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     }
 
     @Override
+    public void onBackPressed() {
+        if (nextLayout.getVisibility() == View.VISIBLE && tuJobList != null && tuJobList.size() > 0) {
+            fillListLayout();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
     }
@@ -286,9 +340,9 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     public void onClick(View v) {
         if (v == listFinishButton) {
             requestConfirm();
-        } else if (v == scanFinishButton) {
+        } else if (v == tuJobFinishButton) {
             requestConfirm();
-        } else if (v == nextButton) {
+        } else if (v == tuJobNextButton) {
             if (containerInfo != null) {
                 if (!containerInfo.isLoaded()) {
                     requestContainerSubmit(containerInfo.getContainerId());
@@ -296,6 +350,11 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
                     popNext();
                 }
             }
+        } else if (v == listSplitButton) {
+            if (tuJobList != null) {
+                tuJobList.clear();
+            }
+            fillScanLayout();
         }
     }
 
@@ -325,7 +384,15 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        requestContainerInfo(tuJobList.get(position).getContainerId());
+//        requestContainerInfo(tuJobList.get(position).getMarkContainerId());
+        TuJobList.Item item = tuJobList.get(position);
+        containerInfo = new ContainerInfo();
+        containerInfo.setContainerId(item.getMarkContainerId());
+        containerInfo.setLoaded(item.isLoaded());
+        containerInfo.setBoxNum(item.getBoxNum());
+        containerInfo.setTurnoverBoxNum(item.getTurnoverBoxNum());
+
+        fillTuJobLayout();
     }
 
     /**
@@ -347,6 +414,15 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
         @Override
         public void onPostExecute(ContainerInfo result) {
+            if (nextLayout.getVisibility() == View.VISIBLE && containerInfo != null) {
+                if (!TextUtils.equals(containerInfo.getContainerId(), result.getContainerId())) {
+                    ToastTool.show(that, "托盘码不一致");
+                    tuJobNextButton.setEnabled(false);
+                } else {
+                    tuJobNextButton.setEnabled(true);
+                }
+                return;
+            }
             containerInfo = result;
             checkContainerInfo();
             fillNextLayout();
@@ -373,7 +449,6 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         @Override
         public void onPostExecute(ResponseState result) {
             containerInfo.setLoaded(true);
-            checkContainerInfo();
             popNext();
         }
     }
