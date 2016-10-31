@@ -212,9 +212,9 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         nextContainerIdTextView.setText("托盘码:" + containerInfo.getContainerId());
         nexBoxNumTextView.setText("总箱数" + containerInfo.getBoxNum());
         nexTurnOverBoxNumTextView.setText("总周转箱数:" + containerInfo.getTurnoverBoxNum());
-
         tuJobNextButton.setText(containerInfo.isLoaded() ? "知道了" : "下一步");
         tuJobNextButton.setEnabled(true);
+
     }
 
     private void fillTuJobLayout() {
@@ -239,7 +239,6 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         nextContainerIdTextView.setText("托盘码:" + containerInfo.getContainerId());
         nexBoxNumTextView.setText("总箱数" + containerInfo.getBoxNum());
         nexTurnOverBoxNumTextView.setText("总周转箱数:" + containerInfo.getTurnoverBoxNum());
-
         tuJobNextButton.setText(containerInfo.isLoaded() ? "知道了" : "下一步");
         tuJobNextButton.setEnabled(false);
     }
@@ -324,7 +323,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        if (nextLayout.getVisibility() == View.VISIBLE && tuJobList != null && tuJobList.size() > 0) {
+        if (tuJobLayout.getVisibility() == View.VISIBLE && tuJobList != null && tuJobList.size() > 0) {
             fillListLayout();
         } else {
             finish();
@@ -360,10 +359,14 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
     @Override
     public void OnBarCodeReceived(String s) {
-        if (scanEditTextTool == null) {
-            return;
+        if (nextLayout.getVisibility() == View.VISIBLE && scanLayout.getVisibility() == View.GONE) {
+            requestContainerInfo(s);
+        } else {
+            if (scanEditTextTool == null) {
+                return;
+            }
+            scanEditTextTool.setScanText(s);
         }
-        scanEditTextTool.setScanText(s);
     }
 
     @Override
@@ -373,7 +376,6 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
             if (editable != null) {
                 requestContainerInfo(editable.toString());
             }
-
         }
     }
 
@@ -419,6 +421,11 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
                     ToastTool.show(that, "托盘码不一致");
                     tuJobNextButton.setEnabled(false);
                 } else {
+                    scanLayout.setVisibility(View.GONE);
+                    if (scanEditTextTool != null) {
+                        scanEditTextTool.release();
+                        scanEditTextTool = null;
+                    }
                     tuJobNextButton.setEnabled(true);
                 }
                 return;
