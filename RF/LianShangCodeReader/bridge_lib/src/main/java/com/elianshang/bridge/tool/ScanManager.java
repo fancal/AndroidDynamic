@@ -58,6 +58,9 @@ public class ScanManager {
     }
 
     public synchronized void openSoundControl(Activity activity) {
+        if (soundManager == null) {
+            return;
+        }
         soundManager.openSoundControl(activity);
     }
 
