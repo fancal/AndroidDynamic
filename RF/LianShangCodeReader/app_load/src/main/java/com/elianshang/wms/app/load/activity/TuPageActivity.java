@@ -352,7 +352,6 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
 
         @Override
         public void dataNull(String errMsg) {
-            super.dataNull(errMsg);
             if (TextUtils.equals(TuPageActivity.this.statusArray[0], status)) {
                 fillUnloadList();
             } else {
