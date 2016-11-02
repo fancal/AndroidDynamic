@@ -41,7 +41,9 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         intent.putExtra("uId", uid);
         intent.putExtra("uToken", uToken);
         intent.putExtra("tu", tu);
-        intent.putExtra("tuJobList", tuJobList);
+        if(tuJobList != null){
+            intent.putExtra("tuJobList", tuJobList);
+        }
         activity.startPluginActivityForResult(intent, 1);
     }
 

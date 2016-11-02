@@ -139,7 +139,10 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
-        ScanManager.init(that);
+        //FIXME
+//        uId = "141871359725260";
+//        uToken = "25061134202027";
+//        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -179,13 +182,13 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
             ToastTool.show(that, "超出最大合板数");
             return;
         }
-
-        for (ViewHolder viewHolder : vhList) {
-            if (TextUtils.equals(containerId, viewHolder.containerIdEditText.getText().toString())) {
-                ToastTool.show(that, "该托盘码已经存在");
-                return;
-            }
-        }
+        //允许托盘码相同
+//        for (ViewHolder viewHolder : vhList) {
+//            if (TextUtils.equals(containerId, viewHolder.containerIdEditText.getText().toString())) {
+//                ToastTool.show(that, "该托盘码已经存在");
+//                return;
+//            }
+//        }
 
         final View view = View.inflate(that, R.layout.input_item_view, null);
 
