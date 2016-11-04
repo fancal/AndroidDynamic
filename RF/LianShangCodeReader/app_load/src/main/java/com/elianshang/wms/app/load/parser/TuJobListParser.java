@@ -49,12 +49,13 @@ public class TuJobListParser extends MasterParser<TuJobList> {
                 String turnoverBoxCount = optString(data, "turnoverBoxCount");
                 String storeId = optString(data, "storeId");
                 String packCount = optString(data, "packCount");
-                String mardContainerId = optString(data, "markContainerId");
+                String containerId = optString(data, "containerId");
+                String markContainerId = optString(data, "markContainerId");
                 boolean isRest = optBoolean(data, "isRest");
                 boolean isExpensive = optBoolean(data, "isExpensive");
                 boolean isLoaded = optBoolean(data, "isLoaded");
 
-                if (!TextUtils.isEmpty(mardContainerId)) {
+                if (!TextUtils.isEmpty(containerId)) {
                     item = new TuJobList.Item();
                     item.setContainerCount(containerCount);
                     item.setBoxNum(boxNum);
@@ -65,7 +66,8 @@ public class TuJobListParser extends MasterParser<TuJobList> {
                     item.setTurnoverBoxCount(turnoverBoxCount);
                     item.setStoreId(storeId);
                     item.setPackCount(packCount);
-                    item.setMarkContainerId(mardContainerId);
+                    item.setContainerId(containerId);
+                    item.setMarkContainerId(markContainerId);
                     item.setRest(isRest);
                     item.setExpensive(isExpensive);
                     item.setLoaded(isLoaded);

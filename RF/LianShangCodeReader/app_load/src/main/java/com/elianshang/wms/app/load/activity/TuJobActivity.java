@@ -41,7 +41,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         intent.putExtra("uId", uid);
         intent.putExtra("uToken", uToken);
         intent.putExtra("tu", tu);
-        if(tuJobList != null){
+        if (tuJobList != null) {
             intent.putExtra("tuJobList", tuJobList);
         }
         activity.startPluginActivityForResult(intent, 1);
@@ -90,6 +90,8 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     private String serialNumber;
 
     private ContainerInfo containerInfo;
+
+    private TuJobList.Item item;
 
     private ContainerInfoTask containerInfoTask;
 
@@ -196,7 +198,10 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
     }
 
-    private void fillNextLayout() {
+    private void fillNextLayout(String markContainerId) {
+        if (containerInfo == null) {
+            return;
+        }
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         listLayout.setVisibility(View.GONE);
@@ -211,7 +216,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
             scanEditTextTool = null;
         }
 
-        nextContainerIdTextView.setText("托盘码:" + containerInfo.getContainerId());
+        nextContainerIdTextView.setText("托盘码:" +markContainerId);
         nexBoxNumTextView.setText("总箱数" + containerInfo.getBoxNum());
         nexTurnOverBoxNumTextView.setText("总周转箱数:" + containerInfo.getTurnoverBoxNum());
         tuJobNextButton.setText(containerInfo.isLoaded() ? "知道了" : "下一步");
@@ -220,6 +225,9 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     }
 
     private void fillTuJobLayout() {
+        if (item == null) {
+            return;
+        }
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         listLayout.setVisibility(View.GONE);
@@ -238,10 +246,10 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         scanEditTextTool = new ScanEditTextTool(that, scanContainerCodeEditText);
         scanEditTextTool.setComplete(this);
 
-        nextContainerIdTextView.setText("托盘码:" + containerInfo.getContainerId());
-        nexBoxNumTextView.setText("总箱数" + containerInfo.getBoxNum());
-        nexTurnOverBoxNumTextView.setText("总周转箱数:" + containerInfo.getTurnoverBoxNum());
-        tuJobNextButton.setText(containerInfo.isLoaded() ? "知道了" : "下一步");
+        nextContainerIdTextView.setText("托盘码:" + item.getMarkContainerId());
+        nexBoxNumTextView.setText("总箱数" + item.getBoxNum());
+        nexTurnOverBoxNumTextView.setText("总周转箱数:" + item.getTurnoverBoxNum());
+        tuJobNextButton.setText(item.isLoaded() ? "知道了" : "下一步");
         tuJobNextButton.setEnabled(false);
     }
 
@@ -268,12 +276,12 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         }
     }
 
-    private void requestContainerInfo(String containerId) {
+    private void requestContainerInfo(String markContainerId) {
         if (containerInfoTask != null) {
             containerInfoTask.cancel();
             containerInfoTask = null;
         }
-        containerInfoTask = new ContainerInfoTask(that, containerId);
+        containerInfoTask = new ContainerInfoTask(that, markContainerId);
         containerInfoTask.start();
     }
 
@@ -389,12 +397,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //        requestContainerInfo(tuJobList.get(position).getMarkContainerId());
-        TuJobList.Item item = tuJobList.get(position);
-        containerInfo = new ContainerInfo();
-        containerInfo.setContainerId(item.getMarkContainerId());
-        containerInfo.setLoaded(item.isLoaded());
-        containerInfo.setBoxNum(item.getBoxNum());
-        containerInfo.setTurnoverBoxNum(item.getTurnoverBoxNum());
+        item = tuJobList.get(position);
 
         fillTuJobLayout();
     }
@@ -404,22 +407,22 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
      */
     private class ContainerInfoTask extends HttpAsyncTask<ContainerInfo> {
 
-        private String containerId;
+        private String markContainerId;
 
-        public ContainerInfoTask(Context context, String containerId) {
+        public ContainerInfoTask(Context context, String markContainerId) {
             super(context, true, true, false);
-            this.containerId = containerId;
+            this.markContainerId = markContainerId;
         }
 
         @Override
         public DataHull<ContainerInfo> doInBackground() {
-            return ContainerInfoProvier.request(context, uId, uToken, tu, containerId);
+            return ContainerInfoProvier.request(context, uId, uToken, tu, markContainerId);
         }
 
         @Override
         public void onPostExecute(ContainerInfo result) {
-            if (nextLayout.getVisibility() == View.VISIBLE && containerInfo != null) {
-                if (!TextUtils.equals(containerInfo.getContainerId(), result.getContainerId())) {
+            if (item != null) {
+                if (!TextUtils.equals(item.getContainerId(), result.getContainerId())) {
                     ToastTool.show(that, "托盘码不一致");
                     tuJobNextButton.setEnabled(false);
                 } else {
@@ -434,7 +437,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
             }
             containerInfo = result;
             checkContainerInfo();
-            fillNextLayout();
+            fillNextLayout(markContainerId);
         }
     }
 
