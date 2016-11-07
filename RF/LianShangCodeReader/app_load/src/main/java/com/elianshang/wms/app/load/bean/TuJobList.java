@@ -87,6 +87,8 @@ public class TuJobList implements BaseBean {
 
         String markContainerId;
 
+        String containerId;
+
         boolean isLoaded;
 
         public String getContainerCount() {
@@ -191,6 +193,14 @@ public class TuJobList implements BaseBean {
 
         public void setContainerNum(String containerNum) {
             this.containerNum = containerNum;
+        }
+
+        public String getContainerId() {
+            return containerId;
+        }
+
+        public void setContainerId(String containerId) {
+            this.containerId = containerId;
         }
 
         @Override
