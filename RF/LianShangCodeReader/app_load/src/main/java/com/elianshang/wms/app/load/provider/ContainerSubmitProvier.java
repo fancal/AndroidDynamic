@@ -51,11 +51,13 @@ public class ContainerSubmitProvier {
 
     private static final String containerId = "containerId";
 
+    private static final String realContainerId = "realContainerId";
+
     private static final String tuId = "tuId";
 
     private static final String serialNumber = "serialNumber";
 
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String tuId, String containerId, String serialNumber) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String tuId, String containerId, String realContainerId, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -68,6 +70,7 @@ public class ContainerSubmitProvier {
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(ContainerSubmitProvier.containerId, containerId));
+        params.add(new DefaultKVPBean(ContainerSubmitProvier.realContainerId, realContainerId));
         params.add(new DefaultKVPBean(ContainerSubmitProvier.tuId, tuId));
         int type = BaseHttpParameter.Type.POST;
 

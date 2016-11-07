@@ -216,7 +216,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
             scanEditTextTool = null;
         }
 
-        nextContainerIdTextView.setText("托盘码:" +markContainerId);
+        nextContainerIdTextView.setText("托盘码:" + markContainerId);
         nexBoxNumTextView.setText("总箱数" + containerInfo.getBoxNum());
         nexTurnOverBoxNumTextView.setText("总周转箱数:" + containerInfo.getTurnoverBoxNum());
         tuJobNextButton.setText(containerInfo.isLoaded() ? "知道了" : "下一步");
@@ -285,12 +285,12 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         containerInfoTask.start();
     }
 
-    private void requestContainerSubmit(String containerId) {
+    private void requestContainerSubmit(String containerId, String realContainerId) {
         if (containerSubmitTask != null) {
             containerSubmitTask.cancel();
             containerSubmitTask = null;
         }
-        containerSubmitTask = new ContainerSubmitTask(that, containerId);
+        containerSubmitTask = new ContainerSubmitTask(that, containerId, realContainerId);
         containerSubmitTask.start();
     }
 
@@ -354,7 +354,10 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         } else if (v == tuJobNextButton) {
             if (containerInfo != null) {
                 if (!containerInfo.isLoaded()) {
-                    requestContainerSubmit(containerInfo.getContainerId());
+                    Editable editable = scanContainerCodeEditText.getText();
+                    if (editable != null) {
+                        requestContainerSubmit(containerInfo.getContainerId(), editable.toString());
+                    }
                 } else {
                     popNext();
                 }
@@ -448,14 +451,17 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
         private String containerId;
 
-        public ContainerSubmitTask(Context context, String containerId) {
+        private String realContainerId;
+
+        public ContainerSubmitTask(Context context, String containerId, String realContainerId) {
             super(context, true, true, false);
             this.containerId = containerId;
+            this.realContainerId = realContainerId;
         }
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return ContainerSubmitProvier.request(context, uId, uToken, tu, containerId, serialNumber);
+            return ContainerSubmitProvier.request(context, uId, uToken, tu, containerId, realContainerId, serialNumber);
         }
 
         @Override
