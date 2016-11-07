@@ -148,7 +148,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_takestock);
+        setContentView(R.layout.takestock_activity_main);
 
         if (readExtra()) {
             findView();

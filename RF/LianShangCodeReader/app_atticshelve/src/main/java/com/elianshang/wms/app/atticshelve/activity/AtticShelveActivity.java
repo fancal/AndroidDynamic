@@ -88,7 +88,7 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_atticshelve);
+        setContentView(R.layout.atticshelve_activity_main);
         findViews();
 
         if (readExtra()) {

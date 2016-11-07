@@ -73,7 +73,7 @@ public class OrderOpenActivity extends DLBasePluginActivity implements ScanManag
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orderreceiptopen);
+        setContentView(R.layout.receipt_activity_orderopen);
 
         if (readExtras()) {
             findViews();

@@ -39,7 +39,7 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_release);
+        setContentView(R.layout.releasecollecttion_activity_main);
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
         if (readExtras()) {
             findView();

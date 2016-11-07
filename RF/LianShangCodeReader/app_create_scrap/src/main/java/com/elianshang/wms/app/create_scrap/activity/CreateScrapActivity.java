@@ -87,7 +87,7 @@ public class CreateScrapActivity extends DLBasePluginActivity implements ScanEdi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_scrap);
+        setContentView(R.layout.createscrap_activity_main);
 
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 

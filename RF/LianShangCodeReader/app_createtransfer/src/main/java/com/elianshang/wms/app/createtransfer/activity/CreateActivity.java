@@ -62,7 +62,7 @@ public class CreateActivity extends DLBasePluginActivity implements ScanManager.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_create);
+        setContentView(R.layout.createtransfer_activity_main);
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
         if (readExtras()) {
             findView();

@@ -131,7 +131,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sow);
+        setContentView(R.layout.sow_activity_main);
 
         if (readExtra()) {
             findViews();

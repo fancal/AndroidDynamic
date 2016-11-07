@@ -82,7 +82,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_mergeboard);
+        setContentView(R.layout.mergeboard_activity_main);
 
         if (readExtra()) {
             findView();
@@ -190,7 +190,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
 //            }
 //        }
 
-        final View view = View.inflate(that, R.layout.input_item_view, null);
+        final View view = View.inflate(that, R.layout.mergeboard_input_item_view, null);
 
         ScanEditText containerIdEditText = (ScanEditText) view.findViewById(R.id.containerId_EditText);
         TextView deleteTextView = (TextView) view.findViewById(R.id.delete_TextView);
@@ -239,7 +239,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
 
     private void addDetailHeadView(CheckMerge checkMerge) {
 
-        View view = View.inflate(that, R.layout.detail_head_view, null);
+        View view = View.inflate(that, R.layout.mergeboard_detail_head_view, null);
 
         TextView deliveryNameTextView = (TextView) view.findViewById(R.id.deliveryName_TextView);
         TextView containerCountTextView = (TextView) view.findViewById(R.id.containerCount_TextView);
@@ -256,7 +256,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
 
     private void addDetailItemView(CheckMerge.Item item) {
 
-        View view = View.inflate(that, R.layout.detail_item_view, null);
+        View view = View.inflate(that, R.layout.mergeboard_detail_item_view, null);
 
         TextView containerIdTextView = (TextView) view.findViewById(R.id.containerId_TextView);
         TextView packCountTextView = (TextView) view.findViewById(R.id.packCount_TextView);

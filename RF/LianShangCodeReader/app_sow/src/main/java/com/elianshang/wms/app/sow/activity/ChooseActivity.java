@@ -44,7 +44,7 @@ public class ChooseActivity extends DLBasePluginActivity implements View.OnClick
 
     private void showChooseView() {
 
-        setContentView(R.layout.activity_choose);
+        setContentView(R.layout.sow_activity_choose);
 
         orderSowButton = (Button) findViewById(R.id.orderSow_Button);
         containerSowButton = (Button) findViewById(R.id.containerSow_Button);

@@ -57,7 +57,7 @@ public class SetOfGoodsActivity extends DLBasePluginActivity implements ScanEdit
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_pickup);
+        setContentView(R.layout.setofgoods_activity_main);
 
         if (readExtra()) {
             findView();

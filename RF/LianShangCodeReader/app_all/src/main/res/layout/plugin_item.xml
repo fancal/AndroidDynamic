@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="1px">
+
+    <TextView
+        android:id="@+id/item_TextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/submit_button_bg"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="16dip" />
+</LinearLayout>

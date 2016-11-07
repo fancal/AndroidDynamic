@@ -53,7 +53,7 @@ public class TuJobListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.tujob_list_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.load_tujob_list_item, null);
             viewHolder = new ViewHolder();
             viewHolder.containerIdTextView = (TextView) convertView.findViewById(R.id.containerId_TextView);
             viewHolder.boxNumTextView = (TextView) convertView.findViewById(R.id.boxNum_TextView);

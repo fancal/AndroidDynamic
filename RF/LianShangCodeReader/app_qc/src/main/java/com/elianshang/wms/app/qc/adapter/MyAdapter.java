@@ -65,7 +65,7 @@ public class MyAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.qualitycontrol_list_item, null, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.qc_list_item, null, false);
             viewHolder.name = (TextView) convertView.findViewById(R.id.itemName_TextView);
             viewHolder.packUnit = (TextView) convertView.findViewById(R.id.packUnit_TextView);
             viewHolder.qty = (TextView) convertView.findViewById(R.id.qty_TextView);

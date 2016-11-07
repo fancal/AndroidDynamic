@@ -16,11 +16,11 @@
 
     <include
         android:id="@+id/atticshelve_one"
-        layout="@layout/atticshelve_one" />
+        layout="@layout/atticshelve_scan" />
 
     <include
         android:id="@+id/atticshelve_two"
-        layout="@layout/atticshelve_two" />
+        layout="@layout/atticshelve_detail" />
 
     <View
         android:layout_width="0dip"

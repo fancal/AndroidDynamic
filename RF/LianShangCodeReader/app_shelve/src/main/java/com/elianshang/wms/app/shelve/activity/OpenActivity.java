@@ -57,7 +57,7 @@ public class OpenActivity extends DLBasePluginActivity implements ScanManager.On
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shelveopen);
+        setContentView(R.layout.shelve_activity_open);
         if (readExtras()) {
             findView();
         }
