@@ -78,7 +78,7 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_storereceiptopen);
+        setContentView(R.layout.receipt_activity_storeopen);
 
         if (readExtras()) {
             findViews();

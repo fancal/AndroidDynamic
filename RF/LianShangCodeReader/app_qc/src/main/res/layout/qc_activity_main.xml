@@ -35,27 +35,27 @@
 
         <include
             android:id="@+id/scan_Layout"
-            layout="@layout/qualitycontrol_scan" />
+            layout="@layout/qc_scan" />
 
         <include
             android:id="@+id/start_Layout"
-            layout="@layout/qualitycontrol_start" />
+            layout="@layout/qc_start" />
 
         <include
             android:id="@+id/prompt_Layout"
-            layout="@layout/qualitycontrol_prompt" />
+            layout="@layout/qc_prompt" />
 
         <include
             android:id="@+id/item_Layout"
-            layout="@layout/qualitycontrol_item" />
+            layout="@layout/qc_item" />
 
         <include
             android:id="@+id/confirm_Layout"
-            layout="@layout/qualitycontrol_confirm" />
+            layout="@layout/qc_confirm" />
 
         <include
             android:id="@+id/list_Layout"
-            layout="@layout/qualitycontrol_list" />
+            layout="@layout/qc_list" />
 
         <Button
             android:id="@+id/check_progress"

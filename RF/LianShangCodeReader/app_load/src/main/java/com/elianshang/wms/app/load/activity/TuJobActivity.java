@@ -100,7 +100,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tujob);
+        setContentView(R.layout.load_activity_tujob);
         if (readExtras()) {
             findView();
             if (tuJobList != null && tuJobList.size() > 0) {

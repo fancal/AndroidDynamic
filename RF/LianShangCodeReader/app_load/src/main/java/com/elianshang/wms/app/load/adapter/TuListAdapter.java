@@ -50,7 +50,7 @@ public class TuListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.tu_list_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.load_tu_list_item, null);
             viewHolder = new ViewHolder();
             viewHolder.tuTextView = (TextView) convertView.findViewById(R.id.tu_TextView);
             viewHolder.preBoardTextView = (TextView) convertView.findViewById(R.id.preBoard_TextView);

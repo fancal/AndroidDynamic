@@ -208,7 +208,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qualitycontrol);
+        setContentView(R.layout.qc_activity_main);
         if (readExtras()) {
             findView();
             fillScanLayout();

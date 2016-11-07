@@ -22,7 +22,7 @@
 
     <include
         android:id="@+id/list_layout"
-        layout="@layout/tujob_list"
+        layout="@layout/load_tujob_list"
         android:visibility="gone" />
 
     <LinearLayout
@@ -42,11 +42,11 @@
 
         <include
             android:id="@+id/next_layout"
-            layout="@layout/tujob_next" />
+            layout="@layout/load_tujob_next" />
 
         <include
             android:id="@+id/scan_layout"
-            layout="@layout/tujob_scan" />
+            layout="@layout/load_tujob_scan" />
 
         <Space
             android:layout_width="match_parent"

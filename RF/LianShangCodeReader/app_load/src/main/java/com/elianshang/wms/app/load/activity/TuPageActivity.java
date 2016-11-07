@@ -84,7 +84,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tu_page);
+        setContentView(R.layout.load_activity_tupage);
         if (readExtras()) {
             findView();
         }

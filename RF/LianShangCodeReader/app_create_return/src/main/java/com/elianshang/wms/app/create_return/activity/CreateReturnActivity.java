@@ -88,7 +88,7 @@ public class CreateReturnActivity extends DLBasePluginActivity implements ScanEd
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_return);
+        setContentView(R.layout.createreturn_activity_main);
 
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 

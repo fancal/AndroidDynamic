@@ -85,7 +85,7 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shelvefinish);
+        setContentView(R.layout.shelve_activity_finish);
 
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 

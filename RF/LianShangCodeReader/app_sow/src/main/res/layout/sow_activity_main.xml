@@ -16,11 +16,11 @@
 
     <include
         android:id="@+id/sow_one"
-        layout="@layout/sow_one" />
+        layout="@layout/sow_scan" />
 
     <include
         android:id="@+id/sow_two"
-        layout="@layout/sow_two" />
+        layout="@layout/sow_detail" />
 
     <View
         android:layout_width="0dip"

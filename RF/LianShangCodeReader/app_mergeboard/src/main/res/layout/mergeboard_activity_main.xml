@@ -16,14 +16,14 @@
 
     <include
         android:id="@+id/container_input"
-        layout="@layout/input_view"
+        layout="@layout/mergeboard_input_view"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1" />
 
     <include
         android:id="@+id/container_detail"
-        layout="@layout/detail_view"
+        layout="@layout/mergeboard_detail_view"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1" />

@@ -146,7 +146,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pick);
+        setContentView(R.layout.pick_activity_main);
         findViews();
         readExtra();
     }

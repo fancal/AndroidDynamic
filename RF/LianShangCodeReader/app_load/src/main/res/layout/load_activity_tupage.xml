@@ -56,14 +56,14 @@
 
     <include
         android:id="@+id/unloadLayout"
-        layout="@layout/tu_list" />
+        layout="@layout/load_tu_list" />
 
     <include
         android:id="@+id/loadedLayout"
-        layout="@layout/tu_list" />
+        layout="@layout/load_tu_list" />
 
     <include
         android:id="@+id/detailLayout"
-        layout="@layout/tu_detail" />
+        layout="@layout/load_tu_detail" />
 
 </LinearLayout>

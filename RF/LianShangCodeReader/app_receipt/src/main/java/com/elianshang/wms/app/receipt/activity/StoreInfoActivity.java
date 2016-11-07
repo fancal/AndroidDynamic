@@ -111,7 +111,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_storereceiptinfo);
+        setContentView(R.layout.receipt_activity_storeinfo);
 
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 

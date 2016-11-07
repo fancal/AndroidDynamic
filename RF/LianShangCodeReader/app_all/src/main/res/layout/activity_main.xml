@@ -11,17 +11,20 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:navigationIcon="@drawable/toolbar_back"
-        app:title="集货" />
+        app:title="RF" />
 
+    <Button
+        android:id="@+id/logout_Button"
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/submit_button_bg"
+        android:text="登出"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
 
-    <include
-        android:id="@+id/scan_Layout"
-        layout="@layout/pickup_scan" />
-
-    <include
-        android:id="@+id/view_Layout"
-        layout="@layout/pickup_view" />
-
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pluginList_RecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

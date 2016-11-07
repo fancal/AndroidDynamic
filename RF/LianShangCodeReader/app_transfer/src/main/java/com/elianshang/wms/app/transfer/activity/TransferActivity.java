@@ -102,7 +102,7 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stocktransfer);
+        setContentView(R.layout.stocktransfer_activity_main);
         findViews();
         readExtras();
     }

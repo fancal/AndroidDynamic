@@ -99,7 +99,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_procurement);
+        setContentView(R.layout.procurement_activity);
         findViews();
         readExtras();
     }

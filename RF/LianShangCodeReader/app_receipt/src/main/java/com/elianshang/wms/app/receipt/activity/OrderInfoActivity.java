@@ -143,7 +143,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orderreceiptinfo);
+        setContentView(R.layout.receipt_activity_orderinfo);
 
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 

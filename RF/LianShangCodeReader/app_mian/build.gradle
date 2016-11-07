@@ -13,7 +13,7 @@ android {
     buildToolsVersion "23.0.3"
 
     /**
-     * 默认配置项，包名、最小SDK版本、目标SDK版本、版本号、版本名
+     * 默认配置项，包名、最小SDK版本、 目标SDK版本、版本号、版本名
      * */
     defaultConfig {
         applicationId "com.elianshang.wms.rf"
