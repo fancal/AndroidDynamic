@@ -38,15 +38,7 @@ public class ScanManager {
                 @Override
                 public void OnBarCodeReceived(String s) {
                     soundManager.playBeepSoundAndVibrate();
-                    if (listeners != null && listeners.size() > 0) {
-                        for (OnBarCodeListener onBarCodeListener : listeners) {
-                            try {
-                                onBarCodeListener.OnBarCodeReceived(s);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+                    call(s);
                 }
             };
             mBarCode.addListener(mainListener);
@@ -93,6 +85,19 @@ public class ScanManager {
         return isOpen;
     }
 
+    void call(String code) {
+        if (listeners != null && listeners.size() > 0) {
+            Log.d("xue" , "call listeners size " + listeners.size());
+            for (OnBarCodeListener onBarCodeListener : listeners) {
+                try {
+                    onBarCodeListener.OnBarCodeReceived(code);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public void addListener(OnBarCodeListener listener) {
         if (listener == null) {
             return;
@@ -103,6 +108,7 @@ public class ScanManager {
         }
 
         listeners.add(listener);
+
     }
 
     public void removeListener(OnBarCodeListener listener) {
@@ -115,6 +121,8 @@ public class ScanManager {
         }
 
         listeners.remove(listener);
+
+
     }
 
     private boolean checkClass() {
@@ -127,7 +135,6 @@ public class ScanManager {
 
         return false;
     }
-
 
     public static interface OnBarCodeListener {
         public void OnBarCodeReceived(String s);
