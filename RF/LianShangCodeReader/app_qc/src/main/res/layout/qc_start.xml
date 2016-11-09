@@ -152,17 +152,38 @@
 
     </LinearLayout>
 
-    <View
+    <Space
         android:layout_width="0dip"
         android:layout_height="0dip"
         android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/submit_Button"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dip"
-        android:background="@drawable/submit_button_bg"
-        android:enabled="true"
-        android:textColor="@color/white"
-        android:textSize="20dip" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/submit_Button"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="40dip"
+            android:background="@drawable/submit_button_bg"
+            android:enabled="true"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+
+        <Button
+            android:id="@+id/skip_Button"
+            android:layout_marginLeft="1dip"
+            android:layout_width="wrap_content"
+            android:layout_height="40dip"
+            android:background="@drawable/submit_button_bg"
+            android:enabled="true"
+            android:text="跳过"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+
+    </LinearLayout>
+
 </LinearLayout>

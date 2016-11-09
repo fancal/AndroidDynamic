@@ -136,6 +136,10 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
      * 开始布局提交按钮
      */
     private Button startSubmitButton;
+    /**
+     * 开始布局 跳过按钮
+     */
+    private Button startSkipButton;
 
     /**
      * 实际数量输入框
@@ -204,6 +208,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     private String serialNumber;
 
+    private boolean isSkip = false;
+
     @Override
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -247,7 +253,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         startAllBoxNumTextView = (TextView) startLayout.findViewById(R.id.allBoxNum_TextView);
         startLineNumTextView = (TextView) startLayout.findViewById(R.id.lineNum_TextView);
         startSubmitButton = (Button) startLayout.findViewById(R.id.submit_Button);
+        startSkipButton = (Button) startLayout.findViewById(R.id.skip_Button);
         startSubmitButton.setOnClickListener(this);
+        startSkipButton.setOnClickListener(this);
 
         promptLayout = findViewById(R.id.prompt_Layout);
 
@@ -327,6 +335,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         startAllBoxNumTextView.setText(qcList.getAllBoxNum());
         startLineNumTextView.setText(qcList.getItemLineNum());
         startSubmitButton.setText(qcList.isQcDone() ? "退出" : "开始QC");
+        if (!qcList.isQcDone()) {
+            startSkipButton.setVisibility(View.VISIBLE);
+        }
     }
 
     private void fillPromptLayout() {
@@ -648,6 +659,11 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 fillListLayout();
                 return;
             }
+            if(isSkip && confirmLayout.getVisibility() == View.VISIBLE){
+                isSkip = false;
+                fillStartLayout();
+                return;
+            }
             DialogTools.showTwoButtonDialog(that, "是否暂退任务,下次回来将会继续", "取消", "确定", null, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -681,7 +697,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
-            scanEditTextTool = null ;
+            scanEditTextTool = null;
         }
     }
 
@@ -731,6 +747,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 }
                 pop();
             }
+        } else if (v == startSkipButton) {
+            isSkip = true;
+            fillConfirmLayout();
         } else if (v == confirmSubmitButton) {
             String itemBoxNum = confirmItemBoxNumEditText.getValue();
             String turnoverBoxNum = confirmTurnoverBoxNumEditText.getValue();
@@ -826,7 +845,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return ConfirmProvider.request(context, uId, uToken, qcTaskId, boxNum, turnoverBoxNum, serialNumber);
+            return ConfirmProvider.request(context, uId, uToken, qcTaskId, boxNum, turnoverBoxNum, isSkip, serialNumber);
         }
 
         @Override

@@ -56,7 +56,9 @@ public class ConfirmProvider {
 
     private static final String wrongItemNum = "wrongItemNum";
 
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String qcTaskId, String boxNum, String turnoverBoxNum, String serialNumber) {
+    private static final String skip = "skip";
+
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String qcTaskId, String boxNum, String turnoverBoxNum, boolean skip, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -72,6 +74,7 @@ public class ConfirmProvider {
         params.add(new DefaultKVPBean(ConfirmProvider.boxNum, boxNum));
         params.add(new DefaultKVPBean(ConfirmProvider.turnoverBoxNum, turnoverBoxNum));
         params.add(new DefaultKVPBean(ConfirmProvider.wrongItemNum, wrongItemNum));
+        params.add(new DefaultKVPBean(ConfirmProvider.skip, String.valueOf(skip)));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ResponseStateParser(), 0);
