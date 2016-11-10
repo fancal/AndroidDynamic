@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
+import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
@@ -285,12 +286,12 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         containerInfoTask.start();
     }
 
-    private void requestContainerSubmit(String containerId, String realContainerId) {
+    private void requestContainerSubmit(String containerId, String realContainerId, int taskBoardQty) {
         if (containerSubmitTask != null) {
             containerSubmitTask.cancel();
             containerSubmitTask = null;
         }
-        containerSubmitTask = new ContainerSubmitTask(that, containerId, realContainerId);
+        containerSubmitTask = new ContainerSubmitTask(that, containerId, realContainerId, taskBoardQty);
         containerSubmitTask.start();
     }
 
@@ -356,7 +357,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
                 if (!containerInfo.isLoaded()) {
                     Editable editable = scanContainerCodeEditText.getText();
                     if (editable != null) {
-                        requestContainerSubmit(containerInfo.getContainerId(), editable.toString());
+                        requestContainerSubmit(containerInfo.getContainerId(), editable.toString(), containerInfo.getTaskBoardQty());
                     }
                 } else {
                     popNext();
@@ -453,10 +454,13 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
         private String realContainerId;
 
-        public ContainerSubmitTask(Context context, String containerId, String realContainerId) {
+        private int taskBoardQty;
+
+        public ContainerSubmitTask(Context context, String containerId, String realContainerId, int taskBoardQty) {
             super(context, true, true, false);
             this.containerId = containerId;
             this.realContainerId = realContainerId;
+            this.taskBoardQty = taskBoardQty;
         }
 
         @Override
@@ -468,6 +472,10 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         public void onPostExecute(ResponseState result) {
             containerInfo.setLoaded(true);
             popNext();
+
+            if (taskBoardQty > 1) {
+                DialogTools.showOneButtonDialog(that, "多板提交,请记得多板一起装车", "知道了", null, false);
+            }
         }
     }
 

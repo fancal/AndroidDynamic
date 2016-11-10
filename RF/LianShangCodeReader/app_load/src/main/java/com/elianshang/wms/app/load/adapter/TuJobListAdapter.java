@@ -60,6 +60,7 @@ public class TuJobListAdapter extends BaseAdapter {
             viewHolder.turnOverBoxNumTextView = (TextView) convertView.findViewById(R.id.turnOverBoxNum_TextView);
             viewHolder.mergeTimeTextView = (TextView) convertView.findViewById(R.id.mergeTime_TextView);
             viewHolder.isLoadTextView = (TextView) convertView.findViewById(R.id.isLoad_TextView);
+            viewHolder.taskBoardQtyTextView = (TextView) convertView.findViewById(R.id.taskBoardQty_TextView);
 
             convertView.setTag(viewHolder);
         } else {
@@ -70,6 +71,12 @@ public class TuJobListAdapter extends BaseAdapter {
         viewHolder.boxNumTextView.setText("总箱数:" + item.getBoxNum());
         viewHolder.turnOverBoxNumTextView.setText("总周转箱数:" + item.getTurnoverBoxNum());
         viewHolder.isLoadTextView.setText("是否装车:" + (item.isLoaded() ? "是" : "否"));
+        if (item.getTaskBoardQty() > 1) {
+            viewHolder.taskBoardQtyTextView.setText("多板(板数:" + item.getTaskBoardQty() + ")");
+            viewHolder.taskBoardQtyTextView.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.taskBoardQtyTextView.setVisibility(View.GONE);
+        }
         try {
             viewHolder.mergeTimeTextView.setText("合板日期:" + DateTool.longToString(item.getMergedTime() * 1000, "yyyy-MM-dd"));
         } catch (ParseException e) {
@@ -89,6 +96,8 @@ public class TuJobListAdapter extends BaseAdapter {
         TextView mergeTimeTextView;
 
         TextView isLoadTextView;
+
+        TextView taskBoardQtyTextView;
 
     }
 }

@@ -24,6 +24,8 @@ public class ContainerInfo implements BaseBean{
 
     boolean isLoaded;
 
+    int taskBoardQty;
+
     public boolean isRest() {
         return isRest;
     }
@@ -86,6 +88,14 @@ public class ContainerInfo implements BaseBean{
 
     public void setLoaded(boolean loaded) {
         isLoaded = loaded;
+    }
+
+    public int getTaskBoardQty() {
+        return taskBoardQty;
+    }
+
+    public void setTaskBoardQty(int taskBoardQty) {
+        this.taskBoardQty = taskBoardQty;
     }
 
     @Override

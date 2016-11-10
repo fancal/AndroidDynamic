@@ -443,13 +443,13 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
      * 根据mode显示对应页面
      */
     private void pop() {
-        if (mode == 0) {
-            if (curItem != null) {
+        if (mode == 0) {//流式
+            if (curItem != null) {//列表切流式时,如果列表显示了某一个item,则依然显示这个item
                 popItem(curItem.getBarCode());
             } else {
                 popNextItem(null, null, true);
             }
-        } else {
+        } else {//列表
             popList(null, null, true);
         }
     }
@@ -486,7 +486,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                     if (item.isSplit()) {
                         mode = 1;
                         showMenuItem = false;
-                        pop();
+                        pop();//流式qc,如果遍历到拆零商品,则显示切换到列表qc
                     } else {
                         fillItemLayout(item);
                     }
@@ -659,7 +659,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 fillListLayout();
                 return;
             }
-            if(isSkip && confirmLayout.getVisibility() == View.VISIBLE){
+            if(isSkip && confirmLayout.getVisibility() == View.VISIBLE){//开始qc页面,点击跳过进入confirm页,点击返回开始qc页。
                 isSkip = false;
                 fillStartLayout();
                 return;

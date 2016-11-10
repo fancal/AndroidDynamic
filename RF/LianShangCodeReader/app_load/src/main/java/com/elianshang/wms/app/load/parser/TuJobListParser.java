@@ -54,6 +54,7 @@ public class TuJobListParser extends MasterParser<TuJobList> {
                 boolean isRest = optBoolean(data, "isRest");
                 boolean isExpensive = optBoolean(data, "isExpensive");
                 boolean isLoaded = optBoolean(data, "isLoaded");
+                int taskBoardQty = optInt(data, "taskBoardQty");
 
                 if (!TextUtils.isEmpty(containerId)) {
                     item = new TuJobList.Item();
@@ -71,6 +72,7 @@ public class TuJobListParser extends MasterParser<TuJobList> {
                     item.setRest(isRest);
                     item.setExpensive(isExpensive);
                     item.setLoaded(isLoaded);
+                    item.setTaskBoardQty(taskBoardQty);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
