@@ -21,13 +21,12 @@ public class ContainerInfoParser extends MasterParser<ContainerInfo> {
                 String boxNum = optString(data, "boxNum");
                 String turnoverBoxNum = optString(data, "turnoverBoxNum");
                 String containerNum = optString(data, "containerNum");
-                String storeNo = optString(data, "storeNo");
                 String storeId = optString(data, "storeId");
-                String packCount = optString(data, "packCount");
                 String containerId = optString(data, "containerId");
                 boolean isRest = optBoolean(data, "isRest");
                 boolean isExpensive = optBoolean(data, "isExpensive");
                 boolean isLoaded = optBoolean(data, "isLoaded");
+                int taskBoardQty = optInt(data,"taskBoardQty");
 
                 if (!TextUtils.isEmpty(containerId)) {
                     item = new ContainerInfo();
@@ -39,6 +38,7 @@ public class ContainerInfoParser extends MasterParser<ContainerInfo> {
                     item.setRest(isRest);
                     item.setExpensive(isExpensive);
                     item.setLoaded(isLoaded);
+                    item.setTaskBoardQty(taskBoardQty);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -93,7 +93,7 @@ public class TuList extends ArrayList<TuList.Item> implements BaseBean {
             this.stores = stores;
         }
 
-        public static class Store {
+        public static class Store implements Serializable {
 
             String storeName;
 

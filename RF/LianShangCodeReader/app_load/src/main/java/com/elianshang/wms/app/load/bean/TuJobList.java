@@ -91,6 +91,8 @@ public class TuJobList implements BaseBean {
 
         boolean isLoaded;
 
+        int taskBoardQty;
+
         public String getContainerCount() {
             return containerCount;
         }
@@ -201,6 +203,14 @@ public class TuJobList implements BaseBean {
 
         public void setContainerId(String containerId) {
             this.containerId = containerId;
+        }
+
+        public int getTaskBoardQty() {
+            return taskBoardQty;
+        }
+
+        public void setTaskBoardQty(int taskBoardQty) {
+            this.taskBoardQty = taskBoardQty;
         }
 
         @Override
