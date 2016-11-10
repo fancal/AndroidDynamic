@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.bridge.tool.ScanManager;
+import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.tools.DeviceTool;
@@ -61,6 +62,8 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
      * 详情布局 item容器
      */
     private LinearLayout detailLayout;
+
+    private QtyEditText taskBoardQtyEditText;
 
     /**
      * 提交
@@ -208,7 +211,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
 
         deleteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public  void onClick(View v) {
+            public void onClick(View v) {
                 removeItemView(vh);
             }
         });
@@ -245,6 +248,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         TextView containerCountTextView = (TextView) view.findViewById(R.id.containerCount_TextView);
         TextView packCountTextView = (TextView) view.findViewById(R.id.packCount_TextView);
         TextView turnoverBoxCountTextView = (TextView) view.findViewById(R.id.turnoverBoxCount_TextView);
+        QtyEditText taskBoardQtyEditText = (QtyEditText) view.findViewById(R.id.taskBoardQty_EditText);
 
         deliveryNameTextView.setText(checkMerge.getDeliveryName());
         containerCountTextView.setText(checkMerge.getContainerCount());
@@ -252,6 +256,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         turnoverBoxCountTextView.setText(checkMerge.getTurnoverBoxCount());
 
         detailLayout.addView(view);
+        this.taskBoardQtyEditText = taskBoardQtyEditText;
     }
 
     private void addDetailItemView(CheckMerge.Item item) {
@@ -298,7 +303,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
 
     @Override
     public void OnBarCodeReceived(String s) {
-        if(inputView.getVisibility() == View.VISIBLE){
+        if (inputView.getVisibility() == View.VISIBLE) {
             addItemView(s);
         }
     }
@@ -309,7 +314,8 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
             if (inputView.getVisibility() == View.VISIBLE) {
                 new CheckMergeContainersTask(that, getBoardListString()).start();
             } else {
-                new MergeContainersTask(that, getBoardListString()).start();
+                String taskBoardQty = taskBoardQtyEditText.getValue();
+                new MergeContainersTask(that, getBoardListString(), taskBoardQty).start();
             }
         }
     }
@@ -364,14 +370,17 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
 
         private String resultList;
 
-        private MergeContainersTask(Context context, String resultList) {
+        private String taskBoardQty;
+
+        private MergeContainersTask(Context context, String resultList, String taskBoardQty) {
             super(context, true, true);
             this.resultList = resultList;
+            this.taskBoardQty = taskBoardQty;
         }
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return MergeContainersProvider.request(context, uId, uToken, resultList, serialNumber);
+            return MergeContainersProvider.request(context, uId, uToken, resultList, taskBoardQty, serialNumber);
         }
 
         @Override

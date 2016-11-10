@@ -50,8 +50,10 @@ public class MergeContainersProvider {
 
     private static final String containerIds = "containerIds";
 
+    private static final String taskBoardQty = "taskBoardQty";
 
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String containerIds, String serialNumber) {
+
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String containerIds, String taskBoardQty ,String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -64,6 +66,7 @@ public class MergeContainersProvider {
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(MergeContainersProvider.containerIds, containerIds));
+        params.add(new DefaultKVPBean(MergeContainersProvider.taskBoardQty, taskBoardQty));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ResponseStateParser(), 0);
