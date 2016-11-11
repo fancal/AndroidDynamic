@@ -133,6 +133,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/shoddy_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dip"
@@ -171,4 +172,48 @@
         android:text="下一步"
         android:textColor="@color/white"
         android:textSize="20dip" />
+
+    <LinearLayout
+        android:id="@+id/dealCase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dealCase_Button1"
+            android:layout_width="wrap_content"
+            android:layout_height="40dip"
+            android:layout_weight="1"
+            android:background="@drawable/submit_button_bg"
+            android:enabled="true"
+            android:text="忽略"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+
+        <Button
+            android:id="@+id/dealCase_Button2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dip"
+            android:layout_marginLeft="1dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1"
+            android:background="@drawable/submit_button_bg"
+            android:enabled="true"
+            android:text="回滚"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+
+        <Button
+            android:id="@+id/dealCase_Button3"
+            android:layout_width="wrap_content"
+            android:layout_height="40dip"
+            android:layout_weight="1"
+            android:background="@drawable/submit_button_bg"
+            android:enabled="true"
+            android:text="修复"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+
+    </LinearLayout>
+
 </LinearLayout>
