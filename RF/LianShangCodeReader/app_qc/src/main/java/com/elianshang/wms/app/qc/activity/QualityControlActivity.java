@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import com.elianshang.wms.app.qc.bean.QCDoneState;
 import com.elianshang.wms.app.qc.bean.QcList;
 import com.elianshang.wms.app.qc.bean.ResponseState;
 import com.elianshang.wms.app.qc.provider.ConfirmProvider;
+import com.elianshang.wms.app.qc.provider.DealCaseProvider;
 import com.elianshang.wms.app.qc.provider.QCOneItemProvider;
 import com.elianshang.wms.app.qc.provider.ScanProvider;
 import com.elianshang.wms.app.qc.util.DataFormat;
@@ -101,6 +103,14 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
      * 开始布局行数
      */
     private TextView startLineNumTextView;
+    /**
+     * 开始布局提交按钮
+     */
+    private Button startSubmitButton;
+    /**
+     * 开始布局 跳过按钮
+     */
+    private Button startSkipButton;
 
     /**
      * 扫描提示布局
@@ -133,19 +143,13 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     private TextView itemQtyTextView;
 
     /**
-     * 开始布局提交按钮
-     */
-    private Button startSubmitButton;
-    /**
-     * 开始布局 跳过按钮
-     */
-    private Button startSkipButton;
-
-    /**
      * 实际数量输入框
      */
     private QtyEditText itemInputQtyEditText;
-
+    /**
+     * 残次数量 view
+     */
+    private View itemShoddyView;
     /**
      * 残次数量输入框
      */
@@ -155,6 +159,22 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
      * 提交按钮
      */
     private Button itemSubmitButton;
+    /**
+     * 复qc,修复异常
+     */
+    private View itemDealCaseView;
+    /**
+     * 复qc,忽略
+     */
+    private Button itemDealCaseButton1;
+    /**
+     * 复qc,回滚
+     */
+    private Button itemDealCaseButton2;
+    /**
+     * 复qc,修复
+     */
+    private Button itemDealCaseButton3;
 
     /**
      * 最终确认布局
@@ -227,6 +247,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
 //        uId = "141871359725260";
 //        uToken = "25061134202027";
+//        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -265,9 +286,17 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemPackNameTextView = (TextView) itemLayout.findViewById(R.id.packName_TextView);
         itemQtyTextView = (TextView) itemLayout.findViewById(R.id.qty_TextView);
         itemInputQtyEditText = (QtyEditText) itemLayout.findViewById(R.id.inputQty_EditView);
+        itemShoddyView = itemLayout.findViewById(R.id.shoddy_view);
         itemShoddyQtyEditView = (QtyEditText) itemLayout.findViewById(R.id.shoddyQty_EditView);
         itemSubmitButton = (Button) itemLayout.findViewById(R.id.submit_Button);
+        itemDealCaseView = itemLayout.findViewById(R.id.dealCase);
+        itemDealCaseButton1 = (Button) itemLayout.findViewById(R.id.dealCase_Button1);
+        itemDealCaseButton2 = (Button) itemLayout.findViewById(R.id.dealCase_Button2);
+        itemDealCaseButton3 = (Button) itemLayout.findViewById(R.id.dealCase_Button3);
         itemSubmitButton.setOnClickListener(this);
+        itemDealCaseButton1.setOnClickListener(this);
+        itemDealCaseButton2.setOnClickListener(this);
+        itemDealCaseButton3.setOnClickListener(this);
 
         confirmLayout = findViewById(R.id.confirm_Layout);
         confirmCollectionCodeTextView = (TextView) confirmLayout.findViewById(R.id.collectionCode_TextView);
@@ -369,6 +398,15 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         listView.setVisibility(View.GONE);
         mMenuItem.setVisibility(showMenuItem ? View.VISIBLE : View.GONE);
         mMenuItem.setText(mode == 1 ? "流式qc" : "列表qc");
+        if (qcList.isFirst()) {
+            itemShoddyView.setVisibility(View.VISIBLE);
+            itemSubmitButton.setVisibility(View.VISIBLE);
+            itemDealCaseView.setVisibility(View.GONE);
+        } else {
+            itemShoddyView.setVisibility(View.GONE);
+            itemSubmitButton.setVisibility(View.GONE);
+            itemDealCaseView.setVisibility(View.VISIBLE);
+        }
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -383,6 +421,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemInputQtyEditText.setText(null);
         itemShoddyQtyEditView.setHint("0");
         itemShoddyQtyEditView.setText(null);
+
     }
 
     private void fillListLayout() {
@@ -659,7 +698,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 fillListLayout();
                 return;
             }
-            if(isSkip && confirmLayout.getVisibility() == View.VISIBLE){//开始qc页面,点击跳过进入confirm页,点击返回开始qc页。
+            if (isSkip && confirmLayout.getVisibility() == View.VISIBLE) {//开始qc页面,点击跳过进入confirm页,点击返回开始qc页。
                 isSkip = false;
                 fillStartLayout();
                 return;
@@ -736,6 +775,36 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             String defectQty = itemShoddyQtyEditView.getValue();
 
             new QcOneTask(that, qcTaskId, code, uomQty, defectQty).start();
+        } else if (v == itemDealCaseButton1) {
+            Editable editable = scanUnknownCodeEditText.getText();
+            if (editable == null) {
+                return;
+            }
+            String containerId = editable.toString();
+            String code = curItem.getBarCode();
+            String uomQty = itemInputQtyEditText.getValue();
+
+            new DealCaseTask(that, containerId, code, uomQty, 1).start();
+        } else if (v == itemDealCaseButton2) {
+            Editable editable = scanUnknownCodeEditText.getText();
+            if (editable == null) {
+                return;
+            }
+            String containerId = editable.toString();
+            String code = curItem.getBarCode();
+            String uomQty = itemInputQtyEditText.getValue();
+
+            new DealCaseTask(that, containerId, code, uomQty, 2).start();
+        } else if (v == itemDealCaseButton3) {
+            Editable editable = scanUnknownCodeEditText.getText();
+            if (editable == null) {
+                return;
+            }
+            String containerId = editable.toString();
+            String code = curItem.getBarCode();
+            String uomQty = itemInputQtyEditText.getValue();
+
+            new DealCaseTask(that, containerId, code, uomQty, 3).start();
         } else if (v == startSubmitButton) {
             if (qcList.isQcDone()) {
                 finish();
@@ -819,11 +888,41 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         @Override
         public void onPostExecute(QCDoneState result) {
-            if (mode == 0) {
-                popNextItem(code, uomQty, result.isDone());
-            } else {
-                popList(code, uomQty, result.isDone());
-            }
+//            if (mode == 0) {
+            popNextItem(code, uomQty, result.isDone());
+//            } else {
+//                popList(code, uomQty, result.isDone());
+//            }
+        }
+    }
+
+    private class DealCaseTask extends HttpAsyncTask<QCDoneState> {
+
+        private String containerId;
+
+        private String code;
+
+        private String uomQty;
+
+        private int type;
+
+        public DealCaseTask(Context context, String containerId, String code, String uomQty, int type) {
+            super(context, true, true);
+
+            this.containerId = containerId;
+            this.code = code;
+            this.uomQty = uomQty;
+            this.type = type;
+        }
+
+        @Override
+        public DataHull<QCDoneState> doInBackground() {
+            return DealCaseProvider.request(context, uId, uToken, containerId, code, uomQty, String.valueOf(type), serialNumber);
+        }
+
+        @Override
+        public void onPostExecute(QCDoneState result) {
+            popList(code, uomQty, result.isDone());
         }
     }
 
