@@ -74,6 +74,9 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
+        uId = "141871359725260";
+        uToken = "194252780886189";
+
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
@@ -112,7 +115,7 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
     @Override
     public void onComplete() {
         final String locationCode = locationCodeEditText.getText().toString();
-        DialogTools.showTwoButtonDialog(that, "确认释放集货道", "取消", "确认", null, new DialogInterface.OnClickListener() {
+        DialogTools.showTwoButtonDialog(that, "确认完成一键装车", "取消", "确认", null, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 new ReleaseCollectionTask(that, uId, uToken, locationCode).start();
@@ -151,7 +154,7 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
         @Override
         public void onPostExecute(ResponseState result) {
             finish();
-            ToastTool.show(context, "集货道释放完成");
+            ToastTool.show(context, "一键装车完成");
         }
     }
 }

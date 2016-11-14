@@ -19,6 +19,10 @@
         layout="@layout/sow_scan" />
 
     <include
+        android:id="@+id/sow_wait"
+        layout="@layout/sow_wait" />
+
+    <include
         android:id="@+id/sow_two"
         layout="@layout/sow_detail" />
 

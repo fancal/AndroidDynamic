@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="10dip"
-    android:paddingRight="10dip"
-    android:layout_weight="1">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -20,7 +17,9 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip">
 
         <TextView
             android:layout_width="match_parent"
@@ -39,7 +38,9 @@
         android:id="@+id/order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip">
 
         <TextView
             android:layout_width="match_parent"
@@ -65,4 +66,39 @@
             android:layout_height="wrap_content"
             android:textSize="14dip" />
     </LinearLayout>
+
+    <View
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/sysSubmit_Button"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@drawable/submit_button_bg"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="系统播种"
+        android:textColor="#ffffffff"
+        android:textSize="16dip" />
+
+    <View
+        android:layout_width="0px"
+        android:layout_height="1px" />
+
+    <Button
+        android:id="@+id/meSubmit_Button"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@drawable/submit_button_bg"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="自主播种"
+        android:textColor="#ffffffff"
+        android:textSize="16dip" />
 </LinearLayout>

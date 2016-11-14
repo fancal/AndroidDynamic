@@ -49,8 +49,10 @@ public class AssignByOrderIdProvider {
 
     private static final String barcode = "barcode";
 
+    private static final String type = "type";
 
-    public static DataHull<Sow> request(Context context, String uId, String uToken, String orderId,String barcode) {
+
+    public static DataHull<Sow> request(Context context, String uId, String uToken, String orderId, String barcode, String stype) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -62,9 +64,9 @@ public class AssignByOrderIdProvider {
         headers.add(new DefaultKVPBean(AssignByOrderIdProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(AssignByOrderIdProvider.uId, uId));
         params.add(new DefaultKVPBean(AssignByOrderIdProvider.orderId, orderId));
         params.add(new DefaultKVPBean(AssignByOrderIdProvider.barcode, barcode));
+        params.add(new DefaultKVPBean(AssignByOrderIdProvider.type, stype));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<SowParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new SowParser(), 0);

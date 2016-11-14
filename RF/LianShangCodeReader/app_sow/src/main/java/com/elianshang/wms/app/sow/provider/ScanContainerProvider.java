@@ -62,8 +62,12 @@ public class ScanContainerProvider {
 
     private static final String type = "type";
 
+    private static final String storeNo = "storeNo";
 
-    public static DataHull<SowNext> request(Context context, String uid, String uToken, String taskId, String containerId, String qty, String scanType, String serialNumber) {
+    private static final String exceptionCode = "exceptionCode";
+
+
+    public static DataHull<SowNext> request(Context context, String uid, String uToken, String taskId, String containerId, String qty, String scanType, String storeNo , String exceptionCode, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -79,6 +83,8 @@ public class ScanContainerProvider {
         params.add(new DefaultKVPBean(ScanContainerProvider.containerId, containerId));
         params.add(new DefaultKVPBean(ScanContainerProvider.qty, qty));
         params.add(new DefaultKVPBean(ScanContainerProvider.type, scanType));
+        params.add(new DefaultKVPBean(ScanContainerProvider.storeNo, storeNo));
+        params.add(new DefaultKVPBean(ScanContainerProvider.exceptionCode, exceptionCode));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<SowNextParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new SowNextParser(), 0);

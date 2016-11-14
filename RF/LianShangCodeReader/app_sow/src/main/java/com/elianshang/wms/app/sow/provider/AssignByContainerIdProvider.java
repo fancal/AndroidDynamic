@@ -47,8 +47,10 @@ public class AssignByContainerIdProvider {
 
     private static final String containerId = "containerId";
 
+    private static final String type = "type";
 
-    public static DataHull<Sow> request(Context context, String uId, String uToken, String containerId) {
+
+    public static DataHull<Sow> request(Context context, String uId, String uToken, String containerId, String stype) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -60,8 +62,8 @@ public class AssignByContainerIdProvider {
         headers.add(new DefaultKVPBean(AssignByContainerIdProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(AssignByContainerIdProvider.uId, uId));
         params.add(new DefaultKVPBean(AssignByContainerIdProvider.containerId, containerId));
+        params.add(new DefaultKVPBean(AssignByContainerIdProvider.type, stype));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<SowParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new SowParser(), 0);

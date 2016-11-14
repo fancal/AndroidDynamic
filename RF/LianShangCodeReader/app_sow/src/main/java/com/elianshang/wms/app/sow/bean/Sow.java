@@ -9,6 +9,8 @@ public class Sow implements BaseBean{
 
     private String storeName;
 
+    private String storeNo;
+
     private String taskId ;
 
     private String skuName;
@@ -16,6 +18,14 @@ public class Sow implements BaseBean{
     private String qty ;
 
     private String packName ;
+
+    public String getStoreNo() {
+        return storeNo;
+    }
+
+    public void setStoreNo(String storeNo) {
+        this.storeNo = storeNo;
+    }
 
     public String getTaskId() {
         return taskId;

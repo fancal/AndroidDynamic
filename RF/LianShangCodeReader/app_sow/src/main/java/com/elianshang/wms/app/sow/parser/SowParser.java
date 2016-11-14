@@ -18,15 +18,13 @@ public class SowParser extends MasterParser<Sow> {
             String qty = optString(data, "qty");
             String packName = optString(data, "packName");
             String skuName = optString(data, "skuName");
+            String storeNo = optString(data, "storeNo");
 
-            if (!TextUtils.isEmpty(taskId)
-                    && !TextUtils.isEmpty(storeName)
-                    && !TextUtils.isEmpty(qty)
-                    && !TextUtils.isEmpty(packName)
-                    && !TextUtils.isEmpty(skuName)) {
+            if (!TextUtils.isEmpty(taskId)) {
                 sow = new Sow();
 
                 sow.setTaskId(taskId);
+                sow.setStoreNo(storeNo);
                 sow.setStoreName(storeName);
                 sow.setQty(qty);
                 sow.setPackName(packName);

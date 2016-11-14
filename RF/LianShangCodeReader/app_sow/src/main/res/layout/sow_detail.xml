@@ -159,6 +159,31 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/exception_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:orientation="horizontal"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="例外代码:"
+                android:textSize="14dip" />
+
+            <EditText
+                android:id="@+id/exception_EditView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="选填"
+                android:inputType="numberDecimal"
+                android:minWidth="60dip"
+                android:textSize="14dip" />
+
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
 
