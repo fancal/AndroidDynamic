@@ -43,6 +43,11 @@ public class DateKeyboardUtil implements View.OnTouchListener, View.OnFocusChang
 
     private OnKeyBoardUtilListener onKeyBoardUtilListener;
 
+    /**
+     * 是否按年的升序显示(默认false)
+     */
+    private boolean isYearAsc;
+
     public DateKeyboardUtil(Activity activity, KeyboardView keyboardView, EditText... edit) {
         mActivity = activity;
         this.mKeyboardView = keyboardView;
@@ -59,6 +64,11 @@ public class DateKeyboardUtil implements View.OnTouchListener, View.OnFocusChang
         this.onKeyBoardUtilListener = onKeyBoardUtilListener;
     }
 
+    public void setYearAsc(boolean yearAsc) {
+        isYearAsc = yearAsc;
+        setYearKeyboard();
+    }
+
     private synchronized void init() {
         if (mKeyboardView == null || isInit) {
             return;
@@ -72,6 +82,14 @@ public class DateKeyboardUtil implements View.OnTouchListener, View.OnFocusChang
         mKeyboardView.setPreviewEnabled(false);
         mKeyboardView.setOnKeyboardActionListener(listener);
 
+        setYearKeyboard();
+
+    }
+
+    private void setYearKeyboard(){
+        if(year_keyboard == null){
+            return;
+        }
         int year = Calendar.getInstance().get(Calendar.YEAR);
         List<Keyboard.Key> keys = year_keyboard.getKeys();
 
@@ -79,9 +97,8 @@ public class DateKeyboardUtil implements View.OnTouchListener, View.OnFocusChang
             Keyboard.Key key = keys.get(i);
             key.label = String.valueOf(year);
             key.codes = new int[]{year};
-            year--;
+            year += isYearAsc ? 1 : -1;
         }
-
     }
 
     @Override

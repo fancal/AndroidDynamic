@@ -103,26 +103,6 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dip"
-                    android:layout_marginTop="5dip"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="订货数量:"
-                        android:textSize="14dip" />
-
-                    <TextView
-                        android:id="@+id/orderQty_TextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="14dip" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/lotNum_Layout"
@@ -240,7 +220,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/lotNum_Layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">

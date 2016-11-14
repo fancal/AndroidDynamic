@@ -7,6 +7,7 @@ import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -140,6 +141,31 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
     private DateKeyboardUtil keyboardUtil;
 
     /**
+     * 生成日期-年
+     */
+    private String proYear;
+    /**
+     * 生成日期-月
+     */
+    private String proMonth;
+    /**
+     * 生成日期-日
+     */
+    private String proDay;
+    /**
+     * 到期日期-年
+     */
+    private String dueYear;
+    /**
+     * 到期日期-月
+     */
+    private String dueMonth;
+    /**
+     * 到期日期-日
+     */
+    private String dueDay;
+
+    /**
      * 工具栏
      */
     private Toolbar mToolbar;
@@ -199,6 +225,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         Intent intent = getIntent();
         uId = intent.getStringExtra("uId");
         uToken = intent.getStringExtra("uToken");
+
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
@@ -264,11 +291,46 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         if (v == submitButton) {
             submit();
         } else if (v == preDataCheckBox) {
+            Editable yearEditable = mEditYear.getText();
+            Editable monthEditable = mEditMonth.getText();
+            Editable dayEditable = mEditDay.getText();
+            if (yearEditable != null) {
+                dueYear = yearEditable.toString();
+            }
+            if (monthEditable != null) {
+                dueMonth = monthEditable.toString();
+            }
+            if (dayEditable != null) {
+                dueDay = dayEditable.toString();
+            }
+            mEditYear.setText(proYear);
+            mEditMonth.setText(proMonth);
+            mEditDay.setText(proDay);
+
             preDataCheckBox.setChecked(true);
             dueDataCheckBox.setChecked(false);
+            keyboardUtil.setYearAsc(false);
         } else if (v == dueDataCheckBox) {
+            Editable yearEditable = mEditYear.getText();
+            Editable monthEditable = mEditMonth.getText();
+            Editable dayEditable = mEditDay.getText();
+            if (yearEditable != null) {
+                proYear = yearEditable.toString();
+            }
+            if (monthEditable != null) {
+                proMonth = monthEditable.toString();
+            }
+            if (dayEditable != null) {
+                proDay = dayEditable.toString();
+            }
+            mEditYear.setText(dueYear);
+            mEditMonth.setText(dueMonth);
+            mEditDay.setText(dueDay);
+
             dueDataCheckBox.setChecked(true);
             preDataCheckBox.setChecked(false);
+            keyboardUtil.setYearAsc(true);
+
         }
     }
 
@@ -320,7 +382,6 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         String exceptionCode = exceptionCodeTextView.getText().toString();
 
         String dueTime = proTime;
-
         if (preDataCheckBox.isChecked()) {
             dueTime = "";
         } else if (dueDataCheckBox.isChecked()) {
