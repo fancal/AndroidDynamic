@@ -15,7 +15,7 @@
         app:title="播种" />
 
     <include
-        android:id="@+id/sow_one"
+        android:id="@+id/sow_scan"
         layout="@layout/sow_scan" />
 
     <include
@@ -23,43 +23,7 @@
         layout="@layout/sow_wait" />
 
     <include
-        android:id="@+id/sow_two"
+        android:id="@+id/sow_detail"
         layout="@layout/sow_detail" />
 
-    <Button
-        android:id="@+id/goonsubmit_Button"
-        android:layout_width="match_parent"
-        android:layout_height="40dip"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/submit_button_bg"
-        android:gravity="center"
-        android:text="提交,继续播种当前门店"
-        android:textColor="#ffffffff"
-        android:textSize="16dip" />
-
-    <Button
-        android:id="@+id/skipsubmit_Button"
-        android:layout_width="match_parent"
-        android:layout_height="40dip"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/submit_button_bg"
-        android:gravity="center"
-        android:text="提交,继续播种下个门店"
-        android:textColor="#ffffffff"
-        android:textSize="16dip"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/stopsubmit_Button"
-        android:layout_width="match_parent"
-        android:layout_height="40dip"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/submit_button_bg"
-        android:gravity="center"
-        android:text="提交,结束全部播种"
-        android:textColor="#ffffffff"
-        android:textSize="16dip"
-        android:visibility="visible" />
 </LinearLayout>
