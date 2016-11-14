@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -103,6 +104,12 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
      */
     private ContentEditText lotNumEditText;
 
+    private CheckBox preDataCheckBox;
+
+    private CheckBox dueDataCheckBox;
+
+    private EditText exceptionCodeTextView;
+
     /**
      * 提交按钮
      */
@@ -160,6 +167,9 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         inboundQtyEditView = (QtyEditText) findViewById(R.id.inboundQty_EditView);
         lotNumLayout = findViewById(R.id.lotNum_Layout);
         lotNumEditText = (QtyEditText) findViewById(R.id.lotNum_EditText);
+        preDataCheckBox = (CheckBox) findViewById(R.id.preData_CheckBox);
+        dueDataCheckBox = (CheckBox) findViewById(R.id.dueData_CheckBox);
+        exceptionCodeTextView = (EditText) findViewById(R.id.exceptionCode_TextView);
         submitButton = (Button) findViewById(R.id.submit_Button);
         mEditYear = (EditText) findViewById(R.id.et_year);
         mEditMonth = (EditText) findViewById(R.id.et_month);
@@ -169,6 +179,8 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         keyboardUtil = new DateKeyboardUtil(that, mKeyboardView, mEditYear, mEditMonth, mEditDay);
         keyboardUtil.setOnKeyBoardUtilListener(this);
         submitButton.setOnClickListener(this);
+        preDataCheckBox.setOnClickListener(this);
+        dueDataCheckBox.setOnClickListener(this);
 
         initToolbar();
     }
@@ -251,6 +263,12 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
     public void onClick(View v) {
         if (v == submitButton) {
             submit();
+        } else if (v == preDataCheckBox) {
+            preDataCheckBox.setChecked(true);
+            dueDataCheckBox.setChecked(false);
+        } else if (v == dueDataCheckBox) {
+            dueDataCheckBox.setChecked(true);
+            preDataCheckBox.setChecked(false);
         }
     }
 
@@ -280,7 +298,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         String day = mEditDay.getText().toString();
 
         if (TextUtils.isEmpty(year) || TextUtils.isEmpty(month) || TextUtils.isEmpty(day)) {
-            Toast.makeText(that, "请填入完整的生产日期", Toast.LENGTH_SHORT).show();
+            Toast.makeText(that, "请填入完整的日期", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -299,6 +317,16 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             return;
         }
 
+        String exceptionCode = exceptionCodeTextView.getText().toString();
+
+        String dueTime = proTime;
+
+        if (preDataCheckBox.isChecked()) {
+            dueTime = "";
+        } else if (dueDataCheckBox.isChecked()) {
+            proTime = "";
+        }
+
         JSONArray jsonArray = new JSONArray();
         try {
             JSONObject jsonObject = new JSONObject();
@@ -306,6 +334,8 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             jsonObject.put("proTime", proTime);
             jsonObject.put("lotNum", lotNum);
             jsonObject.put("inboundQty", inboundQty);
+            jsonObject.put("dueTime", dueTime);
+            jsonObject.put("exceptionCode", exceptionCode);
 
             jsonArray.put(jsonObject);
         } catch (Exception e) {

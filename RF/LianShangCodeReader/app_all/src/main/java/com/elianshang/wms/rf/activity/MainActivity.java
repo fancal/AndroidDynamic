@@ -25,7 +25,6 @@ import com.elianshang.wms.rf.R;
 import com.elianshang.wms.rf.bean.Menu;
 import com.elianshang.wms.rf.bean.MenuList;
 import com.elianshang.wms.rf.bean.ResponseState;
-import com.elianshang.wms.rf.plugin.PluginStarter;
 import com.elianshang.wms.rf.provider.GetMenuListProvider;
 import com.elianshang.wms.rf.provider.LogoutProvider;
 import com.xue.http.impl.DataHull;
@@ -187,8 +186,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (doubleClickWaitView == v) {//第二下点击同一个view
                 doubleClickWaitView = null;
 
-                PluginStarter starter = new PluginStarter(this, pluginSource);
-                starter.execute();
+//                PluginStarter starter = new PluginStarter(this, pluginSource);
+//                starter.execute();
+
+                Intent intent = new Intent(this, com.elianshang.wms.rf.atticshelve.activity.MainActivity.class);
+                intent.putExtra("uId", BaseApplication.get().getUserId());
+                intent.putExtra("uToken", BaseApplication.get().getUserToken());
+                this.startActivity(intent);
 
                 handler.removeMessages(2);
                 handler.sendEmptyMessageDelayed(2, 500);

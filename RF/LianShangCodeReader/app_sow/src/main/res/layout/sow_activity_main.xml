@@ -22,11 +22,6 @@
         android:id="@+id/sow_two"
         layout="@layout/sow_detail" />
 
-    <View
-        android:layout_width="0dip"
-        android:layout_height="0dip"
-        android:layout_weight="1" />
-
     <Button
         android:id="@+id/goonsubmit_Button"
         android:layout_width="match_parent"
@@ -43,24 +38,24 @@
         android:layout_width="match_parent"
         android:layout_height="40dip"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="1dp"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
         android:text="提交,继续播种下个门店"
-        android:visibility="gone"
         android:textColor="#ffffffff"
-        android:layout_marginTop="1dp"
-        android:textSize="16dip" />
+        android:textSize="16dip"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/stopsubmit_Button"
         android:layout_width="match_parent"
         android:layout_height="40dip"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="1dp"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
         android:text="提交,结束全部播种"
         android:textColor="#ffffffff"
-        android:layout_marginTop="1dp"
-        android:visibility="visible"
-        android:textSize="16dip" />
+        android:textSize="16dip"
+        android:visibility="visible" />
 </LinearLayout>

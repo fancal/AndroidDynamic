@@ -254,6 +254,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         containerCountTextView.setText(checkMerge.getContainerCount());
         packCountTextView.setText(checkMerge.getPackCount());
         turnoverBoxCountTextView.setText(checkMerge.getTurnoverBoxCount());
+        taskBoardQtyEditText.setHint(checkMerge.getTaskBoardQty());
 
         detailLayout.addView(view);
         this.taskBoardQtyEditText = taskBoardQtyEditText;

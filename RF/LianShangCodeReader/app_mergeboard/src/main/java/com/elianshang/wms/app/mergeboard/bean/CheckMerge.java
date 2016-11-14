@@ -16,6 +16,8 @@ public class CheckMerge extends ArrayList<CheckMerge.Item> implements BaseBean {
 
     private String packCount;
 
+    private String taskBoardQty;
+
     public String getContainerCount() {
         return containerCount;
     }
@@ -54,6 +56,14 @@ public class CheckMerge extends ArrayList<CheckMerge.Item> implements BaseBean {
 
     public void setPackCount(String packCount) {
         this.packCount = packCount;
+    }
+
+    public String getTaskBoardQty() {
+        return taskBoardQty;
+    }
+
+    public void setTaskBoardQty(String taskBoardQty) {
+        this.taskBoardQty = taskBoardQty;
     }
 
     public static class Item {

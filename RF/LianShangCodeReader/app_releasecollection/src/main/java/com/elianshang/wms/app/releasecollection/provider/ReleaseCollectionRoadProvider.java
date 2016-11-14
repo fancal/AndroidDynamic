@@ -40,7 +40,7 @@ public class ReleaseCollectionRoadProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/outbound/ship/releaseCollectionRoad";
+    private static final String _function = "/outbound/ship/quickLoad";
 
     private static final String uId = "uid";
 

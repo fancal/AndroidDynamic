@@ -19,6 +19,7 @@ public class CheckMergeParser extends MasterParser<CheckMerge> {
             String turnoverBoxCount = optString(data, "turnoverBoxCount");
             String deliveryName = optString(data, "deliveryName");
             String packCount = optString(data, "packCount");
+            String taskBoardQty = optString(data, "taskBoardQty");
 
             if (!TextUtils.isEmpty(containerCount)
                     && !TextUtils.isEmpty(deliveryCode)
@@ -37,6 +38,7 @@ public class CheckMergeParser extends MasterParser<CheckMerge> {
                     checkMerge.setTurnoverBoxCount(turnoverBoxCount);
                     checkMerge.setDeliveryName(deliveryName);
                     checkMerge.setPackCount(packCount);
+                    checkMerge.setTaskBoardQty(taskBoardQty);
 
                     for (int i = 0; i < len; i++) {
                         JSONObject object = optJSONObject(array, i);

@@ -63,12 +63,12 @@ android {
             /**
              * 移除无用的resource文件
              * */
-            shrinkResources true
+            shrinkResources false
 
             /**
              * 是否进行混淆
              * */
-            minifyEnabled true
+            minifyEnabled false
 
             /**
              * 混淆文件的位置，前一部分是系统默认的混淆声明，后一部分是自定义的混淆声明

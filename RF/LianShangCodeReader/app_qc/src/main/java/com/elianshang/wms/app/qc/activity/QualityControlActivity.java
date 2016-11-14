@@ -403,9 +403,15 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             itemSubmitButton.setVisibility(View.VISIBLE);
             itemDealCaseView.setVisibility(View.GONE);
         } else {
-            itemShoddyView.setVisibility(View.GONE);
-            itemSubmitButton.setVisibility(View.GONE);
-            itemDealCaseView.setVisibility(View.VISIBLE);
+            if(item.isQcDone()){
+                itemShoddyView.setVisibility(View.VISIBLE);
+                itemSubmitButton.setVisibility(View.VISIBLE);
+                itemDealCaseView.setVisibility(View.GONE);
+            } else {
+                itemShoddyView.setVisibility(View.GONE);
+                itemSubmitButton.setVisibility(View.GONE);
+                itemDealCaseView.setVisibility(View.VISIBLE);
+            }
         }
 
         if (scanEditTextTool != null) {

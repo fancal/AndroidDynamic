@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIcon="@drawable/toolbar_back"
+        app:title="上架" />
+
+    <include
+        android:id="@+id/atticshelve_one"
+        layout="@layout/atticshelve_scan" />
+
+    <include
+        android:id="@+id/atticshelve_two"
+        layout="@layout/atticshelve_detail" />
+
+    <View
+        android:layout_width="0dip"
+        android:layout_height="0dip"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/submit_Button"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/submit_button_bg"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="#ffffffff"
+        android:textSize="20dip" />
+
+</LinearLayout>
