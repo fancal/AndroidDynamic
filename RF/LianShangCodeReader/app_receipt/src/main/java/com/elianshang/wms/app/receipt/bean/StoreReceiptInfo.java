@@ -20,6 +20,8 @@ public class StoreReceiptInfo implements BaseBean {
 
     private String orderQty ;
 
+    private String pile ;
+
     @Override
     public void setDataKey(String dataKey) {
 
@@ -93,5 +95,13 @@ public class StoreReceiptInfo implements BaseBean {
 
     public void setPackName(String packName) {
         this.packName = packName;
+    }
+
+    public String getPile() {
+        return pile;
+    }
+
+    public void setPile(String pile) {
+        this.pile = pile;
     }
 }

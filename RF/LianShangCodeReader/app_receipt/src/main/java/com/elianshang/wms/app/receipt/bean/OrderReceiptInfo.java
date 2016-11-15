@@ -12,6 +12,8 @@ public class OrderReceiptInfo implements BaseBean {
 
     private String orderQty;
 
+    private String pile ;
+
     @Override
     public void setDataKey(String dataKey) {
 
@@ -52,5 +54,13 @@ public class OrderReceiptInfo implements BaseBean {
 
     public void setOrderQty(String orderQty) {
         this.orderQty = orderQty;
+    }
+
+    public String getPile() {
+        return pile;
+    }
+
+    public void setPile(String pile) {
+        this.pile = pile;
     }
 }

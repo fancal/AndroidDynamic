@@ -86,6 +86,8 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
      */
     private TextView packUnitTextView;
 
+    private TextView pileTextView;
+
     /**
      * 订单商品数
      */
@@ -190,6 +192,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
     private void findView() {
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
         packUnitTextView = (TextView) findViewById(R.id.packUnit_TextView);
+        pileTextView = (TextView) findViewById(R.id.pile_TextView);
         orderQtyTextView = (TextView) findViewById(R.id.orderQty_TextView);
         inboundQtyEditView = (QtyEditText) findViewById(R.id.inboundQty_EditView);
         lotNumLayout = findViewById(R.id.lotNum_Layout);
@@ -214,7 +217,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
                     mEditYear.requestFocus();
-                    return true ;
+                    return true;
                 }
                 return false;
             }
@@ -255,8 +258,9 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         if (orderReceiptInfo == null) {
             return;
         }
-        itemNameTextView.setText(orderReceiptInfo.getSkuName() + orderReceiptInfo.getSkuName() + orderReceiptInfo.getSkuName() + orderReceiptInfo.getSkuName() + orderReceiptInfo.getSkuName()  +orderReceiptInfo.getSkuName());
+        itemNameTextView.setText(orderReceiptInfo.getSkuName());
         packUnitTextView.setText(orderReceiptInfo.getPackName());
+        pileTextView.setText(orderReceiptInfo.getPile());
         orderQtyTextView.setText(orderReceiptInfo.getOrderQty());
         inboundQtyEditView.setHint(orderReceiptInfo.getOrderQty());
         inboundQtyEditView.setText(null);
