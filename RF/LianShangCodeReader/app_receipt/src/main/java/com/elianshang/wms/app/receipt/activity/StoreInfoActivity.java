@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -203,6 +204,17 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         submitButton.setOnClickListener(this);
         preDataCheckBox.setOnClickListener(this);
         dueDataCheckBox.setOnClickListener(this);
+
+        inboundQtyEditView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    mEditYear.requestFocus();
+                    return true ;
+                }
+                return false;
+            }
+        });
 
         initToolbar();
     }

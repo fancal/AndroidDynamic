@@ -210,7 +210,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         twoLayout = findViewById(R.id.sow_two);
         twoHeadTextView = (TextView) twoLayout.findViewById(R.id.head_TextView);
         twoContainerIdEditText = (ScanEditText) twoLayout.findViewById(R.id.containerId_EditText);
-        twoContainerIdEditText.setCode(true);
         twoStoreNameTextView = (TextView) twoLayout.findViewById(R.id.storeName_TextView);
         twoItemNameTextView = (TextView) twoLayout.findViewById(R.id.itemName_TextView);
         twoPackNameTextView = (TextView) twoLayout.findViewById(R.id.packName_TextView);
@@ -334,7 +333,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         oneContainerIdEditText.setText(null);
         oneOrderIdEditText.setText(null);
         oneOrderBarcodeEditText.setText(null);
-
     }
 
     private void initToolbar() {

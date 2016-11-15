@@ -74,9 +74,6 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
-        uId = "141871359725260";
-        uToken = "194252780886189";
-
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
