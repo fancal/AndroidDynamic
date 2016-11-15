@@ -166,7 +166,8 @@
                             android:id="@+id/inboundQty_EditView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:imeOptions="actionNext"
+                            android:nextFocusDown="@+id/et_year"
+                            android:nextFocusRight="@+id/et_year"
                             android:inputType="numberDecimal"
                             android:minWidth="60dip"
                             android:textSize="14dip" />

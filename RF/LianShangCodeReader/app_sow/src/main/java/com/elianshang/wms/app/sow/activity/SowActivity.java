@@ -110,7 +110,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     /**
      * 播种方式
      */
-    public static enum Type {
+    public enum Type {
         /**
          * 托盘码播种
          */
