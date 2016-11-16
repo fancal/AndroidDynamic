@@ -95,34 +95,34 @@ public class TuList extends ArrayList<TuList.Item> implements BaseBean {
 
         public static class Store implements Serializable {
 
-            String storeName;
+            String customerName;
 
-            String storeId;
+            String customerId;
 
-            String storeNo;
+            String customerCode;
 
-            public String getStoreName() {
-                return storeName;
+            public String getCustomerName() {
+                return customerName;
             }
 
-            public void setStoreName(String storeName) {
-                this.storeName = storeName;
+            public void setCustomerName(String customerName) {
+                this.customerName = customerName;
             }
 
-            public String getStoreId() {
-                return storeId;
+            public String getCustomerId() {
+                return customerId;
             }
 
-            public void setStoreId(String storeId) {
-                this.storeId = storeId;
+            public void setCustomerId(String customerId) {
+                this.customerId = customerId;
             }
 
-            public String getStoreNo() {
-                return storeNo;
+            public String getCustomerCode() {
+                return customerCode;
             }
 
-            public void setStoreNo(String storeNo) {
-                this.storeNo = storeNo;
+            public void setCustomerCode(String customerCode) {
+                this.customerCode = customerCode;
             }
         }
 

@@ -118,7 +118,7 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            orderOtherIdEditText.requestFocus();
+            barCodeEditText.requestFocus();
         }
     }
 

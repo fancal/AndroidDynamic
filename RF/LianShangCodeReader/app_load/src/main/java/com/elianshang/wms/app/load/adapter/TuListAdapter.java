@@ -71,7 +71,7 @@ public class TuListAdapter extends BaseAdapter {
                 sb.append(String.valueOf(i+1));
                 sb.append(":");
                 sb.append("【");
-                sb.append(store.getStoreNo());
+                sb.append(store.getCustomerCode());
                 sb.append("】");
                 if(i != item.getStores().size() - 1){
                     sb.append("\r\n");

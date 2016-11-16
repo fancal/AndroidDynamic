@@ -179,7 +179,7 @@
             android:layout_height="40dip"
             android:background="@drawable/submit_button_bg"
             android:enabled="true"
-            android:text="跳过"
+            android:text="直接组盘"
             android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="20dip" />

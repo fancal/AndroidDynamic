@@ -95,8 +95,8 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
         uToken = getIntent().getStringExtra("uToken");
 
         //FIXME
-//        uId = "141871359725260";
-//        uToken = "25061134202027";
+        uId = "141871359725260";
+        uToken = "25061134202027";
 //        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
@@ -242,7 +242,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
                 sb.append(String.valueOf(i + 1));
                 sb.append(":");
                 sb.append("【");
-                sb.append(store.getStoreNo());
+                sb.append(store.getCustomerCode());
                 sb.append("】");
                 if (i != item.getStores().size() - 1) {
                     sb.append("\r\n");

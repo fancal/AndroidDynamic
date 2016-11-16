@@ -358,7 +358,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         mGroup2ConfirmLocationCodeView.requestFocus();
         mGroup2LocationCodeView.setText(mPick.getAllocPickLocationCode());
         mGroup2ItemName.setText(mPick.getItemName());
-        mGroup2PackName.setText(mPick.getPackName());
+        mGroup2PackName.setText(mPick.getAllocUnitName());
         mGroup2ConfirmLocationCodeView.getText().clear();
         mGroup2AllocQty.setText(mPick.getAllocQty());
         mGroup2Qty.getText().clear();

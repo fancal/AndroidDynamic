@@ -187,114 +187,116 @@
                             android:id="@+id/inboundQty_EditView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:nextFocusDown="@+id/et_year"
-                            android:nextFocusRight="@+id/et_year"
                             android:inputType="numberDecimal"
                             android:minWidth="60dip"
+                            android:nextFocusDown="@+id/et_year"
+                            android:nextFocusRight="@+id/et_year"
                             android:textSize="14dip" />
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/time_Layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                        <CheckBox
-                            android:id="@+id/preData_CheckBox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:text="生产日期"
-                            android:textSize="14dip" />
-
-                        <CheckBox
-                            android:id="@+id/dueData_CheckBox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="到期日期"
-                            android:textSize="14dip" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <com.elianshang.bridge.ui.view.ContentEditText
-                            android:id="@+id/et_year"
-                            android:layout_width="65dip"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textSize="14dip" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="年"
-                            android:textSize="14dip" />
-
-                        <com.elianshang.bridge.ui.view.ContentEditText
-                            android:id="@+id/et_month"
-                            android:layout_width="40dip"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textSize="14dip" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="月"
-                            android:textSize="14dip" />
-
-                        <com.elianshang.bridge.ui.view.ContentEditText
-                            android:id="@+id/et_day"
-                            android:layout_width="40dip"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textSize="14dip" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="日"
-                            android:textSize="14dip" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="例外代码:"
-                            android:textSize="14dip" />
-
-                        <EditText
-                            android:id="@+id/exceptionCode_TextView"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="选填"
-                            android:inputType="numberDecimal"
-                            android:textSize="14dip" />
+                            android:layout_marginBottom="5dip"
+                            android:layout_marginTop="5dip"
+                            android:orientation="horizontal">
 
+                            <CheckBox
+                                android:id="@+id/preData_CheckBox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="生产日期"
+                                android:textSize="14dip" />
+
+                            <CheckBox
+                                android:id="@+id/dueData_CheckBox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="到期日期"
+                                android:textSize="14dip" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <com.elianshang.bridge.ui.view.ContentEditText
+                                android:id="@+id/et_year"
+                                android:layout_width="65dip"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textSize="14dip" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="年"
+                                android:textSize="14dip" />
+
+                            <com.elianshang.bridge.ui.view.ContentEditText
+                                android:id="@+id/et_month"
+                                android:layout_width="40dip"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textSize="14dip" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="月"
+                                android:textSize="14dip" />
+
+                            <com.elianshang.bridge.ui.view.ContentEditText
+                                android:id="@+id/et_day"
+                                android:layout_width="40dip"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textSize="14dip" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="日"
+                                android:textSize="14dip" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="例外代码:"
+                                android:textSize="14dip" />
+
+                            <EditText
+                                android:id="@+id/exceptionCode_TextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="选填"
+                                android:inputType="numberDecimal"
+                                android:textSize="14dip" />
+
+                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>
             </ScrollView>
-
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/submit_Button"

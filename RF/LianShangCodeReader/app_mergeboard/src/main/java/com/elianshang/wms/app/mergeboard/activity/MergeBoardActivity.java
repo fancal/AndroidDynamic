@@ -8,13 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.bridge.tool.ScanManager;
-import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.tools.DeviceTool;
@@ -63,7 +63,9 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
      */
     private LinearLayout detailLayout;
 
-    private QtyEditText taskBoardQtyEditText;
+    private CheckBox oneCheckBox;
+
+    private CheckBox twoCheckBox;
 
     /**
      * 提交
@@ -248,16 +250,21 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         TextView containerCountTextView = (TextView) view.findViewById(R.id.containerCount_TextView);
         TextView packCountTextView = (TextView) view.findViewById(R.id.packCount_TextView);
         TextView turnoverBoxCountTextView = (TextView) view.findViewById(R.id.turnoverBoxCount_TextView);
-        QtyEditText taskBoardQtyEditText = (QtyEditText) view.findViewById(R.id.taskBoardQty_EditText);
+        CheckBox oneCheckBox = (CheckBox) view.findViewById(R.id.one_CheckBox);
+        CheckBox twoCheckBox = (CheckBox) view.findViewById(R.id.two_CheckBox);
 
         deliveryNameTextView.setText(checkMerge.getDeliveryName());
         containerCountTextView.setText(checkMerge.getContainerCount());
         packCountTextView.setText(checkMerge.getPackCount());
         turnoverBoxCountTextView.setText(checkMerge.getTurnoverBoxCount());
-        taskBoardQtyEditText.setHint(checkMerge.getTaskBoardQty());
+        oneCheckBox.setChecked(true);
+        twoCheckBox.setChecked(false);
+        oneCheckBox.setOnClickListener(this);
+        twoCheckBox.setOnClickListener(this);
 
         detailLayout.addView(view);
-        this.taskBoardQtyEditText = taskBoardQtyEditText;
+        this.oneCheckBox = oneCheckBox;
+        this.twoCheckBox = twoCheckBox;
     }
 
     private void addDetailItemView(CheckMerge.Item item) {
@@ -315,9 +322,18 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
             if (inputView.getVisibility() == View.VISIBLE) {
                 new CheckMergeContainersTask(that, getBoardListString()).start();
             } else {
-                String taskBoardQty = taskBoardQtyEditText.getValue();
+                String taskBoardQty = "1";
+                if (twoCheckBox.isChecked()) {
+                    taskBoardQty = "2";
+                }
                 new MergeContainersTask(that, getBoardListString(), taskBoardQty).start();
             }
+        } else if (v == oneCheckBox) {
+            oneCheckBox.setChecked(true);
+            twoCheckBox.setChecked(false);
+        } else if (v == twoCheckBox) {
+            oneCheckBox.setChecked(false);
+            twoCheckBox.setChecked(true);
         }
     }
 

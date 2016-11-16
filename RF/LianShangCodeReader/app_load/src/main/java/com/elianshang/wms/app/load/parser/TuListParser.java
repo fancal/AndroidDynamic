@@ -26,9 +26,9 @@ public class TuListParser extends MasterParser<TuList> {
             if (length > 0) {
                 tuList = new TuList();
                 for (int i = 0; i < length; i++) {
-                    JSONObject jsonObject = optJSONObject(jsonArray,i);
+                    JSONObject jsonObject = optJSONObject(jsonArray, i);
                     TuList.Item item = parserTuListItem(jsonObject);
-                    if(item != null){
+                    if (item != null) {
                         tuList.add(item);
                     }
                 }
@@ -53,13 +53,13 @@ public class TuListParser extends MasterParser<TuList> {
                     item.setPreBoard(preBoard);
                     item.setNumber(number);
                     item.setCellphone(cellphone);
-                    JSONArray jsonArray = optJSONArray(data,"stores");
+                    JSONArray jsonArray = optJSONArray(data, "stores");
                     int length = getLength(jsonArray);
-                    if(length > 0){
+                    if (length > 0) {
                         ArrayList<TuList.Item.Store> stores = new ArrayList<>();
                         for (int i = 0; i < length; i++) {
-                            TuList.Item.Store store = parserItemStore(optJSONObject(jsonArray,i));
-                            if(store != null){
+                            TuList.Item.Store store = parserItemStore(optJSONObject(jsonArray, i));
+                            if (store != null) {
                                 stores.add(store);
                             }
                         }
@@ -78,14 +78,14 @@ public class TuListParser extends MasterParser<TuList> {
         TuList.Item.Store store = null;
         if (data != null) {
             try {
-                String storeId = optString(data, "storeId");
-                String storeName = optString(data, "storeName");
-                String storeNo = optString(data, "storeNo");
-                if (!TextUtils.isEmpty(storeId)) {
+                String customerId = optString(data, "customerId");
+                String customerName = optString(data, "customerName");
+                String customerCode = optString(data, "customerCode");
+                if (!TextUtils.isEmpty(customerId)) {
                     store = new TuList.Item.Store();
-                    store.setStoreId(storeId);
-                    store.setStoreNo(storeNo);
-                    store.setStoreName(storeName);
+                    store.setCustomerId(customerId);
+                    store.setCustomerCode(customerCode);
+                    store.setCustomerName(customerName);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

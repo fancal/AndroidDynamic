@@ -17,6 +17,16 @@ public class Pick implements BaseBean {
 
     private String packName ;
 
+    private String allocUnitName ;
+
+    public String getAllocUnitName() {
+        return allocUnitName;
+    }
+
+    public void setAllocUnitName(String allocUnitName) {
+        this.allocUnitName = allocUnitName;
+    }
+
     public String getAllocQty() {
         return allocQty;
     }

@@ -322,10 +322,16 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         });
         mMenuItem = (TextView) findViewById(R.id.menu_item);
         mMenuItem.setOnClickListener(this);
+        mMenuItem.setOnClickListener(this);
         mMenuItem.setVisibility(View.GONE);
     }
 
     private void fillScanLayout() {
+
+        qcList = null;
+        myAdapter = null;
+
+        scanUnknownCodeEditText.setText("");
         checkProgressButton.setVisibility(View.GONE);
         scanLayout.setVisibility(View.VISIBLE);
         startLayout.setVisibility(View.GONE);
@@ -403,7 +409,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             itemSubmitButton.setVisibility(View.VISIBLE);
             itemDealCaseView.setVisibility(View.GONE);
         } else {
-            if(item.isQcDone()){
+            if (item.isQcDone()) {
                 itemShoddyView.setVisibility(View.VISIBLE);
                 itemSubmitButton.setVisibility(View.VISIBLE);
                 itemDealCaseView.setVisibility(View.GONE);
@@ -605,7 +611,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             DialogTools.showOneButtonDialog(that, "QC 结果异常，阶段性 QC 完毕！", "知道了", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    fillScanLayout();
                 }
             }, false);
         }
@@ -955,7 +961,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         @Override
         public void onPostExecute(ResponseState result) {
-            finish();
+            fillScanLayout();
             ToastTool.show(context, "QC完成");
         }
     }

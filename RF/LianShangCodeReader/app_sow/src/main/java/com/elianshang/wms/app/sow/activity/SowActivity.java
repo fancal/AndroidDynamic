@@ -387,6 +387,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
                 if (!TextUtils.isEmpty(editable.toString())) {
                     detailGoOnSubmitButton.setEnabled(true);
                     detailStopSubmitButton.setEnabled(true);
+                    detailInputQtyEditView.requestFocus();
                 }
             }
         }

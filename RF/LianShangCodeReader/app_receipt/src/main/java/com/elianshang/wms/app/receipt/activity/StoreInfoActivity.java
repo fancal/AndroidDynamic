@@ -11,6 +11,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -170,11 +173,14 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
 
     private String serialNumber;
 
+    private View timeLayout;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.receipt_activity_storeinfo);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED);
 
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
@@ -201,6 +207,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         mEditDay = (EditText) findViewById(R.id.et_day);
         mKeyboardView = (KeyboardView) findViewById(R.id.keyboard_view);
         mKeyboardTextView = (TextView) findViewById(R.id.keyboard_text);
+        timeLayout = findViewById(R.id.time_Layout);
         keyboardUtil = new DateKeyboardUtil(that, mKeyboardView, mEditYear, mEditMonth, mEditDay);
         keyboardUtil.setOnKeyBoardUtilListener(this);
         submitButton.setOnClickListener(this);
@@ -250,6 +257,29 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         orderQtyTextView.setText(storeReceiptInfo.getOrderQty());
         inboundQtyEditView.setHint(storeReceiptInfo.getOrderQty());
         inboundQtyEditView.setText(null);
+
+        if (storeReceiptInfo.getIsNeedProTime() == 1) {
+            timeLayout.setVisibility(View.VISIBLE);
+            mEditYear.setFocusable(true);
+            mEditMonth.setFocusable(true);
+            mEditDay.setFocusable(true);
+        } else {
+            timeLayout.setVisibility(View.GONE);
+            mEditYear.setFocusable(false);
+            mEditMonth.setFocusable(false);
+            mEditDay.setFocusable(false);
+
+            inboundQtyEditView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
     }
 
     private void pressBack() {
@@ -366,38 +396,43 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
             return;
         }
 
-        String inboundQty = inboundQtyEditView.getValue();
+        String exceptionCode = "";
+        String proTime = "";
+        String dueTime = "";
 
+        String inboundQty = inboundQtyEditView.getValue();
         if (TextUtils.isEmpty(inboundQty)) {
             Toast.makeText(that, "请填入收货数量", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String year = mEditYear.getText().toString();
-        String month = mEditMonth.getText().toString();
-        String day = mEditDay.getText().toString();
+        if (storeReceiptInfo.getIsNeedProTime() == 1) {
+            String year = mEditYear.getText().toString();
+            String month = mEditMonth.getText().toString();
+            String day = mEditDay.getText().toString();
 
-        if (TextUtils.isEmpty(year) || TextUtils.isEmpty(month) || TextUtils.isEmpty(day)) {
-            Toast.makeText(that, "请填入完整的日期", Toast.LENGTH_SHORT).show();
-            return;
-        }
+            if (TextUtils.isEmpty(year) || TextUtils.isEmpty(month) || TextUtils.isEmpty(day)) {
+                Toast.makeText(that, "请填入完整的日期", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        if (month.length() == 1) {
-            month = "0" + month;
-        }
+            if (month.length() == 1) {
+                month = "0" + month;
+            }
 
-        if (day.length() == 1) {
-            day = "0" + day;
-        }
+            if (day.length() == 1) {
+                day = "0" + day;
+            }
 
-        String proTime = year + "-" + month + "-" + day;
-        String exceptionCode = exceptionCodeTextView.getText().toString();
+            proTime = year + "-" + month + "-" + day;
+            exceptionCode = exceptionCodeTextView.getText().toString();
 
-        String dueTime = proTime;
-        if (preDataCheckBox.isChecked()) {
-            dueTime = "";
-        } else if (dueDataCheckBox.isChecked()) {
-            proTime = "";
+            dueTime = proTime;
+            if (preDataCheckBox.isChecked()) {
+                dueTime = "";
+            } else if (dueDataCheckBox.isChecked()) {
+                proTime = "";
+            }
         }
 
         JSONArray jsonArray = new JSONArray();

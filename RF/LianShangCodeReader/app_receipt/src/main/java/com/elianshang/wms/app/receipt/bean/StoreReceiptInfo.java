@@ -22,6 +22,8 @@ public class StoreReceiptInfo implements BaseBean {
 
     private String pile ;
 
+    private int isNeedProTime ;
+
     @Override
     public void setDataKey(String dataKey) {
 
@@ -103,5 +105,13 @@ public class StoreReceiptInfo implements BaseBean {
 
     public void setPile(String pile) {
         this.pile = pile;
+    }
+
+    public int getIsNeedProTime() {
+        return isNeedProTime;
+    }
+
+    public void setIsNeedProTime(int isNeedProTime) {
+        this.isNeedProTime = isNeedProTime;
     }
 }

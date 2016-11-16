@@ -87,15 +87,17 @@
             android:text="最终板数:"
             android:textSize="14dip" />
 
-        <com.elianshang.bridge.ui.view.QtyEditText
-            android:id="@+id/taskBoardQty_EditText"
+        <CheckBox
+            android:id="@+id/one_CheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="1"
-            android:inputType="number"
-            android:minWidth="50dip"
-            android:textSize="14dip" />
+            android:text="1板" />
+
+        <CheckBox
+            android:id="@+id/two_CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2板" />
     </LinearLayout>
 
 
