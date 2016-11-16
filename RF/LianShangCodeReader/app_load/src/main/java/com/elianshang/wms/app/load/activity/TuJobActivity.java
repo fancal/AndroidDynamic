@@ -269,7 +269,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         }
         if (tuJobList != null && tuJobList.size() > 0) {
             for (TuJobList.Item item : tuJobList.getTuJobList()) {
-                if (TextUtils.equals(item.getMarkContainerId(), containerInfo.getContainerId())) {
+                if (TextUtils.equals(item.getContainerId(), containerInfo.getContainerId())) {
                     tuJobList.remove(item);
                     break;
                 }
@@ -425,6 +425,8 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
         @Override
         public void onPostExecute(ContainerInfo result) {
+            containerInfo = result;
+            checkContainerInfo();
             if (item != null) {
                 if (!TextUtils.equals(item.getContainerId(), result.getContainerId())) {
                     ToastTool.show(that, "托盘码不一致");
@@ -439,8 +441,6 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
                 }
                 return;
             }
-            containerInfo = result;
-            checkContainerInfo();
             fillNextLayout(markContainerId);
         }
     }
