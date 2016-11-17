@@ -27,7 +27,6 @@ public class ReceiptGetStoreInfoParser extends MasterParser<StoreReceiptInfo> {
                 String packName = optString(object, "packName");
                 String orderId = optString(object, "orderId");
                 String orderQty = optString(object, "orderQty");
-                String pile = optString(object, "pile");
                 int isNeedProTime = optInt(object, "isNeedProTime");
 
                 if (!TextUtils.isEmpty(location)
@@ -48,7 +47,6 @@ public class ReceiptGetStoreInfoParser extends MasterParser<StoreReceiptInfo> {
                     storeReceiptInfo.setPackName(packName);
                     storeReceiptInfo.setOrderId(orderId);
                     storeReceiptInfo.setOrderQty(orderQty);
-                    storeReceiptInfo.setPile(pile);
                     storeReceiptInfo.setIsNeedProTime(isNeedProTime);
                 }
             }

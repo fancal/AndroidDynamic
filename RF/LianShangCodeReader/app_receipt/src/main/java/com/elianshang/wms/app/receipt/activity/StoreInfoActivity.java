@@ -94,8 +94,6 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
      */
     private TextView packNameTextView;
 
-    private TextView pileTextView;
-
     /**
      * 订单商品数
      */
@@ -195,7 +193,6 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         proTimeTextView = (TextView) findViewById(R.id.proTime_TextView);
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
         packNameTextView = (TextView) findViewById(R.id.packName_TextView);
-        pileTextView = (TextView) findViewById(R.id.pile_TextView);
         orderQtyTextView = (TextView) findViewById(R.id.orderQty_TextView);
         inboundQtyEditView = (QtyEditText) findViewById(R.id.inboundQty_EditView);
         preDataCheckBox = (CheckBox) findViewById(R.id.preData_CheckBox);
@@ -253,7 +250,6 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         proTimeTextView.setText(storeReceiptInfo.getProTime());
         itemNameTextView.setText(storeReceiptInfo.getSkuName());
         packNameTextView.setText(storeReceiptInfo.getPackName());
-        pileTextView.setText(storeReceiptInfo.getPile());
         orderQtyTextView.setText(storeReceiptInfo.getOrderQty());
         inboundQtyEditView.setHint(storeReceiptInfo.getOrderQty());
         inboundQtyEditView.setText(null);

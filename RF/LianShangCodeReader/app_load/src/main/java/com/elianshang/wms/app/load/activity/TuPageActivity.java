@@ -277,7 +277,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            requestUnloadList();
+            finish();
         }
     }
 

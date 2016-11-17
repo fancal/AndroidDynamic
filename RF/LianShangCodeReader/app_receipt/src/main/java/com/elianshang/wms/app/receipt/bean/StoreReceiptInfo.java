@@ -20,8 +20,6 @@ public class StoreReceiptInfo implements BaseBean {
 
     private String orderQty ;
 
-    private String pile ;
-
     private int isNeedProTime ;
 
     @Override
@@ -97,14 +95,6 @@ public class StoreReceiptInfo implements BaseBean {
 
     public void setPackName(String packName) {
         this.packName = packName;
-    }
-
-    public String getPile() {
-        return pile;
-    }
-
-    public void setPile(String pile) {
-        this.pile = pile;
     }
 
     public int getIsNeedProTime() {
