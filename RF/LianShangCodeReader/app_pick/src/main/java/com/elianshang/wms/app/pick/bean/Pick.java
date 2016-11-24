@@ -19,6 +19,16 @@ public class Pick implements BaseBean {
 
     private String allocUnitName ;
 
+    private String pickTaskId ;
+
+    public String getPickTaskId() {
+        return pickTaskId;
+    }
+
+    public void setPickTaskId(String pickTaskId) {
+        this.pickTaskId = pickTaskId;
+    }
+
     public String getAllocUnitName() {
         return allocUnitName;
     }

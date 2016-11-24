@@ -70,7 +70,7 @@ public class TuJobListAdapter extends BaseAdapter {
         viewHolder.containerIdTextView.setText("托盘码:" + item.getMarkContainerId());
         viewHolder.boxNumTextView.setText("总箱数:" + item.getBoxNum());
         viewHolder.turnOverBoxNumTextView.setText("总周转箱数:" + item.getTurnoverBoxNum());
-        viewHolder.isLoadTextView.setText("是否装车:" + (item.isLoaded() ? "是" : "否"));
+        viewHolder.isLoadTextView.setText("状态:" + (item.isLoaded() ? "已装车" : "未装车"));
         if (item.getTaskBoardQty() > 1) {
             viewHolder.taskBoardQtyTextView.setText("多板(板数:" + item.getTaskBoardQty() + ")");
             viewHolder.taskBoardQtyTextView.setVisibility(View.VISIBLE);

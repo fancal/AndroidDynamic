@@ -26,8 +26,10 @@ import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.pick.R;
 import com.elianshang.wms.app.pick.bean.Pick;
 import com.elianshang.wms.app.pick.bean.PickLocation;
+import com.elianshang.wms.app.pick.bean.Split;
 import com.elianshang.wms.app.pick.provider.ScanPickLocationProvider;
 import com.elianshang.wms.app.pick.provider.ScanPickProvider;
+import com.elianshang.wms.app.pick.provider.SplitNewPickTaskProvider;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;
@@ -56,83 +58,89 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     /**
      * 移库 第一页容器
      */
-    private View mGroup1;
+    private View taskLayout;
     /**
      * 移库 第二页容器
      */
-    private View mGroup2;
+    private View locationLayout;
     /**
      * 移库 第三页容器
      */
-    private View mGroup3;
+    private View collectionLayout;
+
+    private View splitLayout;
 
     /**
      * 第一页动态父容器
      */
-    private LinearLayout mGroup1BodyLayout;
+    private LinearLayout taskLayoutBodyLayout;
 
     /**
      * 第一页添加按钮
      */
-    private Button mGroup1AddButton;
+    private Button taskLayoutAddButton;
 
     /**
      * 第二页 顶部文字
      */
-    private TextView mGroup2HeadTextView;
+    private TextView locationLayoutHeadTextView;
 
     /**
      * 第二页 库位码
      */
-    private TextView mGroup2LocationCodeView;
+    private TextView locationLayoutLocationCodeView;
     /**
      * 第二页 确认库位码
      */
-    private ScanEditText mGroup2ConfirmLocationCodeView;
+    private ScanEditText locationLayoutConfirmLocationCodeView;
 
-    private TextView mGroup2ItemName;
+    private TextView locationLayoutItemName;
 
-    private TextView mGroup2PackName;
+    private TextView locationLayoutPackName;
 
     /**
      * 第二页 分配商品数量
      */
-    private TextView mGroup2AllocQty;
+    private TextView locationLayoutAllocQty;
     /**
      * 第二页 实际输入数量
      */
-    private QtyEditText mGroup2Qty;
+    private QtyEditText locationLayoutQty;
 
     /**
      * 第二页 确认库位布局
      */
-    private View mGroup2LocationCodeLayout;
+    private View locationLayoutLocationCodeLayout;
 
     /**
      * 第二页 系统数量布局
      */
-    private View mGroup2SystemQtyLayout;
+    private View locationLayoutSystemQtyLayout;
 
     /**
      * 第二页 输入数量布局
      */
-    private View mGroup2InputQtyLayot;
+    private View locationLayoutInputQtyLayot;
 
-    private View mGroup2ItemNameLayot;
+    private View locationLayoutItemNameLayot;
 
-    private View mGroup2PackNameLayot;
+    private View locationLayoutPackNameLayot;
+
+    private View locationLayoutSplitButton;
 
     /**
      * 第三页 集货码
      */
-    private TextView mGroup3CollectionIdView;
+    private TextView collectionLayoutCollectionIdView;
     /**
      * 第三页 确认集货码
      */
-    private ScanEditText mGroup3ConfirmCollectionIdView;
+    private ScanEditText collectionLayoutConfirmCollectionIdView;
+
+    private ScanEditText splitLayoutContainerIdEditText;
 
     /**
-     * 当前所在页 (0:第一页   1：第二页  2：第三页)
+     * 当前所在页 (0:taskLayout   1:locationLayout  2：collectionLayout 3:splitLayout)
      */
     private int mCurPage = 0;
     private Button mSubmit;
@@ -149,6 +157,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         setContentView(R.layout.pick_activity_main);
         findViews();
         readExtra();
+
+        ScanManager.init(that);
     }
 
     private boolean readExtra() {
@@ -204,35 +214,39 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 onBackPressed();
             }
         });
-        mGroup1 = findViewById(R.id.pick_task);
-        mGroup2 = findViewById(R.id.pick_location);
-        mGroup3 = findViewById(R.id.pick_collection);
-        mGroup1BodyLayout = (LinearLayout) mGroup1.findViewById(R.id.body_Layout);
-        mGroup1AddButton = (Button) mGroup1.findViewById(R.id.add_Button);
+        taskLayout = findViewById(R.id.pick_task);
+        locationLayout = findViewById(R.id.pick_location);
+        collectionLayout = findViewById(R.id.pick_collection);
+        splitLayout = findViewById(R.id.pick_split);
+        taskLayoutBodyLayout = (LinearLayout) taskLayout.findViewById(R.id.body_Layout);
+        taskLayoutAddButton = (Button) taskLayout.findViewById(R.id.add_Button);
 
-        mGroup2HeadTextView = (TextView) mGroup2.findViewById(R.id.head_TextView);
-        mGroup2LocationCodeView = (TextView) mGroup2.findViewById(R.id.location_id);
-        mGroup2ConfirmLocationCodeView = (ScanEditText) mGroup2.findViewById(R.id.confirm_location_id);
-        mGroup2ConfirmLocationCodeView.setCode(true);
-        mGroup2ItemName = (TextView) mGroup2.findViewById(R.id.itemName_TextView);
-        mGroup2PackName = (TextView) mGroup2.findViewById(R.id.packName_TextView);
-        mGroup2AllocQty = (TextView) mGroup2.findViewById(R.id.allocQty_TextView);
-        mGroup2Qty = (QtyEditText) mGroup2.findViewById(R.id.inputQty_EditView);
-        mGroup2LocationCodeLayout = mGroup2.findViewById(R.id.locationCode_Layout);
-        mGroup2SystemQtyLayout = mGroup2.findViewById(R.id.systemQty_Layout);
-        mGroup2InputQtyLayot = mGroup2.findViewById(R.id.inputQty_Layout);
-        mGroup2ItemNameLayot = mGroup2.findViewById(R.id.itemName_Layout);
-        mGroup2PackNameLayot = mGroup2.findViewById(R.id.packName_Layout);
+        locationLayoutHeadTextView = (TextView) locationLayout.findViewById(R.id.head_TextView);
+        locationLayoutLocationCodeView = (TextView) locationLayout.findViewById(R.id.location_id);
+        locationLayoutConfirmLocationCodeView = (ScanEditText) locationLayout.findViewById(R.id.confirm_location_id);
+        locationLayoutConfirmLocationCodeView.setCode(true);
+        locationLayoutItemName = (TextView) locationLayout.findViewById(R.id.itemName_TextView);
+        locationLayoutPackName = (TextView) locationLayout.findViewById(R.id.packName_TextView);
+        locationLayoutAllocQty = (TextView) locationLayout.findViewById(R.id.allocQty_TextView);
+        locationLayoutQty = (QtyEditText) locationLayout.findViewById(R.id.inputQty_EditView);
+        locationLayoutLocationCodeLayout = locationLayout.findViewById(R.id.locationCode_Layout);
+        locationLayoutSystemQtyLayout = locationLayout.findViewById(R.id.systemQty_Layout);
+        locationLayoutInputQtyLayot = locationLayout.findViewById(R.id.inputQty_Layout);
+        locationLayoutItemNameLayot = locationLayout.findViewById(R.id.itemName_Layout);
+        locationLayoutPackNameLayot = locationLayout.findViewById(R.id.packName_Layout);
+        locationLayoutSplitButton = locationLayout.findViewById(R.id.split_Button);
 
-        mGroup3CollectionIdView = (TextView) mGroup3.findViewById(R.id.collection_id);
-        mGroup3ConfirmCollectionIdView = (ScanEditText) mGroup3.findViewById(R.id.confirm_collection_id);
-        mGroup3ConfirmCollectionIdView.setCode(true);
+        collectionLayoutCollectionIdView = (TextView) collectionLayout.findViewById(R.id.collection_id);
+        collectionLayoutConfirmCollectionIdView = (ScanEditText) collectionLayout.findViewById(R.id.confirm_collection_id);
+        collectionLayoutConfirmCollectionIdView.setCode(true);
 
+        splitLayoutContainerIdEditText = (ScanEditText) splitLayout.findViewById(R.id.containerId_EditText);
 
         mSubmit = (Button) findViewById(R.id.submit_Button);
 
-        mGroup1AddButton.setOnClickListener(this);
+        taskLayoutAddButton.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
+        locationLayoutSplitButton.setOnClickListener(this);
     }
 
     /**
@@ -252,12 +266,13 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     private void setCurPageView() {
         switch (mCurPage) {
             case 0:
-                mGroup1.setVisibility(View.VISIBLE);
-                mGroup2.setVisibility(View.GONE);
-                mGroup3.setVisibility(View.GONE);
+                taskLayout.setVisibility(View.VISIBLE);
+                locationLayout.setVisibility(View.GONE);
+                collectionLayout.setVisibility(View.GONE);
+                splitLayout.setVisibility(View.GONE);
                 mSubmit.setVisibility(View.VISIBLE);
                 mSubmit.setEnabled(false);
-                mGroup1AddButton.setEnabled(false);
+                taskLayoutAddButton.setEnabled(false);
 
                 if (scanEditTextTool != null) {
                     scanEditTextTool.release();
@@ -265,33 +280,55 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 scanEditTextTool = new ScanEditTextTool(that);
                 scanEditTextTool.setComplete(this);
                 viewHolderList.clear();
-                mGroup1BodyLayout.removeAllViews();
+                taskLayoutBodyLayout.removeAllViews();
 
                 addTaskLayout();
                 break;
             case 1:
-                mGroup1.setVisibility(View.GONE);
-                mGroup2.setVisibility(View.VISIBLE);
-                mGroup3.setVisibility(View.GONE);
+                taskLayout.setVisibility(View.GONE);
+                locationLayout.setVisibility(View.VISIBLE);
+                collectionLayout.setVisibility(View.GONE);
+                splitLayout.setVisibility(View.GONE);
                 mSubmit.setVisibility(View.VISIBLE);
+                mSubmit.setEnabled(false);
+                locationLayoutConfirmLocationCodeView.requestFocus();
 
                 if (scanEditTextTool != null) {
                     scanEditTextTool.release();
                 }
-                scanEditTextTool = new ScanEditTextTool(that, mGroup2ConfirmLocationCodeView);
+                scanEditTextTool = new ScanEditTextTool(that, locationLayoutConfirmLocationCodeView);
                 scanEditTextTool.setComplete(this);
+
 
                 break;
             case 2:
-                mGroup1.setVisibility(View.GONE);
-                mGroup2.setVisibility(View.GONE);
-                mGroup3.setVisibility(View.VISIBLE);
+                taskLayout.setVisibility(View.GONE);
+                locationLayout.setVisibility(View.GONE);
+                collectionLayout.setVisibility(View.VISIBLE);
+                splitLayout.setVisibility(View.GONE);
                 mSubmit.setVisibility(View.GONE);
+                collectionLayoutConfirmCollectionIdView.requestFocus();
 
                 if (scanEditTextTool != null) {
                     scanEditTextTool.release();
                 }
-                scanEditTextTool = new ScanEditTextTool(that, mGroup3ConfirmCollectionIdView);
+                scanEditTextTool = new ScanEditTextTool(that, collectionLayoutConfirmCollectionIdView);
+                scanEditTextTool.setComplete(this);
+                break;
+            case 3:
+                taskLayout.setVisibility(View.GONE);
+                locationLayout.setVisibility(View.GONE);
+                collectionLayout.setVisibility(View.GONE);
+                splitLayout.setVisibility(View.VISIBLE);
+                mSubmit.setVisibility(View.VISIBLE);
+                mSubmit.setEnabled(false);
+                splitLayoutContainerIdEditText.setText("");
+                splitLayoutContainerIdEditText.requestFocus();
+
+                if (scanEditTextTool != null) {
+                    scanEditTextTool.release();
+                }
+                scanEditTextTool = new ScanEditTextTool(that, splitLayoutContainerIdEditText);
                 scanEditTextTool.setComplete(this);
                 break;
         }
@@ -316,7 +353,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
         scanEditTextTool.addEditText(taskIdEditText, containerIdEditText);
 
-        mGroup1BodyLayout.addView(view);
+        taskLayoutBodyLayout.addView(view);
         taskIdEditText.requestFocus();
 
         ViewHolder vh = new ViewHolder();
@@ -332,7 +369,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
             if (pickLocation.isDone()) {
                 ToastTool.show(that, "拣货成功");
-                finish();
+                mCurPage = 0;
+                setCurPageView();
             } else {
                 serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
@@ -349,48 +387,63 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         }
     }
 
+    private void resetPick() {
+        if (mPick != null) {
+            serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+            mCurPage = 1;
+            setCurPageView();
+            fillPickLocation();
+        }
+    }
+
+    private void fillSplit() {
+        mCurPage = 3;
+        setCurPageView();
+    }
+
     /**
      * 第二页 确认拣货位
      */
     private void fillPickLocation() {
-        mGroup2HeadTextView.setText("扫描确认拣货位");
+        locationLayoutHeadTextView.setText("扫描确认拣货位");
 
-        mGroup2ConfirmLocationCodeView.requestFocus();
-        mGroup2LocationCodeView.setText(mPick.getAllocPickLocationCode());
-        mGroup2ItemName.setText(mPick.getItemName());
-        mGroup2PackName.setText(mPick.getAllocUnitName());
-        mGroup2ConfirmLocationCodeView.getText().clear();
-        mGroup2AllocQty.setText(mPick.getAllocQty());
-        mGroup2Qty.getText().clear();
-        mGroup2Qty.setHint(mPick.getAllocQty());
+        locationLayoutConfirmLocationCodeView.requestFocus();
+        locationLayoutLocationCodeView.setText(mPick.getAllocPickLocationCode());
+        locationLayoutItemName.setText(mPick.getItemName());
+        locationLayoutPackName.setText(mPick.getAllocUnitName());
+        locationLayoutConfirmLocationCodeView.getText().clear();
+        locationLayoutAllocQty.setText(mPick.getAllocQty());
+        locationLayoutQty.getText().clear();
+        locationLayoutQty.setHint(mPick.getAllocQty());
 
-        mGroup2LocationCodeLayout.setVisibility(View.VISIBLE);
-        mGroup2SystemQtyLayout.setVisibility(View.GONE);
-        mGroup2InputQtyLayot.setVisibility(View.GONE);
-        mGroup2ItemNameLayot.setVisibility(View.GONE);
-        mGroup2PackNameLayot.setVisibility(View.GONE);
+        locationLayoutLocationCodeLayout.setVisibility(View.VISIBLE);
+        locationLayoutSystemQtyLayout.setVisibility(View.GONE);
+        locationLayoutInputQtyLayot.setVisibility(View.GONE);
+        locationLayoutItemNameLayot.setVisibility(View.GONE);
+        locationLayoutPackNameLayot.setVisibility(View.GONE);
     }
 
     /**
      * 第三页 确认拣货数量
      */
     private void fillPickQty() {
-        mGroup2HeadTextView.setText("确认拣货数量");
+        locationLayoutHeadTextView.setText("确认拣货数量");
 
-        mGroup2LocationCodeLayout.setVisibility(View.GONE);
-        mGroup2SystemQtyLayout.setVisibility(View.VISIBLE);
-        mGroup2InputQtyLayot.setVisibility(View.VISIBLE);
-        mGroup2ItemNameLayot.setVisibility(View.VISIBLE);
-        mGroup2PackNameLayot.setVisibility(View.VISIBLE);
-        mGroup2Qty.requestFocus();
+        locationLayoutLocationCodeLayout.setVisibility(View.GONE);
+        locationLayoutSystemQtyLayout.setVisibility(View.VISIBLE);
+        locationLayoutInputQtyLayot.setVisibility(View.VISIBLE);
+        locationLayoutItemNameLayot.setVisibility(View.VISIBLE);
+        locationLayoutPackNameLayot.setVisibility(View.VISIBLE);
+        locationLayoutSplitButton.setVisibility(View.GONE);
+        locationLayoutQty.requestFocus();
     }
 
     /**
      * 第三页 集货位
      */
     private void fillCollection() {
-        mGroup3ConfirmCollectionIdView.requestFocus();
-        mGroup3CollectionIdView.setText(mPick.getAllocCollectLocationCode());
+        collectionLayoutConfirmCollectionIdView.requestFocus();
+        collectionLayoutCollectionIdView.setText(mPick.getAllocCollectLocationCode());
     }
 
 
@@ -399,25 +452,27 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         switch (mCurPage) {
             case 0:
                 mSubmit.setEnabled(true);
-                mGroup1AddButton.setEnabled(true);
+                taskLayoutAddButton.setEnabled(true);
                 break;
             case 1:
-                String locationCode = mGroup2ConfirmLocationCodeView.getText().toString();
+                String locationCode = locationLayoutConfirmLocationCodeView.getText().toString();
                 if (TextUtils.equals(locationCode, mPick.getAllocPickLocationCode())) {
+                    mSubmit.setEnabled(true);
                     fillPickQty();
                 } else {
                     ToastTool.show(that, "错误的拣货位,请重新扫描");
                 }
                 break;
             case 2:
-                String collectionId = mGroup3ConfirmCollectionIdView.getText().toString();
+                String collectionId = collectionLayoutConfirmCollectionIdView.getText().toString();
                 if (TextUtils.equals(mPick.getAllocCollectLocationCode(), collectionId)) {
                     requestPickLocation(collectionId, "");
                 } else {
                     ToastTool.show(that, "错误的集货位，请重新扫描");
                 }
                 break;
-
+            case 3:
+                mSubmit.setEnabled(true);
         }
     }
 
@@ -426,7 +481,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         switch (mCurPage) {
             case 0:
                 mSubmit.setEnabled(true);
-                mGroup1AddButton.setEnabled(true);
+                taskLayoutAddButton.setEnabled(true);
                 break;
 
         }
@@ -444,6 +499,16 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     @Override
     public void onBackPressed() {
         if (mCurPage > 0) {
+            if (mCurPage == 3) {
+                resetPick();
+                return;
+            } else if (mCurPage == 1) {
+                if ("确认拣货数量".equals(locationLayoutHeadTextView.getText().toString())) {
+                    resetPick();
+                    return;
+                }
+            }
+
             DialogTools.showTwoButtonDialog(that, "是否暂退任务,下次回来将会继续", "取消", "确定", null, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -460,8 +525,10 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     public void onClick(View v) {
         if (v == mSubmit) {
             submit();
-        } else if (v == mGroup1AddButton) {
+        } else if (v == taskLayoutAddButton) {
             addTaskLayout();
+        } else if (v == locationLayoutSplitButton) {
+            fillSplit();
         }
     }
 
@@ -487,16 +554,21 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
             requestPick(uId, jsonArray.toString());
         } else if (mCurPage == 1) {
-            if (TextUtils.isEmpty(mGroup2ConfirmLocationCodeView.getText().toString())) {
+            if (TextUtils.isEmpty(locationLayoutConfirmLocationCodeView.getText().toString())) {
                 return;
             }
 
-            String qty = mGroup2Qty.getValue();
+            String qty = locationLayoutQty.getValue();
 
             if (TextUtils.isEmpty(qty)) {
                 return;
             }
-            requestPickLocation(mGroup2ConfirmLocationCodeView.getText().toString(), qty);
+            requestPickLocation(locationLayoutConfirmLocationCodeView.getText().toString(), qty);
+        } else if (mCurPage == 3) {
+            String containerId = splitLayoutContainerIdEditText.getText().toString();
+            if (!TextUtils.isEmpty("containerId")) {
+                new RequestSplitTask(that, mPick.getPickTaskId(), containerId).start();
+            }
         }
     }
 
@@ -556,6 +628,32 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         @Override
         public void onPostExecute(PickLocation result) {
             fillPick(result);
+        }
+    }
+
+    /**
+     * 扫拣货位/集货位
+     */
+    private class RequestSplitTask extends HttpAsyncTask<Split> {
+
+        private String taskId;
+
+        private String containerId;
+
+        public RequestSplitTask(Context context, String taskId, String containerId) {
+            super(context, true, true, false);
+            this.taskId = taskId;
+            this.containerId = containerId;
+        }
+
+        @Override
+        public DataHull<Split> doInBackground() {
+            return SplitNewPickTaskProvider.request(context, uId, uToken, taskId, containerId, serialNumber);
+        }
+
+        @Override
+        public void onPostExecute(Split result) {
+            resetPick();
         }
     }
 }

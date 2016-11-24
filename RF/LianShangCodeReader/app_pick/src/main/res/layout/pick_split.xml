@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginTop="10dip"
+        android:gravity="center"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:text="增加托盘"
+        android:textSize="14dip" />
+
+
+    <LinearLayout
+        android:id="@+id/locationCode_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="扫描托盘码:"
+            android:textSize="14dip" />
+
+        <com.elianshang.bridge.ui.view.ScanEditText
+            android:id="@+id/containerId_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dip" />
+    </LinearLayout>
+</LinearLayout>

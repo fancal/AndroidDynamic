@@ -95,7 +95,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="门店:"
+            android:text="客户:"
             android:textSize="14dip" />
 
         <TextView
@@ -165,8 +165,8 @@
         <Button
             android:id="@+id/submit_Button"
             android:layout_width="wrap_content"
-            android:layout_weight="1"
             android:layout_height="40dip"
+            android:layout_weight="1"
             android:background="@drawable/submit_button_bg"
             android:enabled="true"
             android:textColor="@color/white"
@@ -174,15 +174,16 @@
 
         <Button
             android:id="@+id/skip_Button"
-            android:layout_marginLeft="1dip"
             android:layout_width="wrap_content"
             android:layout_height="40dip"
+            android:layout_marginLeft="1dip"
+            android:layout_weight="1"
             android:background="@drawable/submit_button_bg"
             android:enabled="true"
             android:text="直接组盘"
-            android:visibility="gone"
             android:textColor="@color/white"
-            android:textSize="20dip" />
+            android:textSize="20dip"
+            android:visibility="gone" />
 
     </LinearLayout>
 

@@ -225,7 +225,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
         initToolbar();
 
-
         if (curSow != null) {
             fillDetail();
         } else {
@@ -299,6 +298,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         detailStopSubmitButton.setOnClickListener(this);
 
         detailHeadTextView.setText("确认播种数量");
+        detailExceptionCodeEditView.setText("");
 
         detailStoreNameTextView.setText(curSow.getStoreName());
         detailItemNameTextView.setText(curSow.getSkuName());

@@ -26,6 +26,10 @@
         android:id="@+id/pick_collection"
         layout="@layout/pick_collection" />
 
+    <include
+        android:id="@+id/pick_split"
+        layout="@layout/pick_split" />
+
     <Button
         android:id="@+id/submit_Button"
         android:layout_width="match_parent"

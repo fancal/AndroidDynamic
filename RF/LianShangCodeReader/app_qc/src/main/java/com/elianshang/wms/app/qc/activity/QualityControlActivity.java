@@ -309,7 +309,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         listView = (ListView) findViewById(R.id.list_Layout);
 
         confirmSubmitButton.setOnClickListener(this);
-
     }
 
     private void initToolbar() {
@@ -330,6 +329,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         qcList = null;
         myAdapter = null;
+        listView.setAdapter(null);
 
         scanUnknownCodeEditText.setText("");
         checkProgressButton.setVisibility(View.GONE);
@@ -364,7 +364,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
 
         startTaskIdTextView.setText(qcList.getQcTaskId());
-        startStateTextView.setText(qcList.isQcDone() ? "完成" : "未完成");
+        startStateTextView.setText(qcList.isFirst() ? "未完成" : (qcList.isQcDone() ? "完成" : "QC异常"));
         startCollectionCodeTextView.setText(qcList.getCollectionRoadCode());
         startShopTextView.setText(qcList.getCustomerName());
         startAllBoxNumTextView.setText(qcList.getAllBoxNum());
@@ -391,6 +391,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     }
 
     private void fillItemLayout(QcList.Item item) {
+        if (item == null) {
+            return;
+        }
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         curItem = item;
@@ -498,7 +501,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             if (curItem != null) {//列表切流式时,如果列表显示了某一个item,则依然显示这个item
                 popItem(curItem.getBarCode());
             } else {
-                popNextItem(null, null, true);
+                popNextItem(null, null, null, true);
             }
         } else {//列表
             popList(null, null, true);
@@ -521,12 +524,12 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     /**
      * 根据请求接口找下一个任务
      */
-    private void popNextItem(String barCode, String uomQty, boolean qcDone) {
+    private void popNextItem(String barCode, String uomQty, String defectQty, boolean qcDone) {
         for (int i = 0; i < qcList.size(); i++) {
             QcList.Item item = qcList.get(i);
             if (TextUtils.equals(barCode, item.getBarCode())) {//QC过了的,就改变下状态
                 item.setFirst(false);
-                item.setQcDone(TextUtils.equals(DataFormat.getFormatValue(item.getUomQty()), uomQty));
+                item.setQcDone(TextUtils.equals(DataFormat.getFormatValue(item.getUomQty()), uomQty) && (TextUtils.equals(defectQty, "0")));
             }
         }
 
@@ -901,7 +904,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         @Override
         public void onPostExecute(QCDoneState result) {
 //            if (mode == 0) {
-            popNextItem(code, uomQty, result.isDone());
+            curItem = null;
+            popNextItem(code, uomQty, defectQty, result.isDone());
 //            } else {
 //                popList(code, uomQty, result.isDone());
 //            }
@@ -934,6 +938,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         @Override
         public void onPostExecute(QCDoneState result) {
+            curItem = null;
             popList(code, uomQty, result.isDone());
         }
     }
