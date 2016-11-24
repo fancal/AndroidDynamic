@@ -21,6 +21,16 @@ public class Pick implements BaseBean {
 
     private String pickTaskId ;
 
+    private String containerId ;
+
+    public String getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(String containerId) {
+        this.containerId = containerId;
+    }
+
     public String getPickTaskId() {
         return pickTaskId;
     }

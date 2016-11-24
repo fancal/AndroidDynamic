@@ -27,6 +27,7 @@ public class PickLocationParser extends MasterParser<PickLocation> {
                 pick.setAllocUnitName(optString(nextJson, "allocUnitName"));
                 pick.setAllocQty(optString(nextJson, "allocQty"));
                 pick.setPickTaskId(optString(nextJson, "pickTaskId"));
+                pick.setContainerId(optString(nextJson, "containerId"));
                 bean.setPick(pick);
             }
         }

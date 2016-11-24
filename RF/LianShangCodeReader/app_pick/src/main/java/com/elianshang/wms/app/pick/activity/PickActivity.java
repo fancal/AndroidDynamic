@@ -88,6 +88,10 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     /**
      * 第二页 库位码
      */
+    private TextView locationLayoutContainerIdCodeView;
+
+    private TextView locationLayoutPickTaskIdView;
+
     private TextView locationLayoutLocationCodeView;
     /**
      * 第二页 确认库位码
@@ -132,6 +136,11 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
      * 第三页 集货码
      */
     private TextView collectionLayoutCollectionIdView;
+
+    private TextView collectionLayoutPickTaskIdView;
+
+    private TextView collectionLayoutContainerIdCodeView;
+
     /**
      * 第三页 确认集货码
      */
@@ -222,6 +231,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         taskLayoutAddButton = (Button) taskLayout.findViewById(R.id.add_Button);
 
         locationLayoutHeadTextView = (TextView) locationLayout.findViewById(R.id.head_TextView);
+        locationLayoutContainerIdCodeView = (TextView) locationLayout.findViewById(R.id.containerId_TextView);
+        locationLayoutPickTaskIdView = (TextView) locationLayout.findViewById(R.id.pickTaskId_TextView);
         locationLayoutLocationCodeView = (TextView) locationLayout.findViewById(R.id.location_id);
         locationLayoutConfirmLocationCodeView = (ScanEditText) locationLayout.findViewById(R.id.confirm_location_id);
         locationLayoutConfirmLocationCodeView.setCode(true);
@@ -236,6 +247,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutPackNameLayot = locationLayout.findViewById(R.id.packName_Layout);
         locationLayoutSplitButton = locationLayout.findViewById(R.id.split_Button);
 
+        collectionLayoutPickTaskIdView = (TextView) collectionLayout.findViewById(R.id.pickTaskId_TextView);
+        collectionLayoutContainerIdCodeView = (TextView) collectionLayout.findViewById(R.id.containerId_TextView);
         collectionLayoutCollectionIdView = (TextView) collectionLayout.findViewById(R.id.collection_id);
         collectionLayoutConfirmCollectionIdView = (ScanEditText) collectionLayout.findViewById(R.id.confirm_collection_id);
         collectionLayoutConfirmCollectionIdView.setCode(true);
@@ -289,6 +302,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 locationLayout.setVisibility(View.VISIBLE);
                 collectionLayout.setVisibility(View.GONE);
                 splitLayout.setVisibility(View.GONE);
+                locationLayoutSplitButton.setVisibility(View.VISIBLE);
                 mSubmit.setVisibility(View.VISIBLE);
                 mSubmit.setEnabled(false);
                 locationLayoutConfirmLocationCodeView.requestFocus();
@@ -298,7 +312,6 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 }
                 scanEditTextTool = new ScanEditTextTool(that, locationLayoutConfirmLocationCodeView);
                 scanEditTextTool.setComplete(this);
-
 
                 break;
             case 2:
@@ -408,6 +421,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutHeadTextView.setText("扫描确认拣货位");
 
         locationLayoutConfirmLocationCodeView.requestFocus();
+        locationLayoutContainerIdCodeView.setText(mPick.getContainerId());
+        locationLayoutPickTaskIdView.setText(mPick.getPickTaskId());
         locationLayoutLocationCodeView.setText(mPick.getAllocPickLocationCode());
         locationLayoutItemName.setText(mPick.getItemName());
         locationLayoutPackName.setText(mPick.getAllocUnitName());
@@ -444,6 +459,9 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     private void fillCollection() {
         collectionLayoutConfirmCollectionIdView.requestFocus();
         collectionLayoutCollectionIdView.setText(mPick.getAllocCollectLocationCode());
+        collectionLayoutPickTaskIdView.setText(mPick.getPickTaskId());
+        collectionLayoutContainerIdCodeView.setText(mPick.getContainerId());
+        collectionLayoutConfirmCollectionIdView.setText("");
     }
 
 
