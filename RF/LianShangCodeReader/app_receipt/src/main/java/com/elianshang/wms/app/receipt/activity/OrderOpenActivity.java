@@ -83,6 +83,8 @@ public class OrderOpenActivity extends DLBasePluginActivity implements ScanManag
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
+        //// FIXME: 16/11/14
+        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();

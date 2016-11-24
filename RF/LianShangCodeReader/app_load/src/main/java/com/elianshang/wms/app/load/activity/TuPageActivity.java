@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
+import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.load.R;
 import com.elianshang.wms.app.load.adapter.TuListAdapter;
@@ -97,7 +98,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
         //FIXME
         uId = "141871359725260";
         uToken = "25061134202027";
-//        ScanManager.init(that);
+        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();

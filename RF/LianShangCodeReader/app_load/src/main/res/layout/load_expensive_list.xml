@@ -10,6 +10,15 @@
         android:layout_height="0dip"
         android:layout_weight="1" />
 
+    <TextView
+        android:id="@+id/finish_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dip"
+        android:layout_weight="1"
+        android:text="贵品提交完成,请点击'装车完毕'完成装车"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,18 +35,6 @@
             android:textColor="@color/white"
             android:textSize="20dip" />
 
-        <Button
-            android:id="@+id/split_Button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dip"
-            android:layout_marginLeft="1dip"
-            android:background="@drawable/submit_button_bg"
-            android:enabled="true"
-            android:text="跳过"
-            android:layout_weight="1"
-            android:textColor="@color/white"
-            android:textSize="20dip"
-            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

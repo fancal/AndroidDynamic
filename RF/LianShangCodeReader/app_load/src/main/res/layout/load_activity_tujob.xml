@@ -21,12 +21,17 @@
     </RelativeLayout>
 
     <include
-        android:id="@+id/list_layout"
+        android:id="@+id/tujob_list_layout"
         layout="@layout/load_tujob_list"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/expensive_list_layout"
+        layout="@layout/load_expensive_list"
+        android:visibility="gone" />
+
     <LinearLayout
-        android:id="@+id/tuJob_layout"
+        android:id="@+id/start_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -41,8 +46,8 @@
             android:textSize="14dip" />
 
         <include
-            android:id="@+id/next_layout"
-            layout="@layout/load_tujob_next" />
+            android:id="@+id/detail_layout"
+            layout="@layout/load_tujob_detail" />
 
         <include
             android:id="@+id/scan_layout"

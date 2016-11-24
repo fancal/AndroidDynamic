@@ -1,6 +1,7 @@
 package com.elianshang.wms.app.load.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -22,13 +23,16 @@ import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.load.R;
+import com.elianshang.wms.app.load.adapter.ExpensiveListAdapter;
 import com.elianshang.wms.app.load.adapter.TuJobListAdapter;
 import com.elianshang.wms.app.load.bean.ContainerInfo;
+import com.elianshang.wms.app.load.bean.ExpensiveList;
 import com.elianshang.wms.app.load.bean.ResponseState;
 import com.elianshang.wms.app.load.bean.TuJobList;
 import com.elianshang.wms.app.load.provider.ConfirmProvier;
 import com.elianshang.wms.app.load.provider.ContainerInfoProvier;
 import com.elianshang.wms.app.load.provider.ContainerSubmitProvier;
+import com.elianshang.wms.app.load.provider.ExpensiveListProvier;
 import com.xue.http.impl.DataHull;
 
 /**
@@ -49,32 +53,51 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     }
 
     private Toolbar toolbar;
+    /**
+     * 尾货
+     */
+    private View tujobListLayout;
 
-    private View listLayout;
+    private ListView tujobListView;
 
-    private ListView listView;
+    private Button tujobListFinishButton;
 
-    private Button listFinishButton;
+    private Button tujobListSplitButton;
+    /**
+     * 贵品
+     */
+    private View expensiveListLayout;
 
-    private Button listSplitButton;
+    private ListView expensiveListView;
 
-    private View tuJobLayout;
+    private Button expensiveListFinishButton;
 
-    private Button tuJobNextButton;
+    private TextView expensiveFinishText;
 
-    private Button tuJobFinishButton;
+    /**
+     * 开始装车
+     */
+    private View startLayout;
 
-    private View scanLayout;
+    private Button startNextButton;
 
-    private ScanEditText scanContainerCodeEditText;
+    private Button startFinishButton;
+    /**
+     * 扫描
+     */
+    private View startScanLayout;
 
-    private View nextLayout;
+    private ScanEditText startScanContainerCodeEditText;
+    /**
+     * 详情
+     */
+    private View startDetailLayout;
 
-    private TextView nextContainerIdTextView;
+    private TextView startDetailContainerIdTextView;
 
-    private TextView nexBoxNumTextView;
+    private TextView startDetailBoxNumTextView;
 
-    private TextView nexTurnOverBoxNumTextView;
+    private TextView startDetailTurnOverBoxNumTextView;
 
     private String uId;
 
@@ -84,7 +107,11 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
     private TuJobList tuJobList;
 
-    private TuJobListAdapter adapter;
+    private TuJobListAdapter tuJobListAdapter;
+
+    private ExpensiveListAdapter expensiveListAdapter;
+
+    private ExpensiveList expensiveList;
 
     private ScanEditTextTool scanEditTextTool;
 
@@ -92,13 +119,17 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
     private ContainerInfo containerInfo;
 
-    private TuJobList.Item item;
+    private TuJobList.Item tujobItem;
+
+    private ExpensiveList.Item expensiveItem;
 
     private ContainerInfoTask containerInfoTask;
 
     private ContainerSubmitTask containerSubmitTask;
 
     private ConfirmTask confirmTask;
+
+    private ExpensiveTask expensiveTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,9 +138,9 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         if (readExtras()) {
             findView();
             if (tuJobList != null && tuJobList.size() > 0) {
-                fillListLayout();
+                fillTujobListLayout();
             } else {
-                fillScanLayout();
+                fillStartScanLayout();
             }
         }
     }
@@ -131,35 +162,45 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     private void findView() {
         initToolbar();
 
-        listLayout = findViewById(R.id.list_layout);
-        listView = (ListView) listLayout.findViewById(R.id.listview);
-        listFinishButton = (Button) listLayout.findViewById(R.id.finish_Button);
-        listSplitButton = (Button) listLayout.findViewById(R.id.split_Button);
+        tujobListLayout = findViewById(R.id.tujob_list_layout);
+        tujobListView = (ListView) tujobListLayout.findViewById(R.id.listview);
+        tujobListFinishButton = (Button) tujobListLayout.findViewById(R.id.finish_Button);
+        tujobListSplitButton = (Button) tujobListLayout.findViewById(R.id.split_Button);
 
-        tuJobLayout = findViewById(R.id.tuJob_layout);
-        tuJobNextButton = (Button) tuJobLayout.findViewById(R.id.next_Button);
-        tuJobFinishButton = (Button) tuJobLayout.findViewById(R.id.finish_Button);
+        expensiveListLayout = findViewById(R.id.expensive_list_layout);
+        expensiveListView = (ListView) expensiveListLayout.findViewById(R.id.listview);
+        expensiveListFinishButton = (Button) expensiveListLayout.findViewById(R.id.finish_Button);
+        expensiveFinishText = (TextView) expensiveListLayout.findViewById(R.id.finish_text);
 
-        scanLayout = findViewById(R.id.scan_layout);
-        scanContainerCodeEditText = (ScanEditText) scanLayout.findViewById(R.id.containerId_EditText);
+        startLayout = findViewById(R.id.start_layout);
+        startNextButton = (Button) startLayout.findViewById(R.id.next_Button);
+        startFinishButton = (Button) startLayout.findViewById(R.id.finish_Button);
 
-        nextLayout = findViewById(R.id.next_layout);
-        nextContainerIdTextView = (TextView) nextLayout.findViewById(R.id.containerId_TextView);
-        nexBoxNumTextView = (TextView) nextLayout.findViewById(R.id.boxNum_TextView);
-        nexTurnOverBoxNumTextView = (TextView) nextLayout.findViewById(R.id.turnOverBoxNum_TextView);
+        startScanLayout = findViewById(R.id.scan_layout);
+        startScanContainerCodeEditText = (ScanEditText) startScanLayout.findViewById(R.id.containerId_EditText);
 
-        listFinishButton.setOnClickListener(this);
-        listSplitButton.setOnClickListener(this);
-        tuJobFinishButton.setOnClickListener(this);
-        tuJobNextButton.setOnClickListener(this);
-        tuJobNextButton.setEnabled(false);
+        startDetailLayout = findViewById(R.id.detail_layout);
+        startDetailContainerIdTextView = (TextView) startDetailLayout.findViewById(R.id.containerId_TextView);
+        startDetailBoxNumTextView = (TextView) startDetailLayout.findViewById(R.id.boxNum_TextView);
+        startDetailTurnOverBoxNumTextView = (TextView) startDetailLayout.findViewById(R.id.turnOverBoxNum_TextView);
+
+        tujobListFinishButton.setOnClickListener(this);
+        tujobListSplitButton.setOnClickListener(this);
+        expensiveListFinishButton.setOnClickListener(this);
+        startFinishButton.setOnClickListener(this);
+        startNextButton.setOnClickListener(this);
+        startNextButton.setEnabled(false);
     }
 
-    private void fillListLayout() {
+    /**
+     * 尾货列表
+     */
+    private void fillTujobListLayout() {
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
-        listLayout.setVisibility(View.VISIBLE);
-        tuJobLayout.setVisibility(View.GONE);
+        tujobListLayout.setVisibility(View.VISIBLE);
+        expensiveListLayout.setVisibility(View.GONE);
+        startLayout.setVisibility(View.GONE);
 
 
         if (scanEditTextTool != null) {
@@ -167,100 +208,187 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
             scanEditTextTool = null;
         }
 
-        if (adapter == null) {
-            adapter = new TuJobListAdapter(that);
-            listView.setAdapter(adapter);
+        if (tuJobListAdapter == null) {
+            tuJobListAdapter = new TuJobListAdapter(that);
+            tujobListView.setAdapter(tuJobListAdapter);
         }
-        adapter.setTuJobList(tuJobList);
-        adapter.notifyDataSetChanged();
-        listView.setOnItemClickListener(this);
+        tuJobListAdapter.setTuJobList(tuJobList);
+        tuJobListAdapter.notifyDataSetChanged();
+        tujobListView.setOnItemClickListener(this);
 
-        listSplitButton.setVisibility(tuJobList.isOpenSwitch() ? View.VISIBLE : View.GONE);
+        tujobListSplitButton.setVisibility(tuJobList.isOpenSwitch() ? View.VISIBLE : View.GONE);
     }
 
-    private void fillScanLayout() {
+    /**
+     * 贵品列表
+     */
+    private void fillExpensiveListLayout() {
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
-        listLayout.setVisibility(View.GONE);
-        tuJobLayout.setVisibility(View.VISIBLE);
-        scanLayout.setVisibility(View.VISIBLE);
-        nextLayout.setVisibility(View.GONE);
-        tuJobNextButton.setVisibility(View.GONE);
-        tuJobFinishButton.setVisibility(View.VISIBLE);
+        tujobListLayout.setVisibility(View.GONE);
+        expensiveListLayout.setVisibility(View.VISIBLE);
+        startLayout.setVisibility(View.GONE);
+
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
             scanEditTextTool = null;
         }
-        scanContainerCodeEditText.setText(null);
-        scanContainerCodeEditText.requestFocus();
-        scanEditTextTool = new ScanEditTextTool(that, scanContainerCodeEditText);
+        if (expensiveList != null && expensiveList.size() > 0) {
+            if (expensiveListAdapter == null) {
+                expensiveListAdapter = new ExpensiveListAdapter(that);
+                expensiveListView.setAdapter(expensiveListAdapter);
+            }
+            expensiveListAdapter.setExpensiveList(expensiveList);
+            expensiveListAdapter.notifyDataSetChanged();
+            expensiveListView.setOnItemClickListener(this);
+
+            expensiveListView.setVisibility(View.VISIBLE);
+            expensiveFinishText.setVisibility(View.GONE);
+        } else {
+            expensiveListView.setVisibility(View.GONE);
+            expensiveFinishText.setVisibility(View.VISIBLE);
+        }
+
+
+    }
+
+    /**
+     * 开始装车-扫描
+     */
+    private void fillStartScanLayout() {
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+
+        tujobListLayout.setVisibility(View.GONE);
+        expensiveListLayout.setVisibility(View.GONE);
+        startLayout.setVisibility(View.VISIBLE);
+
+        startScanLayout.setVisibility(View.VISIBLE);
+        startDetailLayout.setVisibility(View.GONE);
+        startNextButton.setVisibility(View.GONE);
+        startFinishButton.setVisibility(View.VISIBLE);
+
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+            scanEditTextTool = null;
+        }
+        startScanContainerCodeEditText.setText(null);
+        startScanContainerCodeEditText.requestFocus();
+        scanEditTextTool = new ScanEditTextTool(that, startScanContainerCodeEditText);
         scanEditTextTool.setComplete(this);
 
     }
 
-    private void fillNextLayout(String markContainerId) {
+    /**
+     * 开始装车-详情
+     *
+     * @param markContainerId
+     */
+    private void fillStartDetailLayout(String markContainerId) {
         if (containerInfo == null) {
             return;
         }
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
-        listLayout.setVisibility(View.GONE);
-        tuJobLayout.setVisibility(View.VISIBLE);
-        scanLayout.setVisibility(View.GONE);
-        nextLayout.setVisibility(View.VISIBLE);
-        tuJobNextButton.setVisibility(View.VISIBLE);
-        tuJobFinishButton.setVisibility(View.GONE);
+        tujobListLayout.setVisibility(View.GONE);
+        expensiveListLayout.setVisibility(View.GONE);
+        startLayout.setVisibility(View.VISIBLE);
+
+        startScanLayout.setVisibility(View.GONE);
+        startDetailLayout.setVisibility(View.VISIBLE);
+        startNextButton.setVisibility(View.VISIBLE);
+        startFinishButton.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
             scanEditTextTool = null;
         }
 
-        nextContainerIdTextView.setText("托盘码:" + markContainerId);
-        nexBoxNumTextView.setText("总箱数" + containerInfo.getBoxNum());
-        nexTurnOverBoxNumTextView.setText("总周转箱数:" + containerInfo.getTurnoverBoxNum());
-        tuJobNextButton.setText(containerInfo.isLoaded() ? "知道了" : "下一步");
-        tuJobNextButton.setEnabled(true);
+        startDetailContainerIdTextView.setText("托盘码:" + markContainerId);
+        startDetailBoxNumTextView.setText("总箱数" + containerInfo.getBoxNum());
+        startDetailTurnOverBoxNumTextView.setText("总周转箱数:" + containerInfo.getTurnoverBoxNum());
+        startNextButton.setText(containerInfo.isLoaded() ? "知道了" : "下一步");
+        startNextButton.setEnabled(true);
 
     }
 
+    /**
+     * 开始装车-尾货详情
+     */
     private void fillTuJobLayout() {
-        if (item == null) {
+        if (tujobItem == null) {
             return;
         }
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
-        listLayout.setVisibility(View.GONE);
-        tuJobLayout.setVisibility(View.VISIBLE);
-        scanLayout.setVisibility(View.VISIBLE);
-        nextLayout.setVisibility(View.VISIBLE);
-        tuJobNextButton.setVisibility(View.VISIBLE);
-        tuJobFinishButton.setVisibility(View.GONE);
+        tujobListLayout.setVisibility(View.GONE);
+        expensiveListLayout.setVisibility(View.GONE);
+        startLayout.setVisibility(View.VISIBLE);
+        startScanLayout.setVisibility(View.VISIBLE);
+        startDetailLayout.setVisibility(View.VISIBLE);
+        startNextButton.setVisibility(View.VISIBLE);
+        startFinishButton.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
             scanEditTextTool = null;
         }
-        scanContainerCodeEditText.setText(null);
-        scanContainerCodeEditText.requestFocus();
-        scanEditTextTool = new ScanEditTextTool(that, scanContainerCodeEditText);
+        startScanContainerCodeEditText.setText(null);
+        startScanContainerCodeEditText.requestFocus();
+        scanEditTextTool = new ScanEditTextTool(that, startScanContainerCodeEditText);
         scanEditTextTool.setComplete(this);
 
-        nextContainerIdTextView.setText("托盘码:" + item.getMarkContainerId());
-        nexBoxNumTextView.setText("总箱数" + item.getBoxNum());
-        nexTurnOverBoxNumTextView.setText("总周转箱数:" + item.getTurnoverBoxNum());
-        tuJobNextButton.setText(item.isLoaded() ? "知道了" : "下一步");
-        tuJobNextButton.setEnabled(false);
+        startDetailContainerIdTextView.setText("托盘码:" + tujobItem.getMarkContainerId());
+        startDetailBoxNumTextView.setText("总箱数" + tujobItem.getBoxNum());
+        startDetailTurnOverBoxNumTextView.setText("总周转箱数:" + tujobItem.getTurnoverBoxNum());
+        startNextButton.setText(tujobItem.isLoaded() ? "知道了" : "下一步");
+        startNextButton.setEnabled(false);
     }
 
-    private void popNext() {
-        checkContainerInfo();
-        if (tuJobList != null && tuJobList.size() > 0) {
-            fillListLayout();
-        } else {
-            fillScanLayout();
+    /**
+     * 开始装车-贵品详情
+     */
+    private void fillExpensiveLayout() {
+        if (expensiveItem == null) {
+            return;
         }
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+
+        tujobListLayout.setVisibility(View.GONE);
+        expensiveListLayout.setVisibility(View.GONE);
+        startLayout.setVisibility(View.VISIBLE);
+        startScanLayout.setVisibility(View.VISIBLE);
+        startDetailLayout.setVisibility(View.VISIBLE);
+        startNextButton.setVisibility(View.VISIBLE);
+        startFinishButton.setVisibility(View.GONE);
+
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+            scanEditTextTool = null;
+        }
+        startScanContainerCodeEditText.setText(null);
+        startScanContainerCodeEditText.requestFocus();
+        scanEditTextTool = new ScanEditTextTool(that, startScanContainerCodeEditText);
+        scanEditTextTool.setComplete(this);
+
+        startDetailContainerIdTextView.setText("托盘码:" + expensiveItem.getMarkContainerId());
+        startDetailBoxNumTextView.setText("总箱数" + expensiveItem.getBoxNum());
+        startDetailTurnOverBoxNumTextView.setText("总周转箱数:" + expensiveItem.getTurnoverBoxNum());
+        startNextButton.setText(expensiveItem.isLoaded() ? "知道了" : "下一步");
+        startNextButton.setEnabled(false);
+    }
+
+
+    private void popNextTujob() {
+        if (tuJobList != null && tuJobList.size() > 0) {
+            fillTujobListLayout();
+        } else {
+            fillStartScanLayout();
+        }
+    }
+
+    private void popNextExpensive() {
+        fillExpensiveListLayout();
     }
 
     private void checkContainerInfo() {
@@ -274,7 +402,16 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
                     break;
                 }
             }
+        } else if (expensiveList != null && expensiveList.size() > 0) {
+            for (ExpensiveList.Item item : expensiveList.getTuJobList()) {
+                if (TextUtils.equals(item.getContainerId(), containerInfo.getContainerId())) {
+                    expensiveList.remove(item);
+                    break;
+                }
+            }
+
         }
+
     }
 
     private void requestContainerInfo(String markContainerId) {
@@ -303,6 +440,16 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         }
         confirmTask = new ConfirmTask(that);
         confirmTask.start();
+    }
+
+    private void requestExpensiveList() {
+
+        if (expensiveTask != null) {
+            expensiveTask.cancel();
+            expensiveTask = null;
+        }
+        expensiveTask = new ExpensiveTask(that);
+        expensiveTask.start();
     }
 
 
@@ -334,8 +481,8 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        if (tuJobLayout.getVisibility() == View.VISIBLE && tuJobList != null && tuJobList.size() > 0) {
-            fillListLayout();
+        if (startLayout.getVisibility() == View.VISIBLE && tuJobList != null && tuJobList.size() > 0) {
+            fillTujobListLayout();
         } else {
             finish();
         }
@@ -348,48 +495,44 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        if (v == listFinishButton) {
+        if (v == tujobListFinishButton) {
+            requestExpensiveList();
+        } else if (v == expensiveListFinishButton) {
             requestConfirm();
-        } else if (v == tuJobFinishButton) {
-            requestConfirm();
-        } else if (v == tuJobNextButton) {
+        } else if (v == startFinishButton) {
+            requestExpensiveList();
+        } else if (v == startNextButton) {
             if (containerInfo != null) {
                 if (!containerInfo.isLoaded()) {
-                    Editable editable = scanContainerCodeEditText.getText();
+                    Editable editable = startScanContainerCodeEditText.getText();
                     if (editable != null) {
                         requestContainerSubmit(containerInfo.getContainerId(), editable.toString(), containerInfo.getTaskBoardQty());
                     }
                 } else {
-                    popNext();
+                    popNextTujob();
                 }
             }
-        } else if (v == listSplitButton) {
+        } else if (v == tujobListSplitButton) {
             if (tuJobList != null) {
                 tuJobList.clear();
             }
-            fillScanLayout();
+            fillStartScanLayout();
         }
     }
 
     @Override
     public void OnBarCodeReceived(String s) {
-        if (nextLayout.getVisibility() == View.VISIBLE && scanLayout.getVisibility() == View.GONE) {
-            requestContainerInfo(s);
-        } else {
-            if (scanEditTextTool == null) {
-                return;
-            }
-            scanEditTextTool.setScanText(s);
+        if (scanEditTextTool == null) {
+            return;
         }
+        scanEditTextTool.setScanText(s);
     }
 
     @Override
     public void onComplete() {
-        if (scanLayout.getVisibility() == View.VISIBLE) {
-            Editable editable = scanContainerCodeEditText.getText();
-            if (editable != null) {
-                requestContainerInfo(editable.toString());
-            }
+        Editable editable = startScanContainerCodeEditText.getText();
+        if (editable != null) {
+            requestContainerInfo(editable.toString());
         }
     }
 
@@ -401,9 +544,16 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //        requestContainerInfo(tuJobList.get(position).getMarkContainerId());
-        item = tuJobList.get(position);
+        if (tujobListLayout.getVisibility() == View.VISIBLE) {
+            tujobItem = tuJobList.get(position);
 
-        fillTuJobLayout();
+            fillTuJobLayout();
+        } else if (expensiveListView.getVisibility() == View.VISIBLE) {
+            expensiveItem = expensiveList.get(position);
+
+            fillExpensiveLayout();
+        }
+
     }
 
     /**
@@ -427,21 +577,42 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         public void onPostExecute(ContainerInfo result) {
             containerInfo = result;
             checkContainerInfo();
-            if (item != null) {
-                if (!TextUtils.equals(item.getContainerId(), result.getContainerId())) {
-                    ToastTool.show(that, "托盘码不一致");
-                    tuJobNextButton.setEnabled(false);
-                } else {
-                    scanLayout.setVisibility(View.GONE);
-                    if (scanEditTextTool != null) {
-                        scanEditTextTool.release();
-                        scanEditTextTool = null;
+
+            if (expensiveList != null) {
+                //贵品
+                if (expensiveItem != null) {
+                    if (!TextUtils.equals(expensiveItem.getContainerId(), result.getContainerId())) {
+                        ToastTool.show(that, "托盘码不一致");
+                        startNextButton.setEnabled(false);
+                    } else {
+                        startScanLayout.setVisibility(View.GONE);
+                        if (scanEditTextTool != null) {
+                            scanEditTextTool.release();
+                            scanEditTextTool = null;
+                        }
+                        startNextButton.setEnabled(true);
                     }
-                    tuJobNextButton.setEnabled(true);
+                    return;
                 }
-                return;
+
+            } else {
+                if (tujobItem != null) {
+                    if (!TextUtils.equals(tujobItem.getContainerId(), result.getContainerId())) {
+                        ToastTool.show(that, "托盘码不一致");
+                        startNextButton.setEnabled(false);
+                    } else {
+                        startScanLayout.setVisibility(View.GONE);
+                        if (scanEditTextTool != null) {
+                            scanEditTextTool.release();
+                            scanEditTextTool = null;
+                        }
+                        startNextButton.setEnabled(true);
+                    }
+                    return;
+                }
+                fillStartDetailLayout(markContainerId);
             }
-            fillNextLayout(markContainerId);
+
         }
     }
 
@@ -471,7 +642,11 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         @Override
         public void onPostExecute(ResponseState result) {
             containerInfo.setLoaded(true);
-            popNext();
+            if (expensiveList != null) {
+                popNextExpensive();
+            } else {
+                popNextTujob();
+            }
 
             if (taskBoardQty > 1) {
                 DialogTools.showOneButtonDialog(that, "多板提交,请记得多板一起装车", "知道了", null, false);
@@ -497,6 +672,36 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         public void onPostExecute(ResponseState result) {
             setResult(RESULT_OK);
             finish();
+        }
+    }
+
+    /**
+     * 装车完毕
+     */
+    private class ExpensiveTask extends HttpAsyncTask<ExpensiveList> {
+
+        public ExpensiveTask(Context context) {
+            super(context, true, true, false);
+        }
+
+        @Override
+        public DataHull<ExpensiveList> doInBackground() {
+            return ExpensiveListProvier.request(context, uId, uToken, tu);
+        }
+
+        @Override
+        public void onPostExecute(ExpensiveList result) {
+            DialogTools.showTwoButtonDialog(that, "你有贵品列表,是否进行贵品装车?", "取消", "确认", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    requestConfirm();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    fillExpensiveListLayout();
+                }
+            }, false);
         }
     }
 }
