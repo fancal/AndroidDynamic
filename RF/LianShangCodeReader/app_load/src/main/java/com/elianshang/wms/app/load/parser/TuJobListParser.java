@@ -30,6 +30,10 @@ public class TuJobListParser extends MasterParser<TuJobList> {
                         tuJob.add(item);
                     }
                 }
+
+                if(tuJob.size() == 0){
+                    tuJob = null;
+                }
             }
         }
 

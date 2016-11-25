@@ -30,6 +30,10 @@ public class ExpensiveListParser extends MasterParser<ExpensiveList> {
                         tuJob.add(item);
                     }
                 }
+
+                if (tuJob.size() == 0) {
+                    tuJob = null;
+                }
             }
         }
 
