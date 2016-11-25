@@ -100,9 +100,14 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
     private TextView orderQtyTextView;
 
     /**
-     * 实际数量输入框
+     * 实际数量输入框-箱
      */
     private QtyEditText inboundQtyEditView;
+
+    /**
+     * 实际数量输入框-EA
+     */
+    private QtyEditText scatterQtyEditView;
 
     private CheckBox preDataCheckBox;
 
@@ -195,6 +200,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         packNameTextView = (TextView) findViewById(R.id.packName_TextView);
         orderQtyTextView = (TextView) findViewById(R.id.orderQty_TextView);
         inboundQtyEditView = (QtyEditText) findViewById(R.id.inboundQty_EditView);
+        scatterQtyEditView = (QtyEditText) findViewById(R.id.scatterQty_EditView);
         preDataCheckBox = (CheckBox) findViewById(R.id.preData_CheckBox);
         dueDataCheckBox = (CheckBox) findViewById(R.id.dueData_CheckBox);
         exceptionCodeTextView = (EditText) findViewById(R.id.exceptionCode_TextView);
@@ -251,8 +257,10 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         itemNameTextView.setText(storeReceiptInfo.getSkuName());
         packNameTextView.setText(storeReceiptInfo.getPackName());
         orderQtyTextView.setText(storeReceiptInfo.getOrderQty());
-        inboundQtyEditView.setHint(storeReceiptInfo.getOrderQty());
+        inboundQtyEditView.setHint("0");
         inboundQtyEditView.setText(null);
+        scatterQtyEditView.setHint("0");
+        scatterQtyEditView.setText(null);
 
         if (storeReceiptInfo.getIsNeedProTime() == 1) {
             timeLayout.setVisibility(View.VISIBLE);
@@ -265,7 +273,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
             mEditMonth.setFocusable(false);
             mEditDay.setFocusable(false);
 
-            inboundQtyEditView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            scatterQtyEditView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_NEXT) {
@@ -284,11 +292,12 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
             return;
         }
         String inboundQty = inboundQtyEditView.getValue();
+        String scatterQty = scatterQtyEditView.getValue();
         String year = mEditYear.getText().toString();
         String month = mEditMonth.getText().toString();
         String day = mEditDay.getText().toString();
 
-        if (!TextUtils.isEmpty(inboundQty) || !TextUtils.isEmpty(year) || !TextUtils.isEmpty(month) || !TextUtils.isEmpty(day)) {
+        if (!TextUtils.isEmpty(inboundQty) || !TextUtils.isEmpty(scatterQty) || !TextUtils.isEmpty(year) || !TextUtils.isEmpty(month) || !TextUtils.isEmpty(day)) {
             DialogTools.showTwoButtonDialog(that, "退出将清除已经输入的内容,确定离开吗", "取消", "确定", null, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -397,6 +406,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         String dueTime = "";
 
         String inboundQty = inboundQtyEditView.getValue();
+        String scatterQty = scatterQtyEditView.getValue();
         if (TextUtils.isEmpty(inboundQty)) {
             Toast.makeText(that, "请填入收货数量", Toast.LENGTH_SHORT).show();
             return;
@@ -436,6 +446,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("barCode", barCode);
             jsonObject.put("inboundQty", inboundQty);
+            jsonObject.put("scatterQty", scatterQty);
             jsonObject.put("proTime", proTime);
             jsonObject.put("dueTime", dueTime);
             jsonObject.put("exceptionCode", exceptionCode);

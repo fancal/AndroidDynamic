@@ -168,8 +168,28 @@
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
                             android:minWidth="60dip"
+                            android:textSize="14dip" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="箱"
+                            android:textSize="14dip" />
+
+                        <com.elianshang.bridge.ui.view.QtyEditText
+                            android:id="@+id/scatterQty_EditView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:minWidth="60dip"
                             android:nextFocusDown="@+id/et_year"
                             android:nextFocusRight="@+id/et_year"
+                            android:textSize="14dip" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EA"
                             android:textSize="14dip" />
 
                     </LinearLayout>

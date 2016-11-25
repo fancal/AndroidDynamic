@@ -94,9 +94,13 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
     private TextView orderQtyTextView;
 
     /**
-     * 实际数量输入框
+     * 实际数量输入框-箱
      */
     private QtyEditText inboundQtyEditView;
+    /**
+     * 实际数量输入框-EA
+     */
+    private QtyEditText scatterQtyEditView;
 
     /**
      * 批次号布局
@@ -195,6 +199,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         pileTextView = (TextView) findViewById(R.id.pile_TextView);
         orderQtyTextView = (TextView) findViewById(R.id.orderQty_TextView);
         inboundQtyEditView = (QtyEditText) findViewById(R.id.inboundQty_EditView);
+        scatterQtyEditView = (QtyEditText) findViewById(R.id.scatterQty_EditView);
         lotNumLayout = findViewById(R.id.lotNum_Layout);
         lotNumEditText = (QtyEditText) findViewById(R.id.lotNum_EditText);
         preDataCheckBox = (CheckBox) findViewById(R.id.preData_CheckBox);
@@ -251,8 +256,10 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         packUnitTextView.setText(orderReceiptInfo.getPackName());
         pileTextView.setText(orderReceiptInfo.getPile());
         orderQtyTextView.setText(orderReceiptInfo.getOrderQty());
-        inboundQtyEditView.setHint(orderReceiptInfo.getOrderQty());
+        inboundQtyEditView.setHint("0");
         inboundQtyEditView.setText(null);
+        scatterQtyEditView.setHint("0");
+        scatterQtyEditView.setText(null);
 
         if (1 == orderReceiptInfo.getBatchNeeded()) {
             lotNumLayout.setVisibility(View.VISIBLE);
@@ -269,12 +276,13 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             return;
         }
         String inboundQty = inboundQtyEditView.getValue();
+        String inboundEA = scatterQtyEditView.getValue();
         String year = mEditYear.getText().toString();
         String month = mEditMonth.getText().toString();
         String day = mEditDay.getText().toString();
         String lotNum = lotNumEditText.getText().toString();
 
-        if (!TextUtils.isEmpty(inboundQty) || !TextUtils.isEmpty(year) || !TextUtils.isEmpty(month) || !TextUtils.isEmpty(day) || !TextUtils.isEmpty(lotNum)) {
+        if (!TextUtils.isEmpty(inboundQty) || !TextUtils.isEmpty(inboundEA) || !TextUtils.isEmpty(year) || !TextUtils.isEmpty(month) || !TextUtils.isEmpty(day) || !TextUtils.isEmpty(lotNum)) {
             DialogTools.showTwoButtonDialog(that, "退出将清除已经输入的内容,确定离开吗", "取消", "确定", null, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -354,9 +362,14 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         }
 
         String inboundQty = inboundQtyEditView.getValue();
+        String scatterQty = scatterQtyEditView.getValue();
 
         if (TextUtils.isEmpty(inboundQty)) {
             Toast.makeText(that, "请填入收货数量", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(scatterQty)) {
+            Toast.makeText(that, "请填入EA数量", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -400,6 +413,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             jsonObject.put("proTime", proTime);
             jsonObject.put("lotNum", lotNum);
             jsonObject.put("inboundQty", inboundQty);
+            jsonObject.put("scatterQty", scatterQty);
             jsonObject.put("dueTime", dueTime);
             jsonObject.put("exceptionCode", exceptionCode);
 
