@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:text="扫描确认仓库ID:"
+        android:text="扫描确认仓库:"
         android:textSize="14dip" />
 
     <com.elianshang.bridge.ui.view.ScanEditText
