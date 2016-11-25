@@ -19,11 +19,9 @@ public class ExpensiveListParser extends MasterParser<ExpensiveList> {
         ExpensiveList tuJob = null;
         if (data != null) {
             JSONArray jsonArray = optJSONArray(data, "result");
-            boolean openSwitch = optBoolean(data, "openSwitch");
             int length = getLength(jsonArray);
             if (length > 0) {
                 tuJob = new ExpensiveList();
-                tuJob.setOpenSwitch(openSwitch);
                 for (int i = 0; i < length; i++) {
                     ExpensiveList.Item item = parseItem(optJSONObject(jsonArray, i));
                     if (item != null) {

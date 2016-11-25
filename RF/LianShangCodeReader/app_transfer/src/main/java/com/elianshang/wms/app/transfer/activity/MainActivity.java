@@ -27,6 +27,9 @@ public class MainActivity extends DLBasePluginActivity {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
+        uId = "141871359725260";
+        uToken = "25061134202027";
+
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;

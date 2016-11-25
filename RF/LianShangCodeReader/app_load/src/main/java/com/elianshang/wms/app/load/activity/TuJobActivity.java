@@ -249,8 +249,6 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
             expensiveListView.setVisibility(View.GONE);
             expensiveFinishText.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     /**
@@ -690,7 +688,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
         }
 
         @Override
-        public void onPostExecute(ExpensiveList result) {
+        public void onPostExecute(final ExpensiveList result) {
             DialogTools.showTwoButtonDialog(that, "你有贵品列表,是否进行贵品装车?", "取消", "确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -699,9 +697,16 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
             }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    expensiveList = result ;
                     fillExpensiveListLayout();
                 }
             }, false);
+        }
+
+
+        @Override
+        public void dataNull(String errMsg) {
+            new ConfirmTask(context).start();
         }
     }
 }

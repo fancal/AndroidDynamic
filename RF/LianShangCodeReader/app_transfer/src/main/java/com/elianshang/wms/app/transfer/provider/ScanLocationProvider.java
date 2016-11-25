@@ -43,7 +43,7 @@ public class ScanLocationProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/inhouse/stock_transfer/scanLocation";
+    private static final String _function = "/inhouse/transfer/scanLocation";
 
     private static final String uId = "uid";
 

@@ -42,7 +42,7 @@ public class FetchTaskProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/inhouse/stock_transfer/fetchTask";
+    private static final String _function = "/inhouse/transfer/fetchTask";
 
 
     private static final String uId = "uid";
