@@ -338,15 +338,18 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
 
         @Override
         public void onPostExecute(TuList result) {
-            unloadTuList = result;
-            for (TuList.Item item : unloadTuList) {//手动设置每个item的status
-                item.setStatus(status);
-            }
+
             if (TextUtils.equals(TuPageActivity.this.statusArray[0], status)) {
                 unloadTuList = result;
+                for (TuList.Item item : unloadTuList) {//手动设置每个item的status
+                    item.setStatus(status);
+                }
                 fillUnloadList();
             } else {
                 loadedTuList = result;
+                for (TuList.Item item : loadedTuList) {//手动设置每个item的status
+                    item.setStatus(status);
+                }
                 fillLoadedList();
             }
         }
@@ -354,8 +357,10 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
         @Override
         public void dataNull(String errMsg) {
             if (TextUtils.equals(TuPageActivity.this.statusArray[0], status)) {
+                unloadTuList = null;
                 fillUnloadList();
             } else {
+                loadedTuList = null;
                 fillLoadedList();
             }
         }

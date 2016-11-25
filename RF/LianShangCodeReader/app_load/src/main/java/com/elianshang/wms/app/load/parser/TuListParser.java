@@ -32,6 +32,10 @@ public class TuListParser extends MasterParser<TuList> {
                         tuList.add(item);
                     }
                 }
+
+                if(tuList.size() == 0){
+                    tuList = null;
+                }
             }
         }
         return tuList;
