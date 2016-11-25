@@ -12,11 +12,12 @@
 
     <TextView
         android:id="@+id/finish_text"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
         android:layout_marginTop="40dip"
         android:layout_weight="1"
-        android:text="贵品提交完成,请点击'装车完毕'完成装车"
+        android:gravity="center"
+        android:text="贵品提交完成,点击'装车完毕'完成装车"
         android:visibility="gone" />
 
     <LinearLayout

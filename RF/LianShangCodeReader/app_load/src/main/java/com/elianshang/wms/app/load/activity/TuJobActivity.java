@@ -378,6 +378,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
 
     private void popNextTujob() {
+        checkContainerInfo();
         if (tuJobList != null && tuJobList.size() > 0) {
             fillTujobListLayout();
         } else {
@@ -386,6 +387,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     }
 
     private void popNextExpensive() {
+        checkContainerInfo();
         fillExpensiveListLayout();
     }
 
@@ -479,11 +481,18 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        if (startLayout.getVisibility() == View.VISIBLE && tuJobList != null && tuJobList.size() > 0) {
-            fillTujobListLayout();
-        } else {
-            finish();
+        if (startLayout.getVisibility() == View.VISIBLE) {
+            if (tuJobList != null && tuJobList.size() > 0) {
+                fillTujobListLayout();
+                return;
+            }
+            if (expensiveList != null && expensiveList.size() > 0) {
+                fillExpensiveListLayout();
+                return;
+            }
         }
+
+        finish();
     }
 
     @Override
@@ -507,7 +516,11 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
                         requestContainerSubmit(containerInfo.getContainerId(), editable.toString(), containerInfo.getTaskBoardQty());
                     }
                 } else {
-                    popNextTujob();
+                    if (expensiveList != null) {
+                        popNextExpensive();
+                    } else {
+                        popNextTujob();
+                    }
                 }
             }
         } else if (v == tujobListSplitButton) {
@@ -594,6 +607,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
                 }
 
             } else {
+                //普通商品、尾货
                 if (tujobItem != null) {
                     if (!TextUtils.equals(tujobItem.getContainerId(), result.getContainerId())) {
                         ToastTool.show(that, "托盘码不一致");
@@ -697,7 +711,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
             }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    expensiveList = result ;
+                    expensiveList = result;
                     fillExpensiveListLayout();
                 }
             }, false);
@@ -706,7 +720,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
         @Override
         public void dataNull(String errMsg) {
-            new ConfirmTask(context).start();
+            requestConfirm();
         }
     }
 }
