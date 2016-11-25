@@ -15,7 +15,27 @@ public class LocationView implements BaseBean {
 
     private String uomQty;
 
+    private String uom ;
+
     private String packName;
+
+    private String barCode ;
+
+    public String getUom() {
+        return uom;
+    }
+
+    public void setUom(String uom) {
+        this.uom = uom;
+    }
+
+    public String getBarCode() {
+        return barCode;
+    }
+
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
+    }
 
     public String getLotId() {
         return lotId;

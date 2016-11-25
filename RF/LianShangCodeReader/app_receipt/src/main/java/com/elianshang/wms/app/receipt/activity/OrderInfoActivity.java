@@ -411,6 +411,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("barCode", barCode);
             jsonObject.put("proTime", proTime);
+            jsonObject.put("packName", orderReceiptInfo.getPackName());
             jsonObject.put("lotNum", lotNum);
             jsonObject.put("inboundQty", inboundQty);
             jsonObject.put("scatterQty", scatterQty);

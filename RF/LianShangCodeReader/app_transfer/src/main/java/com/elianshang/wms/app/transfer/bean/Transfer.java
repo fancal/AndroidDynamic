@@ -2,9 +2,6 @@ package com.elianshang.wms.app.transfer.bean;
 
 import com.xue.http.hook.BaseBean;
 
-/**
- * Created by xfilshy on 16/8/20.
- */
 public class Transfer implements BaseBean {
 
     private String taskId;
@@ -22,6 +19,26 @@ public class Transfer implements BaseBean {
     private String packName;
 
     private String uomQty;
+
+    private String uom ;
+
+    private String barCode ;
+
+    public String getUom() {
+        return uom;
+    }
+
+    public void setUom(String uom) {
+        this.uom = uom;
+    }
+
+    public String getBarCode() {
+        return barCode;
+    }
+
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
+    }
 
     public String getTaskId() {
         return taskId;

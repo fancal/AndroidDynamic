@@ -9,4 +9,5 @@ public interface StockTransferView {
 
     void showItemView(String typeName, String itemName, String packName, String qty, String locationName, String unmQty);
 
+    void showScanLayout();
 }

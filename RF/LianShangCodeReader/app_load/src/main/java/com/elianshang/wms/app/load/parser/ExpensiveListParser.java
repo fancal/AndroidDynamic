@@ -55,6 +55,7 @@ public class ExpensiveListParser extends MasterParser<ExpensiveList> {
                 boolean isRest = optBoolean(data, "isRest");
                 boolean isExpensive = optBoolean(data, "isExpensive");
                 boolean isLoaded = optBoolean(data, "isLoaded");
+                String locationCode = optString(data, "locationCode");
 
                 if (!TextUtils.isEmpty(containerId)) {
                     item = new ExpensiveList.Item();
@@ -71,6 +72,7 @@ public class ExpensiveListParser extends MasterParser<ExpensiveList> {
                     item.setRest(isRest);
                     item.setExpensive(isExpensive);
                     item.setLoaded(isLoaded);
+                    item.setLocationCode(locationCode);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

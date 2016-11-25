@@ -89,6 +89,16 @@ public class ExpensiveList implements BaseBean {
 
         boolean isLoaded;
 
+        String locationCode ;
+
+        public String getLocationCode() {
+            return locationCode;
+        }
+
+        public void setLocationCode(String locationCode) {
+            this.locationCode = locationCode;
+        }
+
         public String getContainerCount() {
             return containerCount;
         }

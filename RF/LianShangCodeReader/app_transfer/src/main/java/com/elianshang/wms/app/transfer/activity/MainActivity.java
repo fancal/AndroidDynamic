@@ -5,11 +5,19 @@ import android.text.TextUtils;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.transfer.bean.Transfer;
 import com.elianshang.wms.app.transfer.provider.FetchTaskProvider;
 import com.xue.http.impl.DataHull;
 
 public class MainActivity extends DLBasePluginActivity {
+
+    public static void launch(DLBasePluginActivity activity, String uId, String uToken) {
+        DLIntent intent = new DLIntent(activity.getPackageName(), MainActivity.class);
+        intent.putExtra("uId", uId);
+        intent.putExtra("uToken", uToken);
+        activity.startPluginActivity(intent);
+    }
 
     private String uId;
 
@@ -26,9 +34,6 @@ public class MainActivity extends DLBasePluginActivity {
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
-
-        uId = "141871359725260";
-        uToken = "25061134202027";
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();

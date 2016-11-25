@@ -66,11 +66,9 @@ public class FetchTaskProvider {
         headers.add(new DefaultKVPBean(FetchTaskProvider.uId, uId));
         headers.add(new DefaultKVPBean(FetchTaskProvider.uToken, uToken));
 
-        List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(FetchTaskProvider.udd, uId));
         int type = BaseHttpParameter.Type.POST;
 
-        HttpDynamicParameter<StockTransferParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new StockTransferParser(), 0);
+        HttpDynamicParameter<StockTransferParser> parameter = new HttpDynamicParameter<>(url, headers, null, type, new StockTransferParser(), 0);
 
         OkHttpHandler<Transfer> handler = new OkHttpHandler();
         DataHull<Transfer> dataHull = handler.requestData(parameter);

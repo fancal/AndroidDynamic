@@ -28,7 +28,6 @@ public class StockTransferParser extends MasterParser<Transfer> {
             if (!TextUtils.isEmpty(taskId)
                     && !TextUtils.isEmpty(type)
                     && !TextUtils.isEmpty(subType)
-                    && !TextUtils.isEmpty(locationCode)
                     && !TextUtils.isEmpty(itemId)
                     && !TextUtils.isEmpty(itemName)
                     && !TextUtils.isEmpty(packName)

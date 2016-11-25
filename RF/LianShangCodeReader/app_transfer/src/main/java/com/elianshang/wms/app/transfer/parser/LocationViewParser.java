@@ -18,11 +18,15 @@ public class LocationViewParser extends MasterParser<LocationView> {
             String lotId = optString(data, "lotId");
             String packName = optString(data, "packName");
             String itemId = optString(data, "itemId");
+            String barcode = optString(data, "barcode");
+            String uom = optString(data, "uom");
             String uomQty = optString(data, "uomQty");
 
             if (!TextUtils.isEmpty(locationCode)
                     && !TextUtils.isEmpty(itemName)
                     && !TextUtils.isEmpty(packName)
+                    && !TextUtils.isEmpty(barcode)
+                    && !TextUtils.isEmpty(uom)
                     && !TextUtils.isEmpty(itemId)
                     && !TextUtils.isEmpty(uomQty)) {
 
@@ -33,6 +37,8 @@ public class LocationViewParser extends MasterParser<LocationView> {
                 locationView.setPackName(packName);
                 locationView.setLotId(lotId);
                 locationView.setUomQty(uomQty);
+                locationView.setBarCode(barcode);
+                locationView.setUom(uom);
             }
         }
 

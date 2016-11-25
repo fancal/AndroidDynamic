@@ -52,6 +52,7 @@ public class ExpensiveListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.load_expensive_list_item, null);
             viewHolder = new ViewHolder();
+            viewHolder.locationCodeTextView = (TextView) convertView.findViewById(R.id.locationCode_TextView);
             viewHolder.containerIdTextView = (TextView) convertView.findViewById(R.id.containerId_TextView);
             viewHolder.boxNumTextView = (TextView) convertView.findViewById(R.id.boxNum_TextView);
             viewHolder.turnOverBoxNumTextView = (TextView) convertView.findViewById(R.id.turnOverBoxNum_TextView);
@@ -64,14 +65,17 @@ public class ExpensiveListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         ExpensiveList.Item item = getItem(position);
+        viewHolder.locationCodeTextView.setText("库位:" + item.getLocationCode());
         viewHolder.containerIdTextView.setText("托盘码:" + item.getMarkContainerId());
         viewHolder.boxNumTextView.setText("总箱数:" + item.getBoxNum());
         viewHolder.turnOverBoxNumTextView.setText("总周转箱数:" + item.getTurnoverBoxNum());
-        viewHolder.isLoadTextView.setText("是否装车:" + (item.isLoaded() ? "是" : "否"));
+        viewHolder.isLoadTextView.setText("状态:" + (item.isLoaded() ? "已装车" : "未装车"));
         return convertView;
     }
 
     private static class ViewHolder {
+
+        TextView locationCodeTextView;
 
         TextView containerIdTextView;
 

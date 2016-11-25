@@ -68,17 +68,18 @@ public class ScanLocationProvider {
     private static final String locationCode = "locationCode";
 
     /**
-     * 操作员id
-     */
-    private static final String udd = "uId";
-
-    /**
      * 数量
      */
     private static final String uomQty = "uomQty";
 
+    private static final String barcode = "barcode";
 
-    public static DataHull<TransferNext> request(Context context, String uId, String uToken, String type, String taskId, String locationCode, String uomQty, String serialNumber) {
+    private static final String uom = "uom";
+
+    private static final String subType = "subType";
+
+
+    public static DataHull<TransferNext> request(Context context, String uId, String uToken, String type, String taskId, String locationCode, String barCode, String uom, String uomQty, String subType, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -93,8 +94,10 @@ public class ScanLocationProvider {
         params.add(new DefaultKVPBean(ScanLocationProvider.type, type));
         params.add(new DefaultKVPBean(ScanLocationProvider.taskId, taskId));
         params.add(new DefaultKVPBean(ScanLocationProvider.locationCode, locationCode));
-        params.add(new DefaultKVPBean(ScanLocationProvider.udd, uId));
+        params.add(new DefaultKVPBean(ScanLocationProvider.barcode, barCode));
+        params.add(new DefaultKVPBean(ScanLocationProvider.uom, uom));
         params.add(new DefaultKVPBean(ScanLocationProvider.uomQty, uomQty));
+        params.add(new DefaultKVPBean(ScanLocationProvider.subType, subType));
         int hType = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<StockTransferNextParser> parameter = new HttpDynamicParameter<>(url, headers, params, hType, new StockTransferNextParser(), 0);

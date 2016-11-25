@@ -53,8 +53,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             super.handleMessage(msg);
             if (msg.what == 1) {
                 doubleClickWaitView = null;
-            } else if(msg.what == 2){
-                clickWait = false ;
+            } else if (msg.what == 2) {
+                clickWait = false;
             }
         }
     };
@@ -70,7 +70,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(ScanManager.get() != null){
+        if (ScanManager.get() != null) {
             ScanManager.get().openSoundControl(this);
         }
 
@@ -143,7 +143,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        int rows = (int) ((menuList.size() / (float) spanCount) + 0.5f);
+        int rows = (menuList.size() / spanCount) + (menuList.size() % spanCount != 0 ? 1 : 0);
         rows = Math.min(rows, 4);//最多4行平分界面
 
         adapter.setRows(rows);

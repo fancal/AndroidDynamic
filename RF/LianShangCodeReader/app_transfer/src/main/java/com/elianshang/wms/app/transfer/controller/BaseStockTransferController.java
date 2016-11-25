@@ -23,7 +23,7 @@ public abstract class BaseStockTransferController {
 
     protected abstract void onSubmitClick(String qty);
 
-    protected abstract void onComplete(String s);
+    protected abstract void onWorkComplete(String s);
 
     public BaseStockTransferController(Activity activity, String uId, String uToken, Transfer curProcurement, StockTransferView procurementView) {
         this.activity = activity;

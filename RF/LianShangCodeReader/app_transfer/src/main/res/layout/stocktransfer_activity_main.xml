@@ -14,6 +14,7 @@
         app:navigationIcon="@drawable/toolbar_back"
         app:title="移库" />
 
+
     <TextView
         android:id="@+id/task_id"
         android:layout_width="match_parent"
@@ -34,6 +35,31 @@
         android:textSize="14dip" />
 
     <LinearLayout
+        android:id="@+id/scan_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:text="请扫描库位码:"
+            android:textSize="14dip" />
+
+        <com.elianshang.bridge.ui.view.ScanEditText
+            android:id="@+id/locationCode_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:textSize="14dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/work_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -107,6 +133,12 @@
                     android:inputType="numberDecimal"
                     android:minWidth="60dip"
                     android:textSize="14dip" />
+
+                <CheckBox
+                    android:id="@+id/item_qty_real_CheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="整托" />
             </LinearLayout>
         </LinearLayout>
 
