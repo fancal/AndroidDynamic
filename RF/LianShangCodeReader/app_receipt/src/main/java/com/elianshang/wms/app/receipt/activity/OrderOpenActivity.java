@@ -84,8 +84,9 @@ public class OrderOpenActivity extends DLBasePluginActivity implements ScanManag
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
         //// FIXME: 16/11/14
-        ScanManager.init(that);
-
+//        uId = "141871359725260";
+//        uToken = "25061134202027";
+//        ScanManager.init(that);
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
