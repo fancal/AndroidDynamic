@@ -78,10 +78,8 @@ public class ScanLocationProvider {
 
     private static final String subType = "subType";
 
-    private static final String owner = "owner";
 
-
-    public static DataHull<TransferNext> request(Context context, String uId, String uToken, String type, String taskId, String locationCode, String barCode, String uom, String uomQty, String subType, String owner, String serialNumber) {
+    public static DataHull<TransferNext> request(Context context, String uId, String uToken, String type, String taskId, String locationCode, String barCode, String uom, String uomQty, String subType, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -99,7 +97,6 @@ public class ScanLocationProvider {
         params.add(new DefaultKVPBean(ScanLocationProvider.barcode, barCode));
         params.add(new DefaultKVPBean(ScanLocationProvider.uom, uom));
         params.add(new DefaultKVPBean(ScanLocationProvider.uomQty, uomQty));
-        params.add(new DefaultKVPBean(ScanLocationProvider.owner, owner));
         params.add(new DefaultKVPBean(ScanLocationProvider.subType, subType));
         int hType = BaseHttpParameter.Type.POST;
 

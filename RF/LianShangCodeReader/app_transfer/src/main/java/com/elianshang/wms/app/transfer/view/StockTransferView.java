@@ -7,7 +7,11 @@ public interface StockTransferView {
 
     void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String packName, String qty, String locationName);
 
-    void showItemView(String typeName, String itemName, String barcode, String owner, String packName, String qty, String locationName, String unmQty, String needBarcode, String needOwner);
+    void showItemView(String typeName, String itemName, String barcode, String owner, String packName, String qty, String locationName, String unmQty);
 
     void showScanLayout();
+
+    void requestFocusBarcode();
+
+    void requestFocusOwner();
 }

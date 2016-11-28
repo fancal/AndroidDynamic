@@ -24,10 +24,6 @@ public class Transfer implements BaseBean {
 
     private String barCode;
 
-    private String needBarcode;
-
-    private String needOwner;
-
     private String owner ;
 
     public String getOwner() {
@@ -36,22 +32,6 @@ public class Transfer implements BaseBean {
 
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-
-    public String getNeedBarcode() {
-        return needBarcode;
-    }
-
-    public void setNeedBarcode(String needBarcode) {
-        this.needBarcode = needBarcode;
-    }
-
-    public String getNeedOwner() {
-        return needOwner;
-    }
-
-    public void setNeedOwner(String needOwner) {
-        this.needOwner = needOwner;
     }
 
     public String getUom() {

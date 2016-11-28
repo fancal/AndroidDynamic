@@ -25,13 +25,7 @@ public class LocationViewParser extends MasterParser<LocationView> {
             String needOwner = optString(data, "needOwner");
             String owner = optString(data, "owner");
 
-            if (!TextUtils.isEmpty(locationCode)
-                    && !TextUtils.isEmpty(itemName)
-                    && !TextUtils.isEmpty(packName)
-                    && !TextUtils.isEmpty(barcode)
-                    && !TextUtils.isEmpty(uom)
-                    && !TextUtils.isEmpty(itemId)
-                    && !TextUtils.isEmpty(uomQty)) {
+            if (!TextUtils.isEmpty(locationCode)) {
 
                 locationView = new LocationView();
                 locationView.setLocationCode(locationCode);
