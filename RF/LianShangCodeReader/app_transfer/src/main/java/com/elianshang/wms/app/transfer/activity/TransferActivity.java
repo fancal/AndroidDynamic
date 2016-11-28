@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.elianshang.bridge.tool.DialogTools;
@@ -19,6 +20,7 @@ import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
+import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.transfer.R;
 import com.elianshang.wms.app.transfer.bean.Transfer;
 import com.elianshang.wms.app.transfer.controller.StockTransferController;
@@ -60,15 +62,32 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
 
     private ScanEditText scanLayoutLocationCodeEditText;
 
+    private ScanEditText scanLayoutBarcodeEditText;
+
+    private EditText scanLayoutOwnereEditText;
+
     private View workLayout;
     /**
      * 包装单位
      */
     private TextView mItemPackNameView;
+
+    private TextView mItemBarcodeView;
+
+    private TextView mItemOwnerView;
     /**
      * 商品数量
      */
     private TextView mItemQtyView;
+
+    private View mItemBarcodeLayout;
+
+    private ScanEditText mItemBarcodeEditText;
+
+    private View mItemOwnereLayout;
+
+    private EditText mItemOwnereEditText;
+
     /**
      * 实际数量
      */
@@ -79,6 +98,7 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
      * 实际数量  container
      */
     private View mItemQtyRealContainerView;
+
     /**
      * 库位Id
      */
@@ -187,22 +207,34 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
         scanLayout = findViewById(R.id.scan_Layout);
         scanLayoutLocationCodeEditText = (ScanEditText) scanLayout.findViewById(R.id.locationCode_EditText);
         scanLayoutLocationCodeEditText.setCode(true);
+        scanLayoutBarcodeEditText = (ScanEditText) scanLayout.findViewById(R.id.barcode_EditText);
+        scanLayoutOwnereEditText = (EditText) scanLayout.findViewById(R.id.owner_EditText);
 
         workLayout = findViewById(R.id.work_Layout);
 
-        mItemPackNameView = (TextView) findViewById(R.id.item_pack_name);
-        mItemQtyView = (TextView) findViewById(R.id.item_qty);
-        mItemQtyRealView = (QtyEditText) findViewById(R.id.item_qty_real);
-        mItemQtyRealCheckBox = (CheckBox) findViewById(R.id.item_qty_real_CheckBox);
-        mItemQtyRealContainerView = findViewById(R.id.item_qty_real_container);
-        mLocationCodeView = (TextView) findViewById(R.id.location_id);
-        mLocationCodeConfirmView = (ScanEditText) findViewById(R.id.confirm_location_id);
-        mLocationCodeConfirmView.setCode(true);
-        mSubmit = (Button) findViewById(R.id.submit_button);
-        mTypeNameView = (TextView) findViewById(R.id.transfer_type_name);
         mItemView = findViewById(R.id.item);
+
+        mItemPackNameView = (TextView) mItemView.findViewById(R.id.item_pack_name);
+        mItemBarcodeView = (TextView) mItemView.findViewById(R.id.item_barcode);
+        mItemOwnerView = (TextView) mItemView.findViewById(R.id.item_owner);
+        mItemQtyView = (TextView) mItemView.findViewById(R.id.item_qty);
+        mItemBarcodeLayout = mItemView.findViewById(R.id.barcode_Layout);
+        mItemBarcodeEditText = (ScanEditText) mItemView.findViewById(R.id.barcode_EditText);
+        mItemOwnereLayout = mItemView.findViewById(R.id.owner_Layout);
+        mItemOwnereEditText = (EditText) mItemView.findViewById(R.id.owner_EditText);
+        mItemQtyRealView = (QtyEditText) mItemView.findViewById(R.id.item_qty_real);
+        mItemQtyRealCheckBox = (CheckBox) mItemView.findViewById(R.id.item_qty_real_CheckBox);
+        mItemQtyRealContainerView = mItemView.findViewById(R.id.item_qty_real_container);
+        mItemLocationView = (TextView) mItemView.findViewById(R.id.item_locationCode);
+
         mLocationView = findViewById(R.id.location);
-        mItemLocationView = (TextView) findViewById(R.id.item_locationCode);
+
+        mLocationCodeView = (TextView) mLocationView.findViewById(R.id.location_id);
+        mLocationCodeConfirmView = (ScanEditText) mLocationView.findViewById(R.id.confirm_location_id);
+        mLocationCodeConfirmView.setCode(true);
+
+        mTypeNameView = (TextView) findViewById(R.id.transfer_type_name);
+        mSubmit = (Button) findViewById(R.id.submit_button);
 
         mSubmit.setOnClickListener(this);
         mSubmit.setVisibility(View.GONE);
@@ -223,16 +255,44 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
     @Override
     public void onClick(View v) {
         if (v == mSubmit) {
-            stockTransferController.onSubmitClick(mItemQtyRealCheckBox.isChecked() ? "-1" : mItemQtyRealView.getValue());
+            if (workLayout.getVisibility() == View.VISIBLE && mItemView.getVisibility() == View.VISIBLE) {
+                String barcode = null;
+                String owner = null;
+                if (mItemBarcodeLayout.getVisibility() == View.VISIBLE) {
+                    barcode = mItemBarcodeEditText.getText().toString();
+
+                    if (TextUtils.isEmpty(barcode)) {
+                        ToastTool.show(that, "请扫描商品的国条码");
+                        return;
+                    }
+                }
+
+                if (mItemOwnereLayout.getVisibility() == View.VISIBLE) {
+                    owner = mItemOwnereEditText.getText().toString();
+
+                    if (TextUtils.isEmpty(barcode)) {
+                        ToastTool.show(that, "请输入货主编码");
+                        return;
+                    }
+                }
+
+                stockTransferController.onSubmitClick(mItemQtyRealCheckBox.isChecked() ? "-1" : mItemQtyRealView.getValue(), barcode, owner);
+            } else if (scanLayout.getVisibility() == View.VISIBLE) {
+                stockTransferController.onScanComplete(scanLayoutLocationCodeEditText.getText().toString());
+            }
         }
     }
 
     @Override
     public void onComplete() {
         if (scanLayout.getVisibility() == View.VISIBLE) {
-            stockTransferController.onScanComplete(scanLayoutLocationCodeEditText.getText().toString());
+            mSubmit.setEnabled(true);
         } else if (workLayout.getVisibility() == View.VISIBLE) {
-            stockTransferController.onWorkComplete(mLocationCodeConfirmView.getText().toString());
+            if (mLocationView.getVisibility() == View.VISIBLE) {
+                stockTransferController.onWorkComplete(mLocationCodeConfirmView.getText().toString());
+            } else if (mItemView.getVisibility() == View.VISIBLE) {
+                mItemOwnereEditText.requestFocus();
+            }
         }
     }
 
@@ -254,8 +314,10 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
         mTypeNameView.setText("请扫描移出库位");
         scanLayout.setVisibility(View.VISIBLE);
         workLayout.setVisibility(View.GONE);
-        mSubmit.setVisibility(View.GONE);
+        mSubmit.setVisibility(View.VISIBLE);
         scanLayoutLocationCodeEditText.setText(null);
+        scanLayoutLocationCodeEditText.requestFocus();
+        mSubmit.setEnabled(false);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -311,7 +373,7 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
     }
 
     @Override
-    public void showItemView(String typeName, String itemName, String packName, String qty, String locationName, String numQty) {
+    public void showItemView(String typeName, String itemName, String barcode, String owner, String packName, String qty, String locationName, String numQty, String needBarcode, String needOwner) {
         scanLayout.setVisibility(View.GONE);
         workLayout.setVisibility(View.VISIBLE);
         mLocationView.setVisibility(View.GONE);
@@ -327,6 +389,19 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
 
         mTypeNameView.setText(typeName);
         mItemNameView.setText(itemName);
+        if (TextUtils.isEmpty(barcode)) {
+            mItemBarcodeView.setVisibility(View.GONE);
+        } else {
+            mItemBarcodeView.setVisibility(View.VISIBLE);
+            mItemBarcodeView.setText(barcode);
+        }
+
+        if (TextUtils.isEmpty(owner)) {
+            mItemOwnerView.setVisibility(View.GONE);
+        } else {
+            mItemOwnerView.setVisibility(View.VISIBLE);
+            mItemOwnerView.setText(owner);
+        }
         mItemPackNameView.setText(packName);
         mItemQtyView.setText(qty);
         mItemLocationView.setText(locationName);
@@ -364,5 +439,21 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
             scanEditTextTool.release();
         }
         scanEditTextTool = null;
+
+        if ("1".equals(needBarcode)) {
+            mItemBarcodeLayout.setVisibility(View.VISIBLE);
+            mItemBarcodeEditText.setText("");
+
+            scanEditTextTool = new ScanEditTextTool(that, mItemBarcodeEditText);
+        } else {
+            mItemBarcodeLayout.setVisibility(View.GONE);
+        }
+
+        if ("1".equals(needOwner)) {
+            mItemOwnereLayout.setVisibility(View.VISIBLE);
+            mItemOwnereEditText.setText("");
+        } else {
+            mItemOwnereLayout.setVisibility(View.GONE);
+        }
     }
 }

@@ -21,6 +21,9 @@ public class LocationViewParser extends MasterParser<LocationView> {
             String barcode = optString(data, "barcode");
             String uom = optString(data, "uom");
             String uomQty = optString(data, "uomQty");
+            String needBarcode = optString(data, "needBarcode");
+            String needOwner = optString(data, "needOwner");
+            String owner = optString(data, "owner");
 
             if (!TextUtils.isEmpty(locationCode)
                     && !TextUtils.isEmpty(itemName)
@@ -39,6 +42,9 @@ public class LocationViewParser extends MasterParser<LocationView> {
                 locationView.setUomQty(uomQty);
                 locationView.setBarCode(barcode);
                 locationView.setUom(uom);
+                locationView.setNeedBarcode(needBarcode);
+                locationView.setNeedOwner(needOwner);
+                locationView.setOwner(owner);
             }
         }
 

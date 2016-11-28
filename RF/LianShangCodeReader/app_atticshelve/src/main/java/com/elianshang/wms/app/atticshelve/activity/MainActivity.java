@@ -26,7 +26,6 @@ public class MainActivity extends DLBasePluginActivity {
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
-
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
@@ -42,7 +41,7 @@ public class MainActivity extends DLBasePluginActivity {
         private String uToken;
 
         public FetchProcurementTask(String uId, String uToken) {
-            super(MainActivity.this.that, true, true, false , false);
+            super(MainActivity.this.that, true, true, false, false);
             this.uId = uId;
             this.uToken = uToken;
         }

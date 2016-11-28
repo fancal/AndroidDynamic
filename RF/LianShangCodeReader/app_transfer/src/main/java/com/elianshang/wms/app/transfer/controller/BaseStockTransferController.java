@@ -21,7 +21,7 @@ public abstract class BaseStockTransferController {
 
     protected StockTransferView stockTransferView;
 
-    protected abstract void onSubmitClick(String qty);
+    protected abstract void onSubmitClick(String qty, String barcode, String owner);
 
     protected abstract void onWorkComplete(String s);
 

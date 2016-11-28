@@ -24,6 +24,9 @@ public class StockTransferParser extends MasterParser<Transfer> {
             String itemName = optString(data, "itemName");
             String packName = optString(data, "packName");
             String uomQty = optString(data, "uomQty");
+            String needBarcode = optString(data, "needBarcode");
+            String needOwner = optString(data, "needOwner");
+            String owner = optString(data, "owner");
 
             if (!TextUtils.isEmpty(taskId)
                     && !TextUtils.isEmpty(type)
@@ -41,6 +44,9 @@ public class StockTransferParser extends MasterParser<Transfer> {
                 transfer.setItemName(itemName);
                 transfer.setPackName(packName);
                 transfer.setUomQty(uomQty);
+                transfer.setNeedBarcode(needBarcode);
+                transfer.setNeedOwner(needOwner);
+                transfer.setOwner(owner);
             }
         }
         return transfer;

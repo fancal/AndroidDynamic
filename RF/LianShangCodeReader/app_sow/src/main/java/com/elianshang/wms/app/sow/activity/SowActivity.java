@@ -256,7 +256,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             scanEditTextTool = new ScanEditTextTool(that, scanOrderIdEditText, scanOrderBarcodeEditText);
             scanEditTextTool.setComplete(this);
         }
-
     }
 
     private void fillWait() {
