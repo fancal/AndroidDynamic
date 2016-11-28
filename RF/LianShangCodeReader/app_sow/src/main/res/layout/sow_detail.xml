@@ -162,6 +162,25 @@
                     android:minWidth="60dip"
                     android:textSize="14dip" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="箱"
+                    android:textSize="14dip" />
+
+                <com.elianshang.bridge.ui.view.QtyEditText
+                    android:id="@+id/inputScatterQty_EditView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:minWidth="60dip"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EA"
+                    android:textSize="14dip" />
             </LinearLayout>
 
             <LinearLayout
@@ -201,7 +220,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
-        android:text="提交,继续播种当前门店"
+        android:text="提交并继续"
         android:textColor="#ffffffff"
         android:textSize="16dip" />
 
@@ -213,10 +232,10 @@
         android:layout_marginTop="1dp"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
-        android:text="提交,继续播种下个门店"
+        android:text="提交并跳过"
         android:textColor="#ffffffff"
         android:textSize="16dip"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/stopsubmit_Button"
@@ -226,7 +245,7 @@
         android:layout_marginTop="1dp"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
-        android:text="提交,结束全部播种"
+        android:text="提交并终止"
         android:textColor="#ffffffff"
         android:textSize="16dip"
         android:visibility="visible" />

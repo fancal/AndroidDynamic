@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
-import com.elianshang.bridge.tool.FloatUtils;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
@@ -34,7 +32,7 @@ import com.elianshang.wms.app.sow.provider.ScanContainerProvider;
 import com.elianshang.wms.app.sow.provider.ViewProvider;
 import com.xue.http.impl.DataHull;
 
-public class SowActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener, TextWatcher {
+public class SowActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
 
     public static void launch(DLBasePluginActivity activity, String uid, String uToken, Sow sow, Type type) {
         DLIntent intent = new DLIntent(activity.getPackageName(), SowActivity.class);
@@ -88,6 +86,8 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     private TextView detailPackNameTextView;
 
     private TextView detailAllocQtyTextView;
+
+    private QtyEditText detailInputScatterQtyEditView;
 
     private QtyEditText detailInputQtyEditView;
 
@@ -189,10 +189,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
         }
-        if (detailInputQtyEditView != null) {
-            detailInputQtyEditView.removeTextChangedListener(this);
-        }
-
     }
 
     private void findViews() {
@@ -218,6 +214,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         detailPackNameTextView = (TextView) detailLayout.findViewById(R.id.packName_TextView);
         detailAllocQtyTextView = (TextView) detailLayout.findViewById(R.id.allocQty_TextView);
         detailInputQtyEditView = (QtyEditText) detailLayout.findViewById(R.id.inputQty_EditView);
+        detailInputScatterQtyEditView = (QtyEditText) detailLayout.findViewById(R.id.inputScatterQty_EditView);
         detailExceptionCodeEditView = (EditText) detailLayout.findViewById(R.id.exception_EditView);
         detailGoOnSubmitButton = (Button) detailLayout.findViewById(R.id.goonsubmit_Button);
         detailSkipSubmitButton = (Button) detailLayout.findViewById(R.id.skipsubmit_Button);
@@ -287,9 +284,10 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         detailLayout.setVisibility(View.VISIBLE);
         waitLayout.setVisibility(View.GONE);
         detailGoOnSubmitButton.setVisibility(View.VISIBLE);
-        detailSkipSubmitButton.setVisibility(View.GONE);
+        detailSkipSubmitButton.setVisibility(View.VISIBLE);
         detailStopSubmitButton.setVisibility(View.VISIBLE);
         detailGoOnSubmitButton.setEnabled(false);
+        detailSkipSubmitButton.setEnabled(false);
         detailStopSubmitButton.setEnabled(false);
 
         detailGoOnSubmitButton.setOnClickListener(this);
@@ -303,12 +301,10 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         detailItemNameTextView.setText(curSow.getSkuName());
         detailPackNameTextView.setText(curSow.getPackName());
         detailAllocQtyTextView.setText(curSow.getQty());
-        detailInputQtyEditView.setHint(curSow.getQty());
-        detailGoOnSubmitButton.setText("提交");
-
+        detailInputQtyEditView.setHint("0");
+        detailInputScatterQtyEditView.setHint("0");
+        detailInputScatterQtyEditView.setText(null);
         detailInputQtyEditView.setText(null);
-        detailInputQtyEditView.addTextChangedListener(this);
-        detailGoOnSubmitButton.setText("提交");
 
         detailInputQtyEditView.requestFocus();
 
@@ -385,6 +381,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             if (editable != null) {
                 if (!TextUtils.isEmpty(editable.toString())) {
                     detailGoOnSubmitButton.setEnabled(true);
+                    detailSkipSubmitButton.setEnabled(true);
                     detailStopSubmitButton.setEnabled(true);
                     detailInputQtyEditView.requestFocus();
                 }
@@ -402,37 +399,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             return;
         }
         scanEditTextTool.setScanText(s);
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        try {
-            String realQtyString = detailInputQtyEditView.getValue();
-            String qtyString = curSow.getQty();
-            float realQty = Float.parseFloat(realQtyString);
-            float qty = Float.parseFloat(qtyString);
-            if (realQty > qty) {
-                realQtyString = qtyString;
-                detailInputQtyEditView.setText(realQtyString);
-                detailInputQtyEditView.setSelection(realQtyString.length());
-            }
-
-            boolean isEqual = FloatUtils.equals(realQtyString, qtyString);
-            detailSkipSubmitButton.setVisibility(isEqual ? View.GONE : View.VISIBLE);
-            detailGoOnSubmitButton.setText(isEqual ? "提交" : "提交,继续播种当前门店");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -496,27 +462,30 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             String taskId = curSow.getTaskId();
             String containerId = detailContainerIdEditText.getText().toString();
             String qty = detailInputQtyEditView.getValue();
+            String scatterQty = detailInputScatterQtyEditView.getValue();
             String type = "2";
             String exceptionCode = detailExceptionCodeEditView.getText().toString();
 
-            new ScanTargetContainerTask(that, taskId, containerId, qty, type, curSow.getStoreNo(), exceptionCode).start();
+            new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getStoreNo(), exceptionCode).start();
         } else if (v == detailSkipSubmitButton) {
             String taskId = curSow.getTaskId();
             String containerId = detailContainerIdEditText.getText().toString();
             String qty = detailInputQtyEditView.getValue();
+            String scatterQty = detailInputScatterQtyEditView.getValue();
             String type = "3";
             String exceptionCode = detailExceptionCodeEditView.getText().toString();
 
 
-            new ScanTargetContainerTask(that, taskId, containerId, qty, type, curSow.getStoreNo(), exceptionCode).start();
+            new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getStoreNo(), exceptionCode).start();
         } else if (v == detailStopSubmitButton) {
             String taskId = curSow.getTaskId();
             String containerId = detailContainerIdEditText.getText().toString();
             String qty = detailInputQtyEditView.getValue();
+            String scatterQty = detailInputScatterQtyEditView.getValue();
             String type = "1";
             String exceptionCode = detailExceptionCodeEditView.getText().toString();
 
-            new ScanTargetContainerTask(that, taskId, containerId, qty, type, curSow.getStoreNo(), exceptionCode).start();
+            new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getStoreNo(), exceptionCode).start();
         }
     }
 
@@ -600,11 +569,12 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         private String taskId;
         private String containerId;
         private String qty;
+        private String scatterQty;
         private String type;
         private String storeNo;
         private String exceptionCode;
 
-        public ScanTargetContainerTask(Context context, String taskId, String containerId, String qty, String type, String storeNo, String exceptionCode) {
+        public ScanTargetContainerTask(Context context, String taskId, String containerId, String qty, String scatterQty, String type, String storeNo, String exceptionCode) {
             super(context, true, true, false);
             this.taskId = taskId;
             this.qty = qty;
@@ -612,11 +582,12 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             this.type = type;
             this.exceptionCode = exceptionCode;
             this.storeNo = storeNo;
+            this.scatterQty = scatterQty;
         }
 
         @Override
         public DataHull<SowNext> doInBackground() {
-            return ScanContainerProvider.request(context, uId, uToken, taskId, containerId, qty, type, storeNo, exceptionCode, serialNumber);
+            return ScanContainerProvider.request(context, uId, uToken, taskId, containerId, qty, scatterQty, type, storeNo, exceptionCode, serialNumber);
         }
 
         @Override
