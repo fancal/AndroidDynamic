@@ -514,7 +514,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             QcList.Item item = qcList.get(i);
             if (TextUtils.equals(barCode, item.getBarCode())) {//QC过了的,就改变下状态
                 item.setFirst(false);
-                item.setQcDone(qcDone || TextUtils.equals(DataFormat.getFormatValue(item.getUomQty()), uomQty) && (TextUtils.equals(defectQty, "0")));
+                item.setQcDone(TextUtils.equals(DataFormat.getFormatValue(item.getUomQty()), uomQty) && (TextUtils.equals(defectQty, "0")));
             }
         }
 
@@ -553,7 +553,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             QcList.Item item = qcList.get(i);
             if (TextUtils.equals(barCode, item.getBarCode())) {//QC过了的,就改变下状态
                 item.setFirst(false);
-                item.setQcDone(TextUtils.equals(DataFormat.getFormatValue(item.getUomQty()), uomQty));
+                item.setQcDone(qcDone || TextUtils.equals(DataFormat.getFormatValue(item.getUomQty()), uomQty));
             }
         }
         for (int i = 0; i < qcList.size(); i++) {

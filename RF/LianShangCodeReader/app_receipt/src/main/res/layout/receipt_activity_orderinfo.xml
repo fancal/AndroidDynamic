@@ -148,6 +148,8 @@
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
                             android:minWidth="60dip"
+                            android:nextFocusDown="@+id/scatterQty_EditView"
+                            android:nextFocusRight="@+id/scatterQty_EditView"
                             android:textSize="14dip" />
 
                         <TextView
