@@ -294,7 +294,7 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
     @Override
     public void onBackPressed() {
         if (atticShelveTwoLayout.getVisibility() == View.VISIBLE && twoInputQtyLayout.getVisibility() == View.VISIBLE) {
-            fillStepOne();
+            fillStepTwoLocationLayout();
         } else if (atticShelveTwoLayout.getVisibility() == View.VISIBLE) {
             DialogTools.showTwoButtonDialog(that, "是否暂退任务,下次回来将会继续", "取消", "确定", null, new DialogInterface.OnClickListener() {
                 @Override
