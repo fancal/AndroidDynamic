@@ -375,21 +375,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
     }
 
-    private void fillPromptLayout() {
-        checkProgressButton.setVisibility(View.VISIBLE);
-        scanLayout.setVisibility(View.GONE);
-        startLayout.setVisibility(View.GONE);
-        promptLayout.setVisibility(View.VISIBLE);
-        itemLayout.setVisibility(View.GONE);
-        confirmLayout.setVisibility(View.GONE);
-        listView.setVisibility(View.GONE);
-
-        if (scanEditTextTool != null) {
-            scanEditTextTool.release();
-            scanEditTextTool = null;
-        }
-    }
-
     private void fillItemLayout(QcList.Item item) {
         if (item == null) {
             return;
@@ -568,7 +553,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             QcList.Item item = qcList.get(i);
             if (TextUtils.equals(barCode, item.getBarCode())) {//QC过了的,就改变下状态
                 item.setFirst(false);
-                item.setQcDone(TextUtils.equals(DataFormat.getFormatValue(item.getUomQty()), uomQty));
+                item.setQcDone(qcDone || TextUtils.equals(DataFormat.getFormatValue(item.getUomQty()), uomQty));
             }
         }
         for (int i = 0; i < qcList.size(); i++) {

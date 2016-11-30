@@ -20,9 +20,19 @@ public class Transfer implements BaseBean {
 
     private String uomQty;
 
-    private String uom ;
+    private String uom;
 
-    private String barCode ;
+    private String barCode;
+
+    private String owner ;
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 
     public String getUom() {
         return uom;

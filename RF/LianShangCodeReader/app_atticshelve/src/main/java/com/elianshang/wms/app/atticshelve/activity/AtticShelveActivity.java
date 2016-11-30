@@ -205,7 +205,9 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         scanEditTextTool.setComplete(this);
     }
 
-    private void fillStepTwoQtyLayout() {
+    private void fillStepTwoQtyLayout(String locationCode) {
+        twoLocationCodeTextView.setText(TextUtils.isEmpty(locationCode) ? curAtticShelve.getLocationCode() : locationCode);
+
         atticShelveOneLayout.setVisibility(View.GONE);
         atticShelveTwoLayout.setVisibility(View.VISIBLE);
         submitButton.setVisibility(View.VISIBLE);
@@ -267,11 +269,11 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
                     DialogTools.showTwoButtonDialog(that, "扫描的库位与目标库位不一致,确认上架", "取消", "确认", null, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            fillStepTwoQtyLayout();
+                            fillStepTwoQtyLayout(locationCode);
                         }
                     }, true);
                 } else {
-                    fillStepTwoQtyLayout();
+                    fillStepTwoQtyLayout(null);
                 }
             }
         }
@@ -291,8 +293,8 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
     @Override
     public void onBackPressed() {
-        if (twoInputQtyLayout.getVisibility() == View.VISIBLE) {
-            fillStepTwoLocationLayout();
+        if (atticShelveTwoLayout.getVisibility() == View.VISIBLE && twoInputQtyLayout.getVisibility() == View.VISIBLE) {
+            fillStepOne();
         } else if (atticShelveTwoLayout.getVisibility() == View.VISIBLE) {
             DialogTools.showTwoButtonDialog(that, "是否暂退任务,下次回来将会继续", "取消", "确定", null, new DialogInterface.OnClickListener() {
                 @Override

@@ -48,7 +48,11 @@ public class ViewLocationProvider {
 
     private static final String locationCode = "locationCode";
 
-    public static DataHull<LocationView> request(Context context, String uId, String uToken, String locationCode) {
+    private static final String barcode = "barcode";
+
+    private static final String owner = "owner";
+
+    public static DataHull<LocationView> request(Context context, String uId, String uToken, String locationCode, String barcode, String owner) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -61,6 +65,8 @@ public class ViewLocationProvider {
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(ViewLocationProvider.locationCode, locationCode));
+        params.add(new DefaultKVPBean(ViewLocationProvider.barcode, barcode));
+        params.add(new DefaultKVPBean(ViewLocationProvider.owner, owner));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<LocationViewParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new LocationViewParser(), 0);

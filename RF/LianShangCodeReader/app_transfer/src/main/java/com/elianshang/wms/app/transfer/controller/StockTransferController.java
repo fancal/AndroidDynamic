@@ -41,13 +41,27 @@ public class StockTransferController extends BaseStockTransferController impleme
 
     private void fillInBound() {
         if (stockTransferView != null) {
-            stockTransferView.showLocationConfirmView(true, "转入到库位", TextUtils.isEmpty(curTransfer.getTaskId()) ? null : "任务：" + curTransfer.getTaskId(), "名称：" + curTransfer.getItemName(), "规格：" + curTransfer.getPackName(), "数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
+            stockTransferView.showLocationConfirmView(
+                    true,
+                    "转入到库位",
+                    TextUtils.isEmpty(curTransfer.getTaskId()) ? null : "任务：" + curTransfer.getTaskId(),
+                    "名称：" + curTransfer.getItemName(),
+                    "规格：" + curTransfer.getPackName(),
+                    "数量：" + curTransfer.getUomQty(),
+                    curTransfer.getLocationCode());
         }
     }
 
     private void fillOutBound() {
         if (stockTransferView != null) {
-            stockTransferView.showLocationConfirmView(false, "开始移库转出", TextUtils.isEmpty(curTransfer.getTaskId()) ? null : "任务：" + curTransfer.getTaskId(), "名称：" + curTransfer.getItemName(), "规格：" + curTransfer.getPackName(), "数量：" + curTransfer.getUomQty(), curTransfer.getLocationCode());
+            stockTransferView.showLocationConfirmView(
+                    false,
+                    "开始移库转出",
+                    TextUtils.isEmpty(curTransfer.getTaskId()) ? null : "任务：" + curTransfer.getTaskId(),
+                    "名称：" + curTransfer.getItemName(),
+                    "规格：" + curTransfer.getPackName(),
+                    "数量：" + curTransfer.getUomQty(),
+                    curTransfer.getLocationCode());
         }
     }
 
@@ -56,10 +70,10 @@ public class StockTransferController extends BaseStockTransferController impleme
             activity.finish();
             return true;
         } else {
-            if("0".equals(curTransfer.getTaskId())){
-                curTransfer = null ;
+            if ("0".equals(curTransfer.getTaskId())) {
+                curTransfer = null;
                 stockTransferView.showScanLayout();
-                return true ;
+                return true;
             }
         }
         return false;
@@ -80,9 +94,9 @@ public class StockTransferController extends BaseStockTransferController impleme
         }
     }
 
-    public void onScanComplete(String s) {
-        if (!TextUtils.isEmpty(s)) {
-            new ViewLocationTask(activity, uId, uToken, s).start();
+    public void onScanComplete(String locationCode, String barcode, String owner) {
+        if (!TextUtils.isEmpty(locationCode)) {
+            new ViewLocationTask(activity, uId, uToken, locationCode, barcode, owner).start();
         }
     }
 
@@ -104,7 +118,16 @@ public class StockTransferController extends BaseStockTransferController impleme
                         } else if ("-1".equals(curTransfer.getSubType())) {
                             numQty = "";
                         }
-                        stockTransferView.showItemView("填写转出数量", "名称：" + curTransfer.getItemName(), "规格：" + curTransfer.getPackName(), "数量：" + curTransfer.getUomQty(), "库位：" + curTransfer.getLocationCode(), numQty);
+
+                        stockTransferView.showItemView(
+                                "填写转出数量",
+                                TextUtils.isEmpty(curTransfer.getItemName()) ? null : "名称：" + curTransfer.getItemName(),
+                                TextUtils.isEmpty(curTransfer.getBarCode()) ? null : "国条码：" + curTransfer.getBarCode(),
+                                TextUtils.isEmpty(curTransfer.getOwner()) ? null : "货主：" + curTransfer.getOwner(),
+                                TextUtils.isEmpty(curTransfer.getPackName()) ? null : "规格：" + curTransfer.getPackName(),
+                                TextUtils.isEmpty(curTransfer.getUomQty()) ? null : "数量：" + curTransfer.getUomQty(),
+                                "库位：" + curTransfer.getLocationCode(),
+                                numQty);
                     }
                 }
             } else if (TextUtils.equals("2", curTransfer.getType())) {
@@ -154,20 +177,59 @@ public class StockTransferController extends BaseStockTransferController impleme
 
         private String locationCode;
 
-        public ViewLocationTask(Context context, String uId, String uToken, String locationCode) {
+        private String barcode;
+
+        private String owner;
+
+        public ViewLocationTask(Context context, String uId, String uToken, String locationCode, String barcode, String owner) {
             super(context, true, true, false, false);
             this.uId = uId;
             this.uToken = uToken;
             this.locationCode = locationCode;
+            this.barcode = barcode;
+            this.owner = owner;
         }
 
         @Override
         public DataHull<LocationView> doInBackground() {
-            return ViewLocationProvider.request(context, uId, uToken, locationCode);
+            return ViewLocationProvider.request(context, uId, uToken, locationCode, barcode, owner);
         }
 
         @Override
         public void onPostExecute(LocationView result) {
+            final boolean needBarcode = "1".equals(result.getNeedBarcode());
+            final boolean needOwner = "1".equals(result.getNeedOwner());
+
+            if (needBarcode || needOwner) {
+                String msg = "请输入";
+                if (needBarcode) {
+                    msg += "商品国条码";
+                }
+
+                if (needOwner) {
+                    msg += "和货主代码";
+                }
+
+                DialogTools.showOneButtonDialog(activity, msg, "知道了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (needOwner) {
+                            if (stockTransferView != null) {
+                                stockTransferView.requestFocusOwner();
+                            }
+                        }
+
+                        if (needBarcode) {
+                            if (stockTransferView != null) {
+                                stockTransferView.requestFocusBarcode();
+                            }
+                        }
+                    }
+                }, false);
+
+                return;
+            }
+
             Transfer transfer = new Transfer();
             transfer.setTaskId("0");
             transfer.setItemId(result.getItemId());
@@ -179,6 +241,7 @@ public class StockTransferController extends BaseStockTransferController impleme
             transfer.setUomQty(result.getUomQty());
             transfer.setBarCode(result.getBarCode());
             transfer.setUom(result.getUom());
+            transfer.setOwner(result.getOwner());
 
             curTransfer = transfer;
             fillData();
