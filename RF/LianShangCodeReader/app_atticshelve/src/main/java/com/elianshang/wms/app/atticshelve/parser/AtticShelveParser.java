@@ -18,6 +18,8 @@ public class AtticShelveParser extends MasterParser<AtticShelve> {
             String qty = optString(data, "qty");
             String packName = optString(data, "packName");
             String itemName = optString(data, "skuName");
+            String barcode = optString(data, "barcode");
+            String skuCode = optString(data, "skuCode");
 
             if (!TextUtils.isEmpty(taskId)
                     && !TextUtils.isEmpty(locationCode)
@@ -31,6 +33,8 @@ public class AtticShelveParser extends MasterParser<AtticShelve> {
                 atticShelve.setQty(qty);
                 atticShelve.setPackName(packName);
                 atticShelve.setItemName(itemName);
+                atticShelve.setBarcode(barcode);
+                atticShelve.setSkuCode(skuCode);
             }
         }
         return atticShelve;

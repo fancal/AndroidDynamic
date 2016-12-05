@@ -65,6 +65,14 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
     private TextView twoItemNameTextView;
 
+    private View twoBarcodeLayout;
+
+    private TextView twoBarcodeTextView;
+
+    private View twoSkuCodeLayout;
+
+    private TextView twoSkuCodeTextView;
+
     private View twoPackNameLayout;
 
     private TextView twoPackNameTextView;
@@ -151,6 +159,10 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         twoLocationCodeEditText.setCode(true);
         twoItemNameLayout = atticShelveTwoLayout.findViewById(R.id.itemName_Layout);
         twoItemNameTextView = (TextView) atticShelveTwoLayout.findViewById(R.id.itemName_TextView);
+        twoBarcodeLayout = atticShelveTwoLayout.findViewById(R.id.barcode_Layout);
+        twoBarcodeTextView = (TextView) atticShelveTwoLayout.findViewById(R.id.barcode_TextView);
+        twoSkuCodeLayout = atticShelveTwoLayout.findViewById(R.id.skuCode_Layout);
+        twoSkuCodeTextView = (TextView) atticShelveTwoLayout.findViewById(R.id.skuCode_TextView);
         twoPackNameLayout = atticShelveTwoLayout.findViewById(R.id.packName_Layout);
         twoPackNameTextView = (TextView) atticShelveTwoLayout.findViewById(R.id.packName_TextView);
         twoSystemQtyLayout = atticShelveTwoLayout.findViewById(R.id.systemQty_Layout);
@@ -192,6 +204,8 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
         twoLocationCodeLayout.setVisibility(View.VISIBLE);
         twoItemNameLayout.setVisibility(View.GONE);
+        twoBarcodeLayout.setVisibility(View.GONE);
+        twoSkuCodeLayout.setVisibility(View.GONE);
         twoPackNameLayout.setVisibility(View.GONE);
         twoSystemQtyLayout.setVisibility(View.GONE);
         twoInputQtyLayout.setVisibility(View.GONE);
@@ -217,6 +231,8 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         twoHeadTextView.setText("确认上架数量");
 
         twoItemNameTextView.setText(curAtticShelve.getItemName());
+        twoBarcodeTextView.setText(curAtticShelve.getBarcode());
+        twoSkuCodeTextView.setText(curAtticShelve.getSkuCode());
         twoPackNameTextView.setText(curAtticShelve.getPackName());
         twoAllocQtyTextView.setText(curAtticShelve.getQty());
         twoInputQtyEditView.setHint(curAtticShelve.getQty());
@@ -226,6 +242,8 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
 
         twoLocationCodeLayout.setVisibility(View.GONE);
         twoItemNameLayout.setVisibility(View.VISIBLE);
+        twoBarcodeLayout.setVisibility(View.VISIBLE);
+        twoSkuCodeLayout.setVisibility(View.VISIBLE);
         twoPackNameLayout.setVisibility(View.VISIBLE);
         twoSystemQtyLayout.setVisibility(View.VISIBLE);
         twoInputQtyLayout.setVisibility(View.VISIBLE);

@@ -77,6 +77,8 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
 
     private TextView mItemBarcodeView;
 
+    private TextView mItemSkuCodeView;
+
     private TextView mItemOwnerView;
     /**
      * 商品数量
@@ -217,6 +219,7 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
 
         mItemPackNameView = (TextView) mItemView.findViewById(R.id.item_pack_name);
         mItemBarcodeView = (TextView) mItemView.findViewById(R.id.item_barcode);
+        mItemSkuCodeView = (TextView) mItemView.findViewById(R.id.item_skuCode);
         mItemOwnerView = (TextView) mItemView.findViewById(R.id.item_owner);
         mItemQtyView = (TextView) mItemView.findViewById(R.id.item_qty);
         mItemQtyRealView = (QtyEditText) mItemView.findViewById(R.id.item_qty_real);
@@ -313,7 +316,7 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
     }
 
     @Override
-    public void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String packName, String qty, String locationName) {
+    public void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String barcode, String skuCoe, String owner, String packName, String qty, String locationName) {
         scanLayoutLocationCodeEditText.removeTextChangedListener(this);
 
 
@@ -333,6 +336,9 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
             mItemNameView.setText(itemName);
             mItemPackNameView.setText(packName);
             mItemQtyView.setText(qty);
+            mItemBarcodeView.setText(barcode);
+            mItemSkuCodeView.setText(skuCoe);
+            mItemOwnerView.setText(owner);
         } else {
             mItemView.setVisibility(View.GONE);
         }
@@ -362,7 +368,7 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
     }
 
     @Override
-    public void showItemView(String typeName, String itemName, String barcode, String owner, String packName, String qty, String locationName, String numQty) {
+    public void showItemView(String typeName, String itemName, String barcode, String skuCoe, String owner, String packName, String qty, String locationName, String numQty) {
         scanLayoutLocationCodeEditText.removeTextChangedListener(this);
 
         scanLayout.setVisibility(View.GONE);
@@ -392,6 +398,13 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
         } else {
             mItemBarcodeView.setVisibility(View.VISIBLE);
             mItemBarcodeView.setText(barcode);
+        }
+
+        if (TextUtils.isEmpty(skuCoe)) {
+            mItemSkuCodeView.setVisibility(View.GONE);
+        } else {
+            mItemSkuCodeView.setVisibility(View.VISIBLE);
+            mItemSkuCodeView.setText(skuCoe);
         }
 
         if (TextUtils.isEmpty(owner)) {

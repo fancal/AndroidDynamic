@@ -605,7 +605,6 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
                     }
                     return;
                 }
-
             } else {
                 //普通商品、尾货
                 if (tujobItem != null) {

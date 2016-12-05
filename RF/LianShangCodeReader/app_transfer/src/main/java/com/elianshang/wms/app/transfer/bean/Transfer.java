@@ -24,7 +24,17 @@ public class Transfer implements BaseBean {
 
     private String barCode;
 
-    private String owner ;
+    private String owner;
+
+    private String skuCode;
+
+    public String getSkuCode() {
+        return skuCode;
+    }
+
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
 
     public String getOwner() {
         return owner;

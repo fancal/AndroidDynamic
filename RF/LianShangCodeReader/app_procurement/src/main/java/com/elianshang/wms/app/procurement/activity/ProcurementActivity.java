@@ -42,6 +42,10 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
      * 商品名称
      */
     private TextView mItemNameView;
+
+    private TextView mItemBarcodeView;
+
+    private TextView mItemSkuCodeView;
     /**
      * 包装单位
      */
@@ -156,6 +160,8 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     private void findViews() {
         mTaskView = (TextView) findViewById(R.id.task_id);
         mItemNameView = (TextView) findViewById(R.id.item_name);
+        mItemBarcodeView = (TextView) findViewById(R.id.item_barcode);
+        mItemSkuCodeView = (TextView) findViewById(R.id.item_skuCode);
         mItemPackNameView = (TextView) findViewById(R.id.item_pack_name);
         mItemQtyView = (TextView) findViewById(R.id.item_qty);
         mItemQtyRealView = (QtyEditText) findViewById(R.id.item_qty_real);
@@ -211,7 +217,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     }
 
     @Override
-    public void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String packName, String qty, String locationName) {
+    public void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String barcode, String skuCode, String packName, String qty, String locationName) {
         mLocationView.setVisibility(View.VISIBLE);
         mSubmit.setVisibility(View.GONE);
 
@@ -224,6 +230,8 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
             mItemQtyView.setVisibility(View.VISIBLE);
 
             mItemNameView.setText(itemName);
+            mItemBarcodeView.setText(barcode);
+            mItemSkuCodeView.setText(skuCode);
             mItemPackNameView.setText(packName);
             mItemQtyView.setText(qty);
         } else {
@@ -246,7 +254,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     }
 
     @Override
-    public void showItemView(String typeName, String itemName, String packName, String qty, String locationName, String numQty) {
+    public void showItemView(String typeName, String itemName, String barcode, String skuCode, String packName, String qty, String locationName, String numQty) {
         mLocationView.setVisibility(View.GONE);
         mItemView.setVisibility(View.VISIBLE);
         mSubmit.setVisibility(View.VISIBLE);
@@ -260,6 +268,8 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
 
         mTypeNameView.setText(typeName);
         mItemNameView.setText(itemName);
+        mItemBarcodeView.setText(barcode);
+        mItemSkuCodeView.setText(skuCode);
         mItemPackNameView.setText(packName);
         mItemQtyView.setText(qty);
         mItemLocationView.setText(locationName);

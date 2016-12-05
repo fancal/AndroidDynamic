@@ -46,6 +46,9 @@ public class StockTransferController extends BaseStockTransferController impleme
                     "转入到库位",
                     TextUtils.isEmpty(curTransfer.getTaskId()) ? null : "任务：" + curTransfer.getTaskId(),
                     "名称：" + curTransfer.getItemName(),
+                    "国条码：" + curTransfer.getBarCode(),
+                    "物美码：" + curTransfer.getSkuCode(),
+                    "货主：" + curTransfer.getOwner(),
                     "规格：" + curTransfer.getPackName(),
                     "数量：" + curTransfer.getUomQty(),
                     curTransfer.getLocationCode());
@@ -59,6 +62,9 @@ public class StockTransferController extends BaseStockTransferController impleme
                     "开始移库转出",
                     TextUtils.isEmpty(curTransfer.getTaskId()) ? null : "任务：" + curTransfer.getTaskId(),
                     "名称：" + curTransfer.getItemName(),
+                    "国条码：" + curTransfer.getBarCode(),
+                    "物美码：" + curTransfer.getSkuCode(),
+                    "货主：" + curTransfer.getOwner(),
                     "规格：" + curTransfer.getPackName(),
                     "数量：" + curTransfer.getUomQty(),
                     curTransfer.getLocationCode());
@@ -123,6 +129,7 @@ public class StockTransferController extends BaseStockTransferController impleme
                                 "填写转出数量",
                                 TextUtils.isEmpty(curTransfer.getItemName()) ? null : "名称：" + curTransfer.getItemName(),
                                 TextUtils.isEmpty(curTransfer.getBarCode()) ? null : "国条码：" + curTransfer.getBarCode(),
+                                "物美码：" + curTransfer.getSkuCode(),
                                 TextUtils.isEmpty(curTransfer.getOwner()) ? null : "货主：" + curTransfer.getOwner(),
                                 TextUtils.isEmpty(curTransfer.getPackName()) ? null : "规格：" + curTransfer.getPackName(),
                                 TextUtils.isEmpty(curTransfer.getUomQty()) ? null : "数量：" + curTransfer.getUomQty(),

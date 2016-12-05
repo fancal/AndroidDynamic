@@ -13,15 +13,35 @@ public class Pick implements BaseBean {
 
     private String itemId;
 
-    private String itemName ;
+    private String itemName;
 
-    private String packName ;
+    private String packName;
 
-    private String allocUnitName ;
+    private String allocUnitName;
 
-    private String pickTaskId ;
+    private String pickTaskId;
 
-    private String containerId ;
+    private String containerId;
+
+    private String barcode;
+
+    private String skuCode;
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
+
+    public String getSkuCode() {
+        return skuCode;
+    }
+
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
 
     public String getContainerId() {
         return containerId;

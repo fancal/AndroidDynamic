@@ -24,6 +24,8 @@ public class ProcurementParser extends MasterParser<Procurement> {
             String itemName = optString(data, "itemName");
             String packName = optString(data, "packName");
             String uomQty = optString(data, "uomQty");
+            String barcode = optString(data, "barcode");
+            String skuCode = optString(data, "skuCode");
 
             if (!TextUtils.isEmpty(taskId)
                     && !TextUtils.isEmpty(type)
@@ -42,6 +44,8 @@ public class ProcurementParser extends MasterParser<Procurement> {
                 procurement.setItemName(itemName);
                 procurement.setPackName(packName);
                 procurement.setUomQty(uomQty);
+                procurement.setBarcode(barcode);
+                procurement.setSkuCode(skuCode);
             }
         }
         return procurement;

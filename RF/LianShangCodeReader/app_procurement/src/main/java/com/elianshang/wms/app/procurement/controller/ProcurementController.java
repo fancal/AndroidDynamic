@@ -35,13 +35,31 @@ public class ProcurementController extends BaseProcurementController implements 
 
     private void fillInBound() {
         if (procurementView != null) {
-            procurementView.showLocationConfirmView(true, "转入到库位", "任务：" + curProcurement.getTaskId(), "名称：" + curProcurement.getItemName(), "规格：" + curProcurement.getPackName(), "数量：" + curProcurement.getUomQty(), curProcurement.getLocationCode());
+            procurementView.showLocationConfirmView(
+                    true,
+                    "转入到库位",
+                    "任务：" + curProcurement.getTaskId(),
+                    "名称：" + curProcurement.getItemName(),
+                    "国条码：" + curProcurement.getBarcode(),
+                    "物美码：" + curProcurement.getSkuCode(),
+                    "规格：" + curProcurement.getPackName(),
+                    "数量：" + curProcurement.getUomQty(),
+                    curProcurement.getLocationCode());
         }
     }
 
     private void fillOutBound() {
         if (procurementView != null) {
-            procurementView.showLocationConfirmView(false, "开始补货转出", "任务：" + curProcurement.getTaskId(), "名称：" + curProcurement.getItemName(), "规格：" + curProcurement.getPackName(), "数量：" + curProcurement.getUomQty(), curProcurement.getLocationCode());
+            procurementView.showLocationConfirmView(
+                    false,
+                    "开始补货转出",
+                    "任务：" + curProcurement.getTaskId(),
+                    "名称：" + curProcurement.getItemName(),
+                    "国条码：" + curProcurement.getBarcode(),
+                    "物美码：" + curProcurement.getSkuCode(),
+                    "规格：" + curProcurement.getPackName(),
+                    "数量：" + curProcurement.getUomQty(),
+                    curProcurement.getLocationCode());
         }
     }
 
@@ -67,7 +85,15 @@ public class ProcurementController extends BaseProcurementController implements 
                 } else if (TextUtils.equals("1", curProcurement.getType())) {
                     if (procurementView != null) {
                         String numQty = "1".equals(curProcurement.getSubType()) ? null : curProcurement.getUomQty();
-                        procurementView.showItemView("填写转出数量", "名称：" + curProcurement.getItemName(), "规格：" + curProcurement.getPackName(), "数量：" + curProcurement.getUomQty(), "库位：" + curProcurement.getLocationCode(), numQty);
+                        procurementView.showItemView(
+                                "填写转出数量",
+                                "名称：" + curProcurement.getItemName(),
+                                "国条码：" + curProcurement.getBarcode(),
+                                "物美码：" + curProcurement.getSkuCode(),
+                                "规格：" + curProcurement.getPackName(),
+                                "数量：" + curProcurement.getUomQty(),
+                                "库位：" + curProcurement.getLocationCode(),
+                                numQty);
                     }
                 }
             }

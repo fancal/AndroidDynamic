@@ -101,6 +101,10 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
     private TextView locationLayoutItemName;
 
+    private TextView locationLayoutBarcode;
+
+    private TextView locationLayoutSkuCode;
+
     private TextView locationLayoutPackName;
 
     /**
@@ -128,6 +132,10 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     private View locationLayoutInputQtyLayot;
 
     private View locationLayoutItemNameLayot;
+
+    private View locationLayoutBarcodeLayot;
+
+    private View locationLayoutSkuCodeLayot;
 
     private View locationLayoutPackNameLayot;
 
@@ -240,6 +248,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutConfirmLocationCodeView = (ScanEditText) locationLayout.findViewById(R.id.confirm_location_id);
         locationLayoutConfirmLocationCodeView.setCode(true);
         locationLayoutItemName = (TextView) locationLayout.findViewById(R.id.itemName_TextView);
+        locationLayoutBarcode = (TextView) locationLayout.findViewById(R.id.barcode_TextView);
+        locationLayoutSkuCode = (TextView) locationLayout.findViewById(R.id.skuCode_TextView);
         locationLayoutPackName = (TextView) locationLayout.findViewById(R.id.packName_TextView);
         locationLayoutAllocQty = (TextView) locationLayout.findViewById(R.id.allocQty_TextView);
         locationLayoutQty = (QtyEditText) locationLayout.findViewById(R.id.inputQty_EditView);
@@ -247,6 +257,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutSystemQtyLayout = locationLayout.findViewById(R.id.systemQty_Layout);
         locationLayoutInputQtyLayot = locationLayout.findViewById(R.id.inputQty_Layout);
         locationLayoutItemNameLayot = locationLayout.findViewById(R.id.itemName_Layout);
+        locationLayoutBarcodeLayot = locationLayout.findViewById(R.id.barcode_Layout);
+        locationLayoutSkuCodeLayot = locationLayout.findViewById(R.id.skuCode_Layout);
         locationLayoutPackNameLayot = locationLayout.findViewById(R.id.packName_Layout);
         locationLayoutSplitButton = locationLayout.findViewById(R.id.split_Button);
 
@@ -428,6 +440,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutPickTaskIdView.setText(mPick.getPickTaskId());
         locationLayoutLocationCodeView.setText(mPick.getAllocPickLocationCode());
         locationLayoutItemName.setText(mPick.getItemName());
+        locationLayoutBarcode.setText(mPick.getBarcode());
+        locationLayoutSkuCode.setText(mPick.getSkuCode());
         locationLayoutPackName.setText(mPick.getAllocUnitName());
         locationLayoutConfirmLocationCodeView.getText().clear();
         locationLayoutAllocQty.setText(mPick.getAllocQty());
@@ -438,6 +452,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutSystemQtyLayout.setVisibility(View.GONE);
         locationLayoutInputQtyLayot.setVisibility(View.GONE);
         locationLayoutItemNameLayot.setVisibility(View.GONE);
+        locationLayoutBarcodeLayot.setVisibility(View.GONE);
+        locationLayoutSkuCodeLayot.setVisibility(View.GONE);
         locationLayoutPackNameLayot.setVisibility(View.GONE);
     }
 
@@ -451,6 +467,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutSystemQtyLayout.setVisibility(View.VISIBLE);
         locationLayoutInputQtyLayot.setVisibility(View.VISIBLE);
         locationLayoutItemNameLayot.setVisibility(View.VISIBLE);
+        locationLayoutBarcodeLayot.setVisibility(View.VISIBLE);
+        locationLayoutSkuCodeLayot.setVisibility(View.VISIBLE);
         locationLayoutPackNameLayot.setVisibility(View.VISIBLE);
         locationLayoutSplitButton.setVisibility(View.GONE);
         locationLayoutQty.requestFocus();

@@ -65,6 +65,10 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
      */
     private TextView itemNameTextView;
 
+    private TextView barcodeTextView;
+
+    private TextView skuCodeTextView;
+
     /**
      * 库位TextView
      */
@@ -137,6 +141,8 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
     private void findViews() {
         taskIdTextView = (TextView) findViewById(R.id.taskId_TextView);
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
+        barcodeTextView = (TextView) findViewById(R.id.barcode_TextView);
+        skuCodeTextView = (TextView) findViewById(R.id.skuCode_TextView);
         locationCodeTextView = (TextView) findViewById(R.id.locationCode_TextView);
         locationCodeEditText = (ScanEditText) findViewById(R.id.locationCode_EditText);
         locationCodeEditText.setCode(true);
@@ -176,6 +182,8 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
         if (shelve != null) {
             taskIdTextView.setText(shelve.getTaskId());
             itemNameTextView.setText(shelve.getItemName());
+            barcodeTextView.setText(shelve.getBarcode());
+            skuCodeTextView.setText(shelve.getSkuCode());
             locationCodeTextView.setText(shelve.getAllocLocationCode());
         }
     }

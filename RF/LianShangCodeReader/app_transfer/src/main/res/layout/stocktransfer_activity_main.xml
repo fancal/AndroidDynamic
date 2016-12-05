@@ -145,6 +145,15 @@
                         android:textSize="14dip" />
 
                     <TextView
+                        android:id="@+id/item_skuCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dip"
+                        android:layout_marginTop="5dip"
+                        android:text="物美码:"
+                        android:textSize="14dip" />
+
+                    <TextView
                         android:id="@+id/item_owner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
