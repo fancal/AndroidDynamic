@@ -152,11 +152,21 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
 
         String skuId;
 
+        String skuCode;
+
         String codeType;
 
         String barCode;
 
         String uomQty;
+
+        public String getSkuCode() {
+            return skuCode;
+        }
+
+        public void setSkuCode(String skuCode) {
+            this.skuCode = skuCode;
+        }
 
         public boolean isSplit() {
             return isSplit;

@@ -57,23 +57,24 @@ public class TuListAdapter extends BaseAdapter {
             viewHolder.storesTextView = (TextView) convertView.findViewById(R.id.stores_TextView);
 
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         TuList.Item item = getItem(position);
-        viewHolder.tuTextView.setText("TU号:"+item.getTu());
-        viewHolder.preBoardTextView.setText("预装版数:"+item.getPreBoard());
-        if(item.getStores() != null && item.getStores().size() >0){
+        viewHolder.tuTextView.setText("TU号:" + item.getTu());
+        viewHolder.preBoardTextView.setText("预装版数:" + item.getPreBoard());
+        if (item.getStores() != null && item.getStores().size() > 0) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < item.getStores().size(); i++) {
                 TuList.Item.Store store = item.getStores().get(i);
                 sb.append("门店");
-                sb.append(String.valueOf(i+1));
+                sb.append(String.valueOf(i + 1));
                 sb.append(":");
+                sb.append(store.getCustomerName());
                 sb.append("【");
                 sb.append(store.getCustomerCode());
                 sb.append("】");
-                if(i != item.getStores().size() - 1){
+                if (i != item.getStores().size() - 1) {
                     sb.append("\r\n");
                 }
             }

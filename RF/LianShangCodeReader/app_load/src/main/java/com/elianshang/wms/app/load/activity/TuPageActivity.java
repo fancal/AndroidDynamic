@@ -241,6 +241,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
                 sb.append("门店");
                 sb.append(String.valueOf(i + 1));
                 sb.append(":");
+                sb.append(store.getCustomerName());
                 sb.append("【");
                 sb.append(store.getCustomerCode());
                 sb.append("】");

@@ -19,6 +19,8 @@ public class SowParser extends MasterParser<Sow> {
             String packName = optString(data, "packName");
             String skuName = optString(data, "skuName");
             String storeNo = optString(data, "storeNo");
+            String barcode = optString(data, "barcode");
+            String skuCode = optString(data, "skuCode");
 
             if (!TextUtils.isEmpty(taskId)) {
                 sow = new Sow();
@@ -29,6 +31,8 @@ public class SowParser extends MasterParser<Sow> {
                 sow.setQty(qty);
                 sow.setPackName(packName);
                 sow.setSkuName(skuName);
+                sow.setBarcode(barcode);
+                sow.setSkuCode(skuCode);
             }
         }
         return sow;

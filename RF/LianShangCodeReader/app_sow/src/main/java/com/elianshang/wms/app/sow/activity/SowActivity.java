@@ -81,7 +81,13 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     private TextView detailStoreNameTextView;
 
+    private TextView detailStoreNoTextView;
+
     private TextView detailItemNameTextView;
+
+    private TextView detailBarcodeTextView;
+
+    private TextView detailSkuCodeTextView;
 
     private TextView detailPackNameTextView;
 
@@ -210,7 +216,10 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         detailContainerIdEditText = (ScanEditText) detailLayout.findViewById(R.id.containerId_EditText);
         detailContainerIdEditText.setCode(true);
         detailStoreNameTextView = (TextView) detailLayout.findViewById(R.id.storeName_TextView);
+        detailStoreNoTextView = (TextView) detailLayout.findViewById(R.id.storeNo_TextView);
         detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);
+        detailBarcodeTextView = (TextView) detailLayout.findViewById(R.id.barcode_TextView);
+        detailSkuCodeTextView = (TextView) detailLayout.findViewById(R.id.skuCode_TextView);
         detailPackNameTextView = (TextView) detailLayout.findViewById(R.id.packName_TextView);
         detailAllocQtyTextView = (TextView) detailLayout.findViewById(R.id.allocQty_TextView);
         detailInputQtyEditView = (QtyEditText) detailLayout.findViewById(R.id.inputQty_EditView);
@@ -298,7 +307,10 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         detailExceptionCodeEditView.setText("");
 
         detailStoreNameTextView.setText(curSow.getStoreName());
+        detailStoreNoTextView.setText(curSow.getStoreNo());
         detailItemNameTextView.setText(curSow.getSkuName());
+        detailBarcodeTextView.setText(curSow.getBarcode());
+        detailSkuCodeTextView.setText(curSow.getSkuCode());
         detailPackNameTextView.setText(curSow.getPackName());
         detailAllocQtyTextView.setText(curSow.getQty());
         detailInputQtyEditView.setHint("0");

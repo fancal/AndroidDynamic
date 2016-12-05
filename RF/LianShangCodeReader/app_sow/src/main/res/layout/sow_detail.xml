@@ -49,6 +49,29 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/storeNo_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
+                android:orientation="horizontal"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="门店编码:"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:id="@+id/storeNo_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dip" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/itemName_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,6 +89,52 @@
 
                 <TextView
                     android:id="@+id/itemName_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/barcode_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
+                android:orientation="horizontal"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="国条码:"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:id="@+id/barcode_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/skuCode_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
+                android:orientation="horizontal"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="物美码:"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:id="@+id/skuCode_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14dip" />

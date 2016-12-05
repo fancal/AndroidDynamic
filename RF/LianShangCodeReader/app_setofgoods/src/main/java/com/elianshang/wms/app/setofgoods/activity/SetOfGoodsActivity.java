@@ -35,6 +35,10 @@ public class SetOfGoodsActivity extends DLBasePluginActivity implements ScanEdit
 
     private View viewLayout;
 
+    private TextView viewStoreNameTextView;
+
+    private TextView viewStoreNoTextView;
+
     private TextView viewContainerIdTextView;
 
     private TextView viewLocationCodeTextView;
@@ -109,6 +113,8 @@ public class SetOfGoodsActivity extends DLBasePluginActivity implements ScanEdit
         scanContainerIdEditText = (ScanEditText) scanLayout.findViewById(R.id.containerId_EditText);
 
         viewLayout = findViewById(R.id.view_Layout);
+        viewStoreNameTextView = (TextView) viewLayout.findViewById(R.id.storeName_TextView);
+        viewStoreNoTextView = (TextView) viewLayout.findViewById(R.id.storeNo_TextView);
         viewContainerIdTextView = (TextView) viewLayout.findViewById(R.id.containerId_TextView);
         viewLocationCodeTextView = (TextView) viewLayout.findViewById(R.id.locationCode_TextView);
         viewStatusTextView = (TextView) viewLayout.findViewById(R.id.status_TextView);
@@ -155,6 +161,8 @@ public class SetOfGoodsActivity extends DLBasePluginActivity implements ScanEdit
         }
 
         if (setOfGoodsView != null) {
+            viewStoreNameTextView.setText(setOfGoodsView.getStoreName());
+            viewStoreNoTextView.setText(setOfGoodsView.getStoreNo());
             viewContainerIdTextView.setText(setOfGoodsView.getContainerId());
             viewLocationCodeTextView.setText(setOfGoodsView.getLocationCode());
 

@@ -62,6 +62,7 @@ public class QcListParser extends MasterParser<QcList> {
                         String itemName = optString(jo, "itemName");
                         String packName = optString(jo, "uom");
                         String skuId = optString(jo, "skuId");
+                        String skuCode = optString(jo, "skuCode");
                         String codeType = optString(jo, "codeType");
                         String barCode = optString(jo, "code");
                         String itemId = optString(jo, "itemId");
@@ -87,6 +88,7 @@ public class QcListParser extends MasterParser<QcList> {
                             item.setItemId(itemId);
                             item.setUomQty(uomQty);
                             item.setSplit(isSplit);
+                            item.setSkuCode(skuCode);
 
                             if (isSplit) {
                                 scatteredList.add(item);

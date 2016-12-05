@@ -90,9 +90,11 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     private TextView startCollectionCodeTextView;
 
     /**
-     * 开始布局超市
+     * 开始布局超市me
      */
-    private TextView startShopTextView;
+    private TextView startStoreNameTextView;
+
+    private TextView startStoreNoTextView;
 
     /**
      * 开始布局总箱数
@@ -131,6 +133,10 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
      * 名称文本框
      */
     private TextView itemItemNameTextView;
+
+    private TextView itemBarcodeTextView;
+
+    private TextView itemSkuCodeTextView;
 
     /**
      * 规格文本框
@@ -189,7 +195,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     /**
      * 确认布局超市
      */
-    private TextView confirmShopTextView;
+    private TextView confirmStoreNameTextView;
+
+    private TextView confirmStoreNoTextView;
 
     /**
      * 确认布局箱数
@@ -270,7 +278,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         startTaskIdTextView = (TextView) startLayout.findViewById(R.id.qcTaskId_TextView);
         startStateTextView = (TextView) startLayout.findViewById(R.id.state_TextView);
         startCollectionCodeTextView = (TextView) startLayout.findViewById(R.id.collectionCode_TextView);
-        startShopTextView = (TextView) startLayout.findViewById(R.id.shop_TextView);
+        startStoreNameTextView = (TextView) startLayout.findViewById(R.id.storeName_TextView);
+        startStoreNoTextView = (TextView) startLayout.findViewById(R.id.storeNo_TextView);
         startAllBoxNumTextView = (TextView) startLayout.findViewById(R.id.allBoxNum_TextView);
         startLineNumTextView = (TextView) startLayout.findViewById(R.id.lineNum_TextView);
         startSubmitButton = (Button) startLayout.findViewById(R.id.submit_Button);
@@ -283,6 +292,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout = findViewById(R.id.item_Layout);
         itemTaskIdTextView = (TextView) itemLayout.findViewById(R.id.qcTaskId_TextView);
         itemItemNameTextView = (TextView) itemLayout.findViewById(R.id.itemName_TextView);
+        itemBarcodeTextView = (TextView) itemLayout.findViewById(R.id.barcode_TextView);
+        itemSkuCodeTextView = (TextView) itemLayout.findViewById(R.id.skuCode_TextView);
         itemPackNameTextView = (TextView) itemLayout.findViewById(R.id.packName_TextView);
         itemQtyTextView = (TextView) itemLayout.findViewById(R.id.qty_TextView);
         itemInputQtyEditText = (QtyEditText) itemLayout.findViewById(R.id.inputQty_EditView);
@@ -300,7 +311,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         confirmLayout = findViewById(R.id.confirm_Layout);
         confirmCollectionCodeTextView = (TextView) confirmLayout.findViewById(R.id.collectionCode_TextView);
-        confirmShopTextView = (TextView) confirmLayout.findViewById(R.id.shop_TextView);
+        confirmStoreNameTextView = (TextView) confirmLayout.findViewById(R.id.storeName_TextView);
+        confirmStoreNoTextView = (TextView) confirmLayout.findViewById(R.id.storeNo_TextView);
         confirmItemBoxNumTextView = (TextView) confirmLayout.findViewById(R.id.itemBoxNum_TextView);
         confirmTurnoverBoxNumTextView = (TextView) confirmLayout.findViewById(R.id.turnoverBoxNum_TextView);
         confirmItemBoxNumEditText = (QtyEditText) confirmLayout.findViewById(R.id.itemBoxNum_EditText);
@@ -366,7 +378,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         startTaskIdTextView.setText(qcList.getQcTaskId());
         startStateTextView.setText(qcList.isFirst() ? "未完成" : (qcList.isQcDone() ? "完成" : "QC异常"));
         startCollectionCodeTextView.setText(qcList.getCollectionRoadCode());
-        startShopTextView.setText(qcList.getCustomerName());
+        startStoreNameTextView.setText(qcList.getCustomerName());
+        startStoreNoTextView.setText(qcList.getCustomerId());
         startAllBoxNumTextView.setText(qcList.getAllBoxNum());
         startLineNumTextView.setText(qcList.getItemLineNum());
         startSubmitButton.setText(qcList.isQcDone() ? "退出" : "开始QC");
@@ -415,6 +428,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         itemTaskIdTextView.setText(qcList.getQcTaskId());
         itemItemNameTextView.setText(curItem.getItemName());
+        itemBarcodeTextView.setText(curItem.getBarCode());
+        itemSkuCodeTextView.setText(curItem.getSkuCode());
         itemPackNameTextView.setText(curItem.getPackName());
         itemQtyTextView.setText(curItem.getUomQty());
         itemInputQtyEditText.setHint(curItem.getUomQty());
@@ -469,7 +484,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
 
         confirmCollectionCodeTextView.setText(qcList.getCollectionRoadCode());
-        confirmShopTextView.setText(qcList.getCustomerName());
+        confirmStoreNameTextView.setText(qcList.getCustomerName());
+        confirmStoreNoTextView.setText(qcList.getCustomerId());
         confirmItemBoxNumTextView.setText(qcList.getItemBoxNum());
         confirmTurnoverBoxNumTextView.setText(qcList.getTurnoverBoxNum());
         confirmItemBoxNumEditText.setText(null);

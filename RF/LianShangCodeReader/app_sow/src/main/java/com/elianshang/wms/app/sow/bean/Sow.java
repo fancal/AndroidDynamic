@@ -19,6 +19,26 @@ public class Sow implements BaseBean{
 
     private String packName ;
 
+    private String barcode ;
+
+    private String skuCode ;
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
+
+    public String getSkuCode() {
+        return skuCode;
+    }
+
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
+
     public String getStoreNo() {
         return storeNo;
     }
