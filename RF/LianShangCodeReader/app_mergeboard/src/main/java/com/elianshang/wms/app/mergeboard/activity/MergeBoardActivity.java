@@ -164,10 +164,17 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         vhList.clear();
         inputLayout.removeAllViews();
         titleTextView.setText("请扫描添加托盘码:");
+        submitButton.setVisibility(View.VISIBLE);
         submitButton.setEnabled(false);
     }
 
     private void fillBoardDetail(CheckMerge checkMerge) {
+        if (vhList.size() <= 1) {
+            submitButton.setVisibility(View.GONE);
+        } else {
+            submitButton.setVisibility(View.VISIBLE);
+        }
+
         detailLayout.removeAllViews();
 
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
@@ -218,7 +225,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
             }
         });
 
-        if (vhList.size() < 2) {
+        if (vhList.size() < 1) {
             submitButton.setEnabled(false);
         } else {
             submitButton.setEnabled(true);
@@ -235,7 +242,7 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
             titleTextView.setText("托盘数:" + vhList.size());
         }
 
-        if (vhList.size() < 2) {
+        if (vhList.size() < 1) {
             submitButton.setEnabled(false);
         } else {
             submitButton.setEnabled(true);
@@ -379,7 +386,6 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         public void onPostExecute(CheckMerge result) {
             fillBoardDetail(result);
         }
-
     }
 
     /**
