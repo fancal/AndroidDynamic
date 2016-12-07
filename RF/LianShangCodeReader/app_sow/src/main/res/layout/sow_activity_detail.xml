@@ -15,15 +15,11 @@
         app:title="播种" />
 
     <include
-        android:id="@+id/sow_scan"
-        layout="@layout/sow_scan" />
+        android:id="@+id/sow_wait"
+        layout="@layout/sow_wait" />
 
     <include
-        android:id="@+id/order_list"
-        layout="@layout/order_list" />
-
-    <include
-        android:id="@+id/store_list"
-        layout="@layout/store_list" />
+        android:id="@+id/sow_detail"
+        layout="@layout/sow_detail" />
 
 </LinearLayout>

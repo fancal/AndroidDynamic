@@ -27,6 +27,10 @@
         <activity
             android:name=".activity.SowActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.SowDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

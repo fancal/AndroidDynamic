@@ -45,18 +45,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="请扫描订单号:"
-            android:textSize="14dip" />
-
-        <com.elianshang.bridge.ui.view.ScanEditText
-            android:id="@+id/orderId_EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14dip" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="请扫描商品码:"
             android:textSize="14dip" />
 
@@ -65,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14dip" />
+
     </LinearLayout>
 
     <View
@@ -73,7 +62,7 @@
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/sysSubmit_Button"
+        android:id="@+id/Submit_Button"
         android:layout_width="match_parent"
         android:layout_height="40dip"
         android:layout_alignParentBottom="true"
@@ -81,24 +70,7 @@
         android:background="@drawable/submit_button_bg"
         android:enabled="false"
         android:gravity="center"
-        android:text="系统播种"
-        android:textColor="#ffffffff"
-        android:textSize="16dip" />
-
-    <View
-        android:layout_width="0px"
-        android:layout_height="1px" />
-
-    <Button
-        android:id="@+id/meSubmit_Button"
-        android:layout_width="match_parent"
-        android:layout_height="40dip"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:background="@drawable/submit_button_bg"
-        android:enabled="false"
-        android:gravity="center"
-        android:text="自主播种"
+        android:text="开始播种"
         android:textColor="#ffffffff"
         android:textSize="16dip" />
 </LinearLayout>
