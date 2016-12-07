@@ -12,30 +12,28 @@ public class CheckMerge extends ArrayList<CheckMerge.Item> implements BaseBean {
 
     private String turnoverBoxCount;
 
-    private String deliveryName;
+    private String customerName;
+
+    private String customerCode;
 
     private String packCount;
 
     private String taskBoardQty;
 
-    private String storeName;
-
-    private String storeNo;
-
-    public String getStoreName() {
-        return storeName;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
-    public String getStoreNo() {
-        return storeNo;
+    public String getCustomerCode() {
+        return customerCode;
     }
 
-    public void setStoreNo(String storeNo) {
-        this.storeNo = storeNo;
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
     }
 
     public String getContainerCount() {
@@ -60,14 +58,6 @@ public class CheckMerge extends ArrayList<CheckMerge.Item> implements BaseBean {
 
     public void setTurnoverBoxCount(String turnoverBoxCount) {
         this.turnoverBoxCount = turnoverBoxCount;
-    }
-
-    public String getDeliveryName() {
-        return deliveryName;
-    }
-
-    public void setDeliveryName(String deliveryName) {
-        this.deliveryName = deliveryName;
     }
 
     public String getPackCount() {

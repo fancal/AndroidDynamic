@@ -96,6 +96,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     private TextView startStoreNoTextView;
 
+    private TextView startContainerIdTextView;
+
     /**
      * 开始布局总箱数
      */
@@ -137,6 +139,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     private TextView itemBarcodeTextView;
 
     private TextView itemSkuCodeTextView;
+
+    private TextView itemContainerIdTextView;
 
     /**
      * 规格文本框
@@ -198,6 +202,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     private TextView confirmStoreNameTextView;
 
     private TextView confirmStoreNoTextView;
+
+    private TextView confirmContainerIdTextView;
 
     /**
      * 确认布局箱数
@@ -280,6 +286,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         startCollectionCodeTextView = (TextView) startLayout.findViewById(R.id.collectionCode_TextView);
         startStoreNameTextView = (TextView) startLayout.findViewById(R.id.storeName_TextView);
         startStoreNoTextView = (TextView) startLayout.findViewById(R.id.storeNo_TextView);
+        startContainerIdTextView = (TextView) startLayout.findViewById(R.id.containerId_TextView);
         startAllBoxNumTextView = (TextView) startLayout.findViewById(R.id.allBoxNum_TextView);
         startLineNumTextView = (TextView) startLayout.findViewById(R.id.lineNum_TextView);
         startSubmitButton = (Button) startLayout.findViewById(R.id.submit_Button);
@@ -294,6 +301,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemItemNameTextView = (TextView) itemLayout.findViewById(R.id.itemName_TextView);
         itemBarcodeTextView = (TextView) itemLayout.findViewById(R.id.barcode_TextView);
         itemSkuCodeTextView = (TextView) itemLayout.findViewById(R.id.skuCode_TextView);
+        itemContainerIdTextView = (TextView) itemLayout.findViewById(R.id.containerId_TextView);
         itemPackNameTextView = (TextView) itemLayout.findViewById(R.id.packName_TextView);
         itemQtyTextView = (TextView) itemLayout.findViewById(R.id.qty_TextView);
         itemInputQtyEditText = (QtyEditText) itemLayout.findViewById(R.id.inputQty_EditView);
@@ -313,6 +321,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         confirmCollectionCodeTextView = (TextView) confirmLayout.findViewById(R.id.collectionCode_TextView);
         confirmStoreNameTextView = (TextView) confirmLayout.findViewById(R.id.storeName_TextView);
         confirmStoreNoTextView = (TextView) confirmLayout.findViewById(R.id.storeNo_TextView);
+        confirmContainerIdTextView = (TextView) confirmLayout.findViewById(R.id.containerId_TextView);
         confirmItemBoxNumTextView = (TextView) confirmLayout.findViewById(R.id.itemBoxNum_TextView);
         confirmTurnoverBoxNumTextView = (TextView) confirmLayout.findViewById(R.id.turnoverBoxNum_TextView);
         confirmItemBoxNumEditText = (QtyEditText) confirmLayout.findViewById(R.id.itemBoxNum_EditText);
@@ -338,7 +347,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     }
 
     private void fillScanLayout() {
-
         qcList = null;
         myAdapter = null;
         listView.setAdapter(null);
@@ -379,11 +387,13 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         startStateTextView.setText(qcList.isFirst() ? "未完成" : (qcList.isQcDone() ? "完成" : "QC异常"));
         startCollectionCodeTextView.setText(qcList.getCollectionRoadCode());
         startStoreNameTextView.setText(qcList.getCustomerName());
-        startStoreNoTextView.setText(qcList.getCustomerId());
+        startStoreNoTextView.setText(qcList.getCustomerCode());
         startAllBoxNumTextView.setText(qcList.getAllBoxNum());
         startLineNumTextView.setText(qcList.getItemLineNum());
         startSubmitButton.setText(qcList.isQcDone() ? "退出" : "开始QC");
         startSkipButton.setVisibility(qcList.isQcDone() ? View.GONE : View.VISIBLE);
+        startContainerIdTextView.setText(qcList.getContainerId());
+
     }
 
     private void fillItemLayout(QcList.Item item) {
@@ -434,6 +444,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemInputQtyEditText.setText(null);
         itemShoddyQtyEditView.setHint("0");
         itemShoddyQtyEditView.setText(null);
+        itemContainerIdTextView.setText(qcList.getContainerId());
 
     }
 
@@ -483,13 +494,14 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         confirmCollectionCodeTextView.setText(qcList.getCollectionRoadCode());
         confirmStoreNameTextView.setText(qcList.getCustomerName());
-        confirmStoreNoTextView.setText(qcList.getCustomerId());
+        confirmStoreNoTextView.setText(qcList.getCustomerCode());
         confirmItemBoxNumTextView.setText(qcList.getItemBoxNum());
         confirmTurnoverBoxNumTextView.setText(qcList.getTurnoverBoxNum());
         confirmItemBoxNumEditText.setText(null);
         confirmItemBoxNumEditText.setHint(qcList.getItemBoxNum());
         confirmTurnoverBoxNumEditText.setText(null);
         confirmTurnoverBoxNumEditText.setHint(qcList.getTurnoverBoxNum());
+        confirmContainerIdTextView.setText(qcList.getContainerId());
     }
 
     /**

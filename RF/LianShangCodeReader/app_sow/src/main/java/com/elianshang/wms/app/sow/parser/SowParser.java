@@ -14,11 +14,11 @@ public class SowParser extends MasterParser<Sow> {
         Sow sow = null;
         if (data != null) {
             String taskId = optString(data, "taskId");
-            String storeName = optString(data, "storeName");
+            String customerName = optString(data, "customerName");
             String qty = optString(data, "qty");
             String packName = optString(data, "packName");
             String skuName = optString(data, "skuName");
-            String storeNo = optString(data, "storeNo");
+            String customerCode = optString(data, "customerCode");
             String barcode = optString(data, "barcode");
             String skuCode = optString(data, "skuCode");
 
@@ -26,8 +26,8 @@ public class SowParser extends MasterParser<Sow> {
                 sow = new Sow();
 
                 sow.setTaskId(taskId);
-                sow.setStoreNo(storeNo);
-                sow.setStoreName(storeName);
+                sow.setCustomerCode(customerCode);
+                sow.setCustomerName(customerName);
                 sow.setQty(qty);
                 sow.setPackName(packName);
                 sow.setSkuName(skuName);

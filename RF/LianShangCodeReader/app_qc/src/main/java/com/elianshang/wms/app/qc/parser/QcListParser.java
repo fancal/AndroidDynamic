@@ -20,7 +20,7 @@ public class QcListParser extends MasterParser<QcList> {
 
             String qcTaskId = optString(data, "qcTaskId");
             String customerName = optString(data, "customerName");
-            String customerId = optString(data, "customerId");
+            String customerCode = optString(data, "customerCode");
             String collectionRoadCode = optString(data, "collectionRoadCode");
             String containerType = optString(data, "containerType");
             boolean qcTaskDone = optBoolean(data, "qcTaskDone");
@@ -29,17 +29,18 @@ public class QcListParser extends MasterParser<QcList> {
             String allBoxNum = optString(data, "allBoxNum");
             String turnoverBoxNum = optString(data, "turnoverBoxNum");
             String itemLineNum = optString(data, "itemLineNum");
+            String containerId = optString(data, "containerId");
 
             if (!TextUtils.isEmpty(qcTaskId)
                     && !TextUtils.isEmpty(customerName)
-                    && !TextUtils.isEmpty(customerId)
+                    && !TextUtils.isEmpty(customerCode)
                     && !TextUtils.isEmpty(containerType)
                     && !TextUtils.isEmpty(itemBoxNum)
                     && !TextUtils.isEmpty(itemLineNum)
                     && !TextUtils.isEmpty(collectionRoadCode)) {
                 qcList.setQcTaskId(qcTaskId);
                 qcList.setCustomerName(customerName);
-                qcList.setCustomerId(customerId);
+                qcList.setCustomerCode(customerCode);
                 qcList.setContainerType(containerType);
                 qcList.setQcDone(qcTaskDone);
                 qcList.setFirst(isFirst);
@@ -48,6 +49,7 @@ public class QcListParser extends MasterParser<QcList> {
                 qcList.setTurnoverBoxNum(turnoverBoxNum);
                 qcList.setItemLineNum(itemLineNum);
                 qcList.setCollectionRoadCode(collectionRoadCode);
+                qcList.setCollectionRoadCode(containerId);
             }
 
             JSONArray jsonArray = optJSONArray(data, "qcList");

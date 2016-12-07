@@ -161,8 +161,8 @@ public class SetOfGoodsActivity extends DLBasePluginActivity implements ScanEdit
         }
 
         if (setOfGoodsView != null) {
-            viewStoreNameTextView.setText(setOfGoodsView.getStoreName());
-            viewStoreNoTextView.setText(setOfGoodsView.getStoreNo());
+            viewStoreNameTextView.setText(setOfGoodsView.getCustomerName());
+            viewStoreNoTextView.setText(setOfGoodsView.getCustomerCode());
             viewContainerIdTextView.setText(setOfGoodsView.getContainerId());
             viewLocationCodeTextView.setText(setOfGoodsView.getLocationCode());
 

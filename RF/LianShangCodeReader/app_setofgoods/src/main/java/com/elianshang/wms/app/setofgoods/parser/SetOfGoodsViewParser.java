@@ -15,8 +15,8 @@ public class SetOfGoodsViewParser extends MasterParser<SetOfGoodsView> {
             String containerId = optString(data, "containerId");
             String locationCode = optString(data, "locationCode");
             String status = optString(data, "status");
-            String storeName = optString(data, "storeName");
-            String storeNo = optString(data, "storeNo");
+            String customerName = optString(data, "customerName");
+            String customerCode = optString(data, "customerCode");
 
             if (!TextUtils.isEmpty(containerId)
                     && !TextUtils.isEmpty(locationCode)
@@ -25,8 +25,8 @@ public class SetOfGoodsViewParser extends MasterParser<SetOfGoodsView> {
                 setOfGoodsView.setContainerId(containerId);
                 setOfGoodsView.setLocationCode(locationCode);
                 setOfGoodsView.setStatus(status);
-                setOfGoodsView.setStoreName(storeName);
-                setOfGoodsView.setStoreNo(storeNo);
+                setOfGoodsView.setCustomerName(customerName);
+                setOfGoodsView.setCustomerCode(customerCode);
             }
         }
         return setOfGoodsView;

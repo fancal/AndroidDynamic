@@ -7,9 +7,9 @@ import com.xue.http.hook.BaseBean;
  */
 public class Sow implements BaseBean{
 
-    private String storeName;
+    private String customerName;
 
-    private String storeNo;
+    private String customerCode;
 
     private String taskId ;
 
@@ -39,12 +39,12 @@ public class Sow implements BaseBean{
         this.skuCode = skuCode;
     }
 
-    public String getStoreNo() {
-        return storeNo;
+    public String getCustomerCode() {
+        return customerCode;
     }
 
-    public void setStoreNo(String storeNo) {
-        this.storeNo = storeNo;
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
     }
 
     public String getTaskId() {
@@ -79,12 +79,12 @@ public class Sow implements BaseBean{
         this.packName = packName;
     }
 
-    public String getStoreName() {
-        return storeName;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     @Override

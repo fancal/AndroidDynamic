@@ -282,7 +282,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         if (curSow == null) {
             return;
         }
-        if (!TextUtils.isEmpty(curSow.getTaskId()) && TextUtils.isEmpty(curSow.getStoreName()) && TextUtils.isEmpty(curSow.getQty())) {
+        if (!TextUtils.isEmpty(curSow.getTaskId()) && TextUtils.isEmpty(curSow.getCustomerName()) && TextUtils.isEmpty(curSow.getQty())) {
             fillWait();
             return;
         }
@@ -306,8 +306,8 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         detailHeadTextView.setText("确认播种数量");
         detailExceptionCodeEditView.setText("");
 
-        detailStoreNameTextView.setText(curSow.getStoreName());
-        detailStoreNoTextView.setText(curSow.getStoreNo());
+        detailStoreNameTextView.setText(curSow.getCustomerName());
+        detailStoreNoTextView.setText(curSow.getCustomerCode());
         detailItemNameTextView.setText(curSow.getSkuName());
         detailBarcodeTextView.setText(curSow.getBarcode());
         detailSkuCodeTextView.setText(curSow.getSkuCode());
@@ -478,7 +478,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             String type = "2";
             String exceptionCode = detailExceptionCodeEditView.getText().toString();
 
-            new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getStoreNo(), exceptionCode).start();
+            new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getCustomerCode(), exceptionCode).start();
         } else if (v == detailSkipSubmitButton) {
             String taskId = curSow.getTaskId();
             String containerId = detailContainerIdEditText.getText().toString();
@@ -488,7 +488,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             String exceptionCode = detailExceptionCodeEditView.getText().toString();
 
 
-            new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getStoreNo(), exceptionCode).start();
+            new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getCustomerCode(), exceptionCode).start();
         } else if (v == detailStopSubmitButton) {
             String taskId = curSow.getTaskId();
             String containerId = detailContainerIdEditText.getText().toString();
@@ -497,7 +497,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             String type = "1";
             String exceptionCode = detailExceptionCodeEditView.getText().toString();
 
-            new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getStoreNo(), exceptionCode).start();
+            new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getCustomerCode(), exceptionCode).start();
         }
     }
 

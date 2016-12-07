@@ -12,7 +12,9 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
 
     private String qcTaskId;
 
-    private String customerId;
+    private String customerCode;
+
+    private String containerId;
 
     private String pickTaskId;
 
@@ -38,6 +40,22 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
     @Override
     public String getDataKey() {
         return null;
+    }
+
+    public String getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(String containerId) {
+        this.containerId = containerId;
+    }
+
+    public String getCustomerCode() {
+        return customerCode;
+    }
+
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
     }
 
     public String getAllBoxNum() {
@@ -88,13 +106,6 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
         this.collectionRoadCode = collectionRoadCode;
     }
 
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
 
     public String getPickTaskId() {
         return pickTaskId;

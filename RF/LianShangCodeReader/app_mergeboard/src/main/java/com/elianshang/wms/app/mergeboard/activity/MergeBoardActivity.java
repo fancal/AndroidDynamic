@@ -254,8 +254,8 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
         CheckBox oneCheckBox = (CheckBox) view.findViewById(R.id.one_CheckBox);
         CheckBox twoCheckBox = (CheckBox) view.findViewById(R.id.two_CheckBox);
 
-        storeNameTextView.setText(checkMerge.getStoreName());
-        storeNoTextView.setText(checkMerge.getStoreNo());
+        storeNameTextView.setText(checkMerge.getCustomerName());
+        storeNoTextView.setText(checkMerge.getCustomerCode());
         containerCountTextView.setText(checkMerge.getContainerCount());
         packCountTextView.setText(checkMerge.getPackCount());
         turnoverBoxCountTextView.setText(checkMerge.getTurnoverBoxCount());

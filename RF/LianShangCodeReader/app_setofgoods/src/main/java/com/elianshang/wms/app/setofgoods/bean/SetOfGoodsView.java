@@ -10,24 +10,24 @@ public class SetOfGoodsView implements BaseBean {
 
     private String status;
 
-    private String storeName;
+    private String customerName;
 
-    private String storeNo;
+    private String customerCode;
 
-    public String getStoreName() {
-        return storeName;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
-    public String getStoreNo() {
-        return storeNo;
+    public String getCustomerCode() {
+        return customerCode;
     }
 
-    public void setStoreNo(String storeNo) {
-        this.storeNo = storeNo;
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
     }
 
     public String getContainerId() {

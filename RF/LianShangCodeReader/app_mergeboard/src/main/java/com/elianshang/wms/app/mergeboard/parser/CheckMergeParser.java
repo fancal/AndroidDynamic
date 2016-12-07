@@ -17,16 +17,14 @@ public class CheckMergeParser extends MasterParser<CheckMerge> {
             String containerCount = optString(data, "containerCount");
             String deliveryCode = optString(data, "deliveryCode");
             String turnoverBoxCount = optString(data, "turnoverBoxCount");
-            String deliveryName = optString(data, "deliveryName");
+            String customerName = optString(data, "customerName");
+            String customerCode = optString(data, "customerCode");
             String packCount = optString(data, "packCount");
             String taskBoardQty = optString(data, "taskBoardQty");
-            String storeName = optString(data, "storeName");
-            String storeNo = optString(data, "storeNo");
 
             if (!TextUtils.isEmpty(containerCount)
                     && !TextUtils.isEmpty(deliveryCode)
                     && !TextUtils.isEmpty(turnoverBoxCount)
-                    && !TextUtils.isEmpty(deliveryName)
                     && !TextUtils.isEmpty(packCount)) {
 
                 JSONArray array = optJSONArray(data, "details");
@@ -38,11 +36,10 @@ public class CheckMergeParser extends MasterParser<CheckMerge> {
                     checkMerge.setContainerCount(containerCount);
                     checkMerge.setDeliveryCode(deliveryCode);
                     checkMerge.setTurnoverBoxCount(turnoverBoxCount);
-                    checkMerge.setDeliveryName(deliveryName);
+                    checkMerge.setCustomerCode(customerCode);
+                    checkMerge.setCustomerName(customerName);
                     checkMerge.setPackCount(packCount);
                     checkMerge.setTaskBoardQty(taskBoardQty);
-                    checkMerge.setStoreName(storeName);
-                    checkMerge.setStoreNo(storeNo);
 
                     for (int i = 0; i < len; i++) {
                         JSONObject object = optJSONObject(array, i);
