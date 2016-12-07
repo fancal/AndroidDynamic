@@ -47,10 +47,10 @@ public class ViewProvider {
 
     private static final String taskId = "taskId";
 
-    private static final String storeNo = "storeNo";
+    private static final String containerId = "containerId";
 
 
-    public static DataHull<Sow> request(Context context, String uId, String uToken, String taskId, String storeNo) {
+    public static DataHull<Sow> request(Context context, String uId, String uToken, String taskId, String containerId) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -63,7 +63,7 @@ public class ViewProvider {
 
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(ViewProvider.taskId, taskId));
-        params.add(new DefaultKVPBean(ViewProvider.storeNo, storeNo));
+        params.add(new DefaultKVPBean(ViewProvider.containerId, containerId));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<SowParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new SowParser(), 0);
