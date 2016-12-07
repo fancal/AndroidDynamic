@@ -167,9 +167,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
+                            android:minWidth="60dip"
                             android:nextFocusDown="@+id/scatterQty_EditView"
                             android:nextFocusRight="@+id/scatterQty_EditView"
-                            android:minWidth="60dip"
                             android:textSize="14dip" />
 
                         <TextView
@@ -339,7 +339,8 @@
                 android:keyTextColor="#000"
                 android:keyTextSize="16sp"
                 android:paddingBottom="8dp"
-                android:paddingTop="8dp" />
+                android:paddingTop="8dp"
+                android:visibility="gone" />
         </LinearLayout>
 
     </RelativeLayout>

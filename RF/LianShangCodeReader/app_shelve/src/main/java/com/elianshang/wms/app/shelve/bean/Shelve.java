@@ -26,9 +26,19 @@ public class Shelve implements BaseBean {
 
     private String itemName;
 
-    private String barcode ;
+    private String barcode;
 
-    private String skuCode ;
+    private String skuCode;
+
+    private String pickLocationList;
+
+    public String getPickLocationList() {
+        return pickLocationList;
+    }
+
+    public void setPickLocationList(String pickLocationList) {
+        this.pickLocationList = pickLocationList;
+    }
 
     public String getBarcode() {
         return barcode;

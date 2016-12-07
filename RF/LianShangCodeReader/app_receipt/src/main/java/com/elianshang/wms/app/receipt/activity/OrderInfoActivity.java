@@ -12,6 +12,8 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -80,6 +82,10 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
      * 商品名称TextView
      */
     private TextView itemNameTextView;
+
+    private View timeLayout;
+
+    private View exceptionCodeLayout;
 
     /**
      * 商品包装数TextView
@@ -204,8 +210,10 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         lotNumEditText = (QtyEditText) findViewById(R.id.lotNum_EditText);
         preDataCheckBox = (CheckBox) findViewById(R.id.preData_CheckBox);
         dueDataCheckBox = (CheckBox) findViewById(R.id.dueData_CheckBox);
+        exceptionCodeLayout = findViewById(R.id.exceptionCode_Layout);
         exceptionCodeTextView = (EditText) findViewById(R.id.exceptionCode_TextView);
         submitButton = (Button) findViewById(R.id.submit_Button);
+        timeLayout = findViewById(R.id.time_Layout);
         mEditYear = (EditText) findViewById(R.id.et_year);
         mEditMonth = (EditText) findViewById(R.id.et_month);
         mEditDay = (EditText) findViewById(R.id.et_day);
@@ -267,6 +275,31 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         } else {
             lotNumLayout.setVisibility(View.VISIBLE);
             lotNumEditText.setHint("选填");
+        }
+
+        if (orderReceiptInfo.getIsNeedProTime() == 1) {
+            timeLayout.setVisibility(View.VISIBLE);
+            exceptionCodeLayout.setVisibility(View.VISIBLE);
+            mEditYear.setFocusable(true);
+            mEditMonth.setFocusable(true);
+            mEditDay.setFocusable(true);
+        } else {
+            timeLayout.setVisibility(View.GONE);
+            exceptionCodeLayout.setVisibility(View.GONE);
+            mEditYear.setFocusable(false);
+            mEditMonth.setFocusable(false);
+            mEditDay.setFocusable(false);
+
+            scatterQtyEditView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        return true;
+                    }
+                    return false;
+                }
+            });
         }
     }
 
@@ -373,37 +406,43 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             return;
         }
 
-        String year = mEditYear.getText().toString();
-        String month = mEditMonth.getText().toString();
-        String day = mEditDay.getText().toString();
-
-        if (TextUtils.isEmpty(year) || TextUtils.isEmpty(month) || TextUtils.isEmpty(day)) {
-            Toast.makeText(that, "请填入完整的日期", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (month.length() == 1) {
-            month = "0" + month;
-        }
-
-        if (day.length() == 1) {
-            day = "0" + day;
-        }
-
-        String proTime = year + "-" + month + "-" + day;
         String lotNum = lotNumEditText.getText().toString();
         if (1 == orderReceiptInfo.getBatchNeeded() && TextUtils.isEmpty(lotNum)) {
             Toast.makeText(that, "请填入批次号", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String exceptionCode = exceptionCodeTextView.getText().toString();
+        String exceptionCode = "";
+        String proTime = "";
+        String dueTime = "";
 
-        String dueTime = proTime;
-        if (preDataCheckBox.isChecked()) {
-            dueTime = "";
-        } else if (dueDataCheckBox.isChecked()) {
-            proTime = "";
+        if (orderReceiptInfo.getIsNeedProTime() == 1) {
+            String year = mEditYear.getText().toString();
+            String month = mEditMonth.getText().toString();
+            String day = mEditDay.getText().toString();
+
+            if (TextUtils.isEmpty(year) || TextUtils.isEmpty(month) || TextUtils.isEmpty(day)) {
+                Toast.makeText(that, "请填入完整的日期", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (month.length() == 1) {
+                month = "0" + month;
+            }
+
+            if (day.length() == 1) {
+                day = "0" + day;
+            }
+
+            proTime = year + "-" + month + "-" + day;
+            exceptionCode = exceptionCodeTextView.getText().toString();
+
+            dueTime = proTime;
+            if (preDataCheckBox.isChecked()) {
+                dueTime = "";
+            } else if (dueDataCheckBox.isChecked()) {
+                proTime = "";
+            }
         }
 
         JSONArray jsonArray = new JSONArray();

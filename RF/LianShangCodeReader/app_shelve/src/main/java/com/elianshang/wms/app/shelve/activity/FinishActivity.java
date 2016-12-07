@@ -21,15 +21,17 @@ import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.shelve.R;
+import com.elianshang.wms.app.shelve.bean.NextLocation;
 import com.elianshang.wms.app.shelve.bean.ResponseState;
 import com.elianshang.wms.app.shelve.bean.Shelve;
+import com.elianshang.wms.app.shelve.provider.NextLocationProvider;
 import com.elianshang.wms.app.shelve.provider.ScanTargetLocationProvider;
 import com.xue.http.impl.DataHull;
 
 /**
  * 上架完成页
  */
-public class FinishActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener {
+public class FinishActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener, View.OnClickListener {
 
     public static void launch(DLBasePluginActivity activity, String uId, String uToken, Shelve shelve) {
         DLIntent intent = new DLIntent(activity.getPackageName(), FinishActivity.class);
@@ -69,10 +71,14 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
 
     private TextView skuCodeTextView;
 
+    private TextView pickLocationTextView;
+
     /**
      * 库位TextView
      */
     private TextView locationCodeTextView;
+
+    private TextView nextButton;
 
     /**
      * 库位扫描输入框
@@ -143,14 +149,16 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
         barcodeTextView = (TextView) findViewById(R.id.barcode_TextView);
         skuCodeTextView = (TextView) findViewById(R.id.skuCode_TextView);
+        pickLocationTextView = (TextView) findViewById(R.id.pickLocation_TextView);
         locationCodeTextView = (TextView) findViewById(R.id.locationCode_TextView);
         locationCodeEditText = (ScanEditText) findViewById(R.id.locationCode_EditText);
+        nextButton = (TextView) findViewById(R.id.next_Button);
         locationCodeEditText.setCode(true);
         scanEditTextTool = new ScanEditTextTool(that, locationCodeEditText);
         scanEditTextTool.setComplete(this);
 
         locationCodeEditText.requestFocus();
-
+        nextButton.setOnClickListener(this);
         initToolbar();
     }
 
@@ -185,6 +193,7 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
             barcodeTextView.setText(shelve.getBarcode());
             skuCodeTextView.setText(shelve.getSkuCode());
             locationCodeTextView.setText(shelve.getAllocLocationCode());
+            pickLocationTextView.setText(shelve.getPickLocationList());
         }
     }
 
@@ -221,6 +230,13 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
 
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v == nextButton) {
+            new NextLocationTask(that).start();
+        }
+    }
+
 
     private class ShelveScanTargetLocationTask extends HttpAsyncTask<ResponseState> {
 
@@ -244,6 +260,25 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
             ToastTool.show(context, "上架完成");
             that.setResult(RESULT_OK);
             finish();
+        }
+    }
+
+    private class NextLocationTask extends HttpAsyncTask<NextLocation> {
+
+        public NextLocationTask(Context context) {
+            super(context, true, true);
+        }
+
+        @Override
+        public DataHull<NextLocation> doInBackground() {
+            return NextLocationProvider.request(context, uId, uToken);
+        }
+
+        @Override
+        public void onPostExecute(NextLocation result) {
+            shelve.setAllocLocationCode(result.getNextLocationCode());
+            fillData();
+            ToastTool.show(context, "推荐新的库位");
         }
     }
 

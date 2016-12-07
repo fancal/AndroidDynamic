@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
+import com.elianshang.bridge.tool.FloatUtils;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
@@ -39,7 +42,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class PickActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
+public class PickActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener, TextWatcher {
 
     public static void launch(DLBasePluginActivity activity, String uid, String uToken, PickLocation pickLocation) {
         DLIntent intent = new DLIntent(activity.getPackageName(), PickActivity.class);
@@ -205,6 +208,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     @Override
     public void onResume() {
         super.onResume();
+        locationLayoutQty.addTextChangedListener(this);
         if (ScanManager.get() != null) {
             ScanManager.get().addListener(this);
         }
@@ -213,6 +217,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     @Override
     public void onPause() {
         super.onPause();
+        locationLayoutQty.removeTextChangedListener(this);
         if (ScanManager.get() != null) {
             ScanManager.get().removeListener(this);
         }
@@ -446,7 +451,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutConfirmLocationCodeView.getText().clear();
         locationLayoutAllocQty.setText(mPick.getAllocQty());
         locationLayoutQty.getText().clear();
-        locationLayoutQty.setHint(mPick.getAllocQty());
+        locationLayoutQty.setHint("0");
 
         locationLayoutLocationCodeLayout.setVisibility(View.VISIBLE);
         locationLayoutSystemQtyLayout.setVisibility(View.GONE);
@@ -597,17 +602,44 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 return;
             }
 
-            String qty = locationLayoutQty.getValue();
+            final String qty = locationLayoutQty.getValue();
 
-            if (TextUtils.isEmpty(qty)) {
-                return;
+            if (FloatUtils.equals(qty, mPick.getAllocQty())) {
+                requestPickLocation(locationLayoutConfirmLocationCodeView.getText().toString(), qty);
+            } else {
+                DialogTools.showTwoButtonDialog(that, "拣货数量不足，是否确认提交", "取消", "确定", null, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        requestPickLocation(locationLayoutConfirmLocationCodeView.getText().toString(), qty);
+                    }
+                }, true);
             }
-            requestPickLocation(locationLayoutConfirmLocationCodeView.getText().toString(), qty);
         } else if (mCurPage == 3) {
             String containerId = splitLayoutContainerIdEditText.getText().toString();
             if (!TextUtils.isEmpty("containerId")) {
                 new RequestSplitTask(that, mPick.getPickTaskId(), containerId).start();
             }
+        }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        float realQty = Float.parseFloat(locationLayoutQty.getValue());
+        float qty = Float.parseFloat(mPick.getAllocQty());
+
+        if (realQty > qty) {
+            locationLayoutQty.setText(mPick.getAllocQty());
+            locationLayoutQty.setSelection(mPick.getAllocQty().length());
         }
     }
 

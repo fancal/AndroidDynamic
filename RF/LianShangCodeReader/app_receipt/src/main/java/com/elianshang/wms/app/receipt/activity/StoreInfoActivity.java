@@ -291,6 +291,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
             keyboardUtil.hideKeyboard();
             return;
         }
+
         String inboundQty = inboundQtyEditView.getValue();
         String scatterQty = scatterQtyEditView.getValue();
         String year = mEditYear.getText().toString();

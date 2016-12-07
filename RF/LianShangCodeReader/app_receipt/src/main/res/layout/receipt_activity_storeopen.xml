@@ -24,6 +24,7 @@
         android:textSize="14dip" />
 
     <LinearLayout
+        android:id="@+id/scan_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -58,18 +59,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="订单号:"
-            android:textSize="14dip" />
-
-        <com.elianshang.bridge.ui.view.ScanEditText
-            android:id="@+id/orderOtherId_EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14dip" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="商品国条码:"
             android:textSize="14dip" />
 
@@ -81,6 +70,11 @@
 
     </LinearLayout>
 
+    <ListView
+        android:id="@+id/order_ListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/submit_Button"

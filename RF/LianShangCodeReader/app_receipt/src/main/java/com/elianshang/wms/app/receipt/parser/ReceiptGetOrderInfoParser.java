@@ -20,6 +20,7 @@ public class ReceiptGetOrderInfoParser extends MasterParser<OrderReceiptInfo> {
             String packName = optString(data, "packName");
             int batchNeeded = optInt(data, "batchNeeded");
             String pile = optString(data, "pile");
+            int isNeedProTime = optInt(data, "isNeedProTime");
 
             if (!TextUtils.isEmpty(skuName)
                     && !TextUtils.isEmpty(orderQty)
@@ -32,6 +33,7 @@ public class ReceiptGetOrderInfoParser extends MasterParser<OrderReceiptInfo> {
                 orderReceiptInfo.setPackName(packName);
                 orderReceiptInfo.setBatchNeeded(batchNeeded);
                 orderReceiptInfo.setPile(pile);
+                orderReceiptInfo.setIsNeedProTime(isNeedProTime);
             }
         }
 

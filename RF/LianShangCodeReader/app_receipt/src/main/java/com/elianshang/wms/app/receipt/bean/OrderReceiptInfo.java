@@ -14,6 +14,17 @@ public class OrderReceiptInfo implements BaseBean {
 
     private String pile ;
 
+    private int isNeedProTime ;
+
+
+    public int getIsNeedProTime() {
+        return isNeedProTime;
+    }
+
+    public void setIsNeedProTime(int isNeedProTime) {
+        this.isNeedProTime = isNeedProTime;
+    }
+
     @Override
     public void setDataKey(String dataKey) {
 
