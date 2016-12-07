@@ -4,11 +4,6 @@ import android.text.TextUtils;
 
 import com.elianshang.bridge.parser.MasterParser;
 import com.elianshang.wms.app.sow.bean.StoreList;
-import com.xue.http.exception.DataIsErrException;
-import com.xue.http.exception.DataIsNullException;
-import com.xue.http.exception.DataNoUpdateException;
-import com.xue.http.exception.JsonCanNotParseException;
-import com.xue.http.exception.ParseException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,13 +70,13 @@ public class StoreListParser extends MasterParser<StoreList> {
         return item;
     }
 
-    @Override
-    public StoreList initialParse(String data) throws JsonCanNotParseException, DataIsNullException, ParseException, DataIsErrException, DataNoUpdateException {
-        data = "{\"head\":{\"status\":1,\"message\":\"success.\",\"timestamp\":\"20161207182455\"},\"body\":{\"storeInfo\":[{\n" +
-                "\"storeNo\":\"131\",\n" +
-                "\"taskId\":131313123123,\n" +
-                "\"storeName\":\"这是门店名称\",\"storeType\":\"store\"\n" +
-                "}]}}";
-        return super.initialParse(data);
-    }
+//    @Override
+//    public StoreList initialParse(String data) throws JsonCanNotParseException, DataIsNullException, ParseException, DataIsErrException, DataNoUpdateException {
+//        data = "{\"head\":{\"status\":1,\"message\":\"success.\",\"timestamp\":\"20161207182455\"},\"body\":{\"storeInfo\":[{\n" +
+//                "\"storeNo\":\"131\",\n" +
+//                "\"taskId\":131313123123,\n" +
+//                "\"storeName\":\"这是门店名称\",\"storeType\":\"store\"\n" +
+//                "}]}}";
+//        return super.initialParse(data);
+//    }
 }
