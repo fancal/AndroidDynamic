@@ -27,7 +27,6 @@ import com.elianshang.wms.app.sow.R;
 import com.elianshang.wms.app.sow.bean.Sow;
 import com.elianshang.wms.app.sow.bean.SowNext;
 import com.elianshang.wms.app.sow.provider.ScanContainerProvider;
-import com.elianshang.wms.app.sow.provider.ViewProvider;
 import com.xue.http.impl.DataHull;
 
 public class SowDetailActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener {
@@ -50,10 +49,6 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
     private String title;
 
     private Toolbar mToolbar;
-
-    private View waitLayout;
-
-    private ScanEditText waitStoreEditText;
 
     private View detailLayout;
 
@@ -145,10 +140,6 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
 
     private void findViews() {
 
-        waitLayout = findViewById(R.id.sow_wait);
-
-        waitStoreEditText = (ScanEditText) waitLayout.findViewById(R.id.store_EditText);
-
         detailLayout = findViewById(R.id.sow_detail);
         detailHeadTextView = (TextView) detailLayout.findViewById(R.id.head_TextView);
         detailContainerIdEditText = (ScanEditText) detailLayout.findViewById(R.id.containerId_EditText);
@@ -176,32 +167,15 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
         }
     }
 
-    private void fillWait() {
-        detailLayout.setVisibility(View.GONE);
-        waitLayout.setVisibility(View.VISIBLE);
-
-        if (scanEditTextTool != null) {
-            scanEditTextTool.release();
-        }
-        waitStoreEditText.setText("");
-        waitStoreEditText.requestFocus();
-        scanEditTextTool = new ScanEditTextTool(that, waitStoreEditText);
-        scanEditTextTool.setComplete(this);
-    }
-
     private void fillDetail() {
         if (curSow == null) {
             return;
         }
-        if (!TextUtils.isEmpty(curSow.getTaskId()) && TextUtils.isEmpty(curSow.getCustomerName()) && TextUtils.isEmpty(curSow.getQty())) {
-            fillWait();
-            return;
-        }
+
 
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         detailLayout.setVisibility(View.VISIBLE);
-        waitLayout.setVisibility(View.GONE);
         detailGoOnSubmitButton.setVisibility(View.VISIBLE);
         detailSkipSubmitButton.setVisibility(View.VISIBLE);
         detailStopSubmitButton.setVisibility(View.VISIBLE);
@@ -261,14 +235,7 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
 
     @Override
     public void onComplete() {
-        if (waitLayout.getVisibility() == View.VISIBLE) {
-            Editable editable = waitStoreEditText.getText();
-            if (editable != null) {
-                String storeId = editable.toString();
-                new ViewTask(that, "0", storeId).start();
-            }
-
-        } else if (detailLayout.getVisibility() == View.VISIBLE) {
+         if (detailLayout.getVisibility() == View.VISIBLE) {
             Editable editable = detailContainerIdEditText.getText();
             if (editable != null) {
                 if (!TextUtils.isEmpty(editable.toString())) {
@@ -337,30 +304,6 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
             String exceptionCode = detailExceptionCodeEditView.getText().toString();
 
             new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getCustomerCode(), exceptionCode).start();
-        }
-    }
-
-    private class ViewTask extends HttpAsyncTask<Sow> {
-
-        private String containerId;
-
-        private String taskId;
-
-        public ViewTask(Context context, String taskId, String containerId) {
-            super(context, true, true, false);
-            this.containerId = containerId;
-            this.taskId = taskId;
-        }
-
-        @Override
-        public DataHull<Sow> doInBackground() {
-            return ViewProvider.request(context, uId, uToken, taskId, containerId);
-        }
-
-        @Override
-        public void onPostExecute(Sow result) {
-            curSow = result;
-            fillDetail();
         }
     }
 

@@ -190,6 +190,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     }
 
     private void findViews() {
+
         scanLayout = findViewById(R.id.sow_scan);
         scanContainerLayout = scanLayout.findViewById(R.id.container);
         scanContainerIdEditText = (ScanEditText) scanLayout.findViewById(R.id.containerId_EditText);
@@ -212,7 +213,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         initToolbar();
 
         if (curSow != null) {
-            SowDetailActivity.launch(this, uId, uToken, curSow, mToolbar.getTitle().toString());
+            launchDetail();
         } else {
             fillScan();
         }
@@ -299,7 +300,11 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
         storeListView.setOnItemClickListener(this);
 
+    }
 
+
+    private void launchDetail() {
+        SowDetailActivity.launch(this, uId, uToken, curSow, mToolbar.getTitle().toString());
     }
 
     @Override
@@ -326,6 +331,21 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             }
         });
         mToolbar.setTitle(mType == Type.CONTAINER ? "托盘播种" : "订单播种");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (orderListLayout.getVisibility() == View.VISIBLE) {
+            fillScan();
+        } else if (storeListLayout.getVisibility() == View.VISIBLE) {
+            if (mType == Type.ORDER) {
+                fillOrderListLayout();
+            } else {
+                fillScan();
+            }
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -391,7 +411,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
                     containerId = editable.toString();
                 }
             }
-            new ViewTask(that, containerId, curStoreItem.getStoreNo()).start();
+            new ViewTask(that, curStoreItem.getTaskId(), containerId).start();
 
         }
     }
@@ -407,7 +427,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
                 if (editable != null) {
                     String containerId = editable.toString();
                     if (!TextUtils.isEmpty(containerId)) {
-//                        new AssignByContainerTask(that, containerId, "2").start();
+//                        new AssignByContainerTask(that, storeNo, "2").start();
                         new StoreListTask(that, "", containerId, "", "").start();
                     }
                 }
@@ -512,7 +532,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         @Override
         public void onPostExecute(Sow result) {
             curSow = result;
-            SowDetailActivity.launch(SowActivity.this, uId, uToken, curSow, mToolbar.getTitle().toString());
+            launchDetail();
         }
     }
 

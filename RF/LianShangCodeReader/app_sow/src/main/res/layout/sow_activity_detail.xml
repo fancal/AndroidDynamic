@@ -15,10 +15,6 @@
         app:title="播种" />
 
     <include
-        android:id="@+id/sow_wait"
-        layout="@layout/sow_wait" />
-
-    <include
         android:id="@+id/sow_detail"
         layout="@layout/sow_detail" />
 
