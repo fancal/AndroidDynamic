@@ -21,11 +21,21 @@ public class LocationView implements BaseBean {
 
     private String barCode ;
 
+    private String skuCode ;
+
     private String needBarcode;
 
     private String needOwner;
 
     private String owner ;
+
+    public String getSkuCode() {
+        return skuCode;
+    }
+
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
 
     public String getOwner() {
         return owner;

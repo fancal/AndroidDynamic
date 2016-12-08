@@ -253,6 +253,7 @@ public class StockTransferController extends BaseStockTransferController impleme
             transfer.setPackName(result.getPackName());
             transfer.setUomQty(result.getUomQty());
             transfer.setBarCode(result.getBarCode());
+            transfer.setSkuCode(result.getSkuCode());
             transfer.setUom(result.getUom());
             transfer.setOwner(result.getOwner());
 

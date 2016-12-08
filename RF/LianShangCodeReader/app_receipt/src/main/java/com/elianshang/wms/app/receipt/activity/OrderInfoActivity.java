@@ -205,7 +205,7 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
 
     private void findView() {
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
-        barcodeTextView = (TextView) findViewById(R.id.barCode_EditText);
+        barcodeTextView = (TextView) findViewById(R.id.barcode_TextView);
         skuCodeTextView = (TextView) findViewById(R.id.skuCode_TextView);
         packUnitTextView = (TextView) findViewById(R.id.packUnit_TextView);
         pileTextView = (TextView) findViewById(R.id.pile_TextView);
