@@ -440,9 +440,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemSkuCodeTextView.setText(curItem.getSkuCode());
         itemPackNameTextView.setText(curItem.getPackName());
         itemQtyTextView.setText(curItem.getUomQty());
-        itemInputQtyEditText.setHint(curItem.getUomQty());
         itemInputQtyEditText.setText(null);
-        itemShoddyQtyEditView.setHint("0");
         itemShoddyQtyEditView.setText(null);
         itemContainerIdTextView.setText(qcList.getContainerId());
 
@@ -498,9 +496,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         confirmItemBoxNumTextView.setText(qcList.getItemBoxNum());
         confirmTurnoverBoxNumTextView.setText(qcList.getTurnoverBoxNum());
         confirmItemBoxNumEditText.setText(null);
-        confirmItemBoxNumEditText.setHint(qcList.getItemBoxNum());
         confirmTurnoverBoxNumEditText.setText(null);
-        confirmTurnoverBoxNumEditText.setHint(qcList.getTurnoverBoxNum());
         confirmContainerIdTextView.setText(qcList.getContainerId());
     }
 
@@ -799,7 +795,10 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             String code = curItem.getBarCode();
             String uomQty = itemInputQtyEditText.getValue();
             String defectQty = itemShoddyQtyEditView.getValue();
-
+            if (TextUtils.isEmpty(uomQty) && TextUtils.isEmpty(defectQty)) {
+                ToastTool.show(that, "请输入正确的数量");
+                return;
+            }
             new QcOneTask(that, qcTaskId, code, uomQty, defectQty).start();
         } else if (v == itemDealCaseButton1) {
             Editable editable = scanUnknownCodeEditText.getText();
@@ -809,7 +808,10 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             String containerId = editable.toString();
             String code = curItem.getBarCode();
             String uomQty = itemInputQtyEditText.getValue();
-
+            if (TextUtils.isEmpty(uomQty)) {
+                ToastTool.show(that, "请输入正确的数量");
+                return;
+            }
             new DealCaseTask(that, containerId, code, uomQty, 1).start();
         } else if (v == itemDealCaseButton2) {
             Editable editable = scanUnknownCodeEditText.getText();
@@ -829,7 +831,10 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             String containerId = editable.toString();
             String code = curItem.getBarCode();
             String uomQty = itemInputQtyEditText.getValue();
-
+            if (TextUtils.isEmpty(uomQty)) {
+                ToastTool.show(that, "请输入正确的数量");
+                return;
+            }
             new DealCaseTask(that, containerId, code, uomQty, 3).start();
         } else if (v == startSubmitButton) {
             if (qcList.isQcDone()) {
@@ -848,7 +853,10 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         } else if (v == confirmSubmitButton) {
             String itemBoxNum = confirmItemBoxNumEditText.getValue();
             String turnoverBoxNum = confirmTurnoverBoxNumEditText.getValue();
-
+            if (TextUtils.isEmpty(itemBoxNum) && TextUtils.isEmpty(turnoverBoxNum)) {
+                ToastTool.show(that, "请输入正确的数量");
+                return;
+            }
             new ConfirmTask(that, qcList.getQcTaskId(), itemBoxNum, turnoverBoxNum).start();
         } else if (v == mMenuItem) {
             if (mode == 0) {

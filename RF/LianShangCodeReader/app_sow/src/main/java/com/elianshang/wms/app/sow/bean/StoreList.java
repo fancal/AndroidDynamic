@@ -42,13 +42,33 @@ public class StoreList implements BaseBean {
 
     public static class Item implements BaseBean {
 
-        String customerCode;
-
         String taskId;
+
+        String customerCode;
 
         String customerName;
 
         String storeType;
+
+        String qty;
+
+        String packName;
+
+        public String getQty() {
+            return qty;
+        }
+
+        public void setQty(String qty) {
+            this.qty = qty;
+        }
+
+        public String getPackName() {
+            return packName;
+        }
+
+        public void setPackName(String packName) {
+            this.packName = packName;
+        }
 
         public String getStoreType() {
             return storeType;
