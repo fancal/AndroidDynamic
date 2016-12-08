@@ -57,11 +57,15 @@ public class QtyEditText extends ContentEditText {
             value = editable.toString();
         }
 
-        if(TextUtils.isEmpty(value)){
+        if (TextUtils.isEmpty(value)) {
             CharSequence charSequence = getHint();
             if (charSequence != null) {
                 value = charSequence.toString();
             }
+        }
+
+        if (TextUtils.isEmpty(value)) {
+            return "";
         }
 
         int type = 0;
@@ -81,7 +85,6 @@ public class QtyEditText extends ContentEditText {
             aft = aft.replaceAll("0+?$", "");//去掉多余的0
             aft = aft.replaceAll("[.]$", "");//去掉多余的.
             aft = aft.replaceAll("^[.]", "0.");//开口的点加0
-
         } else {
             aft = "0";
         }

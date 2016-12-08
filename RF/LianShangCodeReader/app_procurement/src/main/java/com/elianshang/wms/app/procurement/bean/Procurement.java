@@ -21,7 +21,7 @@ public class Procurement implements BaseBean {
 
     private String packName;
 
-    private String uomQty;
+    private String qty;
 
     private String barcode;
 
@@ -99,12 +99,12 @@ public class Procurement implements BaseBean {
         this.packName = packName;
     }
 
-    public String getUomQty() {
-        return uomQty;
+    public String getQty() {
+        return qty;
     }
 
-    public void setUomQty(String uomQty) {
-        this.uomQty = uomQty;
+    public void setQty(String qty) {
+        this.qty = qty;
     }
 
     @Override

@@ -451,7 +451,6 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutConfirmLocationCodeView.getText().clear();
         locationLayoutAllocQty.setText(mPick.getAllocQty());
         locationLayoutQty.getText().clear();
-        locationLayoutQty.setHint("0");
 
         locationLayoutLocationCodeLayout.setVisibility(View.VISIBLE);
         locationLayoutSystemQtyLayout.setVisibility(View.GONE);
@@ -603,6 +602,10 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
             }
 
             final String qty = locationLayoutQty.getValue();
+            if (TextUtils.isEmpty(qty)) {
+                ToastTool.show(that, "请输入正确的数量");
+                return;
+            }
 
             if (FloatUtils.equals(qty, mPick.getAllocQty())) {
                 requestPickLocation(locationLayoutConfirmLocationCodeView.getText().toString(), qty);
@@ -634,12 +637,15 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
     @Override
     public void afterTextChanged(Editable s) {
-        float realQty = Float.parseFloat(locationLayoutQty.getValue());
-        float qty = Float.parseFloat(mPick.getAllocQty());
+        String realQtyString = locationLayoutQty.getValue();
+        if (!TextUtils.isEmpty(realQtyString)) {
+            float realQty = Float.parseFloat(realQtyString);
+            float qty = Float.parseFloat(mPick.getAllocQty());
 
-        if (realQty > qty) {
-            locationLayoutQty.setText(mPick.getAllocQty());
-            locationLayoutQty.setSelection(mPick.getAllocQty().length());
+            if (realQty > qty) {
+                locationLayoutQty.setText(mPick.getAllocQty());
+                locationLayoutQty.setSelection(mPick.getAllocQty().length());
+            }
         }
     }
 

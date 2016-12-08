@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.tools.DeviceTool;
-import com.elianshang.wms.app.procurement.bean.Procurement;
-import com.elianshang.wms.app.procurement.parser.ProcurementParser;
+import com.elianshang.wms.app.procurement.bean.ResponseState;
+import com.elianshang.wms.app.procurement.parser.ResponseStateParser;
 import com.xue.http.hook.BaseHttpParameter;
 import com.xue.http.hook.BaseKVP;
 import com.xue.http.impl.DataHull;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 领取任务接口
  */
-public class FetchTaskProvider {
+public class ZoneLoginProvider {
 
     private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
@@ -42,7 +42,7 @@ public class FetchTaskProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/inhouse/procurement/fetchTask";
+    private static final String _function = "/inhouse/procurement/loginToZone";
 
     private static final String uId = "uid";
 
@@ -51,26 +51,25 @@ public class FetchTaskProvider {
     private static final String zoneId = "zoneId";
 
 
-
-    public static DataHull<Procurement> request(Context context, String uId, String uToken , String zoneId) {
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String zoneId) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(FetchTaskProvider.app_key, DeviceTool.getIMEI(context)));
-        headers.add(new DefaultKVPBean(FetchTaskProvider.platform, "2"));
-        headers.add(new DefaultKVPBean(FetchTaskProvider.version, DeviceTool.getClientVersionName(context)));
-        headers.add(new DefaultKVPBean(FetchTaskProvider.api_version, "v1"));
-        headers.add(new DefaultKVPBean(FetchTaskProvider.uId, uId));
-        headers.add(new DefaultKVPBean(FetchTaskProvider.uToken, uToken));
+        headers.add(new DefaultKVPBean(ZoneLoginProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(ZoneLoginProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(ZoneLoginProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(ZoneLoginProvider.api_version, "v1"));
+        headers.add(new DefaultKVPBean(ZoneLoginProvider.uId, uId));
+        headers.add(new DefaultKVPBean(ZoneLoginProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(FetchTaskProvider.zoneId, zoneId));
+        params.add(new DefaultKVPBean(ZoneLoginProvider.zoneId, zoneId));
         int type = BaseHttpParameter.Type.POST;
 
-        HttpDynamicParameter<ProcurementParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ProcurementParser(), 0);
+        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ResponseStateParser(), 0);
 
-        OkHttpHandler<Procurement> handler = new OkHttpHandler();
-        DataHull<Procurement> dataHull = handler.requestData(parameter);
+        OkHttpHandler<ResponseState> handler = new OkHttpHandler();
+        DataHull<ResponseState> dataHull = handler.requestData(parameter);
         return dataHull;
 
     }

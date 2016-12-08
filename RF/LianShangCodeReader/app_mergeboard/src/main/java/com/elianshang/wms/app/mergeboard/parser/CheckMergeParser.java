@@ -15,7 +15,6 @@ public class CheckMergeParser extends MasterParser<CheckMerge> {
 
         if (data != null) {
             String containerCount = optString(data, "containerCount");
-            String deliveryCode = optString(data, "deliveryCode");
             String turnoverBoxCount = optString(data, "turnoverBoxCount");
             String customerName = optString(data, "customerName");
             String customerCode = optString(data, "customerCode");
@@ -23,7 +22,6 @@ public class CheckMergeParser extends MasterParser<CheckMerge> {
             String taskBoardQty = optString(data, "taskBoardQty");
 
             if (!TextUtils.isEmpty(containerCount)
-                    && !TextUtils.isEmpty(deliveryCode)
                     && !TextUtils.isEmpty(turnoverBoxCount)
                     && !TextUtils.isEmpty(packCount)) {
 
@@ -34,7 +32,6 @@ public class CheckMergeParser extends MasterParser<CheckMerge> {
                     CheckMerge checkMerge = new CheckMerge();
 
                     checkMerge.setContainerCount(containerCount);
-                    checkMerge.setDeliveryCode(deliveryCode);
                     checkMerge.setTurnoverBoxCount(turnoverBoxCount);
                     checkMerge.setCustomerCode(customerCode);
                     checkMerge.setCustomerName(customerName);

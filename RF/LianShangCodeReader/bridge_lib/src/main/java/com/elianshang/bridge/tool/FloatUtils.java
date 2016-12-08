@@ -50,6 +50,10 @@ public class FloatUtils {
             aft = "0";
         }
 
+        if (TextUtils.isEmpty(aft)) {
+            aft = "0";
+        }
+
         return aft;
     }
 

@@ -23,7 +23,7 @@ public class ProcurementParser extends MasterParser<Procurement> {
             String itemId = optString(data, "itemId");
             String itemName = optString(data, "itemName");
             String packName = optString(data, "packName");
-            String uomQty = optString(data, "uomQty");
+            String qty = optString(data, "qty");
             String barcode = optString(data, "barcode");
             String skuCode = optString(data, "skuCode");
 
@@ -34,7 +34,7 @@ public class ProcurementParser extends MasterParser<Procurement> {
                     && !TextUtils.isEmpty(itemId)
                     && !TextUtils.isEmpty(itemName)
                     && !TextUtils.isEmpty(packName)
-                    && !TextUtils.isEmpty(uomQty)) {
+                    && !TextUtils.isEmpty(qty)) {
                 procurement = new Procurement();
                 procurement.setTaskId(taskId);
                 procurement.setType(type);
@@ -43,7 +43,7 @@ public class ProcurementParser extends MasterParser<Procurement> {
                 procurement.setItemId(itemId);
                 procurement.setItemName(itemName);
                 procurement.setPackName(packName);
-                procurement.setUomQty(uomQty);
+                procurement.setQty(qty);
                 procurement.setBarcode(barcode);
                 procurement.setSkuCode(skuCode);
             }

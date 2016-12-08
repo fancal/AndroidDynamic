@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
@@ -19,15 +20,19 @@ import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.procurement.R;
 import com.elianshang.wms.app.procurement.bean.Procurement;
+import com.elianshang.wms.app.procurement.bean.ResponseState;
 import com.elianshang.wms.app.procurement.controller.ProcurementController;
+import com.elianshang.wms.app.procurement.provider.ZoneLogoutProvider;
 import com.elianshang.wms.app.procurement.view.ProcurementView;
+import com.xue.http.impl.DataHull;
 
 public class ProcurementActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener, ProcurementView {
 
-    public static void launch(DLBasePluginActivity activity, String uid, String uToken, Procurement procurement) {
+    public static void launch(DLBasePluginActivity activity, String uid, String uToken, String zoneId, Procurement procurement) {
         DLIntent intent = new DLIntent(activity.getPackageName(), ProcurementActivity.class);
         intent.putExtra("uId", uid);
         intent.putExtra("uToken", uToken);
+        intent.putExtra("zoneId", zoneId);
         intent.putExtra("procurement", procurement);
         activity.startPluginActivity(intent);
     }
@@ -58,6 +63,8 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
      * 实际数量
      */
     private QtyEditText mItemQtyRealView;
+
+    private QtyEditText mItemScatterQtyRealView;
     /**
      * 实际数量  container
      */
@@ -98,6 +105,8 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
 
     private String uToken;
 
+    private String zoneId;
+
     private ProcurementController procurementController;
 
     @Override
@@ -137,6 +146,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         DialogTools.showTwoButtonDialog(that, "是否暂退任务,下次回来将会继续", "取消", "确定", null, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                new ZoneLogoutTask(zoneId).start();
                 finish();
             }
         }, true);
@@ -145,6 +155,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
+        zoneId = getIntent().getStringExtra("zoneId");
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -165,6 +176,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mItemPackNameView = (TextView) findViewById(R.id.item_pack_name);
         mItemQtyView = (TextView) findViewById(R.id.item_qty);
         mItemQtyRealView = (QtyEditText) findViewById(R.id.item_qty_real);
+        mItemScatterQtyRealView = (QtyEditText) findViewById(R.id.item_scatterQty_real);
         mItemQtyRealContainerView = findViewById(R.id.item_qty_real_container);
         mLocationCodeView = (TextView) findViewById(R.id.location_id);
         mLocationCodeConfirmView = (ScanEditText) findViewById(R.id.confirm_location_id);
@@ -194,7 +206,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     @Override
     public void onClick(View v) {
         if (v == mSubmit) {
-            procurementController.onSubmitClick(mItemQtyRealView.getValue());
+            procurementController.onSubmitClick(mItemQtyRealView.getValue(), mItemScatterQtyRealView.getValue());
         }
     }
 
@@ -275,11 +287,9 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mItemLocationView.setText(locationName);
         if (TextUtils.isEmpty(numQty)) {
             mItemQtyRealContainerView.setVisibility(View.GONE);
-            mItemQtyRealView.setHint(null);
             mItemQtyRealView.setText(null);
         } else {
             mItemQtyRealContainerView.setVisibility(View.VISIBLE);
-            mItemQtyRealView.setHint(numQty);
             mItemQtyRealView.setText(null);
         }
 
@@ -288,5 +298,24 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
             scanEditTextTool.release();
         }
         scanEditTextTool = null;
+    }
+
+    private class ZoneLogoutTask extends HttpAsyncTask<ResponseState> {
+
+        private String zoneId;
+
+        public ZoneLogoutTask(String zoneId) {
+            super(ProcurementActivity.this.that, false, false, false, false);
+            this.zoneId = zoneId;
+        }
+
+        @Override
+        public DataHull<ResponseState> doInBackground() {
+            return ZoneLogoutProvider.request(context, uId, uToken, zoneId);
+        }
+
+        @Override
+        public void onPostExecute(ResponseState result) {
+        }
     }
 }

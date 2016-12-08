@@ -123,6 +123,28 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:minWidth="60dip"
+                    android:nextFocusDown="@+id/item_scatterQty_real"
+                    android:nextFocusRight="@+id/item_scatterQty_real"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="箱"
+                    android:textSize="14dip" />
+
+                <com.elianshang.bridge.ui.view.QtyEditText
+                    android:id="@+id/item_scatterQty_real"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:minWidth="60dip"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EA"
                     android:textSize="14dip" />
             </LinearLayout>
         </LinearLayout>
@@ -169,7 +191,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
     <Button
         android:id="@+id/submit_button"

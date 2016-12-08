@@ -20,7 +20,7 @@ public abstract class BaseProcurementController {
 
     protected ProcurementView procurementView;
 
-    protected abstract void onSubmitClick(String qty);
+    protected abstract void onSubmitClick(String qty , String scatterQty);
 
     protected abstract void onComplete(String s);
 

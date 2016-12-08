@@ -355,7 +355,7 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
                 viewHodler = new ViewHodler();
                 viewHodler.orderTextView = (TextView) view.findViewById(R.id.orderOtherId_TextView);
 
-                view.setTag(view);
+                view.setTag(viewHodler);
                 convertView = view;
             } else {
                 viewHodler = (ViewHodler) convertView.getTag();

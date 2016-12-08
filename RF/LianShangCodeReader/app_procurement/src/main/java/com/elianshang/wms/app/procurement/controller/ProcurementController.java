@@ -43,7 +43,7 @@ public class ProcurementController extends BaseProcurementController implements 
                     "国条码：" + curProcurement.getBarcode(),
                     "物美码：" + curProcurement.getSkuCode(),
                     "规格：" + curProcurement.getPackName(),
-                    "数量：" + curProcurement.getUomQty(),
+                    "数量：" + curProcurement.getQty(),
                     curProcurement.getLocationCode());
         }
     }
@@ -58,17 +58,22 @@ public class ProcurementController extends BaseProcurementController implements 
                     "国条码：" + curProcurement.getBarcode(),
                     "物美码：" + curProcurement.getSkuCode(),
                     "规格：" + curProcurement.getPackName(),
-                    "数量：" + curProcurement.getUomQty(),
+                    "数量：" + curProcurement.getQty(),
                     curProcurement.getLocationCode());
         }
     }
 
     @Override
-    public void onSubmitClick(String qty) {
+    public void onSubmitClick(String qty, String scatterQty) {
+        if (TextUtils.isEmpty(qty) && TextUtils.isEmpty(scatterQty)) {
+            ToastTool.show(activity, "请输入正确的数量");
+            return;
+        }
         if (curProcurement != null) {
             if (TextUtils.equals("1", curProcurement.getType())) {
-                String numQty = "1".equals(curProcurement.getSubType()) ? curProcurement.getUomQty() : qty;
-                submit(numQty);
+                String numQty = "1".equals(curProcurement.getSubType()) ? "0" : qty;
+                String sscatterQty = "1".equals(curProcurement.getSubType()) ? "0" : scatterQty;
+                submit(numQty, sscatterQty);
             }
         }
     }
@@ -81,17 +86,17 @@ public class ProcurementController extends BaseProcurementController implements 
                 ToastTool.show(activity, "库位不一致");
             } else {
                 if (TextUtils.equals("2", curProcurement.getType())) {
-                    submit(curProcurement.getUomQty());
+                    submit(curProcurement.getQty() , "0");
                 } else if (TextUtils.equals("1", curProcurement.getType())) {
                     if (procurementView != null) {
-                        String numQty = "1".equals(curProcurement.getSubType()) ? null : curProcurement.getUomQty();
+                        String numQty = "1".equals(curProcurement.getSubType()) ? null : curProcurement.getQty();
                         procurementView.showItemView(
                                 "填写转出数量",
                                 "名称：" + curProcurement.getItemName(),
                                 "国条码：" + curProcurement.getBarcode(),
                                 "物美码：" + curProcurement.getSkuCode(),
                                 "规格：" + curProcurement.getPackName(),
-                                "数量：" + curProcurement.getUomQty(),
+                                "数量：" + curProcurement.getQty(),
                                 "库位：" + curProcurement.getLocationCode(),
                                 numQty);
                     }
@@ -100,8 +105,8 @@ public class ProcurementController extends BaseProcurementController implements 
         }
     }
 
-    private void submit(String qty) {
-        new ScanLocationTask(activity, uId, uToken, curProcurement.getType(), curProcurement.getTaskId(), curProcurement.getLocationCode(), qty).start();
+    private void submit(String qty, String scatterQty) {
+        new ScanLocationTask(activity, uId, uToken, curProcurement.getType(), curProcurement.getTaskId(), curProcurement.getLocationCode(), qty, scatterQty).start();
     }
 
 
@@ -125,7 +130,9 @@ public class ProcurementController extends BaseProcurementController implements 
 
         private String qty;
 
-        public ScanLocationTask(Context context, String uId, String uToken, String type, String taskId, String locationCode, String qty) {
+        private String scatterQty;
+
+        public ScanLocationTask(Context context, String uId, String uToken, String type, String taskId, String locationCode, String qty, String scatterQty) {
             super(context, true, true, false);
             this.uId = uId;
             this.uToken = uToken;
@@ -133,11 +140,12 @@ public class ProcurementController extends BaseProcurementController implements 
             this.locationCode = locationCode;
             this.qty = qty;
             this.taskId = taskId;
+            this.scatterQty = scatterQty;
         }
 
         @Override
         public DataHull<ProcurementNext> doInBackground() {
-            return ScanLocationProvider.request(context, uId, uToken, type, taskId, locationCode, qty, serialNumber);
+            return ScanLocationProvider.request(context, uId, uToken, type, taskId, locationCode, qty, scatterQty, serialNumber);
         }
 
         @Override
@@ -150,4 +158,6 @@ public class ProcurementController extends BaseProcurementController implements 
             }
         }
     }
+
+
 }

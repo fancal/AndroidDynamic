@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class ScanLocationProvider {
 
-    private static final String base_url = "http://static.qatest.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -77,8 +77,10 @@ public class ScanLocationProvider {
      */
     private static final String uomQty = "uomQty";
 
+    private static final String scatterQty = "scatterQty";
 
-    public static DataHull<ProcurementNext> request(Context context, String uId, String uToken, String type, String taskId, String locationCode, String uomQty, String serialNumber) {
+
+    public static DataHull<ProcurementNext> request(Context context, String uId, String uToken, String type, String taskId, String locationCode, String uomQty, String scatterQty, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -95,6 +97,7 @@ public class ScanLocationProvider {
         params.add(new DefaultKVPBean(ScanLocationProvider.locationCode, locationCode));
         params.add(new DefaultKVPBean(ScanLocationProvider.udd, uId));
         params.add(new DefaultKVPBean(ScanLocationProvider.uomQty, uomQty));
+        params.add(new DefaultKVPBean(ScanLocationProvider.scatterQty, scatterQty));
         int hType = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ProcurementNextParser> parameter = new HttpDynamicParameter<>(url, headers, params, hType, new ProcurementNextParser(), 0);

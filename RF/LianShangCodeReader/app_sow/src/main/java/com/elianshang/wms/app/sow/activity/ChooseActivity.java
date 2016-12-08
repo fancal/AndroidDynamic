@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
-import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.sow.R;
 import com.elianshang.wms.app.sow.bean.Restore;
@@ -36,9 +35,9 @@ public class ChooseActivity extends DLBasePluginActivity implements View.OnClick
         uToken = getIntent().getStringExtra("uToken");
 
         // FIXME: 16/12/5
-        uId = "1";
-        uToken = "274237956828916";
-        ScanManager.init(that);
+//        uId = "1";
+//        uToken = "274237956828916";
+//        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
