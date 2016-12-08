@@ -259,9 +259,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
-        // FIXME: 16/12/8
-//        uId = "1";
-//        uToken = "274237956828916";
+//        uId = "141871359725260";
+//        uToken = "25061134202027";
 //        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
@@ -391,8 +390,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         startStoreNoTextView.setText(qcList.getCustomerCode());
         startAllBoxNumTextView.setText(qcList.getAllBoxNum());
         startLineNumTextView.setText(qcList.getItemLineNum());
-        startSubmitButton.setText(qcList.isQcDone() ? "查看" : "开始QC");
-        startSkipButton.setVisibility(qcList.isQcDone() ? View.GONE : View.VISIBLE);
+        startSubmitButton.setText(qcList.isQcDone() ? "退出" : "开始QC");
+        startSkipButton.setVisibility(qcList.isFirst() ? View.VISIBLE : View.GONE);
         startContainerIdTextView.setText(qcList.getContainerId());
 
     }
@@ -838,13 +837,16 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             }
             new DealCaseTask(that, containerId, code, uomQty, 3).start();
         } else if (v == startSubmitButton) {
-            boolean isFirst = qcList.isFirst();
-            if (!isFirst) {//已qc---只显示列表
-                mode = 1;
-                showMenuItem = false;
+            if (qcList.isQcDone()) {
+                finish();
+            } else {
+                boolean isFirst = qcList.isFirst();
+                if (!isFirst) {//已qc---只显示列表
+                    mode = 1;
+                    showMenuItem = false;
+                }
+                pop();
             }
-            pop();
-
         } else if (v == startSkipButton) {
             isSkip = true;
             fillConfirmLayout();
@@ -869,9 +871,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     @Override
     public void onItemClick(String barCode) {
-        if(qcList.isQcDone()){
-           return;
-        }
         popItem(barCode);
     }
 

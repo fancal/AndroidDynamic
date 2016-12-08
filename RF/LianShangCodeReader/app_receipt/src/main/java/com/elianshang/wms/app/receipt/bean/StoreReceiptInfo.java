@@ -4,11 +4,11 @@ import com.xue.http.hook.BaseBean;
 
 public class StoreReceiptInfo implements BaseBean {
 
-    private String location ;
+    private String location;
 
     private String proTime;
 
-    private String packUnit ;
+    private String packUnit;
 
     private String skuName;
 
@@ -18,9 +18,29 @@ public class StoreReceiptInfo implements BaseBean {
 
     private String orderId;
 
-    private String orderQty ;
+    private String orderQty;
 
-    private int isNeedProTime ;
+    private int isNeedProTime;
+
+    private String skuCode;
+
+    private String barcode;
+
+    public String getSkuCode() {
+        return skuCode;
+    }
+
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
 
     @Override
     public void setDataKey(String dataKey) {

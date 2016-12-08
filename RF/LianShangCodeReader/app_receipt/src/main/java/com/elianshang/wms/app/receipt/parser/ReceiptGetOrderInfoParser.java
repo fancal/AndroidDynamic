@@ -16,6 +16,8 @@ public class ReceiptGetOrderInfoParser extends MasterParser<OrderReceiptInfo> {
 
         if (data != null) {
             String skuName = optString(data, "skuName");
+            String skuCode = optString(data, "skuCode");
+            String barcode = optString(data, "barcode");
             String orderQty = optString(data, "orderQty");
             String packName = optString(data, "packName");
             int batchNeeded = optInt(data, "batchNeeded");
@@ -28,6 +30,8 @@ public class ReceiptGetOrderInfoParser extends MasterParser<OrderReceiptInfo> {
                     && batchNeeded != -1) {
                 orderReceiptInfo = new OrderReceiptInfo();
 
+                orderReceiptInfo.setBarcode(barcode);
+                orderReceiptInfo.setSkuCode(skuCode);
                 orderReceiptInfo.setSkuName(skuName);
                 orderReceiptInfo.setOrderQty(orderQty);
                 orderReceiptInfo.setPackName(packName);

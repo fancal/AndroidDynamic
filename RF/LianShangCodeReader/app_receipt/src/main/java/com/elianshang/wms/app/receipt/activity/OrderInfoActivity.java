@@ -83,6 +83,10 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
      */
     private TextView itemNameTextView;
 
+    private TextView barcodeTextView;
+
+    private TextView skuCodeTextView;
+
     private View timeLayout;
 
     private View exceptionCodeLayout;
@@ -201,6 +205,8 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
 
     private void findView() {
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
+        barcodeTextView = (TextView) findViewById(R.id.barCode_EditText);
+        skuCodeTextView = (TextView) findViewById(R.id.skuCode_TextView);
         packUnitTextView = (TextView) findViewById(R.id.packUnit_TextView);
         pileTextView = (TextView) findViewById(R.id.pile_TextView);
         orderQtyTextView = (TextView) findViewById(R.id.orderQty_TextView);
@@ -261,6 +267,8 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             return;
         }
         itemNameTextView.setText(orderReceiptInfo.getSkuName());
+        barcodeTextView.setText(orderReceiptInfo.getBarcode());
+        skuCodeTextView.setText(orderReceiptInfo.getSkuCode());
         packUnitTextView.setText(orderReceiptInfo.getPackName());
         pileTextView.setText(orderReceiptInfo.getPile());
         orderQtyTextView.setText(orderReceiptInfo.getOrderQty());
