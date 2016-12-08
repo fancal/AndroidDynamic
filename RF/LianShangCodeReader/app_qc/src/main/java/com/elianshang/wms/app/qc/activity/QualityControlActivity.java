@@ -837,16 +837,12 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             }
             new DealCaseTask(that, containerId, code, uomQty, 3).start();
         } else if (v == startSubmitButton) {
-            if (qcList.isQcDone()) {
-                finish();
-            } else {
-                boolean isFirst = qcList.isFirst();
-                if (!isFirst) {//已qc---只显示列表
-                    mode = 1;
-                    showMenuItem = false;
-                }
-                pop();
+            boolean isFirst = qcList.isFirst();
+            if (!isFirst) {//已qc---只显示列表
+                mode = 1;
+                showMenuItem = false;
             }
+            pop();
         } else if (v == startSkipButton) {
             isSkip = true;
             fillConfirmLayout();
@@ -871,6 +867,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     @Override
     public void onItemClick(String barCode) {
+        if(qcList.isQcDone()){
+            return;
+        }
         popItem(barCode);
     }
 
