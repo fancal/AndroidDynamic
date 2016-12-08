@@ -89,6 +89,10 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
      */
     private TextView itemNameTextView;
 
+    private TextView barcodeTextView;
+
+    private TextView skuCodeTextView;
+
     /**
      * 商品包装数TextView
      */
@@ -197,6 +201,8 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         locationTextView = (TextView) findViewById(R.id.location_TextView);
         proTimeTextView = (TextView) findViewById(R.id.proTime_TextView);
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
+        barcodeTextView = (TextView) findViewById(R.id.barCode_EditText);
+        skuCodeTextView = (TextView) findViewById(R.id.skuCode_TextView);
         packNameTextView = (TextView) findViewById(R.id.packName_TextView);
         orderQtyTextView = (TextView) findViewById(R.id.orderQty_TextView);
         inboundQtyEditView = (QtyEditText) findViewById(R.id.inboundQty_EditView);
@@ -255,6 +261,8 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         locationTextView.setText(storeReceiptInfo.getLocation());
         proTimeTextView.setText(storeReceiptInfo.getProTime());
         itemNameTextView.setText(storeReceiptInfo.getSkuName());
+        barcodeTextView.setText(storeReceiptInfo.getBarcode());
+        skuCodeTextView.setText(storeReceiptInfo.getSkuCode());
         packNameTextView.setText(storeReceiptInfo.getPackName());
         orderQtyTextView.setText(storeReceiptInfo.getOrderQty());
         inboundQtyEditView.setHint("0");

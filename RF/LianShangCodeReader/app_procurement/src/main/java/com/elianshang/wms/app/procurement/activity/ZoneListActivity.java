@@ -1,6 +1,7 @@
 package com.elianshang.wms.app.procurement.activity;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,7 +20,7 @@ import com.elianshang.wms.app.procurement.provider.ZoneListProvider;
 import com.elianshang.wms.app.procurement.provider.ZoneLoginProvider;
 import com.xue.http.impl.DataHull;
 
-public class ZoneListActivity extends DLBasePluginActivity implements AdapterView.OnItemClickListener {
+public class ZoneListActivity extends DLBasePluginActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private Toolbar mToolbar;
 
@@ -28,6 +29,10 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
     private String uToken;
 
     private ZoneList zoneList;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private TextView typeNameTextView;
 
     private ListView zoneListView;
 
@@ -50,9 +55,14 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
     }
 
     private void findView() {
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.SwipeRefreshLayout);
+        typeNameTextView = (TextView) findViewById(R.id.transfer_type_name);
         zoneListView = (ListView) findViewById(R.id.zone_ListView);
         zoneListView.setOnItemClickListener(this);
+
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
+
 
     private void initToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -66,14 +76,18 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
 
     private void fillData() {
         if (zoneList == null) {
+            typeNameTextView.setText("没有补货任务,下拉刷新");
+            zoneListView.setVisibility(View.GONE);
             return;
         }
 
+        zoneListView.setVisibility(View.VISIBLE);
         if (adapter == null) {
             adapter = new ZoneListAdapter();
             zoneListView.setAdapter(adapter);
         }
 
+        typeNameTextView.setText("补货区域选择");
         adapter.notifyDataSetChanged();
     }
 
@@ -95,6 +109,11 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
         if (zoneList != null && position < zoneList.size()) {
             new ZoneLoginTask(zoneList.get(position).getZoneId()).start();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        new ZoneListTask().start();
     }
 
     private class ZoneListAdapter extends BaseAdapter {
@@ -162,6 +181,7 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
 
         @Override
         public void onPostExecute(ZoneList result) {
+            swipeRefreshLayout.setRefreshing(false);
             zoneList = result;
             fillData();
         }
@@ -169,6 +189,21 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
         @Override
         public void dataNull(String errMsg) {
             super.dataNull(errMsg);
+            swipeRefreshLayout.setRefreshing(false);
+            zoneList = null;
+            fillData();
+        }
+
+        @Override
+        public void netErr(String errMsg) {
+            super.netErr(errMsg);
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
+        @Override
+        public void netNull() {
+            super.netNull();
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 

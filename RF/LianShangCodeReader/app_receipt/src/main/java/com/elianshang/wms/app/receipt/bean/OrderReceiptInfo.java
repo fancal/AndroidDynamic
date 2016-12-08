@@ -6,6 +6,10 @@ public class OrderReceiptInfo implements BaseBean {
 
     private String skuName;
 
+    private String skuCode;
+
+    private String barcode;
+
     private String packName;
 
     private int batchNeeded;
@@ -16,6 +20,21 @@ public class OrderReceiptInfo implements BaseBean {
 
     private int isNeedProTime ;
 
+    public String getSkuCode() {
+        return skuCode;
+    }
+
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
 
     public int getIsNeedProTime() {
         return isNeedProTime;
