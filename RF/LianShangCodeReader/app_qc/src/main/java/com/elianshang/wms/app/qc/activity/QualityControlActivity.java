@@ -390,7 +390,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         startStoreNoTextView.setText(qcList.getCustomerCode());
         startAllBoxNumTextView.setText(qcList.getAllBoxNum());
         startLineNumTextView.setText(qcList.getItemLineNum());
-        startSubmitButton.setText(qcList.isQcDone() ? "退出" : "开始QC");
+        startSubmitButton.setText(qcList.isQcDone() ? "查看" : "开始QC");
         startSkipButton.setVisibility(qcList.isFirst() ? View.VISIBLE : View.GONE);
         startContainerIdTextView.setText(qcList.getContainerId());
 
