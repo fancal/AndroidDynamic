@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
@@ -185,8 +186,6 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
         detailSkuCodeTextView.setText(curSow.getSkuCode());
         detailPackNameTextView.setText(curSow.getPackName());
         detailAllocQtyTextView.setText(curSow.getQty());
-        detailInputQtyEditView.setHint("0");
-        detailInputScatterQtyEditView.setHint("0");
         detailInputScatterQtyEditView.setText(null);
         detailInputQtyEditView.setText(null);
 
@@ -273,6 +272,11 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
             String scatterQty = detailInputScatterQtyEditView.getValue();
             String type = "2";
             String exceptionCode = detailExceptionCodeEditView.getText().toString();
+
+            if (TextUtils.isEmpty(qty) && TextUtils.isEmpty(scatterQty)) {
+                Toast.makeText(that, "请输入正确的数量", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getCustomerCode(), exceptionCode).start();
         }

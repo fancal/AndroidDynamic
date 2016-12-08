@@ -444,17 +444,14 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
 
         if (numQty == null) {
             mItemQtyRealContainerView.setVisibility(View.GONE);
-            mItemQtyRealView.setHint(null);
             mItemQtyRealView.setText(null);
             mItemQtyRealCheckBox.setChecked(true);
         } else if ("".equals(numQty)) {
             mItemQtyRealContainerView.setVisibility(View.VISIBLE);
-            mItemQtyRealView.setHint("0");
             mItemQtyRealView.setText(null);
             mItemQtyRealCheckBox.setChecked(false);
         } else {
             mItemQtyRealContainerView.setVisibility(View.VISIBLE);
-            mItemQtyRealView.setHint(numQty);
             mItemQtyRealView.setText(null);
             mItemQtyRealCheckBox.setChecked(false);
         }

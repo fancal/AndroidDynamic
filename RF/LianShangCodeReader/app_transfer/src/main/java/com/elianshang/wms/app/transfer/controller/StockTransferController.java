@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
@@ -88,6 +89,11 @@ public class StockTransferController extends BaseStockTransferController impleme
     @Override
     public void onSubmitClick(String qty) {
         if (curTransfer != null) {
+            if (TextUtils.isEmpty(qty)) {
+                Toast.makeText(activity, "请输入正确的数量", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (TextUtils.equals("1", curTransfer.getType())) {
                 String subType = null;
                 if ("-1".equals(qty)) {

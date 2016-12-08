@@ -67,6 +67,8 @@ public class StoreListParser extends MasterParser<StoreList> {
             String taskId = optString(data, "taskId");
             String customerName = optString(data, "customerName");
             String storeType = optString(data, "storeType");
+            String qty = optString(data,"qty");
+            String packName = optString(data,"packName");
 
             if (!TextUtils.isEmpty(customerCode) && !TextUtils.isEmpty(taskId) && !TextUtils.isEmpty(customerName) && !TextUtils.isEmpty(storeType)) {
                 item = new StoreList.Item();
@@ -74,6 +76,8 @@ public class StoreListParser extends MasterParser<StoreList> {
                 item.setTaskId(taskId);
                 item.setCustomerName(customerName);
                 item.setStoreType(storeType);
+                item.setQty(qty);
+                item.setPackName(packName);
             }
         }
         return item;

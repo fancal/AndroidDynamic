@@ -265,9 +265,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         skuCodeTextView.setText(storeReceiptInfo.getSkuCode());
         packNameTextView.setText(storeReceiptInfo.getPackName());
         orderQtyTextView.setText(storeReceiptInfo.getOrderQty());
-        inboundQtyEditView.setHint("0");
         inboundQtyEditView.setText(null);
-        scatterQtyEditView.setHint("0");
         scatterQtyEditView.setText(null);
 
         if (storeReceiptInfo.getIsNeedProTime() == 1) {
@@ -416,8 +414,9 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
 
         String inboundQty = inboundQtyEditView.getValue();
         String scatterQty = scatterQtyEditView.getValue();
-        if (TextUtils.isEmpty(inboundQty)) {
-            Toast.makeText(that, "请填入收货数量", Toast.LENGTH_SHORT).show();
+
+        if (TextUtils.isEmpty(inboundQty) && TextUtils.isEmpty(scatterQty)) {
+            Toast.makeText(that, "请输入正确的数量", Toast.LENGTH_SHORT).show();
             return;
         }
 

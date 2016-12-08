@@ -22,6 +22,7 @@ import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.tools.DeviceTool;
+import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.atticshelve.R;
 import com.elianshang.wms.app.atticshelve.bean.AtticShelve;
 import com.elianshang.wms.app.atticshelve.bean.AtticShelveNext;
@@ -235,7 +236,6 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
         twoSkuCodeTextView.setText(curAtticShelve.getSkuCode());
         twoPackNameTextView.setText(curAtticShelve.getPackName());
         twoAllocQtyTextView.setText(curAtticShelve.getQty());
-        twoInputQtyEditView.setHint(curAtticShelve.getQty());
         twoInputQtyEditView.setText(null);
 
         twoInputQtyEditView.requestFocus();
@@ -333,7 +333,10 @@ public class AtticShelveActivity extends DLBasePluginActivity implements ScanEdi
             String allocLocationCode = curAtticShelve.getLocationCode();
             String realLocationCode = twoLocationCodeEditText.getText().toString();
             String qty = twoInputQtyEditView.getValue();
-
+            if (TextUtils.isEmpty(qty)) {
+                ToastTool.show(that, "请输入正确的数量");
+                return;
+            }
             new ScanTargetLocationTask(that, uId, taskId, allocLocationCode, realLocationCode, qty).start();
         }
     }
