@@ -78,10 +78,6 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
 
     private Button detailGoOnSubmitButton;
 
-    private Button detailSkipSubmitButton;
-
-    private Button detailStopSubmitButton;
-
     private ScanEditTextTool scanEditTextTool;
 
     private Sow curSow;
@@ -155,8 +151,6 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
         detailInputScatterQtyEditView = (QtyEditText) detailLayout.findViewById(R.id.inputScatterQty_EditView);
         detailExceptionCodeEditView = (EditText) detailLayout.findViewById(R.id.exception_EditView);
         detailGoOnSubmitButton = (Button) detailLayout.findViewById(R.id.goonsubmit_Button);
-        detailSkipSubmitButton = (Button) detailLayout.findViewById(R.id.skipsubmit_Button);
-        detailStopSubmitButton = (Button) detailLayout.findViewById(R.id.stopsubmit_Button);
 
         initToolbar();
 
@@ -177,15 +171,9 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
 
         detailLayout.setVisibility(View.VISIBLE);
         detailGoOnSubmitButton.setVisibility(View.VISIBLE);
-        detailSkipSubmitButton.setVisibility(View.VISIBLE);
-        detailStopSubmitButton.setVisibility(View.VISIBLE);
         detailGoOnSubmitButton.setEnabled(false);
-        detailSkipSubmitButton.setEnabled(false);
-        detailStopSubmitButton.setEnabled(false);
 
         detailGoOnSubmitButton.setOnClickListener(this);
-        detailSkipSubmitButton.setOnClickListener(this);
-        detailStopSubmitButton.setOnClickListener(this);
 
         detailHeadTextView.setText("确认播种数量");
         detailExceptionCodeEditView.setText("");
@@ -240,8 +228,6 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
             if (editable != null) {
                 if (!TextUtils.isEmpty(editable.toString())) {
                     detailGoOnSubmitButton.setEnabled(true);
-                    detailSkipSubmitButton.setEnabled(true);
-                    detailStopSubmitButton.setEnabled(true);
                     detailInputQtyEditView.requestFocus();
                 }
             }
@@ -282,25 +268,6 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
             String qty = detailInputQtyEditView.getValue();
             String scatterQty = detailInputScatterQtyEditView.getValue();
             String type = "2";
-            String exceptionCode = detailExceptionCodeEditView.getText().toString();
-
-            new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getCustomerCode(), exceptionCode).start();
-        } else if (v == detailSkipSubmitButton) {
-            String taskId = curSow.getTaskId();
-            String containerId = detailContainerIdEditText.getText().toString();
-            String qty = detailInputQtyEditView.getValue();
-            String scatterQty = detailInputScatterQtyEditView.getValue();
-            String type = "3";
-            String exceptionCode = detailExceptionCodeEditView.getText().toString();
-
-
-            new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getCustomerCode(), exceptionCode).start();
-        } else if (v == detailStopSubmitButton) {
-            String taskId = curSow.getTaskId();
-            String containerId = detailContainerIdEditText.getText().toString();
-            String qty = detailInputQtyEditView.getValue();
-            String scatterQty = detailInputScatterQtyEditView.getValue();
-            String type = "1";
             String exceptionCode = detailExceptionCodeEditView.getText().toString();
 
             new ScanTargetContainerTask(that, taskId, containerId, qty, scatterQty, type, curSow.getCustomerCode(), exceptionCode).start();

@@ -289,34 +289,8 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
-        android:text="提交并继续"
+        android:text="提交"
         android:textColor="#ffffffff"
         android:textSize="16dip" />
-
-    <Button
-        android:id="@+id/skipsubmit_Button"
-        android:layout_width="match_parent"
-        android:layout_height="40dip"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/submit_button_bg"
-        android:gravity="center"
-        android:text="提交并跳过"
-        android:textColor="#ffffffff"
-        android:textSize="16dip"
-        android:visibility="visible" />
-
-    <Button
-        android:id="@+id/stopsubmit_Button"
-        android:layout_width="match_parent"
-        android:layout_height="40dip"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/submit_button_bg"
-        android:gravity="center"
-        android:text="提交并终止"
-        android:textColor="#ffffffff"
-        android:textSize="16dip"
-        android:visibility="visible" />
 
 </LinearLayout>

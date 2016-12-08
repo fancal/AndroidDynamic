@@ -54,16 +54,16 @@ public class StoreListParser extends MasterParser<StoreList> {
         StoreList.Item item = null;
 
         if (data != null) {
-            String storeNo = optString(data, "storeNo");
+            String customerCode = optString(data, "customerCode");
             String taskId = optString(data, "taskId");
-            String storeName = optString(data, "storeName");
+            String customerName = optString(data, "customerName");
             String storeType = optString(data, "storeType");
 
-            if (!TextUtils.isEmpty(storeNo) && !TextUtils.isEmpty(taskId) && !TextUtils.isEmpty(storeName) && !TextUtils.isEmpty(storeType)) {
+            if (!TextUtils.isEmpty(customerCode) && !TextUtils.isEmpty(taskId) && !TextUtils.isEmpty(customerName) && !TextUtils.isEmpty(storeType)) {
                 item = new StoreList.Item();
-                item.setStoreNo(storeNo);
+                item.setCustomerCode(customerCode);
                 item.setTaskId(taskId);
-                item.setStoreName(storeName);
+                item.setCustomerName(customerName);
                 item.setStoreType(storeType);
             }
         }

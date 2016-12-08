@@ -42,11 +42,11 @@ public class StoreList implements BaseBean {
 
     public static class Item implements BaseBean {
 
-        String storeNo;
+        String customerCode;
 
         String taskId;
 
-        String storeName;
+        String customerName;
 
         String storeType;
 
@@ -58,12 +58,12 @@ public class StoreList implements BaseBean {
             this.storeType = storeType;
         }
 
-        public String getStoreNo() {
-            return storeNo;
+        public String getCustomerCode() {
+            return customerCode;
         }
 
-        public void setStoreNo(String storeNo) {
-            this.storeNo = storeNo;
+        public void setCustomerCode(String customerCode) {
+            this.customerCode = customerCode;
         }
 
         public String getTaskId() {
@@ -74,12 +74,12 @@ public class StoreList implements BaseBean {
             this.taskId = taskId;
         }
 
-        public String getStoreName() {
-            return storeName;
+        public String getCustomerName() {
+            return customerName;
         }
 
-        public void setStoreName(String storeName) {
-            this.storeName = storeName;
+        public void setCustomerName(String customerName) {
+            this.customerName = customerName;
         }
 
         @Override
