@@ -55,24 +55,24 @@ public class StoreListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.store_list_item, null);
             viewHolder = new ViewHolder();
-            viewHolder.storeNo = (TextView) convertView.findViewById(R.id.storeNo);
-            viewHolder.storeName = (TextView) convertView.findViewById(R.id.storeName);
+            viewHolder.customerCode = (TextView) convertView.findViewById(R.id.customerCode);
+            viewHolder.customerName = (TextView) convertView.findViewById(R.id.customerName);
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         StoreList.Item item = getItem(position);
-        viewHolder.storeNo.setText(item.getStoreNo());
-        viewHolder.storeName.setText("[" + item.getStoreName() + "]");
+        viewHolder.customerCode.setText(item.getCustomerCode());
+        viewHolder.customerName.setText("[" + item.getCustomerName() + "]");
         return convertView;
     }
 
     private static class ViewHolder {
 
-        TextView storeNo;
+        TextView customerCode;
 
-        TextView storeName;
+        TextView customerName;
 
     }
 }
