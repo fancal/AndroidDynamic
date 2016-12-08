@@ -25,7 +25,7 @@ import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.sow.R;
 import com.elianshang.wms.app.sow.bean.Sow;
-import com.elianshang.wms.app.sow.bean.SowNext;
+import com.elianshang.wms.app.sow.bean.StoreList;
 import com.elianshang.wms.app.sow.provider.ScanContainerProvider;
 import com.xue.http.impl.DataHull;
 
@@ -205,8 +205,12 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
     }
 
 
-    private void fillComplete() {
-        setResult(RESULT_OK);
+    private void fillComplete(StoreList storeList) {
+        Intent intent = new Intent();
+        if (storeList != null) {
+            intent.putExtra("storeList", storeList);
+        }
+        setResult(RESULT_OK, intent);
         finish();
     }
 
@@ -223,7 +227,7 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
 
     @Override
     public void onComplete() {
-         if (detailLayout.getVisibility() == View.VISIBLE) {
+        if (detailLayout.getVisibility() == View.VISIBLE) {
             Editable editable = detailContainerIdEditText.getText();
             if (editable != null) {
                 if (!TextUtils.isEmpty(editable.toString())) {
@@ -274,7 +278,7 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
         }
     }
 
-    private class ScanTargetContainerTask extends HttpAsyncTask<SowNext> {
+    private class ScanTargetContainerTask extends HttpAsyncTask<StoreList> {
 
         private String taskId;
         private String containerId;
@@ -296,18 +300,18 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
         }
 
         @Override
-        public DataHull<SowNext> doInBackground() {
+        public DataHull<StoreList> doInBackground() {
             return ScanContainerProvider.request(context, uId, uToken, taskId, containerId, qty, scatterQty, type, storeNo, exceptionCode, serialNumber);
         }
 
         @Override
-        public void onPostExecute(SowNext result) {
-            if (result.isDone()) {
-                fillComplete();
-            } else {
-                curSow = result.getSow();
-                fillDetail();
-            }
+        public void onPostExecute(StoreList result) {
+            fillComplete(result);
+        }
+
+        @Override
+        public void dataNull(String errMsg) {
+            fillComplete(null);
         }
     }
 

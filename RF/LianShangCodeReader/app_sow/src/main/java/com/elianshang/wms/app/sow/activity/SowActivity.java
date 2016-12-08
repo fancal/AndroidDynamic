@@ -311,7 +311,13 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 11 && resultCode == RESULT_OK) {
-            fillComplete();
+            StoreList storeList = (StoreList) data.getSerializableExtra("storeList");
+            if (storeList == null) {
+                fillComplete();
+            } else {
+                this.storeList = storeList;
+                fillStoreListLayout();
+            }
         }
     }
 

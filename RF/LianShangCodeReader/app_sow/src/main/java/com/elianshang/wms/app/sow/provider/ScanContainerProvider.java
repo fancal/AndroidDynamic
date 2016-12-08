@@ -5,8 +5,8 @@ import android.content.Context;
 import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.MD5Tool;
-import com.elianshang.wms.app.sow.bean.SowNext;
-import com.elianshang.wms.app.sow.parser.SowNextParser;
+import com.elianshang.wms.app.sow.bean.StoreList;
+import com.elianshang.wms.app.sow.parser.StoreListParser;
 import com.xue.http.hook.BaseHttpParameter;
 import com.xue.http.hook.BaseKVP;
 import com.xue.http.impl.DataHull;
@@ -69,7 +69,7 @@ public class ScanContainerProvider {
     private static final String exceptionCode = "exceptionCode";
 
 
-    public static DataHull<SowNext> request(Context context, String uid, String uToken, String taskId, String containerId, String qty, String scatterQty, String scanType, String storeNo, String exceptionCode, String serialNumber) {
+    public static DataHull<StoreList> request(Context context, String uid, String uToken, String taskId, String containerId, String qty, String scatterQty, String scanType, String storeNo, String exceptionCode, String serialNumber) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -90,12 +90,12 @@ public class ScanContainerProvider {
         params.add(new DefaultKVPBean(ScanContainerProvider.exceptionCode, exceptionCode));
         int type = BaseHttpParameter.Type.POST;
 
-        HttpDynamicParameter<SowNextParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new SowNextParser(), 0);
+        HttpDynamicParameter<StoreListParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new StoreListParser(), 0);
 
         headers.add(new DefaultKVPBean(ScanContainerProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
 
-        OkHttpHandler<SowNext> handler = new OkHttpHandler();
-        DataHull<SowNext> dataHull = handler.requestData(parameter);
+        OkHttpHandler<StoreList> handler = new OkHttpHandler();
+        DataHull<StoreList> dataHull = handler.requestData(parameter);
         return dataHull;
 
     }
