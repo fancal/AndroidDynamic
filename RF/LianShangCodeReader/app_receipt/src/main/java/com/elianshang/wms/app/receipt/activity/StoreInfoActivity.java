@@ -201,7 +201,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
         locationTextView = (TextView) findViewById(R.id.location_TextView);
         proTimeTextView = (TextView) findViewById(R.id.proTime_TextView);
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
-        barcodeTextView = (TextView) findViewById(R.id.barCode_EditText);
+        barcodeTextView = (TextView) findViewById(R.id.barcode_TextView);
         skuCodeTextView = (TextView) findViewById(R.id.skuCode_TextView);
         packNameTextView = (TextView) findViewById(R.id.packName_TextView);
         orderQtyTextView = (TextView) findViewById(R.id.orderQty_TextView);

@@ -24,6 +24,7 @@ public class LocationViewParser extends MasterParser<LocationView> {
             String needBarcode = optString(data, "needBarcode");
             String needOwner = optString(data, "needOwner");
             String owner = optString(data, "owner");
+            String skuCode = optString(data, "skuCode");
 
             if (!TextUtils.isEmpty(locationCode)) {
 
@@ -39,6 +40,7 @@ public class LocationViewParser extends MasterParser<LocationView> {
                 locationView.setNeedBarcode(needBarcode);
                 locationView.setNeedOwner(needOwner);
                 locationView.setOwner(owner);
+                locationView.setSkuCode(skuCode);
             }
         }
 

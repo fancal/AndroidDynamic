@@ -304,13 +304,20 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
     @Override
     public void onBackPressed() {
         if (detailView.getVisibility() == View.VISIBLE) {
-            DialogTools.showTwoButtonDialog(that, "是否放弃合板合板", "取消", "确定", null, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    inputView.setVisibility(View.VISIBLE);
-                    detailView.setVisibility(View.GONE);
-                }
-            }, true);
+            if (vhList.size() <= 1) {
+                inputView.setVisibility(View.VISIBLE);
+                submitButton.setVisibility(View.VISIBLE);
+                detailView.setVisibility(View.GONE);
+            } else {
+                DialogTools.showTwoButtonDialog(that, "是否放弃合板", "取消", "确定", null, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        inputView.setVisibility(View.VISIBLE);
+                        submitButton.setVisibility(View.VISIBLE);
+                        detailView.setVisibility(View.GONE);
+                    }
+                }, true);
+            }
 
             return;
         }

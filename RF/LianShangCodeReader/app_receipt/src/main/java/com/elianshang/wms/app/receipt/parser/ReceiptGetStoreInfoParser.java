@@ -20,12 +20,11 @@ public class ReceiptGetStoreInfoParser extends MasterParser<StoreReceiptInfo> {
 
             if (object != null) {
                 String location = optString(object, "location");
-                String skuCode = optString(data, "skuCode");
-                String barcode = optString(data, "barcode");
+                String skuCode = optString(object, "skuCode");
+                String barcode = optString(object, "barcode");
                 String proTime = optString(object, "proTime");
                 String packUnit = optString(object, "packUnit");
                 String skuName = optString(object, "skuName");
-                String barCode = optString(object, "barCode");
                 String packName = optString(object, "packName");
                 String orderId = optString(object, "orderId");
                 String orderQty = optString(object, "orderQty");
@@ -35,7 +34,6 @@ public class ReceiptGetStoreInfoParser extends MasterParser<StoreReceiptInfo> {
                         && !TextUtils.isEmpty(proTime)
                         && !TextUtils.isEmpty(packUnit)
                         && !TextUtils.isEmpty(skuName)
-                        && !TextUtils.isEmpty(barCode)
                         && !TextUtils.isEmpty(packName)
                         && !TextUtils.isEmpty(orderId)
                         && !TextUtils.isEmpty(orderQty)) {
@@ -48,7 +46,6 @@ public class ReceiptGetStoreInfoParser extends MasterParser<StoreReceiptInfo> {
                     storeReceiptInfo.setProTime(proTime);
                     storeReceiptInfo.setPackUnit(packUnit);
                     storeReceiptInfo.setSkuName(skuName);
-                    storeReceiptInfo.setBarCode(barCode);
                     storeReceiptInfo.setPackName(packName);
                     storeReceiptInfo.setOrderId(orderId);
                     storeReceiptInfo.setOrderQty(orderQty);

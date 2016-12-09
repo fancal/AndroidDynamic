@@ -571,6 +571,11 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     }
 
     private void popList(String barCode, String uomQty, boolean qcDone) {
+        if (qcList.isQcDone()) {
+            fillListLayout();
+            return;
+        }
+
         for (int i = 0; i < qcList.size(); i++) {
             QcList.Item item = qcList.get(i);
             if (TextUtils.equals(barCode, item.getBarCode())) {//QC过了的,就改变下状态
@@ -716,6 +721,16 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     @Override
     public void onBackPressed() {
         if (qcList != null) {
+            if (qcList.isQcDone() && listView.getVisibility() == View.VISIBLE) {
+                fillStartLayout();
+                return;
+            }
+
+            if (qcList.isQcDone() && startLayout.getVisibility() == View.VISIBLE) {
+                fillScanLayout();
+                return;
+            }
+
             if (mode == 1 && (promptLayout.getVisibility() == View.VISIBLE || itemLayout.getVisibility() == View.VISIBLE)) {
                 fillListLayout();
                 return;
@@ -870,7 +885,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     @Override
     public void onItemClick(String barCode) {
-        if(qcList.isQcDone()){
+        if (qcList.isQcDone()) {
             return;
         }
         popItem(barCode);

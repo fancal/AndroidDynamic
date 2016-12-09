@@ -94,8 +94,8 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
-        uId = "1";
-        uToken = "198302935052918";
+//        uId = "1";
+//        uToken = "198302935052918";
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
