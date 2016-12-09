@@ -65,12 +65,14 @@ public class ProcurementController extends BaseProcurementController implements 
 
     @Override
     public void onSubmitClick(String qty, String scatterQty) {
-        if (TextUtils.isEmpty(qty) && TextUtils.isEmpty(scatterQty)) {
-            ToastTool.show(activity, "请输入正确的数量");
-            return;
-        }
+
         if (curProcurement != null) {
             if (TextUtils.equals("1", curProcurement.getType())) {
+                if ("1".equals(curProcurement.getSubType()) && TextUtils.isEmpty(qty) && TextUtils.isEmpty(scatterQty)) {
+                    ToastTool.show(activity, "请输入正确的数量");
+                    return;
+                }
+
                 String numQty = "1".equals(curProcurement.getSubType()) ? "0" : qty;
                 String sscatterQty = "1".equals(curProcurement.getSubType()) ? "0" : scatterQty;
                 submit(numQty, sscatterQty);
