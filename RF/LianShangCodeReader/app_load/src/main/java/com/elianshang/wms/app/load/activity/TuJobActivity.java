@@ -681,7 +681,7 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
         @Override
         public void onPostExecute(ResponseState result) {
-            setResult(RESULT_OK);
+            that.setResult(RESULT_OK);
             finish();
         }
     }

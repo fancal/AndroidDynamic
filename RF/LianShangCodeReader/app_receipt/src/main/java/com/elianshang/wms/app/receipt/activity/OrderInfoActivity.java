@@ -316,10 +316,26 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         }
         String inboundQty = inboundQtyEditView.getValue();
         String inboundEA = scatterQtyEditView.getValue();
-        String year = mEditYear.getText().toString();
-        String month = mEditMonth.getText().toString();
-        String day = mEditDay.getText().toString();
-        String lotNum = lotNumEditText.getText().toString();
+        String year = null;
+        String month = null;
+        String day = null;
+        String lotNum = null;
+        Editable yearEditable = mEditYear.getText();
+        Editable monthEditable = mEditMonth.getText();
+        Editable dayEditable = mEditDay.getText();
+        Editable lotNumEditable = lotNumEditText.getText();
+        if (yearEditable != null) {
+            year = yearEditable.toString();
+        }
+        if (monthEditable != null) {
+            month = monthEditable.toString();
+        }
+        if (dayEditable != null) {
+            day = dayEditable.toString();
+        }
+        if (lotNumEditable != null) {
+            lotNum = lotNumEditable.toString();
+        }
 
         if (!TextUtils.isEmpty(inboundQty) || !TextUtils.isEmpty(inboundEA) || !TextUtils.isEmpty(year) || !TextUtils.isEmpty(month) || !TextUtils.isEmpty(day) || !TextUtils.isEmpty(lotNum)) {
             DialogTools.showTwoButtonDialog(that, "退出将清除已经输入的内容,确定离开吗", "取消", "确定", null, new DialogInterface.OnClickListener() {
@@ -408,7 +424,11 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             return;
         }
 
-        String lotNum = lotNumEditText.getText().toString();
+        String lotNum = null;
+        Editable lotNumEditable = lotNumEditText.getText();
+        if (lotNumEditable != null) {
+            lotNum = lotNumEditable.toString();
+        }
         if (1 == orderReceiptInfo.getBatchNeeded() && TextUtils.isEmpty(lotNum)) {
             Toast.makeText(that, "请填入批次号", Toast.LENGTH_SHORT).show();
             return;
@@ -419,10 +439,21 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         String dueTime = "";
 
         if (orderReceiptInfo.getIsNeedProTime() == 1) {
-            String year = mEditYear.getText().toString();
-            String month = mEditMonth.getText().toString();
-            String day = mEditDay.getText().toString();
-
+            String year = null;
+            String month = null;
+            String day = null;
+            Editable yearEditable = mEditYear.getText();
+            Editable monthEditable = mEditMonth.getText();
+            Editable dayEditable = mEditDay.getText();
+            if(yearEditable != null){
+                year = yearEditable.toString();
+            }
+            if(monthEditable != null){
+                month = monthEditable.toString();
+            }
+            if(dayEditable != null){
+                day = dayEditable.toString();
+            }
             if (TextUtils.isEmpty(year) || TextUtils.isEmpty(month) || TextUtils.isEmpty(day)) {
                 Toast.makeText(that, "请填入完整的日期", Toast.LENGTH_SHORT).show();
                 return;

@@ -209,7 +209,7 @@ public class SowDetailActivity extends DLBasePluginActivity implements ScanEditT
         if (storeList != null) {
             intent.putExtra("storeList", storeList);
         }
-        setResult(RESULT_OK, intent);
+        that.setResult(RESULT_OK, intent);
         finish();
     }
 
