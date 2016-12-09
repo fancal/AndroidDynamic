@@ -836,7 +836,10 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             String containerId = editable.toString();
             String code = curItem.getBarCode();
             String uomQty = itemInputQtyEditText.getValue();
-
+            if (TextUtils.isEmpty(uomQty)) {
+                ToastTool.show(that, "请输入正确的数量");
+                return;
+            }
             new DealCaseTask(that, containerId, code, uomQty, 2).start();
         } else if (v == itemDealCaseButton3) {
             Editable editable = scanUnknownCodeEditText.getText();
