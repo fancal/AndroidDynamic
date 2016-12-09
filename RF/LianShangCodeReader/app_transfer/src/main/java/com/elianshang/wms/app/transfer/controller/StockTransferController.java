@@ -91,7 +91,8 @@ public class StockTransferController extends BaseStockTransferController impleme
         if (curTransfer != null) {
 
             if (TextUtils.equals("1", curTransfer.getType())) {
-                if ("1".equals(curTransfer.getSubType()) && TextUtils.isEmpty(qty)) {
+
+                if (TextUtils.isEmpty(qty)) {
                     Toast.makeText(activity, "请输入正确的数量", Toast.LENGTH_SHORT).show();
                     return;
                 }
