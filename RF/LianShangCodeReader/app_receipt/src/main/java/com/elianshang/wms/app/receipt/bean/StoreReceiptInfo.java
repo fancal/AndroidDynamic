@@ -12,8 +12,6 @@ public class StoreReceiptInfo implements BaseBean {
 
     private String skuName;
 
-    private String barCode;
-
     private String packName;
 
     private String orderId;
@@ -99,14 +97,6 @@ public class StoreReceiptInfo implements BaseBean {
 
     public void setSkuName(String skuName) {
         this.skuName = skuName;
-    }
-
-    public String getBarCode() {
-        return barCode;
-    }
-
-    public void setBarCode(String barCode) {
-        this.barCode = barCode;
     }
 
     public String getPackName() {
