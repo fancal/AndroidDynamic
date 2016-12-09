@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
@@ -63,8 +62,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     private ScanEditText scanOrderBarcodeEditText;
 
-    private Button scanSubmitButton;
-
     /**
      * 订单播种--order列表
      */
@@ -100,8 +97,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     private ScanEditTextTool scanEditTextTool;
 
     private Sow curSow;
-
-    private String serialNumber;
 
     private Type mType;
 
@@ -196,7 +191,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         scanContainerIdEditText = (ScanEditText) scanLayout.findViewById(R.id.containerId_EditText);
         scanOrderLayout = scanLayout.findViewById(R.id.order);
         scanOrderBarcodeEditText = (ScanEditText) scanLayout.findViewById(R.id.barcode_EditText);
-        scanSubmitButton = (Button) scanLayout.findViewById(R.id.Submit_Button);
 
         orderListLayout = findViewById(R.id.order_list);
         orderListView = (ListView) orderListLayout.findViewById(R.id.listView);
@@ -223,8 +217,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         scanLayout.setVisibility(View.VISIBLE);
         orderListLayout.setVisibility(View.GONE);
         storeListLayout.setVisibility(View.GONE);
-
-        scanSubmitButton.setOnClickListener(this);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -358,13 +350,15 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
     public void onComplete() {
         if (scanLayout.getVisibility() == View.VISIBLE) {
             if (mType == Type.CONTAINER) {
+                storeListTab1.setSelected(true);//默认选中第一个
+                storeListTab2.setSelected(false);
+
                 Editable editable = scanContainerIdEditText.getText();
                 if (editable != null) {
                     String containerId = editable.toString();
                     if (!TextUtils.isEmpty(containerId)) {
-                        scanSubmitButton.setEnabled(true);
-                    } else {
-                        scanSubmitButton.setEnabled(false);
+//                        new AssignByContainerTask(that, storeNo, "2").start();
+                        new StoreListTask(that, "", containerId, "", "").start();
                     }
                 }
             } else {
@@ -372,9 +366,8 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
                 if (editable2 != null) {
                     String barcode = editable2.toString();
                     if (!TextUtils.isEmpty(barcode)) {
-                        scanSubmitButton.setEnabled(true);
-                    } else {
-                        scanSubmitButton.setEnabled(false);
+//                        new AssignByOrderTask(that, barcode, "2").start();
+                        new OrderListTask(that, barcode).start();
                     }
                 }
             }
@@ -424,31 +417,7 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     @Override
     public void onClick(View v) {
-        if (v == scanSubmitButton) {
-            if (mType == Type.CONTAINER) {
-                storeListTab1.setSelected(true);//默认选中第一个
-                storeListTab2.setSelected(false);
-
-                Editable editable = scanContainerIdEditText.getText();
-                if (editable != null) {
-                    String containerId = editable.toString();
-                    if (!TextUtils.isEmpty(containerId)) {
-//                        new AssignByContainerTask(that, storeNo, "2").start();
-                        new StoreListTask(that, "", containerId, "", "").start();
-                    }
-                }
-            } else {
-
-                Editable editable2 = scanOrderBarcodeEditText.getText();
-                if (editable2 != null) {
-                    String barcode = editable2.toString();
-                    if (!TextUtils.isEmpty(barcode)) {
-//                        new AssignByOrderTask(that, barcode, "2").start();
-                        new OrderListTask(that, barcode).start();
-                    }
-                }
-            }
-        } else if (v == storeListTab1) {
+        if (v == storeListTab1) {
             storeListTab1.setSelected(true);
             storeListTab2.setSelected(false);
 

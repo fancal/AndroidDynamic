@@ -56,21 +56,4 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="0px"
-        android:layout_height="0px"
-        android:layout_weight="1" />
-
-    <Button
-        android:id="@+id/Submit_Button"
-        android:layout_width="match_parent"
-        android:layout_height="40dip"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:background="@drawable/submit_button_bg"
-        android:enabled="false"
-        android:gravity="center"
-        android:text="开始播种"
-        android:textColor="#ffffffff"
-        android:textSize="16dip" />
 </LinearLayout>
