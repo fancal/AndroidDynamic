@@ -13,7 +13,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -289,18 +288,21 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             mEditYear.setFocusable(true);
             mEditMonth.setFocusable(true);
             mEditDay.setFocusable(true);
+            exceptionCodeTextView.setFocusable(true);
         } else {
             timeLayout.setVisibility(View.GONE);
             exceptionCodeLayout.setVisibility(View.GONE);
             mEditYear.setFocusable(false);
             mEditMonth.setFocusable(false);
             mEditDay.setFocusable(false);
+            exceptionCodeTextView.setFocusable(false);
 
             scatterQtyEditView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        lotNumEditText.requestFocus();
+//                        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(that.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         return true;
                     }
                     return false;
@@ -445,13 +447,13 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             Editable yearEditable = mEditYear.getText();
             Editable monthEditable = mEditMonth.getText();
             Editable dayEditable = mEditDay.getText();
-            if(yearEditable != null){
+            if (yearEditable != null) {
                 year = yearEditable.toString();
             }
-            if(monthEditable != null){
+            if (monthEditable != null) {
                 month = monthEditable.toString();
             }
-            if(dayEditable != null){
+            if (dayEditable != null) {
                 day = dayEditable.toString();
             }
             if (TextUtils.isEmpty(year) || TextUtils.isEmpty(month) || TextUtils.isEmpty(day)) {

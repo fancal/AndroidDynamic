@@ -45,7 +45,27 @@ public class TakeStockList implements BaseBean {
 
         private String taskId;
 
+        private String locationId;
+
         private String locationCode;
+
+        private String status;
+
+        public String getLocationId() {
+            return locationId;
+        }
+
+        public void setLocationId(String locationId) {
+            this.locationId = locationId;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
 
         public String getTaskId() {
             return taskId;

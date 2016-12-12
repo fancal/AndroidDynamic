@@ -29,7 +29,7 @@ import com.elianshang.wms.app.takestock.bean.ResponseState;
 import com.elianshang.wms.app.takestock.bean.TakeStockDetail;
 import com.elianshang.wms.app.takestock.bean.TakeStockList;
 import com.elianshang.wms.app.takestock.provider.DoOneProvider;
-import com.elianshang.wms.app.takestock.provider.GetTaskProvider;
+import com.elianshang.wms.app.takestock.provider.ViewProvider;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;
@@ -47,9 +47,13 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         DLIntent intent = new DLIntent(activity.getPackageName(), TakeStockActivity.class);
         intent.putExtra("uId", uid);
         intent.putExtra("uToken", uToken);
-        intent.putExtra("list", list);
-        intent.putExtra("detail", detail);
-        activity.startPluginActivity(intent);
+        if (list != null) {
+            intent.putExtra("list", list);
+        }
+        if (detail != null) {
+            intent.putExtra("detail", detail);
+        }
+        activity.startPluginActivityForResult(intent, 1);
     }
 
     private String uId;
@@ -185,7 +189,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
     private void findView() {
         progressLayout = findViewById(R.id.progress_Layout);
-        taskCodeLayout = findViewById(R.id.progress_Layout);
+        taskCodeLayout = findViewById(R.id.taskCode_Layout);
         progressTextView = (TextView) findViewById(R.id.progress_TextView);
         taskCodeTextView = (TextView) findViewById(R.id.taskCode_TextView);
 
@@ -449,7 +453,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
         @Override
         public DataHull<TakeStockDetail> doInBackground() {
-            return GetTaskProvider.request(context, uId, uToken, taskId, locationCode);
+            return ViewProvider.request(context, uId, uToken, taskId, locationCode);
         }
 
         @Override
@@ -481,6 +485,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
             progress++;
 
             if (takeStockList == null || progress == takeStockList.size()) {
+                setResult(RESULT_OK);
                 finish();
                 ToastTool.show(context, "盘点完成");
             } else {

@@ -1,6 +1,7 @@
 package com.elianshang.wms.app.takestock.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -18,7 +19,7 @@ import com.elianshang.wms.app.takestock.R;
 import com.elianshang.wms.app.takestock.bean.TakeStockDetail;
 import com.elianshang.wms.app.takestock.bean.TakeStockList;
 import com.elianshang.wms.app.takestock.provider.AssignProvider;
-import com.elianshang.wms.app.takestock.provider.GetTaskProvider;
+import com.elianshang.wms.app.takestock.provider.ViewProvider;
 import com.xue.http.impl.DataHull;
 
 public class ScanActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener {
@@ -71,6 +72,15 @@ public class ScanActivity extends DLBasePluginActivity implements ScanManager.On
         super.onPause();
         if (ScanManager.get() != null) {
             ScanManager.get().removeListener(this);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            codeEditText.setText("");
+            codeEditText.requestFocus();
         }
     }
 
@@ -173,7 +183,6 @@ public class ScanActivity extends DLBasePluginActivity implements ScanManager.On
         @Override
         public void onPostExecute(TakeStockList result) {
             TakeStockActivity.launch(ScanActivity.this, uId, uToken, result, null);
-            ScanActivity.this.finish();
         }
     }
 
@@ -188,7 +197,7 @@ public class ScanActivity extends DLBasePluginActivity implements ScanManager.On
 
         @Override
         public DataHull<TakeStockDetail> doInBackground() {
-            return GetTaskProvider.request(context, uId, uToken, null, locationCode);
+            return ViewProvider.request(context, uId, uToken, null, locationCode);
         }
 
         @Override

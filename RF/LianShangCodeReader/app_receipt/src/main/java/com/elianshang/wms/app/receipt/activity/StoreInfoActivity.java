@@ -283,7 +283,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(that.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         return true;
                     }
                     return false;
@@ -439,13 +439,13 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
             Editable yearEditable = mEditYear.getText();
             Editable monthEditable = mEditMonth.getText();
             Editable dayEditable = mEditDay.getText();
-            if(yearEditable != null){
+            if (yearEditable != null) {
                 year = yearEditable.toString();
             }
-            if(monthEditable != null){
+            if (monthEditable != null) {
                 month = monthEditable.toString();
             }
-            if(dayEditable != null){
+            if (dayEditable != null) {
                 day = dayEditable.toString();
             }
 
@@ -464,7 +464,7 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
 
             proTime = year + "-" + month + "-" + day;
             Editable exceptionEditable = exceptionCodeTextView.getText();
-            if(exceptionEditable != null){
+            if (exceptionEditable != null) {
                 exceptionCode = exceptionEditable.toString();
             }
 

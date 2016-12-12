@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
-import com.elianshang.wms.app.takestock.bean.TakeStockList;
+import com.elianshang.wms.app.takestock.bean.Restore;
 import com.elianshang.wms.app.takestock.provider.RestoreProvider;
 import com.xue.http.impl.DataHull;
 
@@ -46,7 +46,7 @@ public class MainActivity extends DLBasePluginActivity {
     /**
      * 领取盘点任务
      */
-    private class RestoreTask extends HttpAsyncTask<TakeStockList> {
+    private class RestoreTask extends HttpAsyncTask<Restore> {
 
         private String uId;
 
@@ -59,20 +59,37 @@ public class MainActivity extends DLBasePluginActivity {
         }
 
         @Override
-        public DataHull<TakeStockList> doInBackground() {
+        public DataHull<Restore> doInBackground() {
             return RestoreProvider.request(context, uId, uToken);
         }
 
         @Override
-        public void onPostExecute(TakeStockList result) {
-            TakeStockActivity.launch(MainActivity.this, uId, uToken, result, null);
-            MainActivity.this.finish();
+        public void onPostExecute(Restore result) {
+            if (result.isDone()) {
+                ScanActivity.launch(MainActivity.this, uId, uToken, "JH");
+                MainActivity.this.finish();
+            } else {
+                TakeStockActivity.launch(MainActivity.this, uId, uToken, result.getTakeStockList(), null);
+                MainActivity.this.finish();
+            }
+        }
+
+        @Override
+        public void netErr(String errMsg) {
+            super.netErr(errMsg);
+            finish();
         }
 
         @Override
         public void dataNull(String errMsg) {
             super.dataNull(errMsg);
-            ScanActivity.launch(MainActivity.this, uId, uToken, "JH");
+            finish();
+        }
+
+        @Override
+        public void netNull() {
+            super.netNull();
+            finish();
         }
     }
 

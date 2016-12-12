@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.tools.DeviceTool;
-import com.elianshang.wms.app.takestock.bean.TakeStockList;
-import com.elianshang.wms.app.takestock.parser.TakeStockListParser;
+import com.elianshang.wms.app.takestock.bean.Restore;
+import com.elianshang.wms.app.takestock.parser.RestoreParser;
 import com.xue.http.hook.BaseHttpParameter;
 import com.xue.http.hook.BaseKVP;
 import com.xue.http.impl.DataHull;
@@ -48,7 +48,7 @@ public class RestoreProvider {
 
     private static final String uToken = "utoken";
 
-    public static DataHull<TakeStockList> request(Context context, String uId, String uToken) {
+    public static DataHull<Restore> request(Context context, String uId, String uToken) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -61,10 +61,10 @@ public class RestoreProvider {
 
         int type = BaseHttpParameter.Type.POST;
 
-        HttpDynamicParameter<TakeStockListParser> parameter = new HttpDynamicParameter<>(url, headers, null, type, new TakeStockListParser(), 0);
+        HttpDynamicParameter<RestoreParser> parameter = new HttpDynamicParameter<>(url, headers, null, type, new RestoreParser(), 0);
 
-        OkHttpHandler<TakeStockList> handler = new OkHttpHandler();
-        DataHull<TakeStockList> dataHull = handler.requestData(parameter);
+        OkHttpHandler<Restore> handler = new OkHttpHandler();
+        DataHull<Restore> dataHull = handler.requestData(parameter);
         return dataHull;
 
     }

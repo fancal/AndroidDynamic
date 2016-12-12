@@ -24,12 +24,16 @@ public class TakeStockListParser extends MasterParser<TakeStockList> {
                     JSONObject jo = optJSONObject(jsonArray, i);
 
                     if (jo != null) {
-                        String taskId = optString(jo, "taskId");
+                        String locationId = optString(jo, "locationId");
                         String locationCode = optString(jo, "locationCode");
+                        String status = optString(jo, "status");
+                        String taskId = optString(jo, "taskId");
 
-                        if (!TextUtils.isEmpty(taskId) && !TextUtils.isEmpty(locationCode)) {
+                        if (!TextUtils.isEmpty(locationCode)) {
                             TakeStockList.TakeStockTask task = new TakeStockList.TakeStockTask();
+                            task.setStatus(status);
                             task.setTaskId(taskId);
+                            task.setLocationId(locationId);
                             task.setLocationCode(locationCode);
 
                             takeStockList.add(task);
