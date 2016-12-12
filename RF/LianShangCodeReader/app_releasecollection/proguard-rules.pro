@@ -102,6 +102,8 @@
 #动态插件包不混淆
 -keep class com.elianshang.**{ *; }
 
+-keep class android.support.v7.**{ *; }
+-keep class android.support.v4.**{ *; }
 
 #自己项目特殊处理代码
 

@@ -42,8 +42,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private PluginListAdapter adapter;
 
-    private View doubleClickWaitView;
-
     private boolean clickWait = false;
 
     private Handler handler = new Handler() {
@@ -52,8 +50,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-                doubleClickWaitView = null;
-            } else if (msg.what == 2) {
                 clickWait = false;
             }
         }
@@ -178,27 +174,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (clickWait) {
             return;
         }
-        if (doubleClickWaitView == null) {//第一下点击
-            doubleClickWaitView = v;
 
-            handler.removeMessages(1);
-            handler.sendEmptyMessageDelayed(1, 300);
-        } else {
-            if (doubleClickWaitView == v) {//第二下点击同一个view
-                doubleClickWaitView = null;
+        clickWait = true;
 
-                PluginStarter starter = new PluginStarter(this, pluginSource);
-                starter.execute();
+        PluginStarter starter = new PluginStarter(this, pluginSource);
+        starter.execute();
 
-                handler.removeMessages(2);
-                handler.sendEmptyMessageDelayed(2, 500);
-            } else {//第二下点击不同的view
-                doubleClickWaitView = v;
-
-                handler.removeMessages(1);
-                handler.sendEmptyMessageDelayed(1, 300);
-            }
-        }
+        handler.removeMessages(1);
+        handler.sendEmptyMessageDelayed(1, 200);
     }
 
     @Override

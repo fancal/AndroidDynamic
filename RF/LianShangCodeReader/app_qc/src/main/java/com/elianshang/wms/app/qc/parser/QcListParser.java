@@ -49,7 +49,7 @@ public class QcListParser extends MasterParser<QcList> {
                 qcList.setTurnoverBoxNum(turnoverBoxNum);
                 qcList.setItemLineNum(itemLineNum);
                 qcList.setCollectionRoadCode(collectionRoadCode);
-                qcList.setCollectionRoadCode(containerId);
+                qcList.setContainerId(containerId);
             }
 
             JSONArray jsonArray = optJSONArray(data, "qcList");

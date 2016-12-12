@@ -54,9 +54,28 @@
 
 
 ################<span></span>混淆保护自己项目的部分代码以及引用的第三方jar包library#########################
+#-libraryjars libs/umeng-analytics-v5.2.4.jar
+#-libraryjars libs/alipaysd<span></span>k.jar
+#<span></span>-libraryjars libs/alipaysecsdk.jar
+#-libraryjars libs/alipayutdid.jar
+#-libraryjars libs/wup-1.0.0-SNAPSHOT.jar
+#-libraryjars libs/weibosdkcore.jar
+
+
+#三星应用市场需要添加:sdk-v1.0.0.jar,look-v1.0.1.jar
+#-libraryjars libs/sdk-v1.0.0.jar
+#-libraryjars libs/look-v1.0.1.jar
+
+#我是以libaray的形式引用了一个图片加载框架,如果不想混淆 keep 掉
+#-keep class com.bumptech.glide.** { *; }
+
+#友盟
+#-keep class com.umeng.**{*;}
+#-keep class u.aly.**{*;}
+
 #okhttp
 -keep class com.squareup.** { *; }
--keep class com.xue.**{ *; }
+-keep class com.xue.** { *; }
 
 #okio
 -keep class okio.** { *; }
@@ -83,6 +102,8 @@
 #动态插件包不混淆
 -keep class com.elianshang.**{ *; }
 
+-keep class android.support.v7.**{ *; }
+-keep class android.support.v4.**{ *; }
 
 #自己项目特殊处理代码
 

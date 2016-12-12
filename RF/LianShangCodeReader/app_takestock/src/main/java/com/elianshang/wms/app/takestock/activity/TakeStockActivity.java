@@ -28,8 +28,8 @@ import com.elianshang.wms.app.takestock.R;
 import com.elianshang.wms.app.takestock.bean.ResponseState;
 import com.elianshang.wms.app.takestock.bean.TakeStockDetail;
 import com.elianshang.wms.app.takestock.bean.TakeStockList;
-import com.elianshang.wms.app.takestock.provider.GetTaskProvider;
 import com.elianshang.wms.app.takestock.provider.DoOneProvider;
+import com.elianshang.wms.app.takestock.provider.GetTaskProvider;
 import com.xue.http.impl.DataHull;
 
 import org.json.JSONArray;
@@ -43,11 +43,12 @@ import java.util.ArrayList;
  */
 public class TakeStockActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, View.OnClickListener {
 
-    public static void launch(DLBasePluginActivity activity, String uid, String uToken, TakeStockList list) {
+    public static void launch(DLBasePluginActivity activity, String uid, String uToken, TakeStockList list, TakeStockDetail detail) {
         DLIntent intent = new DLIntent(activity.getPackageName(), TakeStockActivity.class);
         intent.putExtra("uId", uid);
         intent.putExtra("uToken", uToken);
         intent.putExtra("list", list);
+        intent.putExtra("detail", detail);
         activity.startPluginActivity(intent);
     }
 
@@ -71,11 +72,13 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
      * 任务进度TextView
      */
     private TextView progressTextView;
+    private View progressLayout;
 
     /**
      * 任务布局 任务TextView
      */
     private TextView taskCodeTextView;
+    private View taskCodeLayout;
 
     /**
      * 任务布局
@@ -152,7 +155,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
         if (readExtra()) {
             findView();
-            fillNewTask();
+            fillInit();
         }
     }
 
@@ -181,6 +184,8 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     }
 
     private void findView() {
+        progressLayout = findViewById(R.id.progress_Layout);
+        taskCodeLayout = findViewById(R.id.progress_Layout);
         progressTextView = (TextView) findViewById(R.id.progress_TextView);
         taskCodeTextView = (TextView) findViewById(R.id.taskCode_TextView);
 
@@ -222,11 +227,20 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
             return false;
         }
 
-        Intent intent = getIntent();
-        takeStockList = (TakeStockList) intent.getSerializableExtra("list");
-
         return true;
     }
+
+    private void fillInit() {
+        Intent intent = getIntent();
+        takeStockList = (TakeStockList) intent.getSerializableExtra("list");
+        if (takeStockList == null) {
+            TakeStockDetail detail = (TakeStockDetail) intent.getSerializableExtra("detail");
+            fillTaskDetail(detail);
+        } else {
+            fillNewTask();
+        }
+    }
+
 
     private void fillNewTask() {
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
@@ -254,9 +268,10 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         scanEditTextTool.setComplete(new ScanEditTextTool.OnStateChangeListener() {
             @Override
             public void onComplete() {
+                String taskId = taskCodeTextView.getText().toString();
                 String locationCode = taskLocationCodeEditText.getText().toString();
                 if (TextUtils.equals(locationCode, task.getLocationCode())) {
-                    new StockTakingGetTask(TakeStockActivity.this.that, task.getTaskId(), locationCode).start();
+                    new StockTakingGetTask(TakeStockActivity.this.that, taskId, locationCode).start();
                 } else {
                     Toast.makeText(TakeStockActivity.this.that, "错误的库位,请扫描正确库位", Toast.LENGTH_SHORT).show();
                 }
@@ -272,6 +287,19 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     private void fillTaskDetail(TakeStockDetail takeStockDetail) {
         taskLayout.setVisibility(View.GONE);
         detailLayout.setVisibility(View.VISIBLE);
+
+        if (takeStockList == null) {
+            progressLayout.setVisibility(View.GONE);
+        } else {
+            progressLayout.setVisibility(View.VISIBLE);
+        }
+
+        if (TextUtils.isEmpty(takeStockDetail.getTaskId())) {
+            taskCodeLayout.setVisibility(View.GONE);
+        } else {
+            taskCodeLayout.setVisibility(View.VISIBLE);
+            taskCodeTextView.setText(takeStockDetail.getTaskId());
+        }
 
         taskCodeTextView.setText(takeStockDetail.getTaskId());
         detailLocationCodeTextView.setText(takeStockDetail.getLocationCode());
@@ -342,11 +370,13 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     private void submit() {
         boolean state = true;
         String taskId = taskCodeTextView.getText().toString();
+        String locationCode = detailLocationCodeTextView.getText().toString();
         final JSONObject jsonObject = new JSONObject();
         final JSONArray jsonarray = new JSONArray();
 
         try {
             jsonObject.put("taskId", taskId);
+            jsonObject.put("locationCode", locationCode);
 
             for (ViewHolder vh : vhList) {
                 String barCode = vh.nameEditText.getText().toString();
@@ -409,7 +439,6 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     private class StockTakingGetTask extends HttpAsyncTask<TakeStockDetail> {
 
         private String taskId;
-
         private String locationCode;
 
         public StockTakingGetTask(Context context, String taskId, String locationCode) {
@@ -451,7 +480,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         public void onPostExecute(ResponseState result) {
             progress++;
 
-            if (progress == takeStockList.size()) {
+            if (takeStockList == null || progress == takeStockList.size()) {
                 finish();
                 ToastTool.show(context, "盘点完成");
             } else {

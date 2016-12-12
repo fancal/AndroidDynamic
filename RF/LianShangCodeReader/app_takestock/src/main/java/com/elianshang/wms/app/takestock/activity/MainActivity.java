@@ -5,11 +5,19 @@ import android.text.TextUtils;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.takestock.bean.TakeStockList;
-import com.elianshang.wms.app.takestock.provider.AssignProvider;
+import com.elianshang.wms.app.takestock.provider.RestoreProvider;
 import com.xue.http.impl.DataHull;
 
 public class MainActivity extends DLBasePluginActivity {
+
+    public static void launch(DLBasePluginActivity activity, String uid, String uToken) {
+        DLIntent intent = new DLIntent(activity.getPackageName(), MainActivity.class);
+        intent.putExtra("uId", uid);
+        intent.putExtra("uToken", uToken);
+        activity.startPluginActivity(intent);
+    }
 
     private String uId;
 
@@ -19,7 +27,7 @@ public class MainActivity extends DLBasePluginActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (readExtras()) {
-            new StockTakingAssignTask(uId, uToken).start();
+            new RestoreTask(uId, uToken).start();
         }
     }
 
@@ -38,45 +46,33 @@ public class MainActivity extends DLBasePluginActivity {
     /**
      * 领取盘点任务
      */
-    private class StockTakingAssignTask extends HttpAsyncTask<TakeStockList> {
+    private class RestoreTask extends HttpAsyncTask<TakeStockList> {
 
         private String uId;
 
         private String uToken;
 
-        public StockTakingAssignTask(String uid, String uToken) {
-            super(MainActivity.this.that, true, true, false , false);
+        public RestoreTask(String uid, String uToken) {
+            super(MainActivity.this.that, true, true, false, false);
             this.uId = uid;
             this.uToken = uToken;
         }
 
         @Override
         public DataHull<TakeStockList> doInBackground() {
-            return AssignProvider.request(context,uId, uToken);
+            return RestoreProvider.request(context, uId, uToken);
         }
 
         @Override
         public void onPostExecute(TakeStockList result) {
-            TakeStockActivity.launch(MainActivity.this, uId, uToken, result);
-            MainActivity.this.finish();
-        }
-
-        @Override
-        public void netErr(String errMsg) {
-            super.netErr(errMsg);
-            MainActivity.this.finish();
-        }
-
-        @Override
-        public void netNull() {
-            super.netNull();
+            TakeStockActivity.launch(MainActivity.this, uId, uToken, result, null);
             MainActivity.this.finish();
         }
 
         @Override
         public void dataNull(String errMsg) {
             super.dataNull(errMsg);
-            MainActivity.this.finish();
+            ScanActivity.launch(MainActivity.this, uId, uToken, "JH");
         }
     }
 

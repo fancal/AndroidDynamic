@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by xfilshy on 16/8/18.
  */
-public class AssignProvider {
+public class RestoreProvider {
 
     private static final String base_url = "http://static.qatest.rf.lsh123.com/api/wms/rf/v1";
 
@@ -42,30 +42,26 @@ public class AssignProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/inhouse/stock_taking/assign";
+    private static final String _function = "/inhouse/stock_taking/restore";
 
     private static final String uId = "uid";
 
     private static final String uToken = "utoken";
 
-    private static final String code = "code";
-
-    public static DataHull<TakeStockList> request(Context context, String uId, String uToken, String code) {
+    public static DataHull<TakeStockList> request(Context context, String uId, String uToken) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(AssignProvider.app_key, DeviceTool.getIMEI(context)));
-        headers.add(new DefaultKVPBean(AssignProvider.platform, "2"));
-        headers.add(new DefaultKVPBean(AssignProvider.version, DeviceTool.getClientVersionName(context)));
-        headers.add(new DefaultKVPBean(AssignProvider.api_version, "v1"));
-        headers.add(new DefaultKVPBean(AssignProvider.uId, uId));
-        headers.add(new DefaultKVPBean(AssignProvider.uToken, uToken));
+        headers.add(new DefaultKVPBean(RestoreProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(RestoreProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(RestoreProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(RestoreProvider.api_version, "v1"));
+        headers.add(new DefaultKVPBean(RestoreProvider.uId, uId));
+        headers.add(new DefaultKVPBean(RestoreProvider.uToken, uToken));
 
-        List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(AssignProvider.code, code));
         int type = BaseHttpParameter.Type.POST;
 
-        HttpDynamicParameter<TakeStockListParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new TakeStockListParser(), 0);
+        HttpDynamicParameter<TakeStockListParser> parameter = new HttpDynamicParameter<>(url, headers, null, type, new TakeStockListParser(), 0);
 
         OkHttpHandler<TakeStockList> handler = new OkHttpHandler();
         DataHull<TakeStockList> dataHull = handler.requestData(parameter);
