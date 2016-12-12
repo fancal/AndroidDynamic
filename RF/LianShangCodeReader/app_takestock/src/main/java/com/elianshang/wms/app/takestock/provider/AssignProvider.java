@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class AssignProvider {
 
-    private static final String base_url = "http://static.qatest.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -50,7 +50,7 @@ public class AssignProvider {
 
     private static final String code = "code";
 
-    public static DataHull<TakeStockList> request(Context context, String uId, String uToken, String code) {
+    public static DataHull<TakeStockList> request(Context context, String uId, String uToken , String code) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();

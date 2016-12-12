@@ -415,7 +415,11 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     @Override
     public void onBackPressed() {
         if (detailLayout.getVisibility() == View.VISIBLE) {
-            fillNewTask();
+            if (takeStockList != null) {
+                fillNewTask();
+            } else {
+                finish();
+            }
             return;
         }
 
