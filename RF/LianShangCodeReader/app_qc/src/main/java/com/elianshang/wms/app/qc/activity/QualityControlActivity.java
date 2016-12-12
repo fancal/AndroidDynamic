@@ -342,7 +342,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         });
         mMenuItem = (TextView) findViewById(R.id.menu_item);
         mMenuItem.setOnClickListener(this);
-        mMenuItem.setOnClickListener(this);
         mMenuItem.setVisibility(View.GONE);
     }
 

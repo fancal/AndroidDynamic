@@ -8,8 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +45,7 @@ import java.util.ArrayList;
 /**
  * 盘点页面
  */
-public class TakeStockActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, View.OnClickListener {
+public class TakeStockActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, View.OnClickListener, ScanEditTextTool.OnStateChangeListener, AdapterView.OnItemClickListener {
 
     public static void launch(DLBasePluginActivity activity, String uid, String uToken, TakeStockList list, TakeStockDetail detail) {
         DLIntent intent = new DLIntent(activity.getPackageName(), TakeStockActivity.class);
@@ -65,12 +69,21 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
      */
     private TakeStockList takeStockList;
 
+    private TakeStockList.TakeStockTask curTask;
+
     /**
      * 当前执行的任务序号
      */
     private int progress = 0;
 
+    /**
+     * 1  流式   2  列表式
+     */
+    private int workMode = 1;
+
     private Toolbar mToolbar;
+
+    private TextView menuView;
 
     /**
      * 任务进度TextView
@@ -83,6 +96,8 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
      */
     private TextView taskCodeTextView;
     private View taskCodeLayout;
+
+    private ListView locationCodeListView;
 
     /**
      * 任务布局
@@ -151,6 +166,8 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
     private String serialNumber;
 
+    private LocationCodeListAdapter adapter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,6 +210,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         progressTextView = (TextView) findViewById(R.id.progress_TextView);
         taskCodeTextView = (TextView) findViewById(R.id.taskCode_TextView);
 
+        locationCodeListView = (ListView) findViewById(R.id.locationList_ListView);
         taskLayout = findViewById(R.id.task_Layout);
         taskLocationCodeTextView = (TextView) taskLayout.findViewById(R.id.locationCode_TextView);
         taskLocationCodeEditText = (ScanEditText) taskLayout.findViewById(R.id.locationCode_EditText);
@@ -208,6 +226,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
         detailAddButton.setOnClickListener(this);
         detailSubmitButton.setOnClickListener(this);
+        locationCodeListView.setOnItemClickListener(this);
 
         initToolbar();
     }
@@ -220,6 +239,9 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
                 onBackPressed();
             }
         });
+        menuView = (TextView) findViewById(R.id.menu_item);
+        menuView.setOnClickListener(this);
+        menuView.setVisibility(View.GONE);
     }
 
     private boolean readExtra() {
@@ -241,61 +263,107 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
             TakeStockDetail detail = (TakeStockDetail) intent.getSerializableExtra("detail");
             fillTaskDetail(detail);
         } else {
+            for (int i = 0; i < takeStockList.size(); i++) {
+                TakeStockList.TakeStockTask task = takeStockList.get(i);
+                if ("3".equals(task.getStatus())) {
+                    progress++;
+                }
+            }
+
             fillNewTask();
         }
     }
 
+    private void fillListView() {
+        if (workMode == 2 && takeStockList != null) {
+            locationCodeListView.setVisibility(View.VISIBLE);
+            taskLayout.setVisibility(View.GONE);
+            detailLayout.setVisibility(View.GONE);
+            progressLayout.setVisibility(View.GONE);
+            taskCodeLayout.setVisibility(View.GONE);
 
-    private void fillNewTask() {
-        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+            if (adapter == null) {
+                adapter = new LocationCodeListAdapter();
+                locationCodeListView.setAdapter(adapter);
+            }
 
-        taskLocationCodeEditText.setText("");
-        detailInputLayout.removeAllViews();
-
-        final TakeStockList.TakeStockTask task = takeStockList.get(progress);
-
-        progressTextView.setText((progress + 1) + "/" + takeStockList.size());
-
-        taskLayout.setVisibility(View.VISIBLE);
-        detailLayout.setVisibility(View.GONE);
-
-        taskCodeTextView.setText(task.getTaskId());
-        taskLocationCodeTextView.setText(task.getLocationCode());
-
-        if (scanEditTextTool != null) {
-            scanEditTextTool.release();
+            adapter.notifyDataSetChanged();
         }
-
-        vhList.clear();
-        scanEditTextTool = new ScanEditTextTool(that, taskLocationCodeEditText);
-
-        scanEditTextTool.setComplete(new ScanEditTextTool.OnStateChangeListener() {
-            @Override
-            public void onComplete() {
-                String taskId = taskCodeTextView.getText().toString();
-                String locationCode = taskLocationCodeEditText.getText().toString();
-                if (TextUtils.equals(locationCode, task.getLocationCode())) {
-                    new StockTakingGetTask(TakeStockActivity.this.that, taskId, locationCode).start();
-                } else {
-                    Toast.makeText(TakeStockActivity.this.that, "错误的库位,请扫描正确库位", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onError(ContentEditText editText) {
-
-            }
-        });
     }
 
-    private void fillTaskDetail(TakeStockDetail takeStockDetail) {
-        taskLayout.setVisibility(View.GONE);
-        detailLayout.setVisibility(View.VISIBLE);
+    private void fillOneTask() {
+        taskLayout.setVisibility(View.VISIBLE);
+        locationCodeListView.setVisibility(View.GONE);
+        detailLayout.setVisibility(View.GONE);
 
         if (takeStockList == null) {
             progressLayout.setVisibility(View.GONE);
         } else {
             progressLayout.setVisibility(View.VISIBLE);
+            progressTextView.setText(String.valueOf(progress));
+        }
+
+        if (TextUtils.isEmpty(curTask.getTaskId())) {
+            taskCodeLayout.setVisibility(View.GONE);
+        } else {
+            taskCodeLayout.setVisibility(View.VISIBLE);
+            taskCodeTextView.setText(curTask.getTaskId());
+        }
+        taskLocationCodeTextView.setText(curTask.getLocationCode());
+
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+            scanEditTextTool = null;
+        }
+
+        scanEditTextTool = new ScanEditTextTool(that, taskLocationCodeEditText);
+        scanEditTextTool.setComplete(this);
+
+    }
+
+    private void fillNewTask() {
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+
+        if (takeStockList != null) {
+            menuView.setVisibility(View.VISIBLE);
+
+            if (workMode == 1) {
+                menuView.setText("列表");
+            } else if (workMode == 2) {
+                menuView.setText("流式");
+            }
+        }
+
+        if (workMode == 2) {
+            fillListView();
+        } else if (workMode == 1) {
+            for (int i = 0; i < takeStockList.size(); i++) {
+                TakeStockList.TakeStockTask task = takeStockList.get(i);
+                if (!"3".equals(task.getStatus())) {
+                    curTask = task;
+                    fillOneTask();
+                    return;
+                }
+            }
+
+            setResult(RESULT_OK);
+            finish();
+            ToastTool.show(that, "盘点完成");
+        }
+    }
+
+    private void fillTaskDetail(TakeStockDetail takeStockDetail) {
+        taskLayout.setVisibility(View.GONE);
+        detailLayout.setVisibility(View.VISIBLE);
+        locationCodeListView.setVisibility(View.GONE);
+        menuView.setVisibility(View.GONE);
+        detailInputLayout.removeAllViews();
+
+        if (takeStockList == null) {
+            progressLayout.setVisibility(View.GONE);
+        } else {
+            progressLayout.setVisibility(View.VISIBLE);
+            progressTextView.setText(String.valueOf(progress));
         }
 
         if (TextUtils.isEmpty(takeStockDetail.getTaskId())) {
@@ -346,6 +414,11 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
     @Override
     public void onBackPressed() {
+        if (detailLayout.getVisibility() == View.VISIBLE) {
+            fillNewTask();
+            return;
+        }
+
         DialogTools.showTwoButtonDialog(that, "是否暂退任务,下次回来将会继续", "取消", "确定", null, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -368,6 +441,18 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
             addItemView();
         } else if (detailSubmitButton == v) {
             submit();
+        } else if (menuView == v) {
+            if (workMode == 1) {
+                if (takeStockList != null) {
+                    workMode = 2;
+                    menuView.setText("流式");
+                }
+                fillNewTask();
+            } else if (workMode == 2) {
+                workMode = 1;
+                menuView.setText("列表");
+                fillNewTask();
+            }
         }
     }
 
@@ -432,6 +517,30 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         }
     }
 
+    @Override
+    public void onComplete() {
+        String taskId = taskCodeTextView.getText().toString();
+        String locationCode = taskLocationCodeEditText.getText().toString();
+        if (TextUtils.equals(locationCode, curTask.getLocationCode())) {
+            new StockTakingGetTask(TakeStockActivity.this.that, taskId, locationCode).start();
+        } else {
+            Toast.makeText(TakeStockActivity.this.that, "错误的库位,请扫描正确库位", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onError(ContentEditText editText) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        TakeStockList.TakeStockTask task = takeStockList.get(position);
+        curTask = task;
+
+        new StockTakingGetTask(TakeStockActivity.this.that, task.getTaskId(), task.getLocationCode()).start();
+    }
+
     private class ViewHolder {
         ScanEditText nameEditText;
         QtyEditText qtyEditText;
@@ -483,6 +592,9 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         @Override
         public void onPostExecute(ResponseState result) {
             progress++;
+            if (curTask != null) {
+                curTask.setStatus("3");
+            }
 
             if (takeStockList == null || progress == takeStockList.size()) {
                 setResult(RESULT_OK);
@@ -491,6 +603,57 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
             } else {
                 fillNewTask();
             }
+        }
+    }
+
+    private class LocationCodeListAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            if (takeStockList == null) {
+
+            }
+            return takeStockList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TakeStockList.TakeStockTask task = takeStockList.get(position);
+            ViewHolder viewHodler = null;
+            if (convertView == null) {
+                convertView = View.inflate(that, R.layout.takestock_location_item, null);
+
+                viewHodler = new ViewHolder();
+
+                viewHodler.locationCodeTextView = (TextView) convertView.findViewById(R.id.locationCode_TextView);
+                viewHodler.statusTextView = (TextView) convertView.findViewById(R.id.status_TextView);
+
+                convertView.setTag(viewHodler);
+            } else {
+                viewHodler = (ViewHolder) convertView.getTag();
+            }
+
+            viewHodler.locationCodeTextView.setText(task.getLocationCode());
+            viewHodler.statusTextView.setText(TextUtils.equals("3", task.getStatus()) ? "已盘点" : "");
+
+            return convertView;
+        }
+
+        class ViewHolder {
+
+            TextView locationCodeTextView;
+
+            TextView statusTextView;
         }
     }
 }
