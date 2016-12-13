@@ -9,12 +9,12 @@
     android:padding="1dip">
 
     <Button
-        android:id="@+id/interimTakeStock_Button"
+        android:id="@+id/planTakeStock_Button"
         android:layout_width="match_parent"
         android:layout_height="60dip"
         android:background="@drawable/white_button_bg"
         android:gravity="center"
-        android:text="临时盘点"
+        android:text="计划盘点"
         android:textColor="@color/black"
         android:textSize="16dip" />
 
@@ -24,12 +24,13 @@
         android:background="@color/grey_dark" />
 
     <Button
-        android:id="@+id/planTakeStock_Button"
+        android:id="@+id/interimTakeStock_Button"
         android:layout_width="match_parent"
         android:layout_height="60dip"
         android:background="@drawable/white_button_bg"
         android:gravity="center"
-        android:text="计划盘点"
+        android:text="即时盘点"
         android:textColor="@color/black"
         android:textSize="16dip" />
+
 </LinearLayout>

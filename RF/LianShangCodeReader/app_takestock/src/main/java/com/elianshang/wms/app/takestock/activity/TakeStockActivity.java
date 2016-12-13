@@ -129,6 +129,10 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
      */
     private TextView detailItemNameTextView;
 
+    private TextView detailBarcodeTextView;
+
+    private TextView detailSkuCodeTextView;
+
     /**
      * 详情布局 规格TextView
      */
@@ -218,6 +222,8 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         detailLayout = findViewById(R.id.detail_Layout);
         detailLocationCodeTextView = (TextView) detailLayout.findViewById(R.id.locationCode_TextView);
         detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);
+        detailBarcodeTextView = (TextView) detailLayout.findViewById(R.id.barcode_TextView);
+        detailSkuCodeTextView = (TextView) detailLayout.findViewById(R.id.skuCode_TextView);
         detailPackNameTextView = (TextView) detailLayout.findViewById(R.id.packName_TextView);
         detailSystemQtyTextView = (TextView) detailLayout.findViewById(R.id.systemQty_TextView);
         detailAddButton = (Button) detailLayout.findViewById(R.id.add_Button);
@@ -346,7 +352,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
                 }
             }
 
-            setResult(RESULT_OK);
+            that.setResult(RESULT_OK);
             finish();
             ToastTool.show(that, "盘点完成");
         }
@@ -376,6 +382,8 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         taskCodeTextView.setText(takeStockDetail.getTaskId());
         detailLocationCodeTextView.setText(takeStockDetail.getLocationCode());
         detailItemNameTextView.setText(takeStockDetail.getItemName());
+        detailBarcodeTextView.setText(takeStockDetail.getBarcode());
+        detailSkuCodeTextView.setText(takeStockDetail.getSkuCode());
         detailPackNameTextView.setText(takeStockDetail.getPackName());
 
         if ("1".equals(takeStockDetail.getViewType())) {
@@ -601,7 +609,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
             }
 
             if (takeStockList == null || progress == takeStockList.size()) {
-                setResult(RESULT_OK);
+                that.setResult(RESULT_OK);
                 finish();
                 ToastTool.show(context, "盘点完成");
             } else {
@@ -633,22 +641,22 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             TakeStockList.TakeStockTask task = takeStockList.get(position);
-            ViewHolder viewHodler = null;
+            ViewHolder viewHolder;
             if (convertView == null) {
                 convertView = View.inflate(that, R.layout.takestock_location_item, null);
 
-                viewHodler = new ViewHolder();
+                viewHolder = new ViewHolder();
 
-                viewHodler.locationCodeTextView = (TextView) convertView.findViewById(R.id.locationCode_TextView);
-                viewHodler.statusTextView = (TextView) convertView.findViewById(R.id.status_TextView);
+                viewHolder.locationCodeTextView = (TextView) convertView.findViewById(R.id.locationCode_TextView);
+                viewHolder.statusTextView = (TextView) convertView.findViewById(R.id.status_TextView);
 
-                convertView.setTag(viewHodler);
+                convertView.setTag(viewHolder);
             } else {
-                viewHodler = (ViewHolder) convertView.getTag();
+                viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            viewHodler.locationCodeTextView.setText(task.getLocationCode());
-            viewHodler.statusTextView.setText(TextUtils.equals("3", task.getStatus()) ? "已盘点" : "");
+            viewHolder.locationCodeTextView.setText(task.getLocationCode());
+            viewHolder.statusTextView.setText(TextUtils.equals("3", task.getStatus()) ? "已盘点" : "");
 
             return convertView;
         }

@@ -118,7 +118,7 @@ public class ScanActivity extends DLBasePluginActivity implements ScanManager.On
 
     private void fillData() {
         if ("LS".equals(type)) {
-            titleTextView.setText("临时盘点");
+            titleTextView.setText("即时盘点");
             subTitleTextView.setText("请扫描库位");
             codeEditText.setCode(true);
         } else if ("JH".equals(type)) {
