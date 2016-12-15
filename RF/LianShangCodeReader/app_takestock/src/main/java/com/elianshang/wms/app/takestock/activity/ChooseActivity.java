@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
-import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.takestock.R;
 
@@ -42,7 +41,7 @@ public class ChooseActivity extends DLBasePluginActivity implements View.OnClick
         uToken = getIntent().getStringExtra("uToken");
 //        uId = "1";
 //        uToken = "198302935052918";
-        ScanManager.init(that);
+//        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();

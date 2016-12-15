@@ -41,7 +41,7 @@ public class ProcurementController extends BaseProcurementController implements 
                     "任务：" + curProcurement.getTaskId(),
                     "名称：" + curProcurement.getItemName(),
                     "国条码：" + curProcurement.getBarcode(),
-                    "物美码：" + curProcurement.getSkuCode(),
+                    "商品编码：" + curProcurement.getSkuCode(),
                     "规格：" + curProcurement.getPackName(),
                     "数量：" + curProcurement.getQty(),
                     curProcurement.getLocationCode());
@@ -56,7 +56,7 @@ public class ProcurementController extends BaseProcurementController implements 
                     "任务：" + curProcurement.getTaskId(),
                     "名称：" + curProcurement.getItemName(),
                     "国条码：" + curProcurement.getBarcode(),
-                    "物美码：" + curProcurement.getSkuCode(),
+                    "商品编码：" + curProcurement.getSkuCode(),
                     "规格：" + curProcurement.getPackName(),
                     "数量：" + curProcurement.getQty(),
                     curProcurement.getLocationCode());
@@ -96,7 +96,7 @@ public class ProcurementController extends BaseProcurementController implements 
                                 "填写转出数量",
                                 "名称：" + curProcurement.getItemName(),
                                 "国条码：" + curProcurement.getBarcode(),
-                                "物美码：" + curProcurement.getSkuCode(),
+                                "商品编码：" + curProcurement.getSkuCode(),
                                 "规格：" + curProcurement.getPackName(),
                                 "数量：" + curProcurement.getQty(),
                                 "库位：" + curProcurement.getLocationCode(),

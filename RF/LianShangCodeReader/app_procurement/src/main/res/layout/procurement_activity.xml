@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dip"
                 android:layout_marginTop="5dip"
-                android:text="物美码:"
+                android:text="商品编码:"
                 android:textSize="14dip" />
 
             <TextView

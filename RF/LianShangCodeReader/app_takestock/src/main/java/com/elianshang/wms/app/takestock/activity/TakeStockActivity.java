@@ -234,6 +234,8 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         detailSubmitButton.setOnClickListener(this);
         locationCodeListView.setOnItemClickListener(this);
 
+        detailAddButton.setVisibility(View.GONE);
+
         initToolbar();
     }
 
@@ -322,6 +324,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
             scanEditTextTool = null;
         }
 
+        taskLocationCodeEditText.setText("");
         scanEditTextTool = new ScanEditTextTool(that, taskLocationCodeEditText);
         scanEditTextTool.setComplete(this);
 
@@ -502,24 +505,14 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
             new StockTakingDoOneTask(that, jsonObject.toString()).start();
         } else {
             if (jsonarray.length() == 0) {
-                DialogTools.showTwoButtonDialog(that, "请确定,库位没有商品", "取消", "确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }, new DialogInterface.OnClickListener() {
+                DialogTools.showTwoButtonDialog(that, "请确定,库位没有商品", "取消", "确认", null, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         new StockTakingDoOneTask(TakeStockActivity.this.that, jsonObject.toString()).start();
                     }
                 }, false);
             } else {
-                DialogTools.showTwoButtonDialog(this.that, "信息不完全的的数据,提交时将会被忽略", "取消", "确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }, new DialogInterface.OnClickListener() {
+                DialogTools.showTwoButtonDialog(this.that, "信息不完全的的数据,提交时将会被忽略", "取消", "确认", null, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         new StockTakingDoOneTask(TakeStockActivity.this.that, jsonObject.toString()).start();

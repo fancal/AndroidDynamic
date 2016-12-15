@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:text="物美码"
+        android:text="商品编码"
         android:textSize="14dip" />
 
     <TextView

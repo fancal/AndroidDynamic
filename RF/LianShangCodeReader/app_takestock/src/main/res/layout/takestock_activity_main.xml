@@ -353,11 +353,13 @@
                         android:layout_gravity="center"
                         android:background="@drawable/submit_button_bg"
                         android:text="添加商品"
-                        android:textColor="#ffffff" />
+                        android:textColor="#ffffff"
+                        android:visibility="gone" />
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="40dip" />
+                        android:layout_height="40dip"
+                        android:visibility="gone" />
                 </LinearLayout>
             </ScrollView>
 
