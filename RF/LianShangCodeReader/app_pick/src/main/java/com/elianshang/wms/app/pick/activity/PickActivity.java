@@ -709,7 +709,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     }
 
     /**
-     * 扫拣货位/集货位
+     * 添加托盘
      */
     private class RequestSplitTask extends HttpAsyncTask<Split> {
 
@@ -730,6 +730,9 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
         @Override
         public void onPostExecute(Split result) {
+            if (mPick != null) {
+                mPick.setContainerId(containerId);
+            }
             resetPick();
         }
     }

@@ -38,6 +38,8 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
 
     private ZoneListAdapter adapter;
 
+    private boolean isItemClick = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +109,9 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (zoneList != null && position < zoneList.size()) {
-            new ZoneLoginTask(zoneList.get(position).getZoneId()).start();
+            if (!isItemClick) {
+                new ZoneLoginTask(zoneList.get(position).getZoneId()).start();
+            }
         }
     }
 
@@ -214,6 +218,7 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
         public ZoneLoginTask(String zoneId) {
             super(ZoneListActivity.this.that, true, true, false, false);
             this.zoneId = zoneId;
+            isItemClick = true;
         }
 
         @Override
@@ -224,6 +229,25 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
         @Override
         public void onPostExecute(ResponseState result) {
             MainActivity.launch(ZoneListActivity.this, uId, uToken, zoneId);
+            isItemClick = false;
+        }
+
+        @Override
+        public void netErr(String errMsg) {
+            super.netErr(errMsg);
+            isItemClick = false;
+        }
+
+        @Override
+        public void dataNull(String errMsg) {
+            super.dataNull(errMsg);
+            isItemClick = false;
+        }
+
+        @Override
+        public void netNull() {
+            super.netNull();
+            isItemClick = false;
         }
     }
 }
