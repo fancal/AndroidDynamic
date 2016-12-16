@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -542,12 +543,21 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (!isItemClick) {
-            TakeStockList.TakeStockTask task = takeStockList.get(position);
-            curTask = task;
-
-            new StockTakingGetTask(TakeStockActivity.this.that, task.getTaskId(), task.getLocationCode()).start();
+        if (isItemClick) {
+            return;
         }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+        TakeStockList.TakeStockTask task = takeStockList.get(position);
+        curTask = task;
+
+        new StockTakingGetTask(TakeStockActivity.this.that, task.getTaskId(), task.getLocationCode()).start();
     }
 
     private class ViewHolder {
@@ -567,7 +577,6 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
             super(context, true, true);
             this.taskId = taskId;
             this.locationCode = locationCode;
-            isItemClick = true;
         }
 
         @Override
@@ -578,25 +587,21 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         @Override
         public void onPostExecute(TakeStockDetail result) {
             fillTaskDetail(result);
-            isItemClick = false;
         }
 
         @Override
         public void netNull() {
             super.netNull();
-            isItemClick = false;
         }
 
         @Override
         public void netErr(String errMsg) {
             super.netErr(errMsg);
-            isItemClick = false;
         }
 
         @Override
         public void dataNull(String errMsg) {
             super.dataNull(errMsg);
-            isItemClick = false;
         }
     }
 

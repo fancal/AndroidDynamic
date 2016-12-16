@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -222,14 +223,24 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (!isItemClick) {
-            if (orderList != null && orderList.size() > position) {
-                String orderId = orderList.get(position);
-                String storeId = storeIdEditText.getText().toString().trim();
-                String containerId = containerIdEditText.getText().toString().trim();
-                String barCode = barCodeEditText.getText().toString().trim();
-                new RequestGetOrderInfoTask(that, storeId, containerId, orderId, barCode).start();
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
             }
+        }, 500);
+
+        if (orderList != null && orderList.size() > position) {
+            String orderId = orderList.get(position);
+            String storeId = storeIdEditText.getText().toString().trim();
+            String containerId = containerIdEditText.getText().toString().trim();
+            String barCode = barCodeEditText.getText().toString().trim();
+            new RequestGetOrderInfoTask(that, storeId, containerId, orderId, barCode).start();
         }
     }
 
@@ -249,8 +260,6 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
             this.containerId = containerId;
             this.barCode = barCode;
             this.orderOtherId = orderOtherId;
-
-            isItemClick = true;
         }
 
         @Override
@@ -261,25 +270,6 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
         @Override
         public void onPostExecute(StoreReceiptInfo result) {
             StoreInfoActivity.launch(StoreOpenActivity.this, uId, uToken, storeId, containerId, orderOtherId, barCode, result);
-            isItemClick = false;
-        }
-
-        @Override
-        public void netErr(String errMsg) {
-            super.netErr(errMsg);
-            isItemClick = false;
-        }
-
-        @Override
-        public void dataNull(String errMsg) {
-            super.dataNull(errMsg);
-            isItemClick = false;
-        }
-
-        @Override
-        public void netNull() {
-            super.netNull();
-            isItemClick = false;
         }
     }
 

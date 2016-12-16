@@ -3,6 +3,7 @@ package com.elianshang.wms.app.sow.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -390,9 +391,18 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
         if (isItemClick) {
             return;
         }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
         if (orderListLayout.getVisibility() == View.VISIBLE) {
             curOrderItem = orderList.get(position);
             storeListTab1.setSelected(true);//默认选中第一个
@@ -442,8 +452,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         public OrderListTask(Context context, String barcode) {
             super(context, true, true, false);
             this.barcode = barcode;
-
-            isItemClick = true;
         }
 
         @Override
@@ -455,25 +463,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         public void onPostExecute(OrderList result) {
             orderList = result;
             fillOrderListLayout();
-            isItemClick = false;
-        }
-
-        @Override
-        public void dataNull(String errMsg) {
-            super.dataNull(errMsg);
-            isItemClick = false;
-        }
-
-        @Override
-        public void netNull() {
-            super.netNull();
-            isItemClick = false;
-        }
-
-        @Override
-        public void netErr(String errMsg) {
-            super.netErr(errMsg);
-            isItemClick = false;
         }
     }
 
@@ -493,8 +482,6 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
             this.containerId = containerId;
             this.orderId = orderId;
             this.storeType = storeType;
-
-            isItemClick = true;
         }
 
         @Override
@@ -506,26 +493,12 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
         public void onPostExecute(StoreList result) {
             storeList = result;
             fillStoreListLayout();
-            isItemClick = false;
         }
 
 
         @Override
         public void dataNull(String errMsg) {
             fillStoreListLayout();
-            isItemClick = false;
-        }
-
-        @Override
-        public void netNull() {
-            super.netNull();
-            isItemClick = false;
-        }
-
-        @Override
-        public void netErr(String errMsg) {
-            super.netErr(errMsg);
-            isItemClick = false;
         }
     }
 

@@ -1,6 +1,7 @@
 package com.elianshang.wms.app.procurement.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -108,10 +109,19 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (zoneList != null && position < zoneList.size()) {
-            if (!isItemClick) {
-                new ZoneLoginTask(zoneList.get(position).getZoneId()).start();
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
             }
+        }, 500);
+        if (zoneList != null && position < zoneList.size()) {
+            new ZoneLoginTask(zoneList.get(position).getZoneId()).start();
         }
     }
 
@@ -218,7 +228,6 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
         public ZoneLoginTask(String zoneId) {
             super(ZoneListActivity.this.that, true, true, false, false);
             this.zoneId = zoneId;
-            isItemClick = true;
         }
 
         @Override
@@ -229,25 +238,6 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
         @Override
         public void onPostExecute(ResponseState result) {
             MainActivity.launch(ZoneListActivity.this, uId, uToken, zoneId);
-            isItemClick = false;
-        }
-
-        @Override
-        public void netErr(String errMsg) {
-            super.netErr(errMsg);
-            isItemClick = false;
-        }
-
-        @Override
-        public void dataNull(String errMsg) {
-            super.dataNull(errMsg);
-            isItemClick = false;
-        }
-
-        @Override
-        public void netNull() {
-            super.netNull();
-            isItemClick = false;
         }
     }
 }
