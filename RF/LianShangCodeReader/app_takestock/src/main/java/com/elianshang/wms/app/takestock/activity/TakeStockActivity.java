@@ -172,6 +172,8 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
     private LocationCodeListAdapter adapter;
 
+    private boolean isItemClick = false;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -540,10 +542,12 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        TakeStockList.TakeStockTask task = takeStockList.get(position);
-        curTask = task;
+        if (!isItemClick) {
+            TakeStockList.TakeStockTask task = takeStockList.get(position);
+            curTask = task;
 
-        new StockTakingGetTask(TakeStockActivity.this.that, task.getTaskId(), task.getLocationCode()).start();
+            new StockTakingGetTask(TakeStockActivity.this.that, task.getTaskId(), task.getLocationCode()).start();
+        }
     }
 
     private class ViewHolder {
@@ -563,6 +567,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
             super(context, true, true);
             this.taskId = taskId;
             this.locationCode = locationCode;
+            isItemClick = true;
         }
 
         @Override
@@ -573,8 +578,26 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         @Override
         public void onPostExecute(TakeStockDetail result) {
             fillTaskDetail(result);
+            isItemClick = false;
         }
 
+        @Override
+        public void netNull() {
+            super.netNull();
+            isItemClick = false;
+        }
+
+        @Override
+        public void netErr(String errMsg) {
+            super.netErr(errMsg);
+            isItemClick = false;
+        }
+
+        @Override
+        public void dataNull(String errMsg) {
+            super.dataNull(errMsg);
+            isItemClick = false;
+        }
     }
 
     /**
