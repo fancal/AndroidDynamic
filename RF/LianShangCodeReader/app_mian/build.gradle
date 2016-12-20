@@ -147,7 +147,7 @@ android {
      * 多渠道名字
      * */
     productFlavors {
-        tttt {}//测试包
+        to_qctest {}//测试包
 //        official {}//官网
 //        qihu360 {}//360
 //        baidu {}//百度
@@ -160,7 +160,7 @@ android {
      * 将渠道名赋给Umeng渠道
      * */
     productFlavors.all { flavor ->
-        if ("tttt" == name) {
+        if ("to_qctest" == name) {
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: "test", PCODE_VALUE: "test", CONFIG_VALUE: "test"]
         } else {
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name, PCODE_VALUE: name, CONFIG_VALUE: "public"]
