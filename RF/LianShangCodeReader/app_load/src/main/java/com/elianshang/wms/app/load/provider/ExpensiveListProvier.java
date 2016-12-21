@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class ExpensiveListProvier {
 
-    private static final String base_url = "http://hz01.rf.wms.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.qatest2.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
