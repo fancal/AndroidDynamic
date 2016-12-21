@@ -12,9 +12,7 @@ import java.util.regex.Pattern;
  */
 public class QtyEditText extends ContentEditText {
 
-    String ruleInteger = "^[0-9]\\d*$";
-
-    String ruleFloat = "^\\d*[.]\\d*$";
+    String rule = "^\\d*[.]?\\d*$";
 
     public QtyEditText(Context context) {
         super(context);
@@ -32,21 +30,12 @@ public class QtyEditText extends ContentEditText {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private boolean ruleInteger(String text) {
-        if (TextUtils.isEmpty(ruleInteger)) {
+    private boolean rule(String text) {
+        if (TextUtils.isEmpty(rule)) {
             return true;
         }
 
-        Pattern pattern = Pattern.compile(ruleInteger);
-        return pattern.matcher(text).matches();
-    }
-
-    private boolean ruleFloat(String text) {
-        if (TextUtils.isEmpty(ruleFloat)) {
-            return true;
-        }
-
-        Pattern pattern = Pattern.compile(ruleFloat);
+        Pattern pattern = Pattern.compile(rule);
         return pattern.matcher(text).matches();
     }
 
@@ -68,23 +57,13 @@ public class QtyEditText extends ContentEditText {
             return "";
         }
 
-        int type = 0;
-        if (ruleInteger(value)) {
-            type = 1;
-        }
-
-        if (ruleFloat(value)) {
-            type = 2;
-        }
-
         String aft;
-        if (type == 1) {
-            aft = value.replaceAll("0*(\\d+)", "$1");
-        } else if (type == 2) {
-            aft = value.replaceAll("0*(\\d+)", "$1");
-            aft = aft.replaceAll("0+?$", "");//去掉多余的0
-            aft = aft.replaceAll("[.]$", "");//去掉多余的.
-            aft = aft.replaceAll("^[.]", "0.");//开口的点加0
+        if (rule(value)) {
+            aft = value.replaceAll("^0+(\\d+)", "$1");
+            aft = aft.replaceAll("(\\.\\d+)0$", "$1");
+            aft = aft.replaceAll("^\\.", "0.");
+            aft = aft.replaceAll("\\.$", ".0");
+            aft = aft.replaceAll("\\.0$", "");
         } else {
             aft = "0";
         }
