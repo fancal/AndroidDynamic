@@ -17,11 +17,7 @@ import java.util.List;
 
 public class GetMenuListProvider {
 
-<<<<<<< HEAD
     private static final String base_url = "http://static.qatest.rf.lsh123.com/api/wms/rf/v1";
-=======
-    private static final String base_url = "http://static.qatest2.rf.lsh123.com/api/wms/rf/v1";
->>>>>>> RF_1.0_QATEST2
 
     private static final String _function = "/user/getMenuList";
 
