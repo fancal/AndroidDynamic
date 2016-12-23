@@ -27,6 +27,26 @@ public class Procurement implements BaseBean {
 
     private String skuCode;
 
+    private String fromLocationCode;
+
+    private String toLocationCode;
+
+    public String getFromLocationCode() {
+        return fromLocationCode;
+    }
+
+    public void setFromLocationCode(String fromLocationCode) {
+        this.fromLocationCode = fromLocationCode;
+    }
+
+    public String getToLocationCode() {
+        return toLocationCode;
+    }
+
+    public void setToLocationCode(String toLocationCode) {
+        this.toLocationCode = toLocationCode;
+    }
+
     public String getBarcode() {
         return barcode;
     }

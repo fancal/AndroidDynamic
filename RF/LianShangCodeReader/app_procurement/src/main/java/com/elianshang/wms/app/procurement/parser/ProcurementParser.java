@@ -20,6 +20,8 @@ public class ProcurementParser extends MasterParser<Procurement> {
             String type = optString(data, "type");
             String subType = optString(data, "subType");
             String locationCode = optString(data, "locationCode");
+            String fromLocationCode = optString(data, "fromLocationCode");
+            String toLocationCode = optString(data, "toLocationCode");
             String itemId = optString(data, "itemId");
             String itemName = optString(data, "itemName");
             String packName = optString(data, "packName");
@@ -40,6 +42,8 @@ public class ProcurementParser extends MasterParser<Procurement> {
                 procurement.setType(type);
                 procurement.setSubType(subType);
                 procurement.setLocationCode(locationCode);
+                procurement.setToLocationCode(toLocationCode);
+                procurement.setFromLocationCode(fromLocationCode);
                 procurement.setItemId(itemId);
                 procurement.setItemName(itemName);
                 procurement.setPackName(packName);

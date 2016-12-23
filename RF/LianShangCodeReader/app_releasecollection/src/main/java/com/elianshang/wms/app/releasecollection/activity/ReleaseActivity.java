@@ -92,6 +92,11 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
+        //FIXME
+//        uId = "97895189586439";
+//        uToken = "25061134202027";
+//        ScanManager.init(that);
+
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
@@ -157,10 +162,10 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
             return;
         }
 
-        detailCollectionRoadTextView.setText(scanLocationCodeEditText.getText().toString());
-        detailStoreNumTextView.setText(detail.getCustomerCount());
-        detailPackCountTextView.setText(detail.getPackCount());
-        detailTurnoverBoxCountTextView.setText(detail.getTurnoverBoxNum());
+        detailCollectionRoadTextView.setText("集货道：" + scanLocationCodeEditText.getText().toString());
+        detailStoreNumTextView.setText("门店数：" + detail.getCustomerCount());
+        detailPackCountTextView.setText("箱数：" + detail.getPackCount());
+        detailTurnoverBoxCountTextView.setText("周转箱数：" + detail.getTurnoverBoxNum());
     }
 
     @Override
