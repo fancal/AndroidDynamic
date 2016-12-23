@@ -1,14 +1,14 @@
 package com.elianshang.wms.app.releasecollection.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
-import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
@@ -17,11 +17,13 @@ import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.releasecollection.R;
+import com.elianshang.wms.app.releasecollection.bean.CollectionRoadDetail;
 import com.elianshang.wms.app.releasecollection.bean.ResponseState;
+import com.elianshang.wms.app.releasecollection.provider.CollectionRoadDetailProvider;
 import com.elianshang.wms.app.releasecollection.provider.ReleaseCollectionRoadProvider;
 import com.xue.http.impl.DataHull;
 
-public class ReleaseActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener {
+public class ReleaseActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, ScanEditTextTool.OnStateChangeListener, View.OnClickListener {
 
     private String uId;
 
@@ -29,20 +31,36 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
 
     private Toolbar toolbar;
 
-    private ScanEditText locationCodeEditText;
+    private View scanLayout;
+
+    private View detailLayout;
+
+    private ScanEditText scanLocationCodeEditText;
+
+    private TextView detailCollectionRoadTextView;
+
+    private TextView detailStoreNumTextView;
+
+    private TextView detailPackCountTextView;
+
+    private TextView detailTurnoverBoxCountTextView;
+
+    private Button detailSubmitButton;
 
     private ScanEditTextTool scanEditTextTool;
 
     private String serialNumber;
+
+    private CollectionRoadDetail detail;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.releasecollecttion_activity_main);
-        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
         if (readExtras()) {
             findView();
+            fillScan();
         }
     }
 
@@ -65,7 +83,7 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(scanEditTextTool != null){
+        if (scanEditTextTool != null) {
             scanEditTextTool.release();
         }
     }
@@ -73,6 +91,11 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
+
+        //FIXME
+//        uId = "97895189586439";
+//        uToken = "25061134202027";
+//        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -93,12 +116,65 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
     }
 
     private void findView() {
-        locationCodeEditText = (ScanEditText) findViewById(R.id.locationCode_EditText);
-        locationCodeEditText.setCode(true);
-        scanEditTextTool = new ScanEditTextTool(that, locationCodeEditText);
-        scanEditTextTool.setComplete(this);
+        scanLayout = findViewById(R.id.scan_Layout);
+        scanLocationCodeEditText = (ScanEditText) scanLayout.findViewById(R.id.locationCode_EditText);
+        scanLocationCodeEditText.setCode(true);
 
+        detailLayout = findViewById(R.id.detail_Layout);
+        detailCollectionRoadTextView = (TextView) detailLayout.findViewById(R.id.collectionRoad_TextView);
+        detailStoreNumTextView = (TextView) detailLayout.findViewById(R.id.storeNum_TextView);
+        detailPackCountTextView = (TextView) detailLayout.findViewById(R.id.packCount_TextView);
+        detailTurnoverBoxCountTextView = (TextView) detailLayout.findViewById(R.id.turnoverBoxCount_TextView);
+        detailSubmitButton = (Button) detailLayout.findViewById(R.id.submit_Button);
+
+        detailSubmitButton.setOnClickListener(this);
         initToolbar();
+    }
+
+    private void fillScan() {
+        scanLayout.setVisibility(View.VISIBLE);
+        detailLayout.setVisibility(View.GONE);
+        scanLocationCodeEditText.setText("");
+        detail = null;
+
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+            scanEditTextTool = null;
+        }
+
+        scanEditTextTool = new ScanEditTextTool(that, scanLocationCodeEditText);
+        scanEditTextTool.setComplete(this);
+    }
+
+    private void fillDetail() {
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+
+        scanLayout.setVisibility(View.GONE);
+        detailLayout.setVisibility(View.VISIBLE);
+
+
+        if (scanEditTextTool != null) {
+            scanEditTextTool.release();
+            scanEditTextTool = null;
+        }
+
+        if (detail == null) {
+            return;
+        }
+
+        detailCollectionRoadTextView.setText("集货道：" + scanLocationCodeEditText.getText().toString());
+        detailStoreNumTextView.setText("门店数：" + detail.getCustomerCount());
+        detailPackCountTextView.setText("箱数：" + detail.getPackCount());
+        detailTurnoverBoxCountTextView.setText("周转箱数：" + detail.getTurnoverBoxNum());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (scanLayout.getVisibility() == View.VISIBLE) {
+            finish();
+        } else if (detailLayout.getVisibility() == View.VISIBLE) {
+            fillScan();
+        }
     }
 
     @Override
@@ -111,18 +187,51 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
 
     @Override
     public void onComplete() {
-        final String locationCode = locationCodeEditText.getText().toString();
-        DialogTools.showTwoButtonDialog(that, "确认完成一键装车", "取消", "确认", null, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                new ReleaseCollectionTask(that, uId, uToken, locationCode).start();
-            }
-        }, true);
+        final String locationCode = scanLocationCodeEditText.getText().toString();
+        new CollectionDetailTask(that, uId, uToken, locationCode).start();
     }
 
     @Override
     public void onError(ContentEditText editText) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == detailSubmitButton) {
+            final String locationCode = scanLocationCodeEditText.getText().toString();
+            new ReleaseCollectionTask(that, uId, uToken, locationCode).start();
+        }
+    }
+
+    /**
+     * 释放集货道
+     */
+    private class CollectionDetailTask extends HttpAsyncTask<CollectionRoadDetail> {
+
+        private String uId;
+
+        private String uToken;
+
+        private String locationCode;
+
+        public CollectionDetailTask(Context context, String uId, String uToken, String locationCode) {
+            super(context, true, true, false, false);
+            this.uId = uId;
+            this.uToken = uToken;
+            this.locationCode = locationCode;
+        }
+
+        @Override
+        public DataHull<CollectionRoadDetail> doInBackground() {
+            return CollectionRoadDetailProvider.request(context, uId, uToken, locationCode);
+        }
+
+        @Override
+        public void onPostExecute(CollectionRoadDetail result) {
+            detail = result;
+            fillDetail();
+        }
     }
 
     /**

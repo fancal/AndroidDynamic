@@ -19,7 +19,24 @@ public class ProcurementController extends BaseProcurementController implements 
 
     public ProcurementController(Activity activity, String uId, String uToken, Procurement procurement, ProcurementView procurementView) {
         super(activity, uId, uToken, procurement, procurementView);
-        fillData();
+        fillDetail();
+    }
+
+    private void fillDetail() {
+        if (procurementView != null) {
+            String numQty = "1".equals(curProcurement.getSubType()) ? "整托" : curProcurement.getQty();
+
+            procurementView.showDetailView(
+                    curProcurement.getTaskId(),
+                    "补货商品：" + curProcurement.getItemName(),
+                    "国条码：" + curProcurement.getBarcode(),
+                    "商品编码：" + curProcurement.getSkuCode(),
+                    "补货规格：" + curProcurement.getPackName(),
+                    "补货数量：" + numQty,
+                    "移出库位：" + curProcurement.getFromLocationCode(),
+                    "移入库位：" + curProcurement.getToLocationCode()
+            );
+        }
     }
 
     public void fillData() {
@@ -88,7 +105,7 @@ public class ProcurementController extends BaseProcurementController implements 
                 ToastTool.show(activity, "库位不一致");
             } else {
                 if (TextUtils.equals("2", curProcurement.getType())) {
-                    submit(curProcurement.getQty() , "0");
+                    submit(curProcurement.getQty(), "0");
                 } else if (TextUtils.equals("1", curProcurement.getType())) {
                     if (procurementView != null) {
                         String numQty = "1".equals(curProcurement.getSubType()) ? null : curProcurement.getQty();

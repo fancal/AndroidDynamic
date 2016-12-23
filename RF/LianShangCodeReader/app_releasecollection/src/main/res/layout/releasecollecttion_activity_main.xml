@@ -14,31 +14,104 @@
         app:navigationIcon="@drawable/toolbar_back"
         app:title="一键装车" />
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/scan_Layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dip"
-        android:layout_marginTop="10dip"
-        android:gravity="center"
-        android:text="确认集货道"
-        android:textSize="14dip" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center"
+            android:text="扫描集货道"
+            android:textSize="14dip" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:text="请扫描集货道:"
-        android:textSize="14dip" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:text="请扫描集货道:"
+            android:textSize="14dip" />
 
-    <com.elianshang.bridge.ui.view.ScanEditText
-        android:id="@+id/locationCode_EditText"
+        <com.elianshang.bridge.ui.view.ScanEditText
+            android:id="@+id/locationCode_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:textSize="14dip" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/detail_Layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textSize="14dip" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:text="确认集货道"
+                android:textSize="14dip" />
+
+
+            <TextView
+                android:id="@+id/collectionRoad_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="集货道"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/storeNum_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="门店总数"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/packCount_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="箱数"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/turnoverBoxCount_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="周转箱数"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submit_Button"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:background="@drawable/submit_button_bg"
+            android:enabled="true"
+            android:text="确认装车"
+            android:textColor="@color/white"
+            android:textSize="20dip" />
+    </LinearLayout>
 
 </LinearLayout>

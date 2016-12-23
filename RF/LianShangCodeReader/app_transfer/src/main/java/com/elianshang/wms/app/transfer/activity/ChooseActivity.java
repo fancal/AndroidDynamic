@@ -21,7 +21,7 @@ public class ChooseActivity extends DLBasePluginActivity implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.receipt_activity_choose);
+        setContentView(R.layout.transfer_activity_choose);
 
         if (readExtras()) {
             findView();

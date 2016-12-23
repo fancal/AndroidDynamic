@@ -40,6 +40,64 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/detail_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/itemName_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="移出商品"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/barcode_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="国条码"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/skuCode_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="商品编码"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/packName_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="补货规格"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/qty_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="补货数量"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/fromLocationCode_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="移出库位"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/toLocationCode_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="移入库位"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -18,13 +18,9 @@ import java.util.List;
 /**
  * 领取任务接口
  */
-public class FetchTaskProvider {
+public class AssignTaskProvider {
 
-<<<<<<< HEAD
-    private static final String base_url = "http://static.qatest.rf.lsh123.com/api/wms/rf/v1";
-=======
     private static final String base_url = "http://static.qatest2.rf.lsh123.com/api/wms/rf/v1";
->>>>>>> RF_1.0_QATEST2
 
     /**
      * app唯一标示传imei
@@ -46,29 +42,28 @@ public class FetchTaskProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/inhouse/procurement/fetchTask";
+    private static final String _function = "/inhouse/procurement/assign";
 
     private static final String uId = "uid";
 
     private static final String uToken = "utoken";
 
-    private static final String zoneId = "zoneId";
+    private static final String taskId = "taskId";
 
 
-
-    public static DataHull<Procurement> request(Context context, String uId, String uToken , String zoneId) {
+    public static DataHull<Procurement> request(Context context, String uId, String uToken, String taskId) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
-        headers.add(new DefaultKVPBean(FetchTaskProvider.app_key, DeviceTool.getIMEI(context)));
-        headers.add(new DefaultKVPBean(FetchTaskProvider.platform, "2"));
-        headers.add(new DefaultKVPBean(FetchTaskProvider.version, DeviceTool.getClientVersionName(context)));
-        headers.add(new DefaultKVPBean(FetchTaskProvider.api_version, "v1"));
-        headers.add(new DefaultKVPBean(FetchTaskProvider.uId, uId));
-        headers.add(new DefaultKVPBean(FetchTaskProvider.uToken, uToken));
+        headers.add(new DefaultKVPBean(AssignTaskProvider.app_key, DeviceTool.getIMEI(context)));
+        headers.add(new DefaultKVPBean(AssignTaskProvider.platform, "2"));
+        headers.add(new DefaultKVPBean(AssignTaskProvider.version, DeviceTool.getClientVersionName(context)));
+        headers.add(new DefaultKVPBean(AssignTaskProvider.api_version, "v1"));
+        headers.add(new DefaultKVPBean(AssignTaskProvider.uId, uId));
+        headers.add(new DefaultKVPBean(AssignTaskProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(FetchTaskProvider.zoneId, zoneId));
+        params.add(new DefaultKVPBean(AssignTaskProvider.taskId, taskId));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<ProcurementParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ProcurementParser(), 0);

@@ -147,14 +147,22 @@ android {
      * 多渠道名字
      * */
     productFlavors {
+<<<<<<< HEAD
         to_qctest {}//测试包
+=======
+        qatest2 {}//测试包
+>>>>>>> RF_1.0_QATEST2
     }
 
     /**
      * 将渠道名赋给Umeng渠道
      * */
     productFlavors.all { flavor ->
+<<<<<<< HEAD
         if ("to_qctest" == name) {
+=======
+        if ("qatest2" == name) {
+>>>>>>> RF_1.0_QATEST2
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: "test", PCODE_VALUE: "test", CONFIG_VALUE: "test"]
         } else {
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name, PCODE_VALUE: name, CONFIG_VALUE: "public"]
