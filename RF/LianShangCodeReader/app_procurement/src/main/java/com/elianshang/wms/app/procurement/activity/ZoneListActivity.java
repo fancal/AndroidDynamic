@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
-import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.procurement.R;
 import com.elianshang.wms.app.procurement.bean.LocationList;
@@ -176,9 +175,9 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
 
 
         //FIXME 59
-        uId = "1";
-        uToken = "25061134202027";
-        ScanManager.init(that);
+//        uId = "1";
+//        uToken = "25061134202027";
+//        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
