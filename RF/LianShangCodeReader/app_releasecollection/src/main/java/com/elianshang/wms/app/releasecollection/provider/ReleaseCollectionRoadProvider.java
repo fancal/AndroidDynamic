@@ -78,6 +78,5 @@ public class ReleaseCollectionRoadProvider {
         OkHttpHandler<ResponseState> handler = new OkHttpHandler();
         DataHull<ResponseState> dataHull = handler.requestData(parameter);
         return dataHull;
-
     }
 }
