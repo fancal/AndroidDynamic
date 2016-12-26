@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -56,6 +57,8 @@ public class SetOfGoodsActivity extends DLBasePluginActivity implements ScanEdit
     private SetOfGoodsView setOfGoodsView;
 
     private String serialNumber;
+
+    private boolean isItemClick = false ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -194,6 +197,18 @@ public class SetOfGoodsActivity extends DLBasePluginActivity implements ScanEdit
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == viewSubmitButton) {
             if ("2".equals(setOfGoodsView.getStatus())) {
                 fillScan();

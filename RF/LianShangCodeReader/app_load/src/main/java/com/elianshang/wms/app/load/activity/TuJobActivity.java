@@ -3,6 +3,7 @@ package com.elianshang.wms.app.load.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -130,6 +131,8 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
     private ConfirmTask confirmTask;
 
     private ExpensiveTask expensiveTask;
+
+    private boolean isItemClick = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -502,6 +505,18 @@ public class TuJobActivity extends DLBasePluginActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == tujobListFinishButton) {
             requestExpensiveList();
         } else if (v == expensiveListFinishButton) {

@@ -1,6 +1,7 @@
 package com.elianshang.wms.app.sow.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,8 @@ public class ChooseActivity extends DLBasePluginActivity implements View.OnClick
     private Button orderSowButton;
 
     private Button containerSowButton;
+
+    private boolean isItemClick = false ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,18 @@ public class ChooseActivity extends DLBasePluginActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (orderSowButton == v) {
             SowActivity.launch(ChooseActivity.this, uId, uToken, null, SowActivity.Type.ORDER);
             finish();

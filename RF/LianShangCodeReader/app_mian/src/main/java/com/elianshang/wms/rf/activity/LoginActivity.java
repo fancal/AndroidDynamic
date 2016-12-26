@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -53,6 +54,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
      */
     private ScanEditTextTool scanEditTextTool;
 
+    private boolean isItemClick = false ;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +101,18 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == loginButton) {
             String userName = userNameEditText.getText().toString().trim();
             String passWd = passWdEditText.getText().toString().trim();

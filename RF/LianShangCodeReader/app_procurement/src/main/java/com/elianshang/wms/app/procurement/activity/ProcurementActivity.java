@@ -2,6 +2,7 @@ package com.elianshang.wms.app.procurement.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -122,6 +123,8 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
 
     private ProcurementController procurementController;
 
+    private boolean isItemClick = false ;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -226,6 +229,18 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == mSubmit) {
             if (detaillView.getVisibility() == View.VISIBLE) {
                 procurementController.fillData();

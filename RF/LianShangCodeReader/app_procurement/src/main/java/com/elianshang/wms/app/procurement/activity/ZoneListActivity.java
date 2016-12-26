@@ -172,11 +172,6 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
         uToken = getIntent().getStringExtra("uToken");
 //        uId = "1";
 //        uToken = "198302935052918";
-
-
-        //FIXME 59
-//        uId = "1";
-//        uToken = "25061134202027";
 //        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
@@ -222,6 +217,18 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == systemFetchButton) {
             MainActivity.launch(this, uId, uToken, zoneId, null);
         }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -68,6 +69,8 @@ public class OrderOpenActivity extends DLBasePluginActivity implements ScanManag
      * 输入框工具
      */
     private ScanEditTextTool scanEditTextTool;
+
+    private boolean isItemClick = false ;
 
 
     @Override
@@ -178,6 +181,18 @@ public class OrderOpenActivity extends DLBasePluginActivity implements ScanManag
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == submitButton) {
             submit();
         }

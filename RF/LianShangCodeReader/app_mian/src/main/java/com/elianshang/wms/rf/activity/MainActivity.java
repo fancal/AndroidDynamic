@@ -181,7 +181,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         starter.execute();
 
         handler.removeMessages(1);
-        handler.sendEmptyMessageDelayed(1, 200);
+        handler.sendEmptyMessageDelayed(1, 500);
     }
 
     @Override
