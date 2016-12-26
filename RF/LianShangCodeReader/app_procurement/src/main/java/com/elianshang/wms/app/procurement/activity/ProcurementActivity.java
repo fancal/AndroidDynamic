@@ -100,6 +100,8 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
 
     private TextView detailToLocationTextView;
 
+    private TextView detailFlashBackTextView;
+
     /**
      * 商品container
      */
@@ -123,7 +125,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
 
     private ProcurementController procurementController;
 
-    private boolean isItemClick = false ;
+    private boolean isItemClick = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -210,6 +212,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         detailQtyTextView = (TextView) detaillView.findViewById(R.id.qty_TextView);
         detailFromLocationTextView = (TextView) detaillView.findViewById(R.id.fromLocationCode_TextView);
         detailToLocationTextView = (TextView) detaillView.findViewById(R.id.toLocationCode_TextView);
+        detailFlashBackTextView = (TextView) detaillView.findViewById(R.id.flashBack_TextView);
 
         mSubmit.setOnClickListener(this);
         mSubmit.setVisibility(View.GONE);
@@ -269,7 +272,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     }
 
     @Override
-    public void showDetailView(String taskId, String itemName, String barcode, String skuCode, String packName, String qty, String fromLocationCode, String toLocationCode) {
+    public void showDetailView(String taskId, String itemName, String barcode, String skuCode, String packName, String qty, String fromLocationCode, String toLocationCode, String flashBack) {
         detaillView.setVisibility(View.VISIBLE);
         mLocationView.setVisibility(View.GONE);
         mItemView.setVisibility(View.GONE);
@@ -284,6 +287,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         detailQtyTextView.setText(qty);
         detailFromLocationTextView.setText(fromLocationCode);
         detailToLocationTextView.setText(toLocationCode);
+        detailFlashBackTextView.setText(flashBack);
         mSubmit.setText("开始补货");
     }
 

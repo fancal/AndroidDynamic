@@ -31,6 +31,16 @@ public class Procurement implements BaseBean {
 
     private String toLocationCode;
 
+    private String isFlashBack ;
+
+    public String getIsFlashBack() {
+        return isFlashBack;
+    }
+
+    public void setIsFlashBack(String isFlashBack) {
+        this.isFlashBack = isFlashBack;
+    }
+
     public String getFromLocationCode() {
         return fromLocationCode;
     }

@@ -28,6 +28,7 @@ public class ProcurementParser extends MasterParser<Procurement> {
             String qty = optString(data, "qty");
             String barcode = optString(data, "barcode");
             String skuCode = optString(data, "skuCode");
+            String isFlashBack = optString(data, "isFlashBack");
 
             if (!TextUtils.isEmpty(taskId)
                     && !TextUtils.isEmpty(type)
@@ -50,6 +51,7 @@ public class ProcurementParser extends MasterParser<Procurement> {
                 procurement.setQty(qty);
                 procurement.setBarcode(barcode);
                 procurement.setSkuCode(skuCode);
+                procurement.setIsFlashBack(isFlashBack);
             }
         }
         return procurement;
