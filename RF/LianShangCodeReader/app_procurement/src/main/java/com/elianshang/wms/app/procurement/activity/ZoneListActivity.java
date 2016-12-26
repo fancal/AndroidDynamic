@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.procurement.R;
 import com.elianshang.wms.app.procurement.bean.LocationList;
 import com.elianshang.wms.app.procurement.bean.ResponseState;
@@ -405,7 +406,7 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
 
         @Override
         public void dataNull(String errMsg) {
-            super.dataNull(errMsg);
+            ToastTool.show(context , "该区域没有补货任务");
             zoneSwipeRefreshLayout.setRefreshing(false);
             locationSwipeRefreshLayout.setRefreshing(false);
             locationList = null;
