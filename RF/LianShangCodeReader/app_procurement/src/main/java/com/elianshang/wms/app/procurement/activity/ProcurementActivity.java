@@ -246,7 +246,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
 
         if (v == mSubmit) {
             if (detaillView.getVisibility() == View.VISIBLE) {
-                procurementController.fillData();
+                procurementController.onBindTaskClick();
             } else if (mItemView.getVisibility() == View.VISIBLE) {
                 procurementController.onSubmitClick(mItemQtyRealView.getValue(), mItemScatterQtyRealView.getValue());
             }
