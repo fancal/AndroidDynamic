@@ -83,7 +83,7 @@ public class MainActivity extends DLBasePluginActivity {
 
         @Override
         public void onPostExecute(Procurement result) {
-            ProcurementActivity.launch(MainActivity.this, uId, uToken, zoneId, result);
+            ProcurementActivity.launch(MainActivity.this, uId, uToken, result);
             MainActivity.this.finish();
         }
 
@@ -129,7 +129,7 @@ public class MainActivity extends DLBasePluginActivity {
 
         @Override
         public void onPostExecute(Procurement result) {
-            ProcurementActivity.launch(MainActivity.this, uId, uToken, zoneId, result);
+            ProcurementActivity.launch(MainActivity.this, uId, uToken, result);
             MainActivity.this.finish();
         }
 

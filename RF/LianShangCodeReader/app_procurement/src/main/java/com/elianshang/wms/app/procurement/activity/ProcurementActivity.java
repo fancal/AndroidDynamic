@@ -25,11 +25,10 @@ import com.elianshang.wms.app.procurement.view.ProcurementView;
 
 public class ProcurementActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener, ProcurementView {
 
-    public static void launch(DLBasePluginActivity activity, String uid, String uToken, String zoneId, Procurement procurement) {
+    public static void launch(DLBasePluginActivity activity, String uid, String uToken, Procurement procurement) {
         DLIntent intent = new DLIntent(activity.getPackageName(), ProcurementActivity.class);
         intent.putExtra("uId", uid);
         intent.putExtra("uToken", uToken);
-        intent.putExtra("zoneId", zoneId);
         intent.putExtra("procurement", procurement);
         activity.startPluginActivity(intent);
     }
@@ -115,13 +114,9 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
      */
     private TextView mItemLocationView;
 
-    private String taskId;
-
     private String uId;
 
     private String uToken;
-
-    private String zoneId;
 
     private ProcurementController procurementController;
 
@@ -172,7 +167,6 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
-        zoneId = getIntent().getStringExtra("zoneId");
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
