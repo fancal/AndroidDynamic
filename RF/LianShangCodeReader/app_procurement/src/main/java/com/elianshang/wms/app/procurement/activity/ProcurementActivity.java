@@ -84,7 +84,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
      */
     private Button mSubmit;
 
-    private View detaillView;
+    private View detailView;
 
     private TextView detailItemNameTextView;
 
@@ -204,15 +204,15 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mLocationView = findViewById(R.id.location);
         mItemLocationView = (TextView) findViewById(R.id.item_locationCode);
 
-        detaillView = findViewById(R.id.detail_Layout);
-        detailItemNameTextView = (TextView) detaillView.findViewById(R.id.itemName_TextView);
-        detailBarcodeTextView = (TextView) detaillView.findViewById(R.id.barcode_TextView);
-        detailSkuCodeTextView = (TextView) detaillView.findViewById(R.id.skuCode_TextView);
-        detailPackNameTextView = (TextView) detaillView.findViewById(R.id.packName_TextView);
-        detailQtyTextView = (TextView) detaillView.findViewById(R.id.qty_TextView);
-        detailFromLocationTextView = (TextView) detaillView.findViewById(R.id.fromLocationCode_TextView);
-        detailToLocationTextView = (TextView) detaillView.findViewById(R.id.toLocationCode_TextView);
-        detailFlashBackTextView = (TextView) detaillView.findViewById(R.id.flashBack_TextView);
+        detailView = findViewById(R.id.detail_Layout);
+        detailItemNameTextView = (TextView) detailView.findViewById(R.id.itemName_TextView);
+        detailBarcodeTextView = (TextView) detailView.findViewById(R.id.barcode_TextView);
+        detailSkuCodeTextView = (TextView) detailView.findViewById(R.id.skuCode_TextView);
+        detailPackNameTextView = (TextView) detailView.findViewById(R.id.packName_TextView);
+        detailQtyTextView = (TextView) detailView.findViewById(R.id.qty_TextView);
+        detailFromLocationTextView = (TextView) detailView.findViewById(R.id.fromLocationCode_TextView);
+        detailToLocationTextView = (TextView) detailView.findViewById(R.id.toLocationCode_TextView);
+        detailFlashBackTextView = (TextView) detailView.findViewById(R.id.flashBack_TextView);
 
         mSubmit.setOnClickListener(this);
         mSubmit.setVisibility(View.GONE);
@@ -245,7 +245,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         }, 500);
 
         if (v == mSubmit) {
-            if (detaillView.getVisibility() == View.VISIBLE) {
+            if (detailView.getVisibility() == View.VISIBLE) {
                 procurementController.onBindTaskClick();
             } else if (mItemView.getVisibility() == View.VISIBLE) {
                 procurementController.onSubmitClick(mItemQtyRealView.getValue(), mItemScatterQtyRealView.getValue());
@@ -273,7 +273,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
 
     @Override
     public void showDetailView(String taskId, String itemName, String barcode, String skuCode, String packName, String qty, String fromLocationCode, String toLocationCode, String flashBack) {
-        detaillView.setVisibility(View.VISIBLE);
+        detailView.setVisibility(View.VISIBLE);
         mLocationView.setVisibility(View.GONE);
         mItemView.setVisibility(View.GONE);
         mSubmit.setVisibility(View.VISIBLE);
@@ -295,7 +295,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     public void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String barcode, String skuCode, String packName, String qty, String locationName) {
         mLocationView.setVisibility(View.VISIBLE);
         mSubmit.setVisibility(View.GONE);
-        detaillView.setVisibility(View.GONE);
+        detailView.setVisibility(View.GONE);
 
         if (isIn) {
             mItemView.setVisibility(View.VISIBLE);
@@ -333,7 +333,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     public void showItemView(String typeName, String itemName, String barcode, String skuCode, String packName, String qty, String locationName, String numQty) {
         mLocationView.setVisibility(View.GONE);
         mItemView.setVisibility(View.VISIBLE);
-        detaillView.setVisibility(View.GONE);
+        detailView.setVisibility(View.GONE);
         mSubmit.setVisibility(View.VISIBLE);
         mItemQtyRealView.requestFocus();
 
