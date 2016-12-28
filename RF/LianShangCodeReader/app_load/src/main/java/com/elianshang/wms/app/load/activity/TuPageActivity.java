@@ -98,7 +98,7 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
         uToken = getIntent().getStringExtra("uToken");
 
         //FIXME
-//        uId = "141871359725260";
+//        uId = "1";
 //        uToken = "25061134202027";
 //        ScanManager.init(that);
 
