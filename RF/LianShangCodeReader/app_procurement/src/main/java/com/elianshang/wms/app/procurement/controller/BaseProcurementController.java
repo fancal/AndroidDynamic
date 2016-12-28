@@ -22,6 +22,8 @@ public abstract class BaseProcurementController {
 
     protected abstract void onSubmitClick(String qty , String scatterQty);
 
+    protected abstract void onBindTaskClick();
+
     protected abstract void onComplete(String s);
 
     public BaseProcurementController(Activity activity,String uId, String uToken, Procurement curProcurement, ProcurementView procurementView) {

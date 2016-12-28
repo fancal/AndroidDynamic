@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -91,6 +92,8 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
     private Toolbar mToolbar;
 
     private String serialNumber;
+
+    private boolean isItemClick = false ;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -232,6 +235,18 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == nextButton) {
             new NextLocationTask(that).start();
         }

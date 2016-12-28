@@ -2,6 +2,7 @@ package com.elianshang.wms.app.releasecollection.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -52,6 +53,8 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
     private String serialNumber;
 
     private CollectionRoadDetail detail;
+
+    private boolean isItemClick = false ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -198,6 +201,18 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == detailSubmitButton) {
             final String locationCode = scanLocationCodeEditText.getText().toString();
             new ReleaseCollectionTask(that, uId, uToken, locationCode).start();

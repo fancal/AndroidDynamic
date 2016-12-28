@@ -95,6 +95,13 @@
                 android:layout_height="wrap_content"
                 android:text="移入库位"
                 android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/flashBack_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="任务说明："
+                android:textSize="14dp" />
         </LinearLayout>
 
         <LinearLayout

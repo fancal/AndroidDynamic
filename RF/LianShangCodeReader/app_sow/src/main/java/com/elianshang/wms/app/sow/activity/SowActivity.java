@@ -432,6 +432,18 @@ public class SowActivity extends DLBasePluginActivity implements ScanEditTextToo
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == storeListTab1) {
             storeListTab1.setSelected(true);
             storeListTab2.setSelected(false);

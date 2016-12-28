@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.procurement.R;
 import com.elianshang.wms.app.procurement.bean.LocationList;
 import com.elianshang.wms.app.procurement.bean.ResponseState;
@@ -172,11 +173,6 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
         uToken = getIntent().getStringExtra("uToken");
 //        uId = "1";
 //        uToken = "198302935052918";
-
-
-        //FIXME 59
-//        uId = "1";
-//        uToken = "25061134202027";
 //        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
@@ -222,6 +218,18 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == systemFetchButton) {
             MainActivity.launch(this, uId, uToken, zoneId, null);
         }
@@ -398,7 +406,7 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
 
         @Override
         public void dataNull(String errMsg) {
-            super.dataNull(errMsg);
+            ToastTool.show(context , "该区域没有补货任务");
             zoneSwipeRefreshLayout.setRefreshing(false);
             locationSwipeRefreshLayout.setRefreshing(false);
             locationList = null;

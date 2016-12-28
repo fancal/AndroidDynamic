@@ -3,6 +3,7 @@ package com.elianshang.wms.app.load.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -80,6 +81,8 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
     private TuListTask tuListTask;
 
     private TuJobListTask tuJobListTask;
+
+    private boolean isItemClick = false ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -257,6 +260,18 @@ public class TuPageActivity extends DLBasePluginActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == tab1) {
             tab1.setSelected(true);
             tab2.setSelected(false);
