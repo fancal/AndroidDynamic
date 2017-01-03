@@ -245,7 +245,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     private boolean isSkip = false;
 
-    private boolean isItemClick = false ;
+    private boolean isItemClick = false;
 
     @Override
 
@@ -443,7 +443,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemPackNameTextView.setText(curItem.getPackName());
         itemQtyTextView.setText(curItem.getUomQty());
         itemInputQtyEditText.setText(null);
+        itemInputQtyEditText.setHint(curItem.getUomQty());
         itemShoddyQtyEditView.setText(null);
+        itemShoddyQtyEditView.setHint("0");
         itemContainerIdTextView.setText(qcList.getContainerId());
 
     }
