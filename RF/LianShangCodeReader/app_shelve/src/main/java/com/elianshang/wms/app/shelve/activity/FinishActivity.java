@@ -72,6 +72,10 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
 
     private TextView skuCodeTextView;
 
+    private TextView qtyTextView;
+
+    private TextView packNameTextView;
+
     private TextView pickLocationTextView;
 
     /**
@@ -93,7 +97,7 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
 
     private String serialNumber;
 
-    private boolean isItemClick = false ;
+    private boolean isItemClick = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -152,6 +156,8 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
         barcodeTextView = (TextView) findViewById(R.id.barcode_TextView);
         skuCodeTextView = (TextView) findViewById(R.id.skuCode_TextView);
+        qtyTextView = (TextView) findViewById(R.id.qty_TextView);
+        packNameTextView = (TextView) findViewById(R.id.packName_TextView);
         pickLocationTextView = (TextView) findViewById(R.id.pickLocation_TextView);
         locationCodeTextView = (TextView) findViewById(R.id.locationCode_TextView);
         locationCodeEditText = (ScanEditText) findViewById(R.id.locationCode_EditText);
@@ -195,6 +201,8 @@ public class FinishActivity extends DLBasePluginActivity implements ScanManager.
             itemNameTextView.setText(shelve.getItemName());
             barcodeTextView.setText(shelve.getBarcode());
             skuCodeTextView.setText(shelve.getSkuCode());
+            qtyTextView.setText(shelve.getQty());
+            packNameTextView.setText(shelve.getPackName());
             locationCodeTextView.setText(shelve.getAllocLocationCode());
             pickLocationTextView.setText(shelve.getPickLocationList());
         }
