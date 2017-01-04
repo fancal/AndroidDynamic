@@ -26,6 +26,8 @@ public class ShelveParser extends MasterParser<Shelve> {
         shelve.setItemName(optString(data, "skuName"));
         shelve.setBarcode(optString(data, "barcode"));
         shelve.setSkuCode(optString(data, "skuCode"));
+        shelve.setQty(optString(data, "qty"));
+        shelve.setPackName(optString(data, "packName"));
 
         JSONArray array = getJSONArray(data, "pickLocationIdList");
         int len = getLength(array);

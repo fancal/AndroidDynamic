@@ -2,6 +2,7 @@ package com.elianshang.wms.app.transfer.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -133,6 +134,8 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
 
     private StockTransferController stockTransferController;
 
+    private boolean isItemClick = false;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -254,6 +257,18 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == mSubmit) {
             if (workLayout.getVisibility() == View.VISIBLE && mItemView.getVisibility() == View.VISIBLE) {
                 stockTransferController.onSubmitClick(mItemQtyRealCheckBox.isChecked() ? "-1" : mItemQtyRealView.getValue());

@@ -216,6 +216,18 @@ public class StoreOpenActivity extends DLBasePluginActivity implements ScanManag
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == submitButton) {
             submit();
         }

@@ -2,6 +2,7 @@ package com.elianshang.wms.app.procurement.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
@@ -20,19 +20,15 @@ import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.procurement.R;
 import com.elianshang.wms.app.procurement.bean.Procurement;
-import com.elianshang.wms.app.procurement.bean.ResponseState;
 import com.elianshang.wms.app.procurement.controller.ProcurementController;
-import com.elianshang.wms.app.procurement.provider.ZoneLogoutProvider;
 import com.elianshang.wms.app.procurement.view.ProcurementView;
-import com.xue.http.impl.DataHull;
 
 public class ProcurementActivity extends DLBasePluginActivity implements ScanEditTextTool.OnStateChangeListener, ScanManager.OnBarCodeListener, View.OnClickListener, ProcurementView {
 
-    public static void launch(DLBasePluginActivity activity, String uid, String uToken, String zoneId, Procurement procurement) {
+    public static void launch(DLBasePluginActivity activity, String uid, String uToken, Procurement procurement) {
         DLIntent intent = new DLIntent(activity.getPackageName(), ProcurementActivity.class);
         intent.putExtra("uId", uid);
         intent.putExtra("uToken", uToken);
-        intent.putExtra("zoneId", zoneId);
         intent.putExtra("procurement", procurement);
         activity.startPluginActivity(intent);
     }
@@ -86,6 +82,25 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
      * 提交
      */
     private Button mSubmit;
+
+    private View detailView;
+
+    private TextView detailItemNameTextView;
+
+    private TextView detailBarcodeTextView;
+
+    private TextView detailSkuCodeTextView;
+
+    private TextView detailPackNameTextView;
+
+    private TextView detailQtyTextView;
+
+    private TextView detailFromLocationTextView;
+
+    private TextView detailToLocationTextView;
+
+    private TextView detailFlashBackTextView;
+
     /**
      * 商品container
      */
@@ -99,15 +114,13 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
      */
     private TextView mItemLocationView;
 
-    private String taskId;
-
     private String uId;
 
     private String uToken;
 
-    private String zoneId;
-
     private ProcurementController procurementController;
+
+    private boolean isItemClick = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -146,7 +159,6 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         DialogTools.showTwoButtonDialog(that, "是否暂退任务,下次回来将会继续", "取消", "确定", null, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                new ZoneLogoutTask(zoneId).start();
                 finish();
             }
         }, true);
@@ -155,7 +167,6 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
-        zoneId = getIntent().getStringExtra("zoneId");
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -187,6 +198,16 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mLocationView = findViewById(R.id.location);
         mItemLocationView = (TextView) findViewById(R.id.item_locationCode);
 
+        detailView = findViewById(R.id.detail_Layout);
+        detailItemNameTextView = (TextView) detailView.findViewById(R.id.itemName_TextView);
+        detailBarcodeTextView = (TextView) detailView.findViewById(R.id.barcode_TextView);
+        detailSkuCodeTextView = (TextView) detailView.findViewById(R.id.skuCode_TextView);
+        detailPackNameTextView = (TextView) detailView.findViewById(R.id.packName_TextView);
+        detailQtyTextView = (TextView) detailView.findViewById(R.id.qty_TextView);
+        detailFromLocationTextView = (TextView) detailView.findViewById(R.id.fromLocationCode_TextView);
+        detailToLocationTextView = (TextView) detailView.findViewById(R.id.toLocationCode_TextView);
+        detailFlashBackTextView = (TextView) detailView.findViewById(R.id.flashBack_TextView);
+
         mSubmit.setOnClickListener(this);
         mSubmit.setVisibility(View.GONE);
 
@@ -205,8 +226,24 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == mSubmit) {
-            procurementController.onSubmitClick(mItemQtyRealView.getValue(), mItemScatterQtyRealView.getValue());
+            if (detailView.getVisibility() == View.VISIBLE) {
+                procurementController.onBindTaskClick();
+            } else if (mItemView.getVisibility() == View.VISIBLE) {
+                procurementController.onSubmitClick(mItemQtyRealView.getValue(), mItemScatterQtyRealView.getValue());
+            }
         }
     }
 
@@ -229,9 +266,30 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     }
 
     @Override
+    public void showDetailView(String taskId, String itemName, String barcode, String skuCode, String packName, String qty, String fromLocationCode, String toLocationCode, String flashBack) {
+        detailView.setVisibility(View.VISIBLE);
+        mLocationView.setVisibility(View.GONE);
+        mItemView.setVisibility(View.GONE);
+        mSubmit.setVisibility(View.VISIBLE);
+
+        mTaskView.setText(taskId);
+        mTypeNameView.setText("补货总览");
+        detailItemNameTextView.setText(itemName);
+        detailBarcodeTextView.setText(barcode);
+        detailSkuCodeTextView.setText(skuCode);
+        detailPackNameTextView.setText(packName);
+        detailQtyTextView.setText(qty);
+        detailFromLocationTextView.setText(fromLocationCode);
+        detailToLocationTextView.setText(toLocationCode);
+        detailFlashBackTextView.setText(flashBack);
+        mSubmit.setText("开始补货");
+    }
+
+    @Override
     public void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String barcode, String skuCode, String packName, String qty, String locationName) {
         mLocationView.setVisibility(View.VISIBLE);
         mSubmit.setVisibility(View.GONE);
+        detailView.setVisibility(View.GONE);
 
         if (isIn) {
             mItemView.setVisibility(View.VISIBLE);
@@ -269,6 +327,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     public void showItemView(String typeName, String itemName, String barcode, String skuCode, String packName, String qty, String locationName, String numQty) {
         mLocationView.setVisibility(View.GONE);
         mItemView.setVisibility(View.VISIBLE);
+        detailView.setVisibility(View.GONE);
         mSubmit.setVisibility(View.VISIBLE);
         mItemQtyRealView.requestFocus();
 
@@ -293,29 +352,11 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
             mItemQtyRealView.setText(null);
         }
 
+        mSubmit.setText("提交");
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
         }
         scanEditTextTool = null;
-    }
-
-    private class ZoneLogoutTask extends HttpAsyncTask<ResponseState> {
-
-        private String zoneId;
-
-        public ZoneLogoutTask(String zoneId) {
-            super(ProcurementActivity.this.that, false, false, false, false);
-            this.zoneId = zoneId;
-        }
-
-        @Override
-        public DataHull<ResponseState> doInBackground() {
-            return ZoneLogoutProvider.request(context, uId, uToken, zoneId);
-        }
-
-        @Override
-        public void onPostExecute(ResponseState result) {
-        }
     }
 }

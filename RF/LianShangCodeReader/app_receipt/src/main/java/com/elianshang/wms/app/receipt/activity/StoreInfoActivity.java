@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -182,6 +183,8 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
 
     private View timeLayout;
 
+    private boolean isItemClick = false ;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -335,6 +338,18 @@ public class StoreInfoActivity extends DLBasePluginActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == submitButton) {
             submit();
         } else if (v == preDataCheckBox) {

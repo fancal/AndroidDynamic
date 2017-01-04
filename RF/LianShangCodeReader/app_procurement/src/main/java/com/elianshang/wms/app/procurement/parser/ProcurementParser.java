@@ -20,12 +20,15 @@ public class ProcurementParser extends MasterParser<Procurement> {
             String type = optString(data, "type");
             String subType = optString(data, "subType");
             String locationCode = optString(data, "locationCode");
+            String fromLocationCode = optString(data, "fromLocationCode");
+            String toLocationCode = optString(data, "toLocationCode");
             String itemId = optString(data, "itemId");
             String itemName = optString(data, "itemName");
             String packName = optString(data, "packName");
             String qty = optString(data, "qty");
             String barcode = optString(data, "barcode");
             String skuCode = optString(data, "skuCode");
+            String isFlashBack = optString(data, "isFlashBack");
 
             if (!TextUtils.isEmpty(taskId)
                     && !TextUtils.isEmpty(type)
@@ -40,12 +43,15 @@ public class ProcurementParser extends MasterParser<Procurement> {
                 procurement.setType(type);
                 procurement.setSubType(subType);
                 procurement.setLocationCode(locationCode);
+                procurement.setToLocationCode(toLocationCode);
+                procurement.setFromLocationCode(fromLocationCode);
                 procurement.setItemId(itemId);
                 procurement.setItemName(itemName);
                 procurement.setPackName(packName);
                 procurement.setQty(qty);
                 procurement.setBarcode(barcode);
                 procurement.setSkuCode(skuCode);
+                procurement.setIsFlashBack(isFlashBack);
             }
         }
         return procurement;

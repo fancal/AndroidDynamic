@@ -27,6 +27,36 @@ public class Procurement implements BaseBean {
 
     private String skuCode;
 
+    private String fromLocationCode;
+
+    private String toLocationCode;
+
+    private String isFlashBack ;
+
+    public String getIsFlashBack() {
+        return isFlashBack;
+    }
+
+    public void setIsFlashBack(String isFlashBack) {
+        this.isFlashBack = isFlashBack;
+    }
+
+    public String getFromLocationCode() {
+        return fromLocationCode;
+    }
+
+    public void setFromLocationCode(String fromLocationCode) {
+        this.fromLocationCode = fromLocationCode;
+    }
+
+    public String getToLocationCode() {
+        return toLocationCode;
+    }
+
+    public void setToLocationCode(String toLocationCode) {
+        this.toLocationCode = toLocationCode;
+    }
+
     public String getBarcode() {
         return barcode;
     }

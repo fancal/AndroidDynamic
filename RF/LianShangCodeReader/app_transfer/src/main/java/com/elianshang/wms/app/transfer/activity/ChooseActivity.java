@@ -1,6 +1,7 @@
 package com.elianshang.wms.app.transfer.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +19,12 @@ public class ChooseActivity extends DLBasePluginActivity implements View.OnClick
 
     private Button storeReceiptButton;
 
+    private boolean isItemClick = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.receipt_activity_choose);
+        setContentView(R.layout.transfer_activity_choose);
 
         if (readExtras()) {
             findView();
@@ -51,6 +54,18 @@ public class ChooseActivity extends DLBasePluginActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (orderReceiptButton == v) {
             MainActivity.launch(this, uId, uToken);
             finish();

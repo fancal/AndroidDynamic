@@ -14,6 +14,18 @@
         app:navigationIcon="@drawable/toolbar_back"
         app:title="补货" />
 
+    <Button
+        android:id="@+id/systemFetch_Button"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/submit_button_bg"
+        android:gravity="center"
+        android:text="系统分配"
+        android:textColor="#ffffffff"
+        android:textSize="20dip"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/transfer_type_name"
         android:layout_width="match_parent"
@@ -24,13 +36,26 @@
         android:text="补货区域选择"
         android:textSize="14dip" />
 
+
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/SwipeRefreshLayout"
+        android:id="@+id/zone_SwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ListView
             android:id="@+id/zone_ListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/location_SwipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/location_ListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible" />

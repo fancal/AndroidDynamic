@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ReleaseCollectionRoadProvider {
 
-    private static final String base_url = "http://static.qatest2.rf.lsh123.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.qatest.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -78,6 +78,5 @@ public class ReleaseCollectionRoadProvider {
         OkHttpHandler<ResponseState> handler = new OkHttpHandler();
         DataHull<ResponseState> dataHull = handler.requestData(parameter);
         return dataHull;
-
     }
 }

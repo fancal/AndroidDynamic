@@ -3,6 +3,7 @@ package com.elianshang.wms.app.mergeboard.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -82,6 +83,8 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
      * 最大允许合板数
      */
     private final int MAX_BOARD_NUM = 10;
+
+    private boolean isItemClick = false ;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -334,6 +337,18 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (submitButton == v) {
             if (inputView.getVisibility() == View.VISIBLE) {
                 new CheckMergeContainersTask(that, getBoardListString()).start();

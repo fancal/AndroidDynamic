@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:text="任务"
+        android:text="任务："
         android:textSize="14dip" />
 
     <TextView
@@ -44,7 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:text="名称"
+        android:layout_marginTop="2dip"
+        android:text="名称："
         android:textSize="14dip" />
 
     <TextView
@@ -60,7 +61,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:text="国条码"
+        android:layout_marginTop="2dip"
+        android:text="国条码："
         android:textSize="14dip" />
 
     <TextView
@@ -76,7 +78,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:text="商品编码"
+        android:layout_marginTop="2dip"
+        android:text="商品编码："
         android:textSize="14dip" />
 
     <TextView
@@ -92,7 +95,42 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:text="拣货位"
+        android:layout_marginTop="2dip"
+        android:text="规格："
+        android:textSize="14dip" />
+
+    <TextView
+        android:id="@+id/packName_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:textSize="14dip" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="2dip"
+        android:text="数量："
+        android:textSize="14dip" />
+
+    <TextView
+        android:id="@+id/qty_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:textSize="14dip" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="2dip"
+        android:text="拣货位："
         android:textSize="14dip" />
 
     <TextView
@@ -108,7 +146,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:text="库位"
+        android:layout_marginTop="2dip"
+        android:text="库位："
         android:textSize="14dip" />
 
     <LinearLayout
@@ -147,6 +186,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
+        android:layout_marginTop="2dip"
         android:text="扫描确认仓库:"
         android:textSize="14dip" />
 

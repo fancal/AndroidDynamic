@@ -9,6 +9,8 @@ import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.procurement.bean.Procurement;
 import com.elianshang.wms.app.procurement.bean.ProcurementNext;
+import com.elianshang.wms.app.procurement.bean.ResponseState;
+import com.elianshang.wms.app.procurement.provider.BindTaskProvider;
 import com.elianshang.wms.app.procurement.provider.ScanLocationProvider;
 import com.elianshang.wms.app.procurement.view.ProcurementView;
 import com.xue.http.impl.DataHull;
@@ -19,7 +21,27 @@ public class ProcurementController extends BaseProcurementController implements 
 
     public ProcurementController(Activity activity, String uId, String uToken, Procurement procurement, ProcurementView procurementView) {
         super(activity, uId, uToken, procurement, procurementView);
-        fillData();
+        fillDetail();
+    }
+
+    private void fillDetail() {
+        if (procurementView != null) {
+            serialNumber = DeviceTool.generateSerialNumber(activity, getClass().getName());
+
+            String numQty = "1".equals(curProcurement.getSubType()) ? "整托" : curProcurement.getQty();
+
+            procurementView.showDetailView(
+                    curProcurement.getTaskId(),
+                    "补货商品：" + curProcurement.getItemName(),
+                    "国条码：" + curProcurement.getBarcode(),
+                    "商品编码：" + curProcurement.getSkuCode(),
+                    "补货规格：" + curProcurement.getPackName(),
+                    "补货数量：" + numQty,
+                    "移出库位：" + curProcurement.getFromLocationCode(),
+                    "移入库位：" + curProcurement.getToLocationCode(),
+                    "任务说明：" + (TextUtils.equals("1", curProcurement.getIsFlashBack()) ? "回溯任务" : "新领任务")
+            );
+        }
     }
 
     public void fillData() {
@@ -81,6 +103,13 @@ public class ProcurementController extends BaseProcurementController implements 
     }
 
     @Override
+    public void onBindTaskClick() {
+        if (curProcurement != null) {
+            new BindTaskTask(activity, uId, uToken, curProcurement.getTaskId()).start();
+        }
+    }
+
+    @Override
     public void onComplete(String s) {
         if (curProcurement != null) {
             boolean check = TextUtils.equals(curProcurement.getLocationCode(), s);
@@ -88,7 +117,7 @@ public class ProcurementController extends BaseProcurementController implements 
                 ToastTool.show(activity, "库位不一致");
             } else {
                 if (TextUtils.equals("2", curProcurement.getType())) {
-                    submit(curProcurement.getQty() , "0");
+                    submit(curProcurement.getQty(), "0");
                 } else if (TextUtils.equals("1", curProcurement.getType())) {
                     if (procurementView != null) {
                         String numQty = "1".equals(curProcurement.getSubType()) ? null : curProcurement.getQty();
@@ -116,6 +145,33 @@ public class ProcurementController extends BaseProcurementController implements 
     public void onTransferSuccess() {
         ToastTool.show(activity, "补货任务完成");
         activity.finish();
+    }
+
+    private class BindTaskTask extends HttpAsyncTask<ResponseState> {
+
+        private String uId;
+
+        private String uToken;
+
+        private String taskId;
+
+
+        public BindTaskTask(Context context, String uId, String uToken, String taskId) {
+            super(context, true, true, false);
+            this.uId = uId;
+            this.uToken = uToken;
+            this.taskId = taskId;
+        }
+
+        @Override
+        public DataHull<ResponseState> doInBackground() {
+            return BindTaskProvider.request(context, uId, uToken, taskId, serialNumber);
+        }
+
+        @Override
+        public void onPostExecute(ResponseState result) {
+            fillData();
+        }
     }
 
     private class ScanLocationTask extends HttpAsyncTask<ProcurementNext> {

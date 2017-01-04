@@ -3,6 +3,7 @@ package com.elianshang.wms.app.qc.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -244,6 +245,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     private boolean isSkip = false;
 
+    private boolean isItemClick = false;
+
     @Override
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -440,7 +443,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemPackNameTextView.setText(curItem.getPackName());
         itemQtyTextView.setText(curItem.getUomQty());
         itemInputQtyEditText.setText(null);
+        itemInputQtyEditText.setHint(curItem.getUomQty());
         itemShoddyQtyEditView.setText(null);
+        itemShoddyQtyEditView.setHint("0");
         itemContainerIdTextView.setText(qcList.getContainerId());
 
     }
@@ -802,6 +807,18 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     @Override
     public void onClick(View v) {
+        if (isItemClick) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
         if (v == checkProgressButton) {
             checkProgress();
         } else if (v == itemSubmitButton) {

@@ -32,6 +32,26 @@ public class Shelve implements BaseBean {
 
     private String pickLocationList;
 
+    private String qty ;
+
+    private String packName ;
+
+    public String getQty() {
+        return qty;
+    }
+
+    public void setQty(String qty) {
+        this.qty = qty;
+    }
+
+    public String getPackName() {
+        return packName;
+    }
+
+    public void setPackName(String packName) {
+        this.packName = packName;
+    }
+
     public String getPickLocationList() {
         return pickLocationList;
     }
