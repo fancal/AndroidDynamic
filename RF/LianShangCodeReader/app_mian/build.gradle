@@ -125,7 +125,7 @@ android {
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         def fileName = "app_main_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
-                        output.outputFile = new File(System.getProperty("user.home")+"/rf/qatest/", fileName)
+                        output.outputFile = new File(System.getProperty("user.home")+"/rf/hd01/", fileName)
                     }
                 }
             }
@@ -147,7 +147,7 @@ android {
      * 多渠道名字
      * */
     productFlavors {
-        qatest {}//测试包
+        hd01 {}//测试包
 //        official {}//官网
 //        qihu360 {}//360
 //        baidu {}//百度
@@ -160,7 +160,7 @@ android {
      * 将渠道名赋给Umeng渠道
      * */
     productFlavors.all { flavor ->
-        if ("qatest" == name) {
+        if ("hd01" == name) {
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: "test", PCODE_VALUE: "test", CONFIG_VALUE: "test"]
         } else {
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name, PCODE_VALUE: name, CONFIG_VALUE: "public"]
