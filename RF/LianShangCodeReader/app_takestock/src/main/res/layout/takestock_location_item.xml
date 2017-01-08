@@ -9,13 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:padding="10dip"
-        android:textSize="14dip" />
+        android:padding="10dp"
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/status_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dip"
-        android:textSize="14dip" />
+        android:padding="10dp"
+        android:textSize="14dp" />
 </LinearLayout>

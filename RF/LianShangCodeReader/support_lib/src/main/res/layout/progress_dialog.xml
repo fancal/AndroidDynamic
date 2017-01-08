@@ -27,17 +27,17 @@
         android:layout_height="match_parent"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:paddingBottom="10dip"
-        android:paddingEnd="8dip"
-        android:paddingStart="8dip"
-        android:paddingTop="10dip">
+        android:paddingBottom="10dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="10dp">
 
         <ProgressBar
             android:id="@android:id/progress"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="12dip"
+            android:layout_marginRight="12dp"
             android:max="10000" />
 
         <TextView

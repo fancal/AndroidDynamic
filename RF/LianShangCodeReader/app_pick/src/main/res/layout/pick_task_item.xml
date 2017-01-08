@@ -8,32 +8,32 @@
         android:id="@+id/taskNo_TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:text="任务1:"
-        android:textSize="16dip" />
+        android:textSize="16dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="请扫描拣货签:"
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <com.elianshang.bridge.ui.view.ScanEditText
         android:id="@+id/taskId_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="请扫描托盘码:"
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <com.elianshang.bridge.ui.view.ScanEditText
         android:id="@+id/containerId_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 </LinearLayout>

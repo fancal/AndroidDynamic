@@ -9,142 +9,142 @@
         android:id="@+id/head_TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dip"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="10dip"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:text="库位"
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/locationCode_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:textColor="#ffff0000"
-        android:textSize="18dip" />
+        android:textSize="18dp" />
 
     <LinearLayout
         android:id="@+id/locationCode_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="扫描确认库位:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <com.elianshang.bridge.ui.view.ScanEditText
             android:id="@+id/locationCode_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dip"/>
+            android:textSize="14dp"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/itemName_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="名称:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/itemName_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/packName_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="规格:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/packName_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/systemQty_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="数量:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/allocQty_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/inputQty_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="实际数量:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <com.elianshang.bridge.ui.view.QtyEditText
             android:id="@+id/inputQty_EditView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:minWidth="60dip"
-            android:textSize="14dip" />
+            android:minWidth="60dp"
+            android:textSize="14dp" />
     </LinearLayout>
 </LinearLayout>

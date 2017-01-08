@@ -66,6 +66,8 @@ public class ProcurementController extends BaseProcurementController implements 
                     "商品编码：" + curProcurement.getSkuCode(),
                     "规格：" + curProcurement.getPackName(),
                     "数量：" + curProcurement.getQty(),
+                    "移出库位：" + curProcurement.getFromLocationCode(),
+                    curProcurement.getToLocationCode(),
                     curProcurement.getLocationCode());
         }
     }
@@ -81,6 +83,8 @@ public class ProcurementController extends BaseProcurementController implements 
                     "商品编码：" + curProcurement.getSkuCode(),
                     "规格：" + curProcurement.getPackName(),
                     "数量：" + curProcurement.getQty(),
+                    "移出库位：" + curProcurement.getFromLocationCode(),
+                    curProcurement.getToLocationCode(),
                     curProcurement.getLocationCode());
         }
     }
@@ -128,6 +132,8 @@ public class ProcurementController extends BaseProcurementController implements 
                                 "商品编码：" + curProcurement.getSkuCode(),
                                 "规格：" + curProcurement.getPackName(),
                                 "数量：" + curProcurement.getQty(),
+                                "移出库位：" + curProcurement.getFromLocationCode(),
+                                curProcurement.getToLocationCode(),
                                 "库位：" + curProcurement.getLocationCode(),
                                 numQty);
                     }

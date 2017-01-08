@@ -10,65 +10,65 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dip"
-            android:layout_marginTop="10dip"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="送托盘到集货位"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="集货位"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/collection_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffff0000"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="拣货签："
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/pickTaskId_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dip" />
+            android:textSize="18dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="托盘码："
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/containerId_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dip" />
+            android:textSize="18dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="扫描确认集货位:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <com.elianshang.bridge.ui.view.ScanEditText
             android:id="@+id/confirm_collection_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 </LinearLayout>

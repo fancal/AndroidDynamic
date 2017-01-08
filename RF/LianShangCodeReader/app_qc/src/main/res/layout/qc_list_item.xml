@@ -22,7 +22,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12dp" />
-        
+
+        <TextView
+            android:id="@+id/barcode_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/packCode_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

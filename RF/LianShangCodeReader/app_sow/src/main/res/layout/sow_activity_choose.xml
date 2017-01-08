@@ -2,21 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dip"
-    android:layout_marginRight="10dip"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:background="@color/grey_dark"
     android:orientation="vertical"
-    android:padding="1dip">
+    android:padding="1dp">
 
     <Button
         android:id="@+id/orderSow_Button"
         android:layout_width="match_parent"
-        android:layout_height="60dip"
+        android:layout_height="60dp"
         android:background="@drawable/white_button_bg"
         android:gravity="center"
         android:text="订单播种"
         android:textColor="@color/black"
-        android:textSize="16dip" />
+        android:textSize="16dp" />
 
     <View
         android:layout_width="match_parent"
@@ -26,11 +26,11 @@
     <Button
         android:id="@+id/containerSow_Button"
         android:layout_width="match_parent"
-        android:layout_height="60dip"
+        android:layout_height="60dp"
         android:background="@drawable/white_button_bg"
         android:gravity="center"
         android:text="托盘播种"
         android:textColor="@color/black"
-        android:textSize="16dip" />
+        android:textSize="16dp" />
 
 </LinearLayout>

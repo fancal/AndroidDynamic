@@ -17,8 +17,8 @@
         android:id="@+id/userName_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="80dp"
         android:orientation="horizontal">
 
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="用户名:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <com.elianshang.bridge.ui.view.ContentEditText
             android:id="@+id/userName_EditText"
@@ -36,7 +36,7 @@
             android:singleLine="true"
             android:inputType="textEmailAddress|textNoSuggestions"
             android:hint="请输入用户名"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
     </LinearLayout>
 
@@ -44,8 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/userName_Layout"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="密    码:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <com.elianshang.bridge.ui.view.ContentEditText
             android:id="@+id/passWd_EditText"
@@ -62,14 +62,14 @@
             android:singleLine="true"
             android:hint="请输入密码"
             android:inputType="textPassword"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/login_Button"
         android:layout_width="match_parent"
-        android:layout_height="40dip"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/submit_button_bg"
         android:enabled="false"

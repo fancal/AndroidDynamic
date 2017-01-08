@@ -35,7 +35,7 @@ public class MyAdapter extends BaseAdapter {
         this.qcList = qcList;
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -67,6 +67,8 @@ public class MyAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.qc_list_item, null, false);
             viewHolder.name = (TextView) convertView.findViewById(R.id.itemName_TextView);
+            viewHolder.barcode = (TextView) convertView.findViewById(R.id.barcode_TextView);
+            viewHolder.packCode = (TextView) convertView.findViewById(R.id.packCode_TextView);
             viewHolder.packUnit = (TextView) convertView.findViewById(R.id.packUnit_TextView);
             viewHolder.qty = (TextView) convertView.findViewById(R.id.qty_TextView);
             viewHolder.statusNotDone = (TextView) convertView.findViewById(R.id.status_no_done);
@@ -74,7 +76,9 @@ public class MyAdapter extends BaseAdapter {
             convertView.setTag(viewHolder);
         }
         final QcList.Item item = getItem(position);
-        viewHolder.name.setText( (item.isSplit()?"[拆零]":"[整箱]") + item.getItemName());
+        viewHolder.name.setText((item.isSplit() ? "[拆零]" : "[整箱]") + item.getItemName());
+        viewHolder.barcode.setText("国条码：" + item.getBarCode());
+        viewHolder.packCode.setText("箱码：" + item.getPackCode());
         viewHolder.packUnit.setText(item.getPackName());
         viewHolder.qty.setText(item.getUomQty());
         viewHolder.statusNotQcfirst.setVisibility(!item.isFirst() ? VISIBLE : GONE);
@@ -82,7 +86,7 @@ public class MyAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onItemClickListener != null){
+                if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(item.getBarCode());
                 }
             }
@@ -93,6 +97,10 @@ public class MyAdapter extends BaseAdapter {
     private class ViewHolder {
 
         TextView name;
+
+        TextView barcode;
+
+        TextView packCode;
 
         TextView packUnit;
 
@@ -105,7 +113,7 @@ public class MyAdapter extends BaseAdapter {
 
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(String barCode);
     }
 

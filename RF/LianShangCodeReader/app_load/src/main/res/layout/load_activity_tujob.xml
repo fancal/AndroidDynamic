@@ -39,11 +39,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dip"
-            android:layout_marginTop="10dip"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="开始进行装车"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <include
             android:id="@+id/detail_layout"
@@ -55,28 +55,28 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="0dip"
+            android:layout_height="0dp"
             android:layout_weight="1" />
 
         <Button
             android:id="@+id/next_Button"
             android:layout_width="match_parent"
-            android:layout_height="40dip"
+            android:layout_height="40dp"
             android:background="@drawable/submit_button_bg"
             android:enabled="true"
             android:text="下一步"
             android:textColor="@color/white"
-            android:textSize="20dip" />
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/finish_Button"
             android:layout_width="match_parent"
-            android:layout_height="40dip"
+            android:layout_height="40dp"
             android:background="@drawable/submit_button_bg"
             android:enabled="true"
             android:text="装车完毕"
             android:textColor="@color/white"
-            android:textSize="20dip" />
+            android:textSize="20dp" />
 
     </LinearLayout>
 

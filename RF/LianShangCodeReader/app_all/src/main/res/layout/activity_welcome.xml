@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:paddingBottom="50dip"
+        android:paddingBottom="50dp"
         android:scaleType="centerInside"
         android:src="@drawable/logo" />
 
@@ -17,9 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dip"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="powered by lsh"
         android:textColor="#ff000000"
-        android:textSize="10dip" />
+        android:textSize="10dp" />
 </RelativeLayout>

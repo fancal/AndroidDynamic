@@ -171,6 +171,16 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
 
         String uomQty;
 
+        String packCode ;
+
+        public String getPackCode() {
+            return packCode;
+        }
+
+        public void setPackCode(String packCode) {
+            this.packCode = packCode;
+        }
+
         public String getSkuCode() {
             return skuCode;
         }

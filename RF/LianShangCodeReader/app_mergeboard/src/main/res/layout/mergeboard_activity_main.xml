@@ -18,24 +18,24 @@
         android:id="@+id/container_input"
         layout="@layout/mergeboard_input_view"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
     <include
         android:id="@+id/container_detail"
         layout="@layout/mergeboard_detail_view"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
     <Button
         android:id="@+id/submit_Button"
         android:layout_width="match_parent"
-        android:layout_height="40dip"
+        android:layout_height="40dp"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
         android:text="提交"
         android:textColor="#ffffffff"
-        android:textSize="20dip" />
+        android:textSize="20dp" />
 
 </LinearLayout>

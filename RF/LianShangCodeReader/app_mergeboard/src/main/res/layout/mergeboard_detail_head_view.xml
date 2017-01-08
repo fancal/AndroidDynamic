@@ -13,13 +13,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="门店名称:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/storeName_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -31,13 +31,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="门店编码:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/storeNo_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -49,13 +49,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="合板数量:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/containerCount_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -67,13 +67,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="总箱数:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/packCount_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -85,13 +85,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="总周转箱数:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/turnoverBoxCount_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="最终板数:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <CheckBox
             android:id="@+id/one_CheckBox"
@@ -122,6 +122,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="5dip"
+        android:layout_marginTop="5dp"
         android:background="@color/grey_dark" />
 </LinearLayout>

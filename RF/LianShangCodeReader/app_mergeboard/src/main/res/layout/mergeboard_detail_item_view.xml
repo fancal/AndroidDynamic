@@ -8,11 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:paddingTop="5dip"
-        android:paddingBottom="5dip">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
 
         <LinearLayout
-            android:layout_width="0dip"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
@@ -27,13 +27,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="托盘码:"
-                    android:textSize="14dip" />
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/containerId_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dip" />
+                    android:textSize="14dp" />
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -45,35 +45,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="箱数:"
-                    android:textSize="14dip" />
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/packCount_TextView"
-                    android:layout_width="40dip"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:textSize="14dip" />
+                    android:textSize="14dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="周转箱数:"
-                    android:textSize="14dip" />
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/turnoverBoxCount_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dip" />
+                    android:textSize="14dp" />
             </LinearLayout>
         </LinearLayout>
 
         <TextView
             android:id="@+id/status_TextView"
-            android:layout_width="50dip"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="已合板"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <View

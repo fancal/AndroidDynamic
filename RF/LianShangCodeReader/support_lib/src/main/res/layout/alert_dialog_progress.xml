@@ -23,10 +23,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="1dip"
-        android:layout_marginEnd="10dip"
-        android:layout_marginStart="10dip"
-        android:layout_marginTop="12dip" />
+        android:layout_marginBottom="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp" />
 
     <TextView
         android:id="@+id/progress_percent"
@@ -34,9 +34,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/progress"
-        android:layout_marginEnd="10dip"
-        android:layout_marginStart="10dip"
-        android:paddingBottom="12dip" />
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:paddingBottom="12dp" />
 
     <TextView
         android:id="@+id/progress_number"
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/progress"
-        android:layout_marginEnd="10dip"
-        android:layout_marginStart="10dip"
-        android:paddingBottom="12dip" />
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:paddingBottom="12dp" />
 </RelativeLayout>

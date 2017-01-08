@@ -47,7 +47,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     /**
      * QC模式 0 流式 1 列表式
      */
-    private int mode = 0;
+    private int mode = 1;
 
     /**
      * 是否显示menu
@@ -140,6 +140,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     private TextView itemBarcodeTextView;
 
     private TextView itemSkuCodeTextView;
+
+    private TextView itemPackCodeTextView;
 
     private TextView itemContainerIdTextView;
 
@@ -262,7 +264,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
-//        uId = "141871359725260";
+//        uId = "1";
 //        uToken = "25061134202027";
 //        ScanManager.init(that);
 
@@ -304,6 +306,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemItemNameTextView = (TextView) itemLayout.findViewById(R.id.itemName_TextView);
         itemBarcodeTextView = (TextView) itemLayout.findViewById(R.id.barcode_TextView);
         itemSkuCodeTextView = (TextView) itemLayout.findViewById(R.id.skuCode_TextView);
+        itemPackCodeTextView = (TextView) itemLayout.findViewById(R.id.packCode_TextView);
         itemContainerIdTextView = (TextView) itemLayout.findViewById(R.id.containerId_TextView);
         itemPackNameTextView = (TextView) itemLayout.findViewById(R.id.packName_TextView);
         itemQtyTextView = (TextView) itemLayout.findViewById(R.id.qty_TextView);
@@ -345,7 +348,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         });
         mMenuItem = (TextView) findViewById(R.id.menu_item);
         mMenuItem.setOnClickListener(this);
-        mMenuItem.setVisibility(View.GONE);
+//        mMenuItem.setVisibility(View.GONE);
     }
 
     private void fillScanLayout() {
@@ -413,8 +416,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout.setVisibility(View.VISIBLE);
         confirmLayout.setVisibility(View.GONE);
         listView.setVisibility(View.GONE);
-        mMenuItem.setVisibility(showMenuItem ? View.VISIBLE : View.GONE);
-        mMenuItem.setText(mode == 1 ? "流式qc" : "列表qc");
+//        mMenuItem.setVisibility(showMenuItem ? View.VISIBLE : View.GONE);
+//        mMenuItem.setText(mode == 1 ? "流式qc" : "列表qc");
         if (qcList.isFirst()) {
             itemShoddyView.setVisibility(View.VISIBLE);
             itemSubmitButton.setVisibility(View.VISIBLE);
@@ -440,6 +443,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemItemNameTextView.setText(curItem.getItemName());
         itemBarcodeTextView.setText(curItem.getBarCode());
         itemSkuCodeTextView.setText(curItem.getSkuCode());
+        itemPackCodeTextView.setText(curItem.getPackCode());
         itemPackNameTextView.setText(curItem.getPackName());
         itemQtyTextView.setText(curItem.getUomQty());
         itemInputQtyEditText.setText(null);
@@ -460,8 +464,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
-        mMenuItem.setVisibility(showMenuItem ? View.VISIBLE : View.GONE);
-        mMenuItem.setText(mode == 1 ? "流式qc" : "列表qc");
+//        mMenuItem.setVisibility(showMenuItem ? View.VISIBLE : View.GONE);
+//        mMenuItem.setText(mode == 1 ? "流式qc" : "列表qc");
 
         if (listView.getAdapter() == null) {
             myAdapter = new MyAdapter(that);
@@ -607,16 +611,20 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     /**
      * 扫描找拆零的任务
      */
-    private void findItem(String barCode) {
+    private void findItem(String code) {
         for (int i = 0; i < qcList.size(); i++) {
             QcList.Item item = qcList.get(i);
-            if (TextUtils.equals(barCode, item.getBarCode())) {
-                if (!item.isFirst()) {
-                    ToastTool.show(that, "该商品已经QC过了,不要重复QC");
-                } else {
-                    fillItemLayout(item);
-                    return;
-                }
+            if (TextUtils.equals(code, item.getPackCode())) {
+                fillItemLayout(item);
+                return;
+            }
+        }
+
+        for (int i = 0; i < qcList.size(); i++) {
+            QcList.Item item = qcList.get(i);
+            if (TextUtils.equals(code, item.getBarCode())) {
+                fillItemLayout(item);
+                return;
             }
         }
 
@@ -889,11 +897,11 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             }
             new ConfirmTask(that, qcList.getQcTaskId(), itemBoxNum, turnoverBoxNum).start();
         } else if (v == mMenuItem) {
-            if (mode == 0) {
-                mode = 1;
-            } else {
-                mode = 0;
-            }
+//            if (mode == 0) {
+//                mode = 1;
+//            } else {
+//                mode = 0;
+//            }
             pop();
 
         }

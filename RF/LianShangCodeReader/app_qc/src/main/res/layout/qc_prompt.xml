@@ -7,9 +7,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="15dip"
-        android:layout_marginTop="10dip"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="拆零QC\n请开始扫描商品条码开始QC"
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 </LinearLayout>

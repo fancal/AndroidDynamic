@@ -17,138 +17,138 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dip"
-        android:layout_marginTop="10dip"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="上架到库位"
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:text="任务："
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/taskId_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textSize="14dip" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="14dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="2dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
         android:text="名称："
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/itemName_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textSize="14dip" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="14dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="2dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
         android:text="国条码："
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/barcode_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textSize="14dip" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="14dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="2dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
         android:text="商品编码："
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/skuCode_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textSize="14dip" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="14dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="2dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
         android:text="规格："
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/packName_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textSize="14dip" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="14dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="2dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
         android:text="数量："
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/qty_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textSize="14dip" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="14dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="2dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
         android:text="拣货位："
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/pickLocation_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textSize="14dip" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="14dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="2dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
         android:text="库位："
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -160,42 +160,42 @@
             android:id="@+id/locationCode_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:textColor="#ffff0000"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/next_Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/submit_button_bg"
-            android:paddingBottom="5dip"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:paddingTop="5dip"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
             android:text="换位置"
             android:textColor="@color/white"
-            android:textSize="12dip" />
+            android:textSize="12dp" />
     </LinearLayout>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="2dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
         android:text="扫描确认仓库:"
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <com.elianshang.bridge.ui.view.ScanEditText
         android:id="@+id/locationCode_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textSize="14dip" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="14dp" />
 
 </LinearLayout>

@@ -14,6 +14,35 @@ public class CollectionRoadDetail implements BaseBean {
 
     private String turnoverBoxNum;
 
+    private String tuId;
+
+    private String driverName;
+
+    private String carNumber;
+
+    public String getTuId() {
+        return tuId;
+    }
+
+    public void setTuId(String tuId) {
+        this.tuId = tuId;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+
+    public String getCarNumber() {
+        return carNumber;
+    }
+
+    public void setCarNumber(String carNumber) {
+        this.carNumber = carNumber;
+    }
 
     public String getPackCount() {
         return packCount;

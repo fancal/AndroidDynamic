@@ -27,6 +27,8 @@ public class Pick implements BaseBean {
 
     private String skuCode;
 
+    private String packCode;
+
     public String getBarcode() {
         return barcode;
     }
@@ -109,6 +111,14 @@ public class Pick implements BaseBean {
 
     public String getPackName() {
         return packName;
+    }
+
+    public String getPackCode() {
+        return packCode;
+    }
+
+    public void setPackCode(String packCode) {
+        this.packCode = packCode;
     }
 
     public void setPackName(String packName) {

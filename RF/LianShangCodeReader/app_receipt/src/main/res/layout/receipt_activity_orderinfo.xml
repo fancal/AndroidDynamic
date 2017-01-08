@@ -27,11 +27,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dip"
-                android:layout_marginTop="10dip"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="填写收货数量"
-                android:textSize="14dip" />
+                android:textSize="14dp" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -42,179 +42,179 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingLeft="10dip"
-                    android:paddingRight="10dip">
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="名称:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/itemName_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="国条码:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/barcode_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="商品编码:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/skuCode_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="包装单位:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/packUnit_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="码盘规则:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/pile_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="订货数量:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/orderQty_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="实收数量:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <com.elianshang.bridge.ui.view.QtyEditText
                             android:id="@+id/inboundQty_EditView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
-                            android:minWidth="60dip"
+                            android:minWidth="60dp"
                             android:nextFocusDown="@+id/scatterQty_EditView"
                             android:nextFocusRight="@+id/scatterQty_EditView"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="箱"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <com.elianshang.bridge.ui.view.QtyEditText
                             android:id="@+id/scatterQty_EditView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
-                            android:minWidth="60dip"
+                            android:minWidth="60dp"
                             android:nextFocusDown="@+id/et_year"
                             android:nextFocusRight="@+id/et_year"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="EA"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
@@ -228,8 +228,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dip"
-                            android:layout_marginTop="5dip"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
                             android:orientation="horizontal">
 
                             <CheckBox
@@ -238,14 +238,14 @@
                                 android:layout_height="wrap_content"
                                 android:checked="true"
                                 android:text="生产日期"
-                                android:textSize="14dip" />
+                                android:textSize="14dp" />
 
                             <CheckBox
                                 android:id="@+id/dueData_CheckBox"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="到期日期"
-                                android:textSize="14dip" />
+                                android:textSize="14dp" />
 
                         </LinearLayout>
 
@@ -257,42 +257,42 @@
 
                             <com.elianshang.bridge.ui.view.ContentEditText
                                 android:id="@+id/et_year"
-                                android:layout_width="65dip"
+                                android:layout_width="65dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:textSize="14dip" />
+                                android:textSize="14dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="年"
-                                android:textSize="14dip" />
+                                android:textSize="14dp" />
 
                             <com.elianshang.bridge.ui.view.ContentEditText
                                 android:id="@+id/et_month"
-                                android:layout_width="40dip"
+                                android:layout_width="40dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:textSize="14dip" />
+                                android:textSize="14dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="月"
-                                android:textSize="14dip" />
+                                android:textSize="14dp" />
 
                             <com.elianshang.bridge.ui.view.ContentEditText
                                 android:id="@+id/et_day"
-                                android:layout_width="40dip"
+                                android:layout_width="40dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:textSize="14dip" />
+                                android:textSize="14dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="日"
-                                android:textSize="14dip" />
+                                android:textSize="14dp" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -308,14 +308,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="批次号:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <com.elianshang.bridge.ui.view.QtyEditText
                             android:id="@+id/lotNum_EditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
@@ -329,7 +329,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="例外代码:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <EditText
                             android:id="@+id/exceptionCode_TextView"
@@ -337,7 +337,7 @@
                             android:layout_height="wrap_content"
                             android:hint="选填"
                             android:inputType="numberDecimal"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
@@ -347,12 +347,12 @@
             <Button
                 android:id="@+id/submit_Button"
                 android:layout_width="match_parent"
-                android:layout_height="40dip"
+                android:layout_height="40dp"
                 android:background="@drawable/submit_button_bg"
                 android:gravity="center"
                 android:text="提交"
                 android:textColor="#ffffffff"
-                android:textSize="20dip" />
+                android:textSize="20dp" />
 
         </LinearLayout>
 
@@ -372,7 +372,7 @@
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
                 android:textColor="#ffffffff"
-                android:textSize="14dip"
+                android:textSize="14dp"
                 android:visibility="gone" />
 
             <android.inputmethodservice.KeyboardView

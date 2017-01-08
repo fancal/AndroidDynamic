@@ -34,13 +34,13 @@
             android:id="@+id/mergeTime_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/isLoad_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
     </LinearLayout>
 
@@ -51,8 +51,8 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="5dip"
-        android:textSize="14dip"
+        android:layout_marginRight="5dp"
+        android:textSize="14dp"
         android:visibility="gone" />
 
 </RelativeLayout>

@@ -5,10 +5,10 @@ package com.elianshang.wms.app.procurement.view;
  */
 public interface ProcurementView {
 
-    void showDetailView(String taskId ,String itemName, String barcode, String skuCode, String packName, String qty, String fromLocationCode, String toLocationCode , String flashBack);
+    void showDetailView(String taskId, String itemName, String barcode, String skuCode, String packName, String qty, String fromLocationCode, String toLocationCode, String flashBack);
 
-    void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String barcode, String skuCode, String packName, String qty, String locationName);
+    void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String barcode, String skuCode, String packName, String qty, String fromLocationCode, String toLocationCode, String locationName);
 
-    void showItemView(String typeName, String itemName, String barcode, String skuCode, String packName, String qty, String locationName, String numQty);
+    void showItemView(String typeName, String itemName, String barcode, String skuCode, String packName, String qty, String fromLocationCode, String toLocationCode, String locationName, String numQty);
 
 }

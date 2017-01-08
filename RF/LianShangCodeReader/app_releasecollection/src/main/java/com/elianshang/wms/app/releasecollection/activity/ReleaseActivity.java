@@ -40,6 +40,12 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
 
     private TextView detailCollectionRoadTextView;
 
+    private TextView detailTuIdTextView;
+
+    private TextView detailDriverNameTextView;
+
+    private TextView detailCarNumberTextView;
+
     private TextView detailStoreNumTextView;
 
     private TextView detailPackCountTextView;
@@ -54,7 +60,7 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
 
     private CollectionRoadDetail detail;
 
-    private boolean isItemClick = false ;
+    private boolean isItemClick = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,6 +131,9 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
 
         detailLayout = findViewById(R.id.detail_Layout);
         detailCollectionRoadTextView = (TextView) detailLayout.findViewById(R.id.collectionRoad_TextView);
+        detailTuIdTextView = (TextView) detailLayout.findViewById(R.id.tuId_TextView);
+        detailDriverNameTextView = (TextView) detailLayout.findViewById(R.id.driverName_TextView);
+        detailCarNumberTextView = (TextView) detailLayout.findViewById(R.id.carNumber_TextView);
         detailStoreNumTextView = (TextView) detailLayout.findViewById(R.id.storeNum_TextView);
         detailPackCountTextView = (TextView) detailLayout.findViewById(R.id.packCount_TextView);
         detailTurnoverBoxCountTextView = (TextView) detailLayout.findViewById(R.id.turnoverBoxCount_TextView);
@@ -166,6 +175,9 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
         }
 
         detailCollectionRoadTextView.setText("集货道：" + scanLocationCodeEditText.getText().toString());
+        detailTuIdTextView.setText("tu号：" + detail.getTuId());
+        detailDriverNameTextView.setText("司机：" + detail.getDriverName());
+        detailCarNumberTextView.setText("车牌号：" + detail.getCarNumber());
         detailStoreNumTextView.setText("门店数：" + detail.getCustomerCount());
         detailPackCountTextView.setText("箱数：" + detail.getPackCount());
         detailTurnoverBoxCountTextView.setText("周转箱数：" + detail.getTurnoverBoxNum());
@@ -275,7 +287,7 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
         @Override
         public void onPostExecute(ResponseState result) {
             finish();
-            ToastTool.show(context, "一键装车完成");
+            ToastTool.show(context, "装车成功");
         }
     }
 }

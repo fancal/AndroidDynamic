@@ -7,14 +7,14 @@
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
     <TextView
         android:id="@+id/finish_text"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_marginTop="40dip"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
         android:layout_weight="1"
         android:gravity="center"
         android:text="贵品提交完成,点击'装车完毕'完成装车"
@@ -28,13 +28,13 @@
         <Button
             android:id="@+id/finish_Button"
             android:layout_width="wrap_content"
-            android:layout_height="40dip"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@drawable/submit_button_bg"
             android:enabled="true"
             android:text="装车完毕"
             android:textColor="@color/white"
-            android:textSize="20dip" />
+            android:textSize="20dp" />
 
     </LinearLayout>
 

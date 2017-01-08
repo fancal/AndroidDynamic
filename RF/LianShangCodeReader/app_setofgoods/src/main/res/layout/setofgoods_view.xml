@@ -7,140 +7,140 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dip"
-        android:layout_marginTop="10dip"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="托盘集货详情"
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="门店名称:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/storeName_TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="门店编码:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/storeNo_TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="托盘码:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/containerId_TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="集货位:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/locationCode_TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="状态:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/status_TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
     </LinearLayout>
 
     <View
-        android:layout_width="0dip"
-        android:layout_height="0dip"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
     <Button
         android:id="@+id/submit_Button"
         android:layout_width="match_parent"
-        android:layout_height="40dip"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/submit_button_bg"
         android:gravity="center"
         android:text="提交"
         android:textColor="#ffffffff"
-        android:textSize="20dip" />
+        android:textSize="20dp" />
 </LinearLayout>

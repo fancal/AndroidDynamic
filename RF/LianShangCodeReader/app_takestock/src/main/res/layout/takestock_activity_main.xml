@@ -34,48 +34,48 @@
         android:id="@+id/taskCode_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:paddingTop="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="任务:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/taskCode_TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/progress_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dip"
-        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="进度:"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/progress_TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
-            android:textSize="14dip" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -99,57 +99,57 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dip"
-                android:layout_marginTop="10dip"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="前往目标库位"
-                android:textSize="14dip" />
+                android:textSize="14dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dip"
-                android:layout_marginTop="5dip"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip">
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="库位:"
-                    android:textSize="14dip" />
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/locationCode_TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#ffff0000"
-                    android:textSize="20dip" />
+                    android:textSize="20dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dip"
-                android:layout_marginTop="5dip"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip">
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="扫描确认库位:"
-                    android:textSize="14dip" />
+                    android:textSize="14dp" />
 
                 <com.elianshang.bridge.ui.view.ScanEditText
                     android:id="@+id/locationCode_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14dip" />
+                    android:textSize="14dp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -164,148 +164,148 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_height="0dp"
                 android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingLeft="10dip"
-                    android:paddingRight="10dip">
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dip"
-                        android:layout_marginTop="10dip"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:text="盘点库位商品"
-                        android:textSize="14dip" />
+                        android:textSize="14dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="库位:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/locationCode_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="名称:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/itemName_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="国条码:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/barcode_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="商品编码:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/skuCode_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="规格:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/packName_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="数量:"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/systemQty_TextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="14dip" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 
@@ -317,25 +317,25 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dip"
-                            android:layout_marginTop="5dip"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="0dip"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
                                 android:gravity="center"
                                 android:text="商品条码"
-                                android:textSize="14dip" />
+                                android:textSize="14dp" />
 
                             <TextView
-                                android:layout_width="0dip"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="商品数量"
-                                android:textSize="14dip" />
+                                android:textSize="14dp" />
 
                         </LinearLayout>
 
@@ -358,7 +358,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="40dip"
+                        android:layout_height="40dp"
                         android:visibility="gone" />
                 </LinearLayout>
             </ScrollView>
@@ -366,13 +366,13 @@
             <Button
                 android:id="@+id/submit_Button"
                 android:layout_width="match_parent"
-                android:layout_height="40dip"
+                android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/submit_button_bg"
                 android:gravity="center"
                 android:text="提交"
                 android:textColor="#ffffffff"
-                android:textSize="20dip" />
+                android:textSize="20dp" />
         </LinearLayout>
 
 

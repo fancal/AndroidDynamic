@@ -109,6 +109,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
     private TextView locationLayoutSkuCode;
 
+    private TextView locationLayoutPackCode;
+
     private TextView locationLayoutPackName;
 
     /**
@@ -140,6 +142,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     private View locationLayoutBarcodeLayot;
 
     private View locationLayoutSkuCodeLayot;
+
+    private View locationLayoutPackCodeLayout;
 
     private View locationLayoutPackNameLayot;
 
@@ -173,7 +177,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
     private String serialNumber;
 
-    private boolean isItemClick ;
+    private boolean isItemClick;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -258,6 +262,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutItemName = (TextView) locationLayout.findViewById(R.id.itemName_TextView);
         locationLayoutBarcode = (TextView) locationLayout.findViewById(R.id.barcode_TextView);
         locationLayoutSkuCode = (TextView) locationLayout.findViewById(R.id.skuCode_TextView);
+        locationLayoutPackCode = (TextView) locationLayout.findViewById(R.id.packCode_TextView);
         locationLayoutPackName = (TextView) locationLayout.findViewById(R.id.packName_TextView);
         locationLayoutAllocQty = (TextView) locationLayout.findViewById(R.id.allocQty_TextView);
         locationLayoutQty = (QtyEditText) locationLayout.findViewById(R.id.inputQty_EditView);
@@ -269,6 +274,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutSkuCodeLayot = locationLayout.findViewById(R.id.skuCode_Layout);
         locationLayoutPackNameLayot = locationLayout.findViewById(R.id.packName_Layout);
         locationLayoutSplitButton = locationLayout.findViewById(R.id.split_Button);
+        locationLayoutPackCodeLayout = locationLayout.findViewById(R.id.packCode_Layout);
 
         collectionLayoutPickTaskIdView = (TextView) collectionLayout.findViewById(R.id.pickTaskId_TextView);
         collectionLayoutContainerIdCodeView = (TextView) collectionLayout.findViewById(R.id.containerId_TextView);
@@ -450,6 +456,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutItemName.setText(mPick.getItemName());
         locationLayoutBarcode.setText(mPick.getBarcode());
         locationLayoutSkuCode.setText(mPick.getSkuCode());
+        locationLayoutPackCode.setText(mPick.getPackCode());
         locationLayoutPackName.setText(mPick.getAllocUnitName());
         locationLayoutConfirmLocationCodeView.getText().clear();
         locationLayoutAllocQty.setText(mPick.getAllocQty());
@@ -462,6 +469,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutBarcodeLayot.setVisibility(View.GONE);
         locationLayoutSkuCodeLayot.setVisibility(View.GONE);
         locationLayoutPackNameLayot.setVisibility(View.GONE);
+        locationLayoutPackCodeLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -477,6 +485,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutBarcodeLayot.setVisibility(View.VISIBLE);
         locationLayoutSkuCodeLayot.setVisibility(View.VISIBLE);
         locationLayoutPackNameLayot.setVisibility(View.VISIBLE);
+        locationLayoutPackCodeLayout.setVisibility(View.VISIBLE);
         locationLayoutSplitButton.setVisibility(View.GONE);
         locationLayoutQty.requestFocus();
     }

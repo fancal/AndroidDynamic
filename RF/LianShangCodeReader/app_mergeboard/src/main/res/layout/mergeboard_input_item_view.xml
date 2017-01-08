@@ -7,18 +7,18 @@
 
     <com.elianshang.bridge.ui.view.ScanEditText
         android:id="@+id/containerId_EditText"
-        android:layout_width="0dip"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:focusable="false"
-        android:textSize="14dip" />
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/delete_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
+        android:layout_marginLeft="10dp"
         android:text="删除"
-        android:textSize="14dip"/>
+        android:textSize="14dp"/>
 
 </LinearLayout>
