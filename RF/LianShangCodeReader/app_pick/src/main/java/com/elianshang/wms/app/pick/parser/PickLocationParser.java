@@ -31,6 +31,7 @@ public class PickLocationParser extends MasterParser<PickLocation> {
                 pick.setBarcode(optString(nextJson, "barcode"));
                 pick.setSkuCode(optString(nextJson, "skuCode"));
                 pick.setPackCode(optString(nextJson, "packCode"));
+                pick.setPickOrder(optString(nextJson, "pickOrder"));
                 bean.setPick(pick);
             }
         }

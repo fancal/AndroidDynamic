@@ -29,6 +29,16 @@ public class Pick implements BaseBean {
 
     private String packCode;
 
+    private String pickOrder ;
+
+    public String getPickOrder() {
+        return pickOrder;
+    }
+
+    public void setPickOrder(String pickOrder) {
+        this.pickOrder = pickOrder;
+    }
+
     public String getBarcode() {
         return barcode;
     }

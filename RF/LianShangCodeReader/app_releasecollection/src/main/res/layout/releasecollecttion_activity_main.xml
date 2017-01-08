@@ -92,14 +92,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="司机"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/carNumber_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="车牌"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/storeNum_TextView"

@@ -32,8 +32,10 @@ import com.elianshang.wms.app.pick.R;
 import com.elianshang.wms.app.pick.bean.Pick;
 import com.elianshang.wms.app.pick.bean.PickLocation;
 import com.elianshang.wms.app.pick.bean.Split;
+import com.elianshang.wms.app.pick.provider.HoldProvider;
 import com.elianshang.wms.app.pick.provider.ScanPickLocationProvider;
 import com.elianshang.wms.app.pick.provider.ScanPickProvider;
+import com.elianshang.wms.app.pick.provider.SkipProvider;
 import com.elianshang.wms.app.pick.provider.SplitNewPickTaskProvider;
 import com.xue.http.impl.DataHull;
 
@@ -148,6 +150,10 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     private View locationLayoutPackNameLayot;
 
     private View locationLayoutSplitButton;
+
+    private View locationLayoutSkipButton;
+
+    private View locationLayoutHoldButton;
 
     /**
      * 第三页 集货码
@@ -274,6 +280,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutSkuCodeLayot = locationLayout.findViewById(R.id.skuCode_Layout);
         locationLayoutPackNameLayot = locationLayout.findViewById(R.id.packName_Layout);
         locationLayoutSplitButton = locationLayout.findViewById(R.id.split_Button);
+        locationLayoutSkipButton = locationLayout.findViewById(R.id.skip_Button);
+        locationLayoutHoldButton = locationLayout.findViewById(R.id.hold_Button);
         locationLayoutPackCodeLayout = locationLayout.findViewById(R.id.packCode_Layout);
 
         collectionLayoutPickTaskIdView = (TextView) collectionLayout.findViewById(R.id.pickTaskId_TextView);
@@ -289,6 +297,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         taskLayoutAddButton.setOnClickListener(this);
         mSubmit.setOnClickListener(this);
         locationLayoutSplitButton.setOnClickListener(this);
+        locationLayoutSkipButton.setOnClickListener(this);
+        locationLayoutHoldButton.setOnClickListener(this);
     }
 
     /**
@@ -332,6 +342,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 collectionLayout.setVisibility(View.GONE);
                 splitLayout.setVisibility(View.GONE);
                 locationLayoutSplitButton.setVisibility(View.VISIBLE);
+                locationLayoutSkipButton.setVisibility(View.VISIBLE);
+                locationLayoutHoldButton.setVisibility(View.VISIBLE);
                 mSubmit.setVisibility(View.VISIBLE);
                 mSubmit.setEnabled(false);
                 locationLayoutConfirmLocationCodeView.requestFocus();
@@ -487,6 +499,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutPackNameLayot.setVisibility(View.VISIBLE);
         locationLayoutPackCodeLayout.setVisibility(View.VISIBLE);
         locationLayoutSplitButton.setVisibility(View.GONE);
+        locationLayoutSkipButton.setVisibility(View.GONE);
+        locationLayoutHoldButton.setVisibility(View.GONE);
         locationLayoutQty.requestFocus();
     }
 
@@ -596,6 +610,20 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
             addTaskLayout();
         } else if (v == locationLayoutSplitButton) {
             fillSplit();
+        } else if (v == locationLayoutSkipButton) {
+            DialogTools.showTwoButtonDialog(that, "确认跳过当前的拣货项：" + mPick.getItemName(), "确认", "取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    new RequestSkipTask(that, mPick.getPickTaskId(), mPick.getPickOrder()).start();
+                }
+            }, null, true);
+        } else if (v == locationLayoutHoldButton) {
+            DialogTools.showTwoButtonDialog(that, "确认挂起拣货任务：" + mPick.getPickTaskId(), "确认", "取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    new RequestHoldTask(that, mPick.getPickTaskId()).start();
+                }
+            }, null, true);
         }
     }
 
@@ -724,6 +752,54 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         @Override
         public DataHull<PickLocation> doInBackground() {
             return ScanPickLocationProvider.request(context, uId, uToken, locationCode, qty, serialNumber);
+        }
+
+        @Override
+        public void onPostExecute(PickLocation result) {
+            fillPick(result);
+        }
+    }
+
+    /**
+     * 跳过
+     */
+    private class RequestSkipTask extends HttpAsyncTask<PickLocation> {
+
+        private String taskId;
+        private String pickOrder;
+
+        public RequestSkipTask(Context context, String taskId, String pickOrder) {
+            super(context, true, true, false);
+            this.taskId = taskId;
+            this.pickOrder = pickOrder;
+        }
+
+        @Override
+        public DataHull<PickLocation> doInBackground() {
+            return SkipProvider.request(context, uId, uToken, taskId, pickOrder, serialNumber);
+        }
+
+        @Override
+        public void onPostExecute(PickLocation result) {
+            fillPick(result);
+        }
+    }
+
+    /**
+     * 挂起
+     */
+    private class RequestHoldTask extends HttpAsyncTask<PickLocation> {
+
+        private String taskId;
+
+        public RequestHoldTask(Context context, String taskId) {
+            super(context, true, true, false);
+            this.taskId = taskId;
+        }
+
+        @Override
+        public DataHull<PickLocation> doInBackground() {
+            return HoldProvider.request(context, uId, uToken, taskId, serialNumber);
         }
 
         @Override

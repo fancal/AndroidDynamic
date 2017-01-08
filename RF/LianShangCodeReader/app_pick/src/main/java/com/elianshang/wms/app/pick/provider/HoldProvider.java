@@ -43,7 +43,7 @@ public class HoldProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/outbound/pick/skip";
+    private static final String _function = "/outbound/pick/hold";
 
     private static final String uId = "uid";
 
@@ -77,6 +77,5 @@ public class HoldProvider {
         OkHttpHandler<PickLocation> handler = new OkHttpHandler();
         DataHull<PickLocation> dataHull = handler.requestData(parameter);
         return dataHull;
-
     }
 }

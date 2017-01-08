@@ -70,6 +70,8 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
 
     private TextView mItemToLocationTextView;
 
+    private View mItemToLocationTextLayout;
+
     /**
      * 库位Id
      */
@@ -200,6 +202,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mItemQtyRealContainerView = mItemView.findViewById(R.id.item_qty_real_container);
         mItemFromLocationTextView = (TextView) mItemView.findViewById(R.id.fromLocationCode_TextView);
         mItemToLocationTextView = (TextView) mItemView.findViewById(R.id.toLocationCode_TextView);
+        mItemToLocationTextLayout = mItemView.findViewById(R.id.toLocationCode_Layout);
         mItemLocationView = (TextView) mItemView.findViewById(R.id.item_locationCode);
 
 
@@ -308,6 +311,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
             mItemNameView.setVisibility(View.VISIBLE);
             mItemPackNameView.setVisibility(View.VISIBLE);
             mItemQtyView.setVisibility(View.VISIBLE);
+            mItemToLocationTextLayout.setVisibility(View.GONE);
 
             mItemNameView.setText(itemName);
             mItemBarcodeView.setText(barcode);
@@ -348,6 +352,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mItemNameView.setVisibility(View.VISIBLE);
         mItemPackNameView.setVisibility(View.VISIBLE);
         mItemQtyView.setVisibility(View.VISIBLE);
+        mItemToLocationTextLayout.setVisibility(View.VISIBLE);
 
         mTypeNameView.setText(typeName);
         mItemNameView.setText(itemName);
