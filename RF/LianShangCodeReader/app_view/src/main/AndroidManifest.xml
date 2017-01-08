@@ -10,9 +10,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.ChooseActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/TransparentDialog">
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

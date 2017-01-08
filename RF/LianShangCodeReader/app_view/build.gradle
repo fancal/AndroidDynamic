@@ -16,7 +16,7 @@ android {
      * 默认配置项，包名、最小SDK版本、目标SDK版本、版本号、版本名
      * */
     defaultConfig {
-        applicationId "com.elianshang.wms.app.receipt"
+        applicationId "com.elianshang.wms.app.view"
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
