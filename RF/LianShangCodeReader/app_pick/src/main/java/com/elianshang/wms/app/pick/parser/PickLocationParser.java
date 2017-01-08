@@ -33,6 +33,8 @@ public class PickLocationParser extends MasterParser<PickLocation> {
                 pick.setPackCode(optString(nextJson, "packCode"));
                 pick.setPickOrder(optString(nextJson, "pickOrder"));
                 bean.setPick(pick);
+            } else {
+                bean = null ;
             }
         }
         return bean;

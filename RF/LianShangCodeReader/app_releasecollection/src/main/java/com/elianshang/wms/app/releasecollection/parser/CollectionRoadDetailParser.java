@@ -14,7 +14,7 @@ public class CollectionRoadDetailParser extends MasterParser<CollectionRoadDetai
             String customerCount = optString(data, "customerCount");
             String packCount = optString(data, "packCount");
             String turnoverBoxNum = optString(data, "turnoverBoxNum");
-            String tu_id = optString(data, "tu_id");
+            String transPlan = optString(data, "transPlan");
             String driverName = optString(data, "driverName");
             String carNumber = optString(data, "carNumber");
 
@@ -24,7 +24,7 @@ public class CollectionRoadDetailParser extends MasterParser<CollectionRoadDetai
             detail.setCustomerCount(customerCount);
             detail.setPackCount(packCount);
             detail.setTurnoverBoxNum(turnoverBoxNum);
-            detail.setTuId(tu_id);
+            detail.setTransPlan(transPlan);
             detail.setDriverName(driverName);
             detail.setCarNumber(carNumber);
 

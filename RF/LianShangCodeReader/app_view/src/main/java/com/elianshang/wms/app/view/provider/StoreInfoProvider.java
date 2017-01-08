@@ -39,7 +39,7 @@ public class StoreInfoProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "/order/po/receipt/getStoreInfo";
+    private static final String _function = "/search/searchSomething";
 
     private static final String uId = "uid";
 

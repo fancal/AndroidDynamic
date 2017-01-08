@@ -14,18 +14,18 @@ public class CollectionRoadDetail implements BaseBean {
 
     private String turnoverBoxNum;
 
-    private String tuId;
+    private String transPlan ;
 
     private String driverName;
 
     private String carNumber;
 
-    public String getTuId() {
-        return tuId;
+    public String getTransPlan() {
+        return transPlan;
     }
 
-    public void setTuId(String tuId) {
-        this.tuId = tuId;
+    public void setTransPlan(String transPlan) {
+        this.transPlan = transPlan;
     }
 
     public String getDriverName() {

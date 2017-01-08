@@ -175,7 +175,7 @@ public class ReleaseActivity extends DLBasePluginActivity implements ScanManager
         }
 
         detailCollectionRoadTextView.setText("集货道：" + scanLocationCodeEditText.getText().toString());
-        detailTuIdTextView.setText("tu号：" + detail.getTuId());
+        detailTuIdTextView.setText("路线编码：" + detail.getTransPlan());
         detailDriverNameTextView.setText("司机：" + detail.getDriverName());
         detailCarNumberTextView.setText("车牌号：" + detail.getCarNumber());
         detailStoreNumTextView.setText("门店数：" + detail.getCustomerCount());
