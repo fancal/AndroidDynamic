@@ -11,12 +11,12 @@ public class CollectionRoadDetailParser extends MasterParser<CollectionRoadDetai
     @Override
     public CollectionRoadDetail parse(JSONObject data) throws Exception {
         if (data != null) {
-            String customerCount = getString(data, "customerCount");
-            String packCount = getString(data, "packCount");
-            String turnoverBoxNum = getString(data, "turnoverBoxNum");
-            String tu_id = getString(data, "tu_id");
-            String driverName = getString(data, "driverName");
-            String carNumber = getString(data, "carNumber");
+            String customerCount = optString(data, "customerCount");
+            String packCount = optString(data, "packCount");
+            String turnoverBoxNum = optString(data, "turnoverBoxNum");
+            String tu_id = optString(data, "tu_id");
+            String driverName = optString(data, "driverName");
+            String carNumber = optString(data, "carNumber");
 
 
             CollectionRoadDetail detail = new CollectionRoadDetail();

@@ -342,8 +342,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 collectionLayout.setVisibility(View.GONE);
                 splitLayout.setVisibility(View.GONE);
                 locationLayoutSplitButton.setVisibility(View.VISIBLE);
-                locationLayoutSkipButton.setVisibility(View.VISIBLE);
-                locationLayoutHoldButton.setVisibility(View.VISIBLE);
+                locationLayoutSkipButton.setVisibility(View.GONE);
+                locationLayoutHoldButton.setVisibility(View.GONE);
                 mSubmit.setVisibility(View.VISIBLE);
                 mSubmit.setEnabled(false);
                 locationLayoutConfirmLocationCodeView.requestFocus();
@@ -499,8 +499,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutPackNameLayot.setVisibility(View.VISIBLE);
         locationLayoutPackCodeLayout.setVisibility(View.VISIBLE);
         locationLayoutSplitButton.setVisibility(View.GONE);
-        locationLayoutSkipButton.setVisibility(View.GONE);
-        locationLayoutHoldButton.setVisibility(View.GONE);
+        locationLayoutSkipButton.setVisibility(View.VISIBLE);
+        locationLayoutHoldButton.setVisibility(View.VISIBLE);
         locationLayoutQty.requestFocus();
     }
 
