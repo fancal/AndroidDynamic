@@ -30,6 +30,7 @@ public class QcListParser extends MasterParser<QcList> {
             String turnoverBoxNum = optString(data, "turnoverBoxNum");
             String itemLineNum = optString(data, "itemLineNum");
             String containerId = optString(data, "containerId");
+            String pickerName = optString(data, "pickerName");
 
             if (!TextUtils.isEmpty(qcTaskId)
                     && !TextUtils.isEmpty(customerName)
@@ -50,6 +51,7 @@ public class QcListParser extends MasterParser<QcList> {
                 qcList.setItemLineNum(itemLineNum);
                 qcList.setCollectionRoadCode(collectionRoadCode);
                 qcList.setContainerId(containerId);
+                qcList.setPickerName(pickerName);
             }
 
             JSONArray jsonArray = optJSONArray(data, "qcList");

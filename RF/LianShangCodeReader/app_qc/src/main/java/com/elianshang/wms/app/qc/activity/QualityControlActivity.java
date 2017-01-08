@@ -85,6 +85,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
      */
     private TextView startStateTextView;
 
+    private TextView startPickerNameTextView;
+
     /**
      * 开始布局集货道
      */
@@ -136,6 +138,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
      * 名称文本框
      */
     private TextView itemItemNameTextView;
+
+    private TextView itemPickerNameTextView;
 
     private TextView itemBarcodeTextView;
 
@@ -203,6 +207,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
      * 确认布局超市
      */
     private TextView confirmStoreNameTextView;
+
+    private TextView confirmPickerNameTextView;
 
     private TextView confirmStoreNoTextView;
 
@@ -296,6 +302,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         startLineNumTextView = (TextView) startLayout.findViewById(R.id.lineNum_TextView);
         startSubmitButton = (Button) startLayout.findViewById(R.id.submit_Button);
         startSkipButton = (Button) startLayout.findViewById(R.id.skip_Button);
+        startPickerNameTextView = (TextView) startLayout.findViewById(R.id.pickerName_TextView);
         startSubmitButton.setOnClickListener(this);
         startSkipButton.setOnClickListener(this);
 
@@ -304,6 +311,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout = findViewById(R.id.item_Layout);
         itemTaskIdTextView = (TextView) itemLayout.findViewById(R.id.qcTaskId_TextView);
         itemItemNameTextView = (TextView) itemLayout.findViewById(R.id.itemName_TextView);
+        itemPickerNameTextView = (TextView) itemLayout.findViewById(R.id.pickerName_TextView);
         itemBarcodeTextView = (TextView) itemLayout.findViewById(R.id.barcode_TextView);
         itemSkuCodeTextView = (TextView) itemLayout.findViewById(R.id.skuCode_TextView);
         itemPackCodeTextView = (TextView) itemLayout.findViewById(R.id.packCode_TextView);
@@ -325,6 +333,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         confirmLayout = findViewById(R.id.confirm_Layout);
         confirmCollectionCodeTextView = (TextView) confirmLayout.findViewById(R.id.collectionCode_TextView);
+        confirmPickerNameTextView = (TextView) confirmLayout.findViewById(R.id.pickerName_TextView);
         confirmStoreNameTextView = (TextView) confirmLayout.findViewById(R.id.storeName_TextView);
         confirmStoreNoTextView = (TextView) confirmLayout.findViewById(R.id.storeNo_TextView);
         confirmContainerIdTextView = (TextView) confirmLayout.findViewById(R.id.containerId_TextView);
@@ -389,6 +398,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
 
         startTaskIdTextView.setText(qcList.getQcTaskId());
+        startPickerNameTextView.setText(qcList.getPickerName());
         startStateTextView.setText(qcList.isFirst() ? "未完成" : (qcList.isQcDone() ? "完成" : "QC异常"));
         startCollectionCodeTextView.setText(qcList.getCollectionRoadCode());
         startStoreNameTextView.setText(qcList.getCustomerName());
@@ -441,6 +451,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         itemTaskIdTextView.setText(qcList.getQcTaskId());
         itemItemNameTextView.setText(curItem.getItemName());
+        itemPickerNameTextView.setText(qcList.getPickerName());
         itemBarcodeTextView.setText(curItem.getBarCode());
         itemSkuCodeTextView.setText(curItem.getSkuCode());
         itemPackCodeTextView.setText(curItem.getPackCode());
@@ -499,6 +510,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
 
         confirmCollectionCodeTextView.setText(qcList.getCollectionRoadCode());
+        confirmPickerNameTextView.setText(qcList.getPickerName());
         confirmStoreNameTextView.setText(qcList.getCustomerName());
         confirmStoreNoTextView.setText(qcList.getCustomerCode());
         confirmItemBoxNumTextView.setText(qcList.getItemBoxNum());

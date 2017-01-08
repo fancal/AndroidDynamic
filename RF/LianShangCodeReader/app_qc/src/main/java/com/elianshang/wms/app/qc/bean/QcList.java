@@ -32,6 +32,16 @@ public class QcList extends ArrayList<QcList.Item> implements BaseBean {
 
     private String collectionRoadCode;
 
+    private String pickerName ;
+
+    public String getPickerName() {
+        return pickerName;
+    }
+
+    public void setPickerName(String pickerName) {
+        this.pickerName = pickerName;
+    }
+
     @Override
     public void setDataKey(String dataKey) {
 
