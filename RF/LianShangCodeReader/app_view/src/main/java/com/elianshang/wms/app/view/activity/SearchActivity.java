@@ -186,7 +186,7 @@ public class SearchActivity extends DLBasePluginActivity implements ScanManager.
         private String code;
 
         public SearchTask(Context context, String code) {
-            super(context);
+            super(context, true, true);
             this.code = code;
         }
 
