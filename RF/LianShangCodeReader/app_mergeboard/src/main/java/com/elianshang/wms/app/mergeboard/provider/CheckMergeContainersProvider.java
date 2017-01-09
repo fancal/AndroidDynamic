@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CheckMergeContainersProvider {
 
-    private static final String base_url = "http://hd01.wms.lsh123.wumart.com/api/wms/rf/v1";
+    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
