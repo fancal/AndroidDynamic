@@ -22,53 +22,86 @@
             android:text="送托盘到集货位"
             android:textSize="14dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="集货位"
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/collection_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#ffff0000"
-            android:textSize="14dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="拣货签："
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/pickTaskId_TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="托盘码："
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/containerId_TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="扫描确认集货位:"
-            android:textSize="14dp" />
-
-        <com.elianshang.bridge.ui.view.ScanEditText
-            android:id="@+id/confirm_collection_id"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dp" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="集货位："
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/collection_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffff0000"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="拣货签："
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/pickTaskId_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="托盘码："
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/containerId_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="扫描确认集货位:"
+                android:textSize="14dp" />
+
+            <com.elianshang.bridge.ui.view.ScanEditText
+                android:id="@+id/confirm_collection_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14dp" />
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>
