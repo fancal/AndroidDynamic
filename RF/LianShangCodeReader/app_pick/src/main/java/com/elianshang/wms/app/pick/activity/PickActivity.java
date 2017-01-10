@@ -100,6 +100,10 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     private TextView locationLayoutPickTaskIdView;
 
     private TextView locationLayoutLocationCodeView;
+
+    private TextView locationLayoutPickTaskOrderView;
+
+    private TextView locationLayoutCustomerNameView;
     /**
      * 第二页 确认库位码
      */
@@ -163,6 +167,10 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     private TextView collectionLayoutPickTaskIdView;
 
     private TextView collectionLayoutContainerIdCodeView;
+
+    private TextView collectionLayoutPickTaskOrderView;
+
+    private TextView collectionLayoutCustomerNameView;
 
     /**
      * 第三页 确认集货码
@@ -263,6 +271,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutContainerIdCodeView = (TextView) locationLayout.findViewById(R.id.containerId_TextView);
         locationLayoutPickTaskIdView = (TextView) locationLayout.findViewById(R.id.pickTaskId_TextView);
         locationLayoutLocationCodeView = (TextView) locationLayout.findViewById(R.id.location_id);
+        locationLayoutPickTaskOrderView = (TextView) locationLayout.findViewById(R.id.pickTaskOrder_TextView);
+        locationLayoutCustomerNameView = (TextView) locationLayout.findViewById(R.id.storeName_TextView);
         locationLayoutConfirmLocationCodeView = (ScanEditText) locationLayout.findViewById(R.id.confirm_location_id);
         locationLayoutConfirmLocationCodeView.setCode(true);
         locationLayoutItemName = (TextView) locationLayout.findViewById(R.id.itemName_TextView);
@@ -287,6 +297,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         collectionLayoutPickTaskIdView = (TextView) collectionLayout.findViewById(R.id.pickTaskId_TextView);
         collectionLayoutContainerIdCodeView = (TextView) collectionLayout.findViewById(R.id.containerId_TextView);
         collectionLayoutCollectionIdView = (TextView) collectionLayout.findViewById(R.id.collection_id);
+        collectionLayoutPickTaskOrderView = (TextView) collectionLayout.findViewById(R.id.pickTaskOrder_TextView);
+        collectionLayoutCustomerNameView = (TextView) collectionLayout.findViewById(R.id.storeName_TextView);
         collectionLayoutConfirmCollectionIdView = (ScanEditText) collectionLayout.findViewById(R.id.confirm_collection_id);
         collectionLayoutConfirmCollectionIdView.setCode(true);
 
@@ -465,6 +477,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         locationLayoutContainerIdCodeView.setText(mPick.getContainerId());
         locationLayoutPickTaskIdView.setText(mPick.getPickTaskId());
         locationLayoutLocationCodeView.setText(mPick.getAllocPickLocationCode());
+        locationLayoutPickTaskOrderView.setText(mPick.getPickTaskOrder());
+        locationLayoutCustomerNameView.setText(mPick.getCustomerName());
         locationLayoutItemName.setText(mPick.getItemName());
         locationLayoutBarcode.setText(mPick.getBarcode());
         locationLayoutSkuCode.setText(mPick.getSkuCode());
@@ -512,6 +526,8 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         collectionLayoutCollectionIdView.setText(mPick.getAllocCollectLocationCode());
         collectionLayoutPickTaskIdView.setText(mPick.getPickTaskId());
         collectionLayoutContainerIdCodeView.setText(mPick.getContainerId());
+        collectionLayoutPickTaskOrderView.setText(mPick.getPickTaskOrder());
+        collectionLayoutCustomerNameView.setText(mPick.getCustomerName());
         collectionLayoutConfirmCollectionIdView.setText("");
     }
 

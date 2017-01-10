@@ -29,7 +29,27 @@ public class Pick implements BaseBean {
 
     private String packCode;
 
-    private String pickOrder ;
+    private String pickOrder;
+
+    private String pickTaskOrder;
+
+    private String customerName;
+
+    public String getPickTaskOrder() {
+        return pickTaskOrder;
+    }
+
+    public void setPickTaskOrder(String pickTaskOrder) {
+        this.pickTaskOrder = pickTaskOrder;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
     public String getPickOrder() {
         return pickOrder;

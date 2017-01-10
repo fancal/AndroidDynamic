@@ -10,7 +10,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="查询(国条码,箱码,库位码,托盘码,拣货签)"
+        android:text="查询"
         android:textSize="14dp" />
 
     <TextView
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="请扫描:"
+        android:text="请扫描(国条码、箱码、库位码、托盘码、拣货签)："
         android:textSize="14dp" />
 
     <com.elianshang.bridge.ui.view.ScanEditText
