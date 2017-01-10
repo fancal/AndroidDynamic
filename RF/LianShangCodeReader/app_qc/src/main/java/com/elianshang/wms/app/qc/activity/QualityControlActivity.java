@@ -56,8 +56,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     private Toolbar toolbar;
 
-    private TextView mMenuItem;
-
     private View checkProgressButton;
 
     /**
@@ -355,11 +353,11 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 onBackPressed();
             }
         });
-        mMenuItem = (TextView) findViewById(R.id.menu_item);
-        mMenuItem.setOnClickListener(this);
-//        mMenuItem.setVisibility(View.GONE);
     }
 
+    /**
+     * 扫描页
+     */
     private void fillScanLayout() {
         qcList = null;
         myAdapter = null;
@@ -383,6 +381,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         scanEditTextTool.setComplete(this);
     }
 
+    /**
+     * 开始详情页
+     */
     private void fillStartLayout() {
         checkProgressButton.setVisibility(View.GONE);
         scanLayout.setVisibility(View.GONE);
@@ -411,6 +412,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     }
 
+    /**
+     * 详情页
+     */
     private void fillItemLayout(QcList.Item item) {
         if (item == null) {
             return;
@@ -426,8 +430,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout.setVisibility(View.VISIBLE);
         confirmLayout.setVisibility(View.GONE);
         listView.setVisibility(View.GONE);
-//        mMenuItem.setVisibility(showMenuItem ? View.VISIBLE : View.GONE);
-//        mMenuItem.setText(mode == 1 ? "流式qc" : "列表qc");
         if (qcList.isFirst()) {
             itemShoddyView.setVisibility(View.VISIBLE);
             itemSubmitButton.setVisibility(View.VISIBLE);
@@ -465,6 +467,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
     }
 
+    /**
+     * 列表页
+     */
     private void fillListLayout() {
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
@@ -475,8 +480,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
-//        mMenuItem.setVisibility(showMenuItem ? View.VISIBLE : View.GONE);
-//        mMenuItem.setText(mode == 1 ? "流式qc" : "列表qc");
 
         if (listView.getAdapter() == null) {
             myAdapter = new MyAdapter(that);
@@ -492,6 +495,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
     }
 
+    /**
+     * 确认页
+     */
     private void fillConfirmLayout() {
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
@@ -502,7 +508,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         itemLayout.setVisibility(View.GONE);
         confirmLayout.setVisibility(View.VISIBLE);
         listView.setVisibility(View.GONE);
-        mMenuItem.setVisibility(View.GONE);
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
@@ -521,21 +526,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     }
 
     /**
-     * 根据mode显示对应页面
-     */
-    private void pop() {
-        if (mode == 0) {//流式
-            if (curItem != null) {//列表切流式时,如果列表显示了某一个item,则依然显示这个item
-                popItem(curItem.getBarCode());
-            } else {
-                popNextItem(null, null, null, true);
-            }
-        } else {//列表
-            popList(null, null, true);
-        }
-    }
-
-    /**
      * 根据请求接口任务
      */
     private void popItem(String barCode) {
@@ -549,9 +539,14 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
     }
 
     /**
-     * 根据请求接口找下一个任务
+     * 提交完成后，进行下一个任务的判断逻辑
      */
     private void popNextItem(String barCode, String uomQty, String defectQty, boolean qcDone) {
+        if (qcList.isQcDone()) {
+            fillListLayout();
+            return;
+        }
+
         for (int i = 0; i < qcList.size(); i++) {
             QcList.Item item = qcList.get(i);
             if (TextUtils.equals(barCode, item.getBarCode())) {//QC过了的,就改变下状态
@@ -564,64 +559,24 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             QcList.Item item = qcList.get(i);
             if (qcList.isFirst()) {//首次qc 检查是否qc
                 if (item.isFirst()) {
-                    if (item.isSplit()) {
-                        mode = 1;
-                        showMenuItem = false;
-                        pop();//流式qc,如果遍历到拆零商品,则显示切换到列表qc
-                    } else {
-                        fillItemLayout(item);
-                    }
-                    return;
-                }
-            } else {//复qc 检查qc异常
-                if (!item.isQcDone()) {
-                    if (item.isSplit()) {
-                        mode = 1;
-                        showMenuItem = false;
-                        pop();
-                    } else {
-                        fillItemLayout(item);
-                    }
-                    return;
-                }
-            }
-        }
-
-        checkConfirm(qcDone);
-    }
-
-    private void popList(String barCode, String uomQty, boolean qcDone) {
-        if (qcList.isQcDone()) {
-            fillListLayout();
-            return;
-        }
-
-        for (int i = 0; i < qcList.size(); i++) {
-            QcList.Item item = qcList.get(i);
-            if (TextUtils.equals(barCode, item.getBarCode())) {//QC过了的,就改变下状态
-                item.setFirst(false);
-                item.setQcDone(qcDone || TextUtils.equals(DataFormat.getFormatValue(item.getUomQty()), uomQty));
-            }
-        }
-        for (int i = 0; i < qcList.size(); i++) {
-            QcList.Item item = qcList.get(i);
-            if (qcList.isFirst()) {//首次qc 检查是否qc
-                if (item.isFirst()) {
+                    showMenuItem = false;
                     fillListLayout();
                     return;
                 }
             } else {//复qc 检查qc异常
                 if (!item.isQcDone()) {
+                    showMenuItem = false;
                     fillListLayout();
                     return;
                 }
             }
         }
+
         checkConfirm(qcDone);
     }
 
     /**
-     * 扫描找拆零的任务
+     * 更具 箱码 ， 国条 弹出任务
      */
     private void findItem(String code) {
         for (int i = 0; i < qcList.size(); i++) {
@@ -643,6 +598,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         ToastTool.show(that, "商品不在拣货列表内");
     }
 
+    /**
+     * 任务本地结束判断
+     */
     private void checkConfirm(boolean qcDone) {
         if (qcDone) {
             fillConfirmLayout();
@@ -896,7 +854,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 mode = 1;
                 showMenuItem = false;
             }
-            pop();
+            popNextItem(null, null, null, true);
         } else if (v == startSkipButton) {
             isSkip = true;
             fillConfirmLayout();
@@ -908,14 +866,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
                 return;
             }
             new ConfirmTask(that, qcList.getQcTaskId(), itemBoxNum, turnoverBoxNum).start();
-        } else if (v == mMenuItem) {
-//            if (mode == 0) {
-//                mode = 1;
-//            } else {
-//                mode = 0;
-//            }
-            pop();
-
         }
     }
 
@@ -975,12 +925,8 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         @Override
         public void onPostExecute(QCDoneState result) {
-//            if (mode == 0) {
             curItem = null;
             popNextItem(code, uomQty, defectQty, result.isDone());
-//            } else {
-//                popList(code, uomQty, result.isDone());
-//            }
         }
     }
 
@@ -1011,7 +957,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         @Override
         public void onPostExecute(QCDoneState result) {
             curItem = null;
-            popList(code, uomQty, result.isDone());
+            popNextItem(code, uomQty, "", result.isDone());
         }
     }
 
