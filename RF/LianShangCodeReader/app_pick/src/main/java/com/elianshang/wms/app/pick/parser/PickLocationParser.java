@@ -13,6 +13,10 @@ public class PickLocationParser extends MasterParser<PickLocation> {
         if (data != null) {
             bean = new PickLocation();
             JSONObject nextJson;
+            if (!has(data, "done")) {
+                return null;
+            }
+
             bean.setDone(optBoolean(data, "done"));
             bean.setPickDone(optBoolean(data, "pick_done"));
 

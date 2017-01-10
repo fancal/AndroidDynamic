@@ -810,11 +810,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             }
             new QcOneTask(that, qcTaskId, code, uomQty, defectQty).start();
         } else if (v == itemDealCaseButton1) {
-            Editable editable = scanUnknownCodeEditText.getText();
-            if (editable == null) {
-                return;
-            }
-            String containerId = editable.toString();
+            String containerId = qcList.getContainerId();
             String code = curItem.getBarCode();
             String uomQty = itemInputQtyEditText.getValue();
             if (TextUtils.isEmpty(uomQty)) {
@@ -823,11 +819,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             }
             new DealCaseTask(that, containerId, code, uomQty, 1).start();
         } else if (v == itemDealCaseButton2) {
-            Editable editable = scanUnknownCodeEditText.getText();
-            if (editable == null) {
-                return;
-            }
-            String containerId = editable.toString();
+            String containerId = qcList.getContainerId();
             String code = curItem.getBarCode();
             String uomQty = itemInputQtyEditText.getValue();
             if (TextUtils.isEmpty(uomQty)) {
@@ -836,11 +828,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             }
             new DealCaseTask(that, containerId, code, uomQty, 2).start();
         } else if (v == itemDealCaseButton3) {
-            Editable editable = scanUnknownCodeEditText.getText();
-            if (editable == null) {
-                return;
-            }
-            String containerId = editable.toString();
+            String containerId = qcList.getContainerId();
             String code = curItem.getBarCode();
             String uomQty = itemInputQtyEditText.getValue();
             if (TextUtils.isEmpty(uomQty)) {
