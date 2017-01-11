@@ -944,7 +944,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         @Override
         public void onPostExecute(QCDoneState result) {
             curItem = null;
-            popNextItem(code, uomQty, "", result.isDone());
+            popNextItem(code, uomQty, "0", result.isDone());
         }
     }
 
