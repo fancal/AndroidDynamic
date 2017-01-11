@@ -134,6 +134,8 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
 
     private TextView detailSkuCodeTextView;
 
+    private TextView detailPackCodeTextView;
+
     /**
      * 详情布局 规格TextView
      */
@@ -227,6 +229,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         detailItemNameTextView = (TextView) detailLayout.findViewById(R.id.itemName_TextView);
         detailBarcodeTextView = (TextView) detailLayout.findViewById(R.id.barcode_TextView);
         detailSkuCodeTextView = (TextView) detailLayout.findViewById(R.id.skuCode_TextView);
+        detailPackCodeTextView = (TextView) detailLayout.findViewById(R.id.packCode_TextView);
         detailPackNameTextView = (TextView) detailLayout.findViewById(R.id.packName_TextView);
         detailSystemQtyTextView = (TextView) detailLayout.findViewById(R.id.systemQty_TextView);
         detailAddButton = (Button) detailLayout.findViewById(R.id.add_Button);
@@ -390,6 +393,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
         detailItemNameTextView.setText(takeStockDetail.getItemName());
         detailBarcodeTextView.setText(takeStockDetail.getBarcode());
         detailSkuCodeTextView.setText(takeStockDetail.getSkuCode());
+        detailPackCodeTextView.setText(takeStockDetail.getPackCode());
         detailPackNameTextView.setText(takeStockDetail.getPackName());
 
         if ("1".equals(takeStockDetail.getViewType())) {
@@ -411,17 +415,19 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     private void addItemView() {
         View view = View.inflate(that, R.layout.takestock_input_item, null);
 
-        ScanEditText nameEditText = (ScanEditText) view.findViewById(R.id.barcode_edittext);
-        QtyEditText qtyEditText = (QtyEditText) view.findViewById(R.id.realityqty_edittext);
+        ScanEditText barcodeEditText = (ScanEditText) view.findViewById(R.id.barcode_edittext);
+        QtyEditText qtyEditText = (QtyEditText) view.findViewById(R.id.qty_EditText);
+        QtyEditText scatterQtyEditText = (QtyEditText) view.findViewById(R.id.scatterQty_EditText);
 
-        scanEditTextTool.addEditText(nameEditText, qtyEditText);
+        scanEditTextTool.addEditText(barcodeEditText, qtyEditText);
 
         detailInputLayout.addView(view);
-        nameEditText.requestFocus();
+        barcodeEditText.requestFocus();
 
         ViewHolder vh = new ViewHolder();
-        vh.nameEditText = nameEditText;
+        vh.barcodeEditText = barcodeEditText;
         vh.qtyEditText = qtyEditText;
+        vh.scatterQtyEditText = scatterQtyEditText;
         vhList.add(vh);
     }
 
@@ -498,8 +504,9 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
             jsonObject.put("locationCode", locationCode);
 
             for (ViewHolder vh : vhList) {
-                String barCode = vh.nameEditText.getText().toString();
+                String barCode = vh.barcodeEditText.getText().toString();
                 String qty = vh.qtyEditText.getValue();
+                String scatterQty = vh.scatterQtyEditText.getValue();
 
                 if (TextUtils.isEmpty(barCode) || TextUtils.isEmpty(qty)) {
                     state = false;
@@ -507,6 +514,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
                     JSONObject jso = new JSONObject();
                     jso.put("barcode", barCode);
                     jso.put("qty", qty);
+                    jso.put("scatterQty", scatterQty);
                     jsonarray.put(jso);
                 }
             }
@@ -573,8 +581,9 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
     }
 
     private class ViewHolder {
-        ScanEditText nameEditText;
+        ScanEditText barcodeEditText;
         QtyEditText qtyEditText;
+        QtyEditText scatterQtyEditText;
     }
 
     /**

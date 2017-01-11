@@ -2,27 +2,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginTop="5dp"
-    android:orientation="horizontal"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:layout_marginBottom="2dp"
+    android:layout_marginTop="2dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="国条码："
+        android:textSize="14dp" />
 
     <com.elianshang.bridge.ui.view.ScanEditText
         android:id="@+id/barcode_edittext"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
         android:gravity="center"
         android:textSize="14dp" />
 
-    <com.elianshang.bridge.ui.view.QtyEditText
-        android:id="@+id/realityqty_edittext"
-        android:layout_width="0dp"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:inputType="numberDecimal"
+        android:text="数量："
         android:textSize="14dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.elianshang.bridge.ui.view.QtyEditText
+            android:id="@+id/qty_EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:minWidth="60dp"
+            android:nextFocusDown="@+id/scatterQty_EditText"
+            android:nextFocusRight="@+id/scatterQty_EditText"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="箱"
+            android:textSize="14dp" />
+
+        <com.elianshang.bridge.ui.view.QtyEditText
+            android:id="@+id/scatterQty_EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:minWidth="60dp"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EA"
+            android:textSize="14dp" />
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -220,6 +220,7 @@
                     android:id="@+id/item_qty_real"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:inputType="numberDecimal"
                     android:minWidth="60dp"
                     android:nextFocusDown="@+id/item_scatterQty_real"
@@ -236,6 +237,7 @@
                     android:id="@+id/item_scatterQty_real"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:inputType="numberDecimal"
                     android:minWidth="60dp"
                     android:textSize="14dp" />

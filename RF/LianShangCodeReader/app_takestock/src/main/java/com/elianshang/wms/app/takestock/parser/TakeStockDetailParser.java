@@ -24,6 +24,7 @@ public class TakeStockDetailParser extends MasterParser<TakeStockDetail> {
             String qty = optString(data, "qty");
             String barcode = optString(data, "barcode");
             String skuCode = optString(data, "skuCode");
+            String packCode = optString(data, "packCode");
 
             if (!TextUtils.isEmpty(locationCode)) {
                 TakeStockDetail detail = new TakeStockDetail();
@@ -35,6 +36,7 @@ public class TakeStockDetailParser extends MasterParser<TakeStockDetail> {
                 detail.setQty(qty);
                 detail.setBarcode(barcode);
                 detail.setSkuCode(skuCode);
+                detail.setPackCode(packCode);
 
                 return detail;
             }

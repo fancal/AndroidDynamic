@@ -20,6 +20,16 @@ public class TakeStockDetail implements BaseBean {
 
     private String skuCode ;
 
+    private String packCode ;
+
+    public String getPackCode() {
+        return packCode;
+    }
+
+    public void setPackCode(String packCode) {
+        this.packCode = packCode;
+    }
+
     public String getBarcode() {
         return barcode;
     }

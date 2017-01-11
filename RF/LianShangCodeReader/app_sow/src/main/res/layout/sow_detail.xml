@@ -227,8 +227,11 @@
                     android:id="@+id/inputQty_EditView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:inputType="numberDecimal"
                     android:minWidth="60dp"
+                    android:nextFocusDown="@+id/inputScatterQty_EditView"
+                    android:nextFocusRight="@+id/inputScatterQty_EditView"
                     android:textSize="14dp" />
 
                 <TextView
@@ -241,6 +244,7 @@
                     android:id="@+id/inputScatterQty_EditView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:inputType="numberDecimal"
                     android:minWidth="60dp"
                     android:textSize="14dp" />
