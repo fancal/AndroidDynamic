@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
+import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.wms.app.atticshelve.bean.Restore;
 import com.elianshang.wms.app.atticshelve.provider.RestoreProvider;
@@ -26,6 +27,12 @@ public class MainActivity extends DLBasePluginActivity {
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
+
+//        uId = "2";
+//        uToken = "131133941499842";
+
+        ScanManager.init(that);
+
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
             return false;
