@@ -120,8 +120,6 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
                 showLoadingDialog();
                 DataHull<T> dh = doInBackground();
 
-                dismissLoadingDialog();
-
                 final DataHull<T> dataHull = dh;
 
                 if (!isCancel()) {
@@ -141,7 +139,6 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
                         }
                         return null;
                     } else {
-
 
                         this.message = dataHull.getMessage();
                         this.status = dataHull.getStatus();
@@ -249,7 +246,7 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
         } catch (Exception e) {
             // 线程异常
             e.printStackTrace();
-            dismissLoadingDialog();
+
             if (context instanceof Activity && !((Activity) context).isDestroyed()) {
 
                 postUI(this, new WeakReferenceHandler.WeakReferenceHandlerRunnalbe<HttpAsyncTask>() {
@@ -263,6 +260,8 @@ public abstract class HttpAsyncTask<T extends BaseBean> extends BaseTaskImpl<Dat
                     }
                 });
             }
+        } finally {
+            dismissLoadingDialog();
         }
 
         return null;
