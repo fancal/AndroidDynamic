@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
+import com.elianshang.bridge.tool.FloatUtils;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
@@ -31,7 +32,6 @@ import com.elianshang.wms.app.qc.provider.ConfirmProvider;
 import com.elianshang.wms.app.qc.provider.DealCaseProvider;
 import com.elianshang.wms.app.qc.provider.QCOneItemProvider;
 import com.elianshang.wms.app.qc.provider.ScanProvider;
-import com.elianshang.wms.app.qc.util.DataFormat;
 import com.xue.http.impl.DataHull;
 
 import java.util.Collections;
@@ -399,7 +399,6 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         startTaskIdTextView.setText(qcList.getQcTaskId());
         startPickerNameTextView.setText(qcList.getPickerName());
-        startStateTextView.setText(qcList.isFirst() ? "未完成" : (qcList.isQcDone() ? "完成" : "QC异常"));
         startCollectionCodeTextView.setText(qcList.getCollectionRoadCode());
         startStoreNameTextView.setText(qcList.getCustomerName());
         startStoreNoTextView.setText(qcList.getCustomerCode());
@@ -409,6 +408,27 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         startSkipButton.setVisibility(qcList.isFirst() ? View.VISIBLE : View.GONE);
         startContainerIdTextView.setText(qcList.getContainerId());
 
+        if (qcList.isFirst()) {
+            startStateTextView.setText("未完成");
+        } else {
+            if (qcList.isQcDone()) {
+                startStateTextView.setText("完成");
+            } else {
+                boolean flag = true;
+                for (QcList.Item item : qcList) {
+                    if (!item.isQcDone()) {
+                        flag = false;
+                        break;
+                    }
+                }
+
+                if (flag) {
+                    startStateTextView.setText("未组盘");
+                } else {
+                    startStateTextView.setText("QC异常");
+                }
+            }
+        }
     }
 
     /**
@@ -550,7 +570,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
             QcList.Item item = qcList.get(i);
             if (TextUtils.equals(barCode, item.getBarCode())) {//QC过了的,就改变下状态
                 item.setFirst(false);
-                item.setQcDone(TextUtils.equals(DataFormat.getFormatValue(item.getUomQty()), uomQty) && (TextUtils.equals(defectQty, "0")));
+                item.setQcDone(FloatUtils.equals(item.getUomQty(), uomQty) && (FloatUtils.equals(defectQty, "0")));
             }
         }
 
@@ -943,6 +963,9 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
 
         @Override
         public void onPostExecute(QCDoneState result) {
+            if (1 == type) {//忽略异常，提交数量后，把数量虚报为正常数量，方便页面逻辑流转
+                uomQty = curItem.getUomQty();
+            }
             curItem = null;
             popNextItem(code, uomQty, "0", result.isDone());
         }
