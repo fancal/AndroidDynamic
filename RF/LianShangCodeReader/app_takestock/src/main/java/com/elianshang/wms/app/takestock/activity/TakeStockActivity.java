@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
+import com.elianshang.bridge.tool.FloatUtils;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ContentEditText;
@@ -508,7 +509,7 @@ public class TakeStockActivity extends DLBasePluginActivity implements ScanManag
                 String qty = vh.qtyEditText.getValue();
                 String scatterQty = vh.scatterQtyEditText.getValue();
 
-                if (TextUtils.isEmpty(barCode) || TextUtils.isEmpty(qty)) {
+                if (TextUtils.isEmpty(barCode) || ((TextUtils.isEmpty(qty) || FloatUtils.equals(qty, "0")) && (TextUtils.isEmpty(scatterQty) || FloatUtils.equals(scatterQty, "0")))) {
                     state = false;
                 } else {
                     JSONObject jso = new JSONObject();
