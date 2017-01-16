@@ -147,12 +147,12 @@ public class StockTransferController extends BaseStockTransferController impleme
                 }
             } else if (TextUtils.equals("2", curTransfer.getType())) {
                 if (!check) {
-                    DialogTools.showTwoButtonDialog(activity, "扫描的库位与推荐的库位不一致，确认移入", "确认", "取消", new DialogInterface.OnClickListener() {
+                    DialogTools.showTwoButtonDialog(activity, "扫描的库位与推荐的库位不一致，确认移入", "取消", "确认", null, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             submit(s);
                         }
-                    }, null, true);
+                    }, true);
                 } else {
                     submit(s);
                 }

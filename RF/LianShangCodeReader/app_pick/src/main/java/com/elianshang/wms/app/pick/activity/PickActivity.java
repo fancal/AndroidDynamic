@@ -627,19 +627,19 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         } else if (v == locationLayoutSplitButton) {
             fillSplit();
         } else if (v == locationLayoutSkipButton) {
-            DialogTools.showTwoButtonDialog(that, "确认跳过当前的拣货项：" + mPick.getItemName(), "确认", "取消", new DialogInterface.OnClickListener() {
+            DialogTools.showTwoButtonDialog(that, "确认跳过当前的拣货项：" + mPick.getItemName(), "取消", "确认", null, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     new RequestSkipTask(that, mPick.getPickTaskId(), mPick.getPickOrder()).start();
                 }
-            }, null, true);
+            }, true);
         } else if (v == locationLayoutHoldButton) {
-            DialogTools.showTwoButtonDialog(that, "确认挂起拣货任务：" + mPick.getPickTaskId(), "确认", "取消", new DialogInterface.OnClickListener() {
+            DialogTools.showTwoButtonDialog(that, "确认挂起拣货任务：" + mPick.getPickTaskId(), "取消", "确认", null, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     new RequestHoldTask(that, mPick.getPickTaskId()).start();
                 }
-            }, null, true);
+            }, true);
         }
     }
 
