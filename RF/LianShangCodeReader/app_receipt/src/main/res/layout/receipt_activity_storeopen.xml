@@ -59,7 +59,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="商品国条码:"
+            android:text="商品国条码或箱码:"
             android:textSize="14dp" />
 
         <com.elianshang.bridge.ui.view.ScanEditText

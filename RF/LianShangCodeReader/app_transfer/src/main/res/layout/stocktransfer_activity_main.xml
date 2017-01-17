@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="请扫描国条码（选填）："
+                    android:text="请扫描国条码或箱码（选填）："
                     android:textSize="14dp" />
 
                 <com.elianshang.bridge.ui.view.ScanEditText

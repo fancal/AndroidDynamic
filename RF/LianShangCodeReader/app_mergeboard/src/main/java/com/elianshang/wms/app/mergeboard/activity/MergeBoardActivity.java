@@ -198,12 +198,12 @@ public class MergeBoardActivity extends DLBasePluginActivity implements ScanMana
             return;
         }
         //允许托盘码相同
-//        for (ViewHolder viewHolder : vhList) {
-//            if (TextUtils.equals(containerId, viewHolder.containerIdEditText.getText().toString())) {
-//                ToastTool.show(that, "该托盘码已经存在");
-//                return;
-//            }
-//        }
+        for (ViewHolder viewHolder : vhList) {
+            if (TextUtils.equals(containerId, viewHolder.containerIdEditText.getText().toString())) {
+                ToastTool.show(that, "该托盘码已经存在");
+                return;
+            }
+        }
 
         final View view = View.inflate(that, R.layout.mergeboard_input_item_view, null);
 
