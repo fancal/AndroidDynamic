@@ -95,9 +95,9 @@ public class ScanActivity extends DLBasePluginActivity implements ScanManager.On
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
-        uId = "1";
-        uToken = "278429844921591";
-        ScanManager.init(that);
+//        uId = "1";
+//        uToken = "278429844921591";
+//        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();

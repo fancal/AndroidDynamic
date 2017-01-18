@@ -20,6 +20,7 @@ import com.elianshang.bridge.ui.view.QtyEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.back.R;
 import com.elianshang.wms.app.back.bean.BackList;
@@ -83,6 +84,8 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
 
     private boolean isItemClick;
 
+    private static String serialNumber;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +127,7 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
     private void next() {
         if (curPos + 1 == backList.size()) {
             ToastTool.show(that, "返仓操作完成");
-            setResult(RESULT_OK);
+            that.setResult(RESULT_OK);
             finish();
             return;
         }
@@ -135,6 +138,8 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
     }
 
     private void fillLocationModeView() {
+        serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
+
         locationCodeLayout.setVisibility(View.VISIBLE);
         qtyLayout.setVisibility(View.GONE);
         skipButton.setVisibility(View.VISIBLE);
@@ -292,7 +297,7 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
 
         @Override
         public DataHull<ResponseState> doInBackground() {
-            return DoProvider.request(context, uId, uToken, locationCode, barcode, umoQty, scatterQty);
+            return DoProvider.request(context, uId, uToken, locationCode, barcode, umoQty, scatterQty, serialNumber);
         }
 
         @Override
