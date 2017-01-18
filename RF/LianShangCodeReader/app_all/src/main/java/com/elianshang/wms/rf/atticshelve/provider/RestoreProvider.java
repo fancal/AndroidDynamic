@@ -17,7 +17,7 @@ import java.util.List;
 
 public class RestoreProvider {
 
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.qatest2.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -63,6 +63,5 @@ public class RestoreProvider {
         OkHttpHandler<Restore> handler = new OkHttpHandler();
         DataHull<Restore> dataHull = handler.requestData(parameter);
         return dataHull;
-
     }
 }

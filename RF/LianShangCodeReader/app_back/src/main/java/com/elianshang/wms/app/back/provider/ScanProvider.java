@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class ScanProvider {
 
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.qatest2.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -42,13 +42,13 @@ public class ScanProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "deng";
+    private static final String _function = "/back/in_storage/getPickLocation";
 
     private static final String uId = "uid";
 
     private static final String uToken = "utoken";
 
-    private static final String codeList = "codeList";
+    private static final String barcodeList = "barcodeList";
 
     public static DataHull<BackList> request(Context context, String uId, String uToken, String codeList) {
         String url = base_url + _function;
@@ -62,7 +62,7 @@ public class ScanProvider {
         headers.add(new DefaultKVPBean(ScanProvider.uToken, uToken));
 
         List<BaseKVP> params = new ArrayList<>();
-        params.add(new DefaultKVPBean(ScanProvider.codeList, codeList));
+        params.add(new DefaultKVPBean(ScanProvider.barcodeList, codeList));
         int type = BaseHttpParameter.Type.POST;
 
         HttpDynamicParameter<BackListParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new BackListParser(), 0);

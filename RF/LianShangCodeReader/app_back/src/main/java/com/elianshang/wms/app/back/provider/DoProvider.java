@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class DoProvider {
 
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
+    private static final String base_url = "http://static.qatest2.rf.lsh123.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -42,7 +42,7 @@ public class DoProvider {
      */
     private static final String api_version = "api-version";
 
-    private static final String _function = "deng";
+    private static final String _function = "/back/in_storage/scanLocation";
 
     private static final String uId = "uid";
 
@@ -52,9 +52,11 @@ public class DoProvider {
 
     private static final String barcode = "barcode";
 
-    private static final String qty = "qty";
+    private static final String umoQty = "umoQty";
 
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String locationCode, String barcode, String qty) {
+    private static final String scatterQty = "scatterQty";
+
+    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String locationCode, String barcode, String umoQty, String scatterQty) {
         String url = base_url + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -68,7 +70,8 @@ public class DoProvider {
         List<BaseKVP> params = new ArrayList<>();
         params.add(new DefaultKVPBean(DoProvider.locationCode, locationCode));
         params.add(new DefaultKVPBean(DoProvider.barcode, barcode));
-        params.add(new DefaultKVPBean(DoProvider.qty, qty));
+        params.add(new DefaultKVPBean(DoProvider.umoQty, umoQty));
+        params.add(new DefaultKVPBean(DoProvider.scatterQty, scatterQty));
 
         int type = BaseHttpParameter.Type.POST;
 

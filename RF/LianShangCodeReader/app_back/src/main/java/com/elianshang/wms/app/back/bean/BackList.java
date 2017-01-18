@@ -2,6 +2,7 @@ package com.elianshang.wms.app.back.bean;
 
 import com.xue.http.hook.BaseBean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class BackList implements BaseBean {
@@ -44,6 +45,14 @@ public class BackList implements BaseBean {
         return list.get(pos);
     }
 
+    public int size() {
+        if (list == null) {
+            return 0;
+        }
+
+        return list.size();
+    }
+
     @Override
     public void setDataKey(String dataKey) {
 
@@ -55,9 +64,9 @@ public class BackList implements BaseBean {
     }
 
 
-    public static class Item {
+    public static class Item implements Serializable {
 
-        String itemName;
+        String skuName;
 
         String barcode;
 
@@ -69,16 +78,6 @@ public class BackList implements BaseBean {
 
         String locationCode;
 
-        String status;
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
         public String getLocationCode() {
             return locationCode;
         }
@@ -87,12 +86,12 @@ public class BackList implements BaseBean {
             this.locationCode = locationCode;
         }
 
-        public String getItemName() {
-            return itemName;
+        public String getSkuName() {
+            return skuName;
         }
 
-        public void setItemName(String itemName) {
-            this.itemName = itemName;
+        public void setSkuName(String skuName) {
+            this.skuName = skuName;
         }
 
         public String getBarcode() {

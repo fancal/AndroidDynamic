@@ -1,6 +1,7 @@
 package com.elianshang.wms.app.back.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
+import com.elianshang.bridge.tool.DialogTools;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
@@ -36,6 +38,8 @@ public class ScanActivity extends DLBasePluginActivity implements ScanManager.On
     private LinearLayout inputLayout;
 
     private TextView titleTextView;
+
+    private TextView cleanTextView;
 
     private Button submitButton;
 
@@ -67,9 +71,11 @@ public class ScanActivity extends DLBasePluginActivity implements ScanManager.On
 
         inputLayout = (LinearLayout) findViewById(R.id.input_Layout);
         titleTextView = (TextView) findViewById(R.id.title_TextView);
+        cleanTextView = (TextView) findViewById(R.id.clean_TextView);
         submitButton = (Button) findViewById(R.id.submit_Button);
 
         submitButton.setOnClickListener(this);
+        cleanTextView.setOnClickListener(this);
         submitButton.setEnabled(false);
 
         initToolbar();
@@ -89,8 +95,8 @@ public class ScanActivity extends DLBasePluginActivity implements ScanManager.On
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
 
-        uId = "2";
-        uToken = "1231231231231";
+        uId = "1";
+        uToken = "278429844921591";
         ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
@@ -147,6 +153,13 @@ public class ScanActivity extends DLBasePluginActivity implements ScanManager.On
 
         if (submitButton == v) {
             new ScanTask(that, getCodeListString()).start();
+        } else if (v == cleanTextView) {
+            DialogTools.showTwoButtonDialog(that, "确认清空所有品项", "取消", "确定", null, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    cleanItemView();
+                }
+            }, true);
         }
     }
 
@@ -194,8 +207,10 @@ public class ScanActivity extends DLBasePluginActivity implements ScanManager.On
 
         if (vhList.size() < 1) {
             submitButton.setEnabled(false);
+            cleanTextView.setVisibility(View.GONE);
         } else {
             submitButton.setEnabled(true);
+            cleanTextView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -211,9 +226,20 @@ public class ScanActivity extends DLBasePluginActivity implements ScanManager.On
 
         if (vhList.size() < 1) {
             submitButton.setEnabled(false);
+            cleanTextView.setVisibility(View.GONE);
         } else {
             submitButton.setEnabled(true);
+            cleanTextView.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void cleanItemView() {
+        inputLayout.removeAllViews();
+        vhList.clear();
+
+        titleTextView.setText("请扫描添加托盘码:");
+        submitButton.setEnabled(false);
+        cleanTextView.setVisibility(View.GONE);
     }
 
     private String getCodeListString() {

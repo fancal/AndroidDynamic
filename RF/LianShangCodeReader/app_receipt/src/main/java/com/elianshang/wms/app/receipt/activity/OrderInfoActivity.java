@@ -415,7 +415,6 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
             dueDataCheckBox.setChecked(true);
             preDataCheckBox.setChecked(false);
             keyboardUtil.setYearAsc(true);
-
         }
     }
 
@@ -596,7 +595,6 @@ public class OrderInfoActivity extends DLBasePluginActivity implements View.OnCl
         @Override
         public void netErr(String errMsg) {
             super.netErr(errMsg);
-
         }
     }
 }

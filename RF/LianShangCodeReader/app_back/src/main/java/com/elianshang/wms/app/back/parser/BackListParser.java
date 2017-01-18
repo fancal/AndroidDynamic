@@ -11,7 +11,7 @@ public class BackListParser extends MasterParser<BackList> {
     public BackList parse(JSONObject data) throws Exception {
         BackList backList = null;
         if (data != null) {
-            JSONArray array = optJSONArray(data, "list");
+            JSONArray array = optJSONArray(data, "locationList");
             int len = getLength(array);
 
             if (len > 0) {
@@ -23,7 +23,7 @@ public class BackListParser extends MasterParser<BackList> {
                     if (object != null) {
                         BackList.Item item = new BackList.Item();
 
-                        item.setItemName(optString(object, "itemName"));
+                        item.setSkuName(optString(object, "skuName"));
                         item.setBarcode(optString(object, "barcode"));
                         item.setSkuCode(optString(object, "skuCode"));
                         item.setPackCode(optString(object, "packCode"));
