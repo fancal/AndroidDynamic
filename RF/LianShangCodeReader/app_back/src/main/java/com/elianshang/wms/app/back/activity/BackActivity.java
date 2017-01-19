@@ -100,6 +100,22 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (ScanManager.get() != null) {
+            ScanManager.get().addListener(this);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (ScanManager.get() != null) {
+            ScanManager.get().removeListener(this);
+        }
+    }
+
     private void findView() {
         progressTextView = (TextView) findViewById(R.id.progress_TextView);
         itemNameTextView = (TextView) findViewById(R.id.itemName_TextView);
@@ -191,12 +207,16 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
 
     @Override
     public void onBackPressed() {
-        DialogTools.showTwoButtonDialog(that, "批量返仓未完成，退出后将不会记录未做的返仓项目", "取消", "确定", null, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        }, true);
+        if (qtyLayout.getVisibility() == View.VISIBLE) {
+            fillLocationModeView();
+        } else {
+            DialogTools.showTwoButtonDialog(that, "批量返仓未完成，退出后将不会记录未做的返仓项目", "取消", "确定", null, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            }, true);
+        }
     }
 
     private boolean readExtra() {
@@ -260,13 +280,7 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
         final String locationCode = locationCodeEditText.getText().toString();
 
         if (!TextUtils.equals(locationCode, curItem.getLocationCode())) {
-            DialogTools.showTwoButtonDialog(that, "扫描的库位与推荐的库位不符，请确认移入", "取消", "确定", null, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    locationCodeTextView.setText(locationCode);
-                    fillQtyModeView();
-                }
-            }, true);
+            ToastTool.show(that, "与指定库位不一致，不能移入");
         } else {
             fillQtyModeView();
         }
