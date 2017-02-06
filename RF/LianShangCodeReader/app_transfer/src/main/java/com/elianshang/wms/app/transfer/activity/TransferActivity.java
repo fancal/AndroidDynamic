@@ -28,8 +28,6 @@ import com.elianshang.wms.app.transfer.bean.Transfer;
 import com.elianshang.wms.app.transfer.controller.StockTransferController;
 import com.elianshang.wms.app.transfer.view.StockTransferView;
 
-import static com.elianshang.wms.app.transfer.R.id.location;
-
 
 /**
  * 移库操作页
@@ -230,7 +228,7 @@ public class TransferActivity extends DLBasePluginActivity implements ScanEditTe
         mItemQtyRealContainerView = mItemView.findViewById(R.id.item_qty_real_container);
         mItemLocationView = (TextView) mItemView.findViewById(R.id.item_locationCode);
 
-        mLocationView = findViewById(location);
+        mLocationView = findViewById(R.id.location);
 
         mLocationCodeView = (TextView) mLocationView.findViewById(R.id.location_id);
         mLocationCodeConfirmView = (ScanEditText) mLocationView.findViewById(R.id.confirm_location_id);
