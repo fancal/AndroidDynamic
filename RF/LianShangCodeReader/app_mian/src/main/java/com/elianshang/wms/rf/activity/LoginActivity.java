@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
@@ -23,10 +25,13 @@ import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.tools.UITool;
 import com.elianshang.wms.rf.BaseApplication;
+import com.elianshang.wms.rf.PreferencesManager;
 import com.elianshang.wms.rf.R;
 import com.elianshang.wms.rf.bean.User;
 import com.elianshang.wms.rf.provider.LoginProvider;
 import com.xue.http.impl.DataHull;
+
+import static com.elianshang.bridge.tool.HostTool.hosts;
 
 /**
  * 登录页面
@@ -107,12 +112,25 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
     }
 
     private void checkHost() {
-        if (HostTool.hosts.length > 1) {
-            showChooseDialog(HostTool.hosts);
-            warehouseLayout.setVisibility(View.VISIBLE);
-        } else {
+        if (hosts.length == 1) {
             warehouseLayout.setVisibility(View.GONE);
+            return;
         }
+
+        warehouseLayout.setVisibility(View.VISIBLE);
+
+        String hostUrl = PreferencesManager.get().getHost();
+        if (!TextUtils.isEmpty(hostUrl)) {
+            for (HostTool.HostElement hostElement : hosts) {
+                if (TextUtils.equals(hostElement.getHostUrl(), hostUrl)) {
+                    HostTool.curHost = hostElement;
+                    warehouseTextView.setText("当前仓库：" + hostElement.getHostName());
+                    return;
+                }
+            }
+        }
+
+        showChooseDialog();
     }
 
     @Override
@@ -148,7 +166,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
             String passWd = passWdEditText.getText().toString().trim();
             new RequestLoginTask(LoginActivity.this, userName, passWd).start();
         } else if (v == chooseButton) {
-            checkHost();
+            showChooseDialog();
         }
     }
 
@@ -162,16 +180,20 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
         loginButton.setEnabled(false);
     }
 
-    private void showChooseDialog(final HostTool.HostElement[] hosts) {
+    private void showChooseDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         builder.setTitle("选择仓库");
 
         final AlertDialog dialog = builder.create();
 
+        final ScrollView scrollView = new ScrollView(this);
+        scrollView.setLayoutParams(new WindowManager.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         final LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setLayoutParams(new WindowManager.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        scrollView.addView(linearLayout);
 
         for (int i = 0; i < hosts.length; i++) {
             final TextView textView = new TextView(this);
@@ -189,6 +211,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
                 @Override
                 public void onClick(View v) {
                     HostTool.curHost = hostElement;
+                    PreferencesManager.get().setHost(hostElement.getHostUrl());
                     warehouseTextView.setText("当前仓库：" + hostElement.getHostName());
                     dialog.cancel();
                 }
@@ -196,7 +219,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
 
             linearLayout.addView(textView);
         }
-        dialog.setView(linearLayout);
+        dialog.setView(scrollView);
         dialog.show();
     }
 
