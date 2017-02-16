@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -45,16 +44,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private boolean clickWait = false;
 
-    private Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 1) {
-                clickWait = false;
-            }
-        }
-    };
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -177,12 +166,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 
         clickWait = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                clickWait = false;
+            }
+        }, 500);
 
         PluginStarter starter = new PluginStarter(this, pluginSource);
         starter.execute();
-
-        handler.removeMessages(1);
-        handler.sendEmptyMessageDelayed(1, 500);
     }
 
     @Override
