@@ -3,6 +3,7 @@ package com.elianshang.wms.rf.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.rf.bean.ResponseState;
 import com.elianshang.wms.rf.parser.ResponseStateParser;
@@ -16,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LogoutProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     private static final String _function = "/user/logout";
 
@@ -46,7 +45,7 @@ public class LogoutProvider {
     private static final String uToken = "utoken";
 
     public static DataHull<ResponseState> request(Context context, String uId, String uToken) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(LogoutProvider.app_key, DeviceTool.getIMEI(context)));

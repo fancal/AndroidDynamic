@@ -3,6 +3,7 @@ package com.elianshang.wms.rf;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.wms.rf.asyn.UserSaveTaskSimple;
 import com.elianshang.wms.rf.bean.User;
@@ -74,9 +75,25 @@ public class BaseApplication extends Application {
             if (mUser == null) {
                 mUser = new User();
             }
+
+            getHost();
         }
 
         return mUser;
+    }
+
+    private void getHost() {
+        String hostUrl = PreferencesManager.get().getHost();
+        if (!TextUtils.isEmpty(hostUrl)) {
+            for (HostTool.HostElement hostElement : HostTool.hosts) {
+                if (TextUtils.equals(hostElement.getHostUrl(), hostUrl)) {
+                    HostTool.curHost = hostElement;
+                    return;
+                }
+            }
+        }
+
+        mUser = new User();
     }
 
     public String getUserId() {

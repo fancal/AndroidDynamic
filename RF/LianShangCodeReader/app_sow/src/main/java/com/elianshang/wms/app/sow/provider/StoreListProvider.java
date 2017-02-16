@@ -3,6 +3,7 @@ package com.elianshang.wms.app.sow.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.sow.bean.StoreList;
 import com.elianshang.wms.app.sow.parser.StoreListParser;
@@ -16,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StoreListProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -54,7 +53,7 @@ public class StoreListProvider {
     private static final String storeType = "storeType";
 
     public static DataHull<StoreList> request(Context context, String uId, String uToken, String barcode, String containerId, String orderId, String storeType) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(StoreListProvider.app_key, DeviceTool.getIMEI(context)));

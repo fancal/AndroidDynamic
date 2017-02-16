@@ -3,6 +3,7 @@ package com.elianshang.wms.app.pick.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.pick.bean.PickLocation;
 import com.elianshang.wms.app.pick.parser.PickLocationParser;
@@ -19,8 +20,6 @@ import java.util.List;
  * 领取任务接口
  */
 public class ScanPickProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -51,7 +50,7 @@ public class ScanPickProvider {
     private static final String taskList = "taskList";
 
     public static DataHull<PickLocation> request(Context context, String uId, String uToken, String taskList) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(ScanPickProvider.app_key, DeviceTool.getIMEI(context)));

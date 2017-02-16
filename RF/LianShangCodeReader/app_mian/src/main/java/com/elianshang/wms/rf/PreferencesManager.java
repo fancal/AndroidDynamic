@@ -50,6 +50,16 @@ public class PreferencesManager {
     /**
      * 设置User
      */
+    public boolean setHost(String hostUrl) {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        return editor.putString("hostUrl", hostUrl).commit();
+    }
+
+    /**
+     * 设置User
+     */
     public boolean setUser(User user) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -87,6 +97,14 @@ public class PreferencesManager {
         }
 
         return null;
+    }
+
+    /**
+     * 设置User
+     */
+    public String getHost() {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(USER, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("hostUrl", null);
     }
 
 

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.wms.rf.BaseApplication;
 import com.elianshang.wms.rf.R;
@@ -87,7 +88,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         if (BaseApplication.get().isLogin()) {
-            logoutButton.setText("用户:(" + BaseApplication.get().getUser().getUserName() + ")登出");
+            logoutButton.setText("仓库:" + HostTool.curHost.getHostName() + " / 用户:" + BaseApplication.get().getUser().getUserName() + " 登出");
 
             boolean isNew = false;
             if (menuList == null) {

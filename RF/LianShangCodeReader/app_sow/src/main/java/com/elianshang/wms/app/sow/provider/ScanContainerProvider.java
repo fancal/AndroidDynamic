@@ -3,6 +3,7 @@ package com.elianshang.wms.app.sow.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.MD5Tool;
 import com.elianshang.wms.app.sow.bean.StoreList;
@@ -17,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScanContainerProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -70,7 +69,7 @@ public class ScanContainerProvider {
 
 
     public static DataHull<StoreList> request(Context context, String uid, String uToken, String taskId, String containerId, String qty, String scatterQty, String scanType, String storeNo, String exceptionCode, String serialNumber) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(ScanContainerProvider.app_key, DeviceTool.getIMEI(context)));

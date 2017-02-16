@@ -3,6 +3,7 @@ package com.elianshang.wms.app.procurement.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.procurement.bean.ResponseState;
 import com.elianshang.wms.app.procurement.parser.ResponseStateParser;
@@ -19,8 +20,6 @@ import java.util.List;
  * 领取任务接口
  */
 public class ZoneLogoutProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -52,7 +51,7 @@ public class ZoneLogoutProvider {
 
 
     public static DataHull<ResponseState> request(Context context, String uId, String uToken, String zoneId) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(ZoneLogoutProvider.app_key, DeviceTool.getIMEI(context)));
         headers.add(new DefaultKVPBean(ZoneLogoutProvider.platform, "2"));

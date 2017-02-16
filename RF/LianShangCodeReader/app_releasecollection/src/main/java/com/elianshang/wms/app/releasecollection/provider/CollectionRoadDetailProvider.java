@@ -3,6 +3,7 @@ package com.elianshang.wms.app.releasecollection.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.releasecollection.bean.CollectionRoadDetail;
 import com.elianshang.wms.app.releasecollection.parser.CollectionRoadDetailParser;
@@ -16,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionRoadDetailProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -51,7 +50,7 @@ public class CollectionRoadDetailProvider {
     private static final String locationCode = "locationCode";
 
     public static DataHull<CollectionRoadDetail> request(Context context, String uId, String uToken, String locationCode) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(CollectionRoadDetailProvider.app_key, DeviceTool.getIMEI(context)));

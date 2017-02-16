@@ -3,6 +3,7 @@ package com.elianshang.wms.app.procurement.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.MD5Tool;
 import com.elianshang.wms.app.procurement.bean.ProcurementNext;
@@ -20,8 +21,6 @@ import java.util.List;
  * 移库业务接口
  */
 public class ScanLocationProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -81,7 +80,7 @@ public class ScanLocationProvider {
 
 
     public static DataHull<ProcurementNext> request(Context context, String uId, String uToken, String type, String taskId, String locationCode, String uomQty, String scatterQty, String serialNumber) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(ScanLocationProvider.app_key, DeviceTool.getIMEI(context)));

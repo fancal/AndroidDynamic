@@ -3,6 +3,7 @@ package com.elianshang.wms.app.pick.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.MD5Tool;
 import com.elianshang.wms.app.pick.bean.Split;
@@ -20,8 +21,6 @@ import java.util.List;
  * 领取任务接口
  */
 public class SplitNewPickTaskProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -56,7 +55,7 @@ public class SplitNewPickTaskProvider {
     private static final String containerId = "containerId";
 
     public static DataHull<Split> request(Context context, String uId, String uToken, String taskId, String containerId , String serialNumber) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(SplitNewPickTaskProvider.app_key, DeviceTool.getIMEI(context)));

@@ -3,6 +3,7 @@ package com.elianshang.wms.app.sow.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.sow.bean.Restore;
 import com.elianshang.wms.app.sow.parser.RestoreParser;
@@ -16,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RestoreProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -46,7 +45,7 @@ public class RestoreProvider {
     private static final String uToken = "utoken";
 
     public static DataHull<Restore> request(Context context , String uId, String uToken) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(RestoreProvider.app_key, DeviceTool.getIMEI(context)));

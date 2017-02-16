@@ -3,6 +3,7 @@ package com.elianshang.wms.app.setofgoods.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.setofgoods.bean.SetOfGoodsView;
 import com.elianshang.wms.app.setofgoods.parser.SetOfGoodsViewParser;
@@ -16,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SetOfGoodsViewProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -48,7 +47,7 @@ public class SetOfGoodsViewProvider {
     private static final String containerId = "containerId";
 
     public static DataHull<SetOfGoodsView> request(Context context, String uId, String uToken, String containerId) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(SetOfGoodsViewProvider.app_key, DeviceTool.getIMEI(context)));

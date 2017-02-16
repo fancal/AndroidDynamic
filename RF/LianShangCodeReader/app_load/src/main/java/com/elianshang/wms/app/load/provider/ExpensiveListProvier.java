@@ -3,6 +3,7 @@ package com.elianshang.wms.app.load.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.load.bean.ExpensiveList;
 import com.elianshang.wms.app.load.parser.ExpensiveListParser;
@@ -19,8 +20,6 @@ import java.util.List;
  * Created by xfilshy on 16/8/18.
  */
 public class ExpensiveListProvier {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -51,7 +50,7 @@ public class ExpensiveListProvier {
     private static final String tuId = "tuId";
 
     public static DataHull<ExpensiveList> request(Context context, String uId, String uToken, String tuId) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(ExpensiveListProvier.app_key, DeviceTool.getIMEI(context)));

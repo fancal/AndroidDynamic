@@ -3,6 +3,7 @@ package com.elianshang.wms.app.transfer.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.transfer.bean.LocationView;
 import com.elianshang.wms.app.transfer.parser.LocationViewParser;
@@ -16,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewLocationProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -53,7 +52,7 @@ public class ViewLocationProvider {
     private static final String owner = "owner";
 
     public static DataHull<LocationView> request(Context context, String uId, String uToken, String locationCode, String barcode, String owner) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(ViewLocationProvider.app_key, DeviceTool.getIMEI(context)));

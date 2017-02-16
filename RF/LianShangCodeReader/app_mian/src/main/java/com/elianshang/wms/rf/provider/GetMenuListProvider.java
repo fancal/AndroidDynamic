@@ -3,6 +3,7 @@ package com.elianshang.wms.rf.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.rf.bean.MenuList;
 import com.elianshang.wms.rf.parser.MenuListParser;
@@ -16,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GetMenuListProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     private static final String _function = "/user/getMenuList";
 
@@ -47,7 +46,7 @@ public class GetMenuListProvider {
 
 
     public static DataHull<MenuList> request(Context context ,String uId, String uToken) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(GetMenuListProvider.app_key, DeviceTool.getIMEI(context)));

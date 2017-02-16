@@ -3,6 +3,7 @@ package com.elianshang.wms.app.qc.provider;
 import android.content.Context;
 
 import com.elianshang.bridge.http.HttpDynamicParameter;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.MD5Tool;
 import com.elianshang.wms.app.qc.bean.QCDoneState;
@@ -17,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DealCaseProvider {
-
-    private static final String base_url = "http://hd01.rf.wms.lsh123.wumart.com/api/wms/rf/v1";
 
     /**
      * app唯一标示传imei
@@ -57,7 +56,7 @@ public class DealCaseProvider {
     private static final String type = "type";
 
     public static DataHull<QCDoneState> request(Context context, String uId, String uToken, String containerId, String code, String uomQty, String type , String serialNumber) {
-        String url = base_url + _function;
+        String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
         headers.add(new DefaultKVPBean(DealCaseProvider.app_key, DeviceTool.getIMEI(context)));

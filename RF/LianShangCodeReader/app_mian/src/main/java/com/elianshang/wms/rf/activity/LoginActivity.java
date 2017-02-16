@@ -1,18 +1,27 @@
 package com.elianshang.wms.rf.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
+import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.bridge.tool.ScanEditTextTool;
 import com.elianshang.bridge.ui.view.ContentEditText;
+import com.elianshang.tools.UITool;
 import com.elianshang.wms.rf.BaseApplication;
 import com.elianshang.wms.rf.R;
 import com.elianshang.wms.rf.bean.User;
@@ -44,6 +53,12 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
      */
     private ContentEditText passWdEditText;
 
+    private View warehouseLayout;
+
+    private TextView warehouseTextView;
+
+    private TextView chooseButton;
+
     /**
      * 工具栏
      */
@@ -54,21 +69,27 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
      */
     private ScanEditTextTool scanEditTextTool;
 
-    private boolean isItemClick = false ;
+    private boolean isItemClick = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         findViews();
+
+        checkHost();
     }
 
     private void findViews() {
         loginButton = (Button) findViewById(R.id.login_Button);
         userNameEditText = (ContentEditText) findViewById(R.id.userName_EditText);
         passWdEditText = (ContentEditText) findViewById(R.id.passWd_EditText);
+        warehouseLayout = findViewById(R.id.warehouse_Layout);
+        warehouseTextView = (TextView) findViewById(R.id.warehouse_TextView);
+        chooseButton = (TextView) findViewById(R.id.choose_Button);
 
         loginButton.setOnClickListener(this);
+        chooseButton.setOnClickListener(this);
 
         scanEditTextTool = new ScanEditTextTool(this, userNameEditText, passWdEditText);
         scanEditTextTool.setComplete(this);
@@ -83,6 +104,15 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
                 finish();
             }
         });
+    }
+
+    private void checkHost() {
+        if (HostTool.hosts.length > 1) {
+            showChooseDialog(HostTool.hosts);
+            warehouseLayout.setVisibility(View.VISIBLE);
+        } else {
+            warehouseLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -117,6 +147,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
             String userName = userNameEditText.getText().toString().trim();
             String passWd = passWdEditText.getText().toString().trim();
             new RequestLoginTask(LoginActivity.this, userName, passWd).start();
+        } else if (v == chooseButton) {
+            checkHost();
         }
     }
 
@@ -128,6 +160,44 @@ public class LoginActivity extends Activity implements View.OnClickListener, Sca
     @Override
     public void onError(ContentEditText editText) {
         loginButton.setEnabled(false);
+    }
+
+    private void showChooseDialog(final HostTool.HostElement[] hosts) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setTitle("选择仓库");
+
+        final AlertDialog dialog = builder.create();
+
+        final LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setLayoutParams(new WindowManager.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        for (int i = 0; i < hosts.length; i++) {
+            final TextView textView = new TextView(this);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UITool.dipToPx(this, 60));
+            textView.setLayoutParams(layoutParams);
+            textView.setGravity(Gravity.CENTER);
+            textView.setTextColor(0xff000000);
+            textView.setBackgroundResource(R.drawable.white_button_bg);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+
+            final HostTool.HostElement hostElement = hosts[i];
+            textView.setText(hostElement.getHostName());
+
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HostTool.curHost = hostElement;
+                    warehouseTextView.setText("当前仓库：" + hostElement.getHostName());
+                    dialog.cancel();
+                }
+            });
+
+            linearLayout.addView(textView);
+        }
+        dialog.setView(linearLayout);
+        dialog.show();
     }
 
     private class RequestLoginTask extends HttpAsyncTask<User> {
