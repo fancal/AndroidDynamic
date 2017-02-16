@@ -301,6 +301,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (!MainActivity.this.isDestroyed()) {
                 BaseApplication.get().setUser(null);
                 LoginActivity.launch(MainActivity.this);
+                mRecyclerView.setAdapter(null);
+                adapter = null;
+                menuList = null;
             }
         }
     }
