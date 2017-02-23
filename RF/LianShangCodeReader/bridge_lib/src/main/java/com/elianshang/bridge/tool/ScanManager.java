@@ -87,7 +87,6 @@ public class ScanManager {
 
     void call(String code) {
         if (listeners != null && listeners.size() > 0) {
-            Log.d("xue" , "call listeners size " + listeners.size());
             for (OnBarCodeListener onBarCodeListener : listeners) {
                 try {
                     onBarCodeListener.OnBarCodeReceived(code);
