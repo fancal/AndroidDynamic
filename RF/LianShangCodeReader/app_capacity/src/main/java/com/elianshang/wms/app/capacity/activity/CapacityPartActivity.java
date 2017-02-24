@@ -17,6 +17,7 @@ import com.elianshang.bridge.ui.view.ContentEditText;
 import com.elianshang.bridge.ui.view.ScanEditText;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.dynamic.internal.DLIntent;
+import com.elianshang.tools.DeviceTool;
 import com.elianshang.wms.app.capacity.R;
 import com.elianshang.wms.app.capacity.bean.PartBean;
 import com.elianshang.wms.app.capacity.bean.ResponseState;
@@ -140,6 +141,8 @@ public class CapacityPartActivity extends DLBasePluginActivity implements ScanMa
             for (String locationCode : partBean.getCodes()) {
                 infoTextView.append("\t" + locationCode + "\n");
             }
+
+            serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
         } else {
             statusTextView.setText("库位不可拆分（" + partBean.getMsg() + "）");
 

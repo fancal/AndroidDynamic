@@ -39,8 +39,8 @@ public class ChooseActivity extends DLBasePluginActivity implements View.OnClick
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
-        uId = "2";
-        uToken = "131133941499842";
+//        uId = "2";
+//        uToken = "131133941499842";
 //        ScanManager.init(that);
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
