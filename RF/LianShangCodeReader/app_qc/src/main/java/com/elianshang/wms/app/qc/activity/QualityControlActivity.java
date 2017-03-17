@@ -25,9 +25,9 @@ import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.qc.R;
 import com.elianshang.wms.app.qc.adapter.MyAdapter;
+import com.elianshang.wms.app.qc.bean.ConfirmResponseState;
 import com.elianshang.wms.app.qc.bean.QCDoneState;
 import com.elianshang.wms.app.qc.bean.QcList;
-import com.elianshang.wms.app.qc.bean.ResponseState;
 import com.elianshang.wms.app.qc.provider.ConfirmProvider;
 import com.elianshang.wms.app.qc.provider.DealCaseProvider;
 import com.elianshang.wms.app.qc.provider.QCOneItemProvider;
@@ -971,7 +971,7 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
     }
 
-    private class ConfirmTask extends HttpAsyncTask<ResponseState> {
+    private class ConfirmTask extends HttpAsyncTask<ConfirmResponseState> {
 
         private String qcTaskId;
 
@@ -988,14 +988,23 @@ public class QualityControlActivity extends DLBasePluginActivity implements Scan
         }
 
         @Override
-        public DataHull<ResponseState> doInBackground() {
+        public DataHull<ConfirmResponseState> doInBackground() {
             return ConfirmProvider.request(context, uId, uToken, qcTaskId, boxNum, turnoverBoxNum, isSkip, serialNumber);
         }
 
         @Override
-        public void onPostExecute(ResponseState result) {
-            fillScanLayout();
+        public void onPostExecute(ConfirmResponseState result) {
             ToastTool.show(context, "QC完成");
+            if (result.isLoadState()) {
+                DialogTools.showOneButtonDialog(QualityControlActivity.this.that, "该集货道完成全部组盘，可以装车", "知道了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        fillScanLayout();
+                    }
+                }, false);
+            } else {
+                fillScanLayout();
+            }
         }
     }
 }

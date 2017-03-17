@@ -6,8 +6,8 @@ import com.elianshang.bridge.http.HttpDynamicParameter;
 import com.elianshang.bridge.tool.HostTool;
 import com.elianshang.tools.DeviceTool;
 import com.elianshang.tools.MD5Tool;
-import com.elianshang.wms.app.qc.bean.ResponseState;
-import com.elianshang.wms.app.qc.parser.ResponseStateParser;
+import com.elianshang.wms.app.qc.bean.ConfirmResponseState;
+import com.elianshang.wms.app.qc.parser.ConfirmResponseStateParser;
 import com.xue.http.hook.BaseHttpParameter;
 import com.xue.http.hook.BaseKVP;
 import com.xue.http.impl.DataHull;
@@ -57,7 +57,7 @@ public class ConfirmProvider {
 
     private static final String skip = "skip";
 
-    public static DataHull<ResponseState> request(Context context, String uId, String uToken, String qcTaskId, String boxNum, String turnoverBoxNum, boolean skip, String serialNumber) {
+    public static DataHull<ConfirmResponseState> request(Context context, String uId, String uToken, String qcTaskId, String boxNum, String turnoverBoxNum, boolean skip, String serialNumber) {
         String url = HostTool.curHost.getHostUrl() + _function;
 
         List<BaseKVP> headers = new ArrayList<>();
@@ -76,12 +76,12 @@ public class ConfirmProvider {
         params.add(new DefaultKVPBean(ConfirmProvider.skip, String.valueOf(skip)));
         int type = BaseHttpParameter.Type.POST;
 
-        HttpDynamicParameter<ResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ResponseStateParser(), 0);
+        HttpDynamicParameter<ConfirmResponseStateParser> parameter = new HttpDynamicParameter<>(url, headers, params, type, new ConfirmResponseStateParser(), 0);
 
         headers.add(new DefaultKVPBean(ConfirmProvider.serialNumber, MD5Tool.toMd5(serialNumber + parameter.encodeUrl())));
 
-        OkHttpHandler<ResponseState> handler = new OkHttpHandler();
-        DataHull<ResponseState> dataHull = handler.requestData(parameter);
+        OkHttpHandler<ConfirmResponseState> handler = new OkHttpHandler();
+        DataHull<ConfirmResponseState> dataHull = handler.requestData(parameter);
         return dataHull;
 
     }

@@ -12,8 +12,13 @@ public class ConfirmResponseStateParser extends MasterParser<ConfirmResponseStat
     public ConfirmResponseState parse(JSONObject data) throws Exception {
         if (data != null) {
             boolean state = getBoolean(data, "response");
+            boolean isCanLoad = getBoolean(data, "isCanLoad");
             if (state) {
-                return new ConfirmResponseState();
+                ConfirmResponseState confirmResponseState = new ConfirmResponseState();
+                confirmResponseState.setConfirmState(state);
+                confirmResponseState.setLoadState(isCanLoad);
+
+                return confirmResponseState;
             }
         }
         return null;
