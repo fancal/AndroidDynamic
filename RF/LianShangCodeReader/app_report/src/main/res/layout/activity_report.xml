@@ -16,6 +16,7 @@
         app:title="报损/报溢" />
 
     <TextView
+        android:id="@+id/title_TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -32,6 +33,7 @@
         android:paddingRight="20dip">
 
         <CheckBox
+            android:id="@+id/loss_CheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -40,6 +42,7 @@
             android:textSize="14dp" />
 
         <CheckBox
+            android:id="@+id/over_CheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -81,6 +84,7 @@
                             android:textSize="14dp" />
 
                         <com.elianshang.bridge.ui.view.ScanEditText
+                            android:id="@+id/locationCode_EditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="14dp" />
@@ -98,6 +102,7 @@
                             android:textSize="14dp" />
 
                         <com.elianshang.bridge.ui.view.ScanEditText
+                            android:id="@+id/barcode_EditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="14dp" />
@@ -168,8 +173,11 @@
                             android:textSize="14dp" />
 
                         <EditText
+                            android:id="@+id/owner_EditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:nextFocusDown="@+id/umoQty_EditView"
+                            android:singleLine="true"
                             android:textSize="14dp" />
                     </LinearLayout>
 
@@ -187,7 +195,7 @@
                             android:textSize="14dp" />
 
                         <com.elianshang.bridge.ui.view.QtyEditText
-                            android:id="@+id/inboundQty_EditView"
+                            android:id="@id/umoQty_EditView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -195,6 +203,7 @@
                             android:minWidth="60dp"
                             android:nextFocusDown="@+id/scatterQty_EditView"
                             android:nextFocusRight="@+id/scatterQty_EditView"
+                            android:singleLine="true"
                             android:textSize="14dp" />
 
                         <TextView
@@ -204,14 +213,13 @@
                             android:textSize="14dp" />
 
                         <com.elianshang.bridge.ui.view.QtyEditText
-                            android:id="@+id/scatterQty_EditView"
+                            android:id="@id/scatterQty_EditView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:inputType="numberDecimal"
                             android:minWidth="60dp"
-                            android:nextFocusDown="@+id/et_year"
-                            android:nextFocusRight="@+id/et_year"
+                            android:singleLine="true"
                             android:textSize="14dp" />
 
                         <TextView
