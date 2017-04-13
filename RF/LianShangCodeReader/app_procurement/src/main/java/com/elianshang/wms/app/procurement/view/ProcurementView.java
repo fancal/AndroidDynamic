@@ -9,6 +9,6 @@ public interface ProcurementView {
 
     void showLocationConfirmView(boolean isIn, String typeName, String taskId, String itemName, String barcode, String skuCode, String packName, String qty, String fromLocationCode, String toLocationCode, String locationName);
 
-    void showItemView(String typeName, String itemName, String barcode, String skuCode, String packName, String qty, String fromLocationCode, String toLocationCode, String locationName, String numQty);
+    void showItemView(String typeName, String itemName, String barcode, String skuCode, String packName, String qty, String remainQty, String fromLocationCode, String toLocationCode, String locationName, String numQty);
 
 }

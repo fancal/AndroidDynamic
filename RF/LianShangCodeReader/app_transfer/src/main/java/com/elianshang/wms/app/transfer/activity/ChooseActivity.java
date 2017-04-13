@@ -7,9 +7,17 @@ import android.view.View;
 import android.widget.Button;
 
 import com.elianshang.dynamic.DLBasePluginActivity;
+import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.transfer.R;
 
 public class ChooseActivity extends DLBasePluginActivity implements View.OnClickListener {
+
+    public static void launch(DLBasePluginActivity activity, String uId, String uToken) {
+        DLIntent intent = new DLIntent(activity.getPackageName(), ChooseActivity.class);
+        intent.putExtra("uId", uId);
+        intent.putExtra("uToken", uToken);
+        activity.startPluginActivity(intent);
+    }
 
     private String uId;
 

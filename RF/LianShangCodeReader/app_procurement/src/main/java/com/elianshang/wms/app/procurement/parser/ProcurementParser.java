@@ -26,6 +26,7 @@ public class ProcurementParser extends MasterParser<Procurement> {
             String itemName = optString(data, "itemName");
             String packName = optString(data, "packName");
             String qty = optString(data, "qty");
+            String remainQty = optString(data, "remainQty");
             String barcode = optString(data, "barcode");
             String skuCode = optString(data, "skuCode");
             String isFlashBack = optString(data, "isFlashBack");
@@ -49,6 +50,7 @@ public class ProcurementParser extends MasterParser<Procurement> {
                 procurement.setItemName(itemName);
                 procurement.setPackName(packName);
                 procurement.setQty(qty);
+                procurement.setRemainQty(remainQty);
                 procurement.setBarcode(barcode);
                 procurement.setSkuCode(skuCode);
                 procurement.setIsFlashBack(isFlashBack);

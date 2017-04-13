@@ -150,17 +150,6 @@
                 android:text="商品编码:"
                 android:textSize="14dp" />
 
-            <TextView
-                android:id="@+id/fromLocationCode_TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:text="移出库位"
-                android:textSize="14dp"
-                android:visibility="gone" />
-
-
             <LinearLayout
                 android:id="@+id/toLocationCode_Layout"
                 android:layout_width="wrap_content"
@@ -170,6 +159,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/toLocationCodeTitle_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="移入库位："
@@ -200,6 +190,15 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:text="商品数量:"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/remainQty_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="补货剩余数量"
                 android:textSize="14dp" />
 
             <LinearLayout

@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.ChooseActivity"
+            android:name=".activity.RestoreActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentDialog">
             <intent-filter>
@@ -23,10 +23,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.ChooseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TransparentDialog" />
+
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TransparentDialog"/>
+            android:theme="@style/TransparentDialog" />
         <activity
             android:name=".activity.TransferActivity"
             android:screenOrientation="portrait" />

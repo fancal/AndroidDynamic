@@ -23,6 +23,8 @@ public class Procurement implements BaseBean {
 
     private String qty;
 
+    private String remainQty;
+
     private String barcode;
 
     private String skuCode;
@@ -32,6 +34,14 @@ public class Procurement implements BaseBean {
     private String toLocationCode;
 
     private String isFlashBack ;
+
+    public String getRemainQty() {
+        return remainQty;
+    }
+
+    public void setRemainQty(String remainQty) {
+        this.remainQty = remainQty;
+    }
 
     public String getIsFlashBack() {
         return isFlashBack;

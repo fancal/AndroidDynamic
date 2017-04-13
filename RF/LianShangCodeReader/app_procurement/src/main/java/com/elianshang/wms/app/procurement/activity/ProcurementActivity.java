@@ -55,6 +55,11 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
      * 商品数量
      */
     private TextView mItemQtyView;
+
+    /**
+     * 补货剩余数量
+     */
+    private TextView mItemRemainQtyTextView;
     /**
      * 实际数量
      */
@@ -66,7 +71,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
      */
     private View mItemQtyRealContainerView;
 
-    private TextView mItemFromLocationTextView;
+    private TextView mItemToLocationTitleTextView;
 
     private TextView mItemToLocationTextView;
 
@@ -197,10 +202,11 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mItemSkuCodeView = (TextView) mItemView.findViewById(R.id.item_skuCode);
         mItemPackNameView = (TextView) mItemView.findViewById(R.id.item_pack_name);
         mItemQtyView = (TextView) mItemView.findViewById(R.id.item_qty);
+        mItemRemainQtyTextView = (TextView) mItemView.findViewById(R.id.remainQty_TextView);
         mItemQtyRealView = (QtyEditText) mItemView.findViewById(R.id.item_qty_real);
         mItemScatterQtyRealView = (QtyEditText) mItemView.findViewById(R.id.item_scatterQty_real);
         mItemQtyRealContainerView = mItemView.findViewById(R.id.item_qty_real_container);
-        mItemFromLocationTextView = (TextView) mItemView.findViewById(R.id.fromLocationCode_TextView);
+        mItemToLocationTitleTextView = (TextView) mItemView.findViewById(R.id.toLocationCodeTitle_TextView);
         mItemToLocationTextView = (TextView) mItemView.findViewById(R.id.toLocationCode_TextView);
         mItemToLocationTextLayout = mItemView.findViewById(R.id.toLocationCode_Layout);
         mItemLocationView = (TextView) mItemView.findViewById(R.id.item_locationCode);
@@ -311,15 +317,16 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
             mItemNameView.setVisibility(View.VISIBLE);
             mItemPackNameView.setVisibility(View.VISIBLE);
             mItemQtyView.setVisibility(View.VISIBLE);
-            mItemToLocationTextLayout.setVisibility(View.GONE);
+            mItemToLocationTextLayout.setVisibility(View.VISIBLE);
+            mItemRemainQtyTextView.setVisibility(View.GONE);
 
             mItemNameView.setText(itemName);
             mItemBarcodeView.setText(barcode);
             mItemSkuCodeView.setText(skuCode);
             mItemPackNameView.setText(packName);
-            mItemFromLocationTextView.setText(fromLocationCode);
-            mItemToLocationTextView.setText(toLocationCode);
             mItemQtyView.setText(qty);
+            mItemToLocationTitleTextView.setText("移出库位：");
+            mItemToLocationTextView.setText(fromLocationCode);
         } else {
             mItemView.setVisibility(View.GONE);
         }
@@ -340,7 +347,7 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
     }
 
     @Override
-    public void showItemView(String typeName, String itemName, String barcode, String skuCode, String packName, String qty, String fromLocationCode, String toLocationCode, String locationName, String numQty) {
+    public void showItemView(String typeName, String itemName, String barcode, String skuCode, String packName, String qty, String remainQty, String fromLocationCode, String toLocationCode, String locationName, String numQty) {
         mLocationView.setVisibility(View.GONE);
         mItemView.setVisibility(View.VISIBLE);
         detailView.setVisibility(View.GONE);
@@ -361,8 +368,16 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
         mItemPackNameView.setText(packName);
         mItemQtyView.setText(qty);
         mItemLocationView.setText(locationName);
-        mItemFromLocationTextView.setText(fromLocationCode);
+        mItemToLocationTitleTextView.setText("移入库位：");
         mItemToLocationTextView.setText(toLocationCode);
+
+        if (TextUtils.isEmpty(remainQty)) {
+            mItemRemainQtyTextView.setVisibility(View.GONE);
+        } else {
+            mItemRemainQtyTextView.setText(remainQty);
+            mItemRemainQtyTextView.setVisibility(View.VISIBLE);
+        }
+
         if (TextUtils.isEmpty(numQty)) {
             mItemQtyRealContainerView.setVisibility(View.GONE);
             mItemQtyRealView.setText(null);
