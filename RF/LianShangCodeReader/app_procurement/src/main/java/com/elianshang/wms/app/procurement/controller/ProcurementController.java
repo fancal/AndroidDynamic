@@ -11,6 +11,7 @@ import com.elianshang.wms.app.procurement.bean.Procurement;
 import com.elianshang.wms.app.procurement.bean.ProcurementNext;
 import com.elianshang.wms.app.procurement.bean.ResponseState;
 import com.elianshang.wms.app.procurement.provider.BindTaskProvider;
+import com.elianshang.wms.app.procurement.provider.DoneTaskProvider;
 import com.elianshang.wms.app.procurement.provider.ScanLocationProvider;
 import com.elianshang.wms.app.procurement.view.ProcurementView;
 import com.xue.http.impl.DataHull;
@@ -51,6 +52,8 @@ public class ProcurementController extends BaseProcurementController implements 
                 fillInBound();
             } else if (TextUtils.equals("1", curProcurement.getType())) {
                 fillOutBound();
+            } else if (TextUtils.equals("3", curProcurement.getType())) {
+                fillDone();
             }
         }
     }
@@ -89,6 +92,23 @@ public class ProcurementController extends BaseProcurementController implements 
         }
     }
 
+    private void fillDone() {
+        if (procurementView != null) {
+            procurementView.showLocationConfirmView(
+                    true,
+                    "放回到库位",
+                    "任务：" + curProcurement.getTaskId(),
+                    "名称：" + curProcurement.getItemName(),
+                    "国条码：" + curProcurement.getBarcode(),
+                    "商品编码：" + curProcurement.getSkuCode(),
+                    "规格：" + curProcurement.getPackName(),
+                    "数量：" + curProcurement.getQty(),
+                    null,
+                    curProcurement.getToLocationCode(),
+                    curProcurement.getLocationCode());
+        }
+    }
+
     @Override
     public void onSubmitClick(String qty, String scatterQty) {
 
@@ -117,10 +137,12 @@ public class ProcurementController extends BaseProcurementController implements 
     public void onComplete(String s) {
         if (curProcurement != null) {
             boolean check = TextUtils.equals(curProcurement.getLocationCode(), s);
-            if (!check) {
+            if (!check && !TextUtils.equals("3", curProcurement.getType())) {
                 ToastTool.show(activity, "库位不一致");
             } else {
-                if (TextUtils.equals("2", curProcurement.getType())) {
+                if (TextUtils.equals("3", curProcurement.getType())) {
+                    new DoneTaskTask(activity, uId, uToken, curProcurement.getTaskId(), s).start();
+                } else if (TextUtils.equals("2", curProcurement.getType())) {
                     submit(curProcurement.getQty(), "0");
                 } else if (TextUtils.equals("1", curProcurement.getType())) {
                     if (procurementView != null) {
@@ -178,6 +200,36 @@ public class ProcurementController extends BaseProcurementController implements 
         @Override
         public void onPostExecute(ResponseState result) {
             fillData();
+        }
+    }
+
+    private class DoneTaskTask extends HttpAsyncTask<ResponseState> {
+
+        private String uId;
+
+        private String uToken;
+
+        private String taskId;
+
+        private String locationCode;
+
+
+        public DoneTaskTask(Context context, String uId, String uToken, String taskId, String locationCode) {
+            super(context, true, true, false);
+            this.uId = uId;
+            this.uToken = uToken;
+            this.taskId = taskId;
+            this.locationCode = locationCode;
+        }
+
+        @Override
+        public DataHull<ResponseState> doInBackground() {
+            return DoneTaskProvider.request(context, uId, uToken, taskId, locationCode, serialNumber);
+        }
+
+        @Override
+        public void onPostExecute(ResponseState result) {
+            onTransferSuccess();
         }
     }
 

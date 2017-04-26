@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.elianshang.bridge.asyn.HttpAsyncTask;
 import com.elianshang.bridge.tool.DialogTools;
+import com.elianshang.bridge.tool.ScanManager;
 import com.elianshang.dynamic.DLBasePluginActivity;
 import com.elianshang.tools.ToastTool;
 import com.elianshang.wms.app.procurement.R;
@@ -28,7 +29,7 @@ import com.elianshang.wms.app.procurement.provider.ZoneLoginProvider;
 import com.elianshang.wms.app.procurement.provider.ZoneLogoutProvider;
 import com.xue.http.impl.DataHull;
 
-public class ZoneListActivity extends DLBasePluginActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class ZoneListActivity extends DLBasePluginActivity implements ScanManager.OnBarCodeListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     private Toolbar mToolbar;
 
@@ -74,10 +75,22 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
     public void onResume() {
         super.onResume();
 
+        if (ScanManager.get() != null) {
+            ScanManager.get().addListener(this);
+        }
+
         if (zoneSwipeRefreshLayout.getVisibility() == View.VISIBLE) {
             new ZoneListTask().start();
         } else if (locationSwipeRefreshLayout.getVisibility() == View.VISIBLE) {
             new LocationListTask(zoneId).start();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (ScanManager.get() != null) {
+            ScanManager.get().removeListener(this);
         }
     }
 
@@ -171,8 +184,8 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
     private boolean readExtras() {
         uId = getIntent().getStringExtra("uId");
         uToken = getIntent().getStringExtra("uToken");
-//        uId = "1";
-//        uToken = "198302935052918";
+//        uId = "125";
+//        uToken = "43473658989519";
 //        ScanManager.init(that);
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
@@ -202,7 +215,7 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
             }
         } else if (parent == locationListView) {
             if (locationList != null && position < locationList.size()) {
-                MainActivity.launch(this, uId, uToken, null, locationList.get(position).getTaskId());
+                MainActivity.launch(this, uId, uToken, null, locationList.get(position).getTaskId(), null);
             }
         }
     }
@@ -231,8 +244,33 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
         }, 500);
 
         if (v == systemFetchButton) {
-            MainActivity.launch(this, uId, uToken, zoneId, null);
+            MainActivity.launch(this, uId, uToken, zoneId, null, null);
         }
+    }
+
+    @Override
+    public void OnBarCodeReceived(String s) {
+        if (zoneSwipeRefreshLayout.getVisibility() == View.VISIBLE) {
+            return;
+        }
+
+        if (isItemClick) {
+            return;
+        }
+
+        if (TextUtils.isEmpty(s)) {
+            return;
+        }
+
+        isItemClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isItemClick = false;
+            }
+        }, 500);
+
+        MainActivity.launch(this, uId, uToken, null, null, s);
     }
 
     private class ZoneListAdapter extends BaseAdapter {
@@ -406,7 +444,7 @@ public class ZoneListActivity extends DLBasePluginActivity implements AdapterVie
 
         @Override
         public void dataNull(String errMsg) {
-            ToastTool.show(context , "该区域没有补货任务");
+            ToastTool.show(context, "该区域没有补货任务");
             zoneSwipeRefreshLayout.setRefreshing(false);
             locationSwipeRefreshLayout.setRefreshing(false);
             locationList = null;

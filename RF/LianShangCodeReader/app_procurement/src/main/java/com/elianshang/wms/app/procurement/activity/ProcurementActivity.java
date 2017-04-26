@@ -317,7 +317,6 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
             mItemNameView.setVisibility(View.VISIBLE);
             mItemPackNameView.setVisibility(View.VISIBLE);
             mItemQtyView.setVisibility(View.VISIBLE);
-            mItemToLocationTextLayout.setVisibility(View.VISIBLE);
             mItemRemainQtyTextView.setVisibility(View.GONE);
 
             mItemNameView.setText(itemName);
@@ -325,8 +324,14 @@ public class ProcurementActivity extends DLBasePluginActivity implements ScanEdi
             mItemSkuCodeView.setText(skuCode);
             mItemPackNameView.setText(packName);
             mItemQtyView.setText(qty);
-            mItemToLocationTitleTextView.setText("移出库位：");
-            mItemToLocationTextView.setText(fromLocationCode);
+            if (TextUtils.isEmpty(fromLocationCode)) {
+                mItemToLocationTextLayout.setVisibility(View.GONE);
+
+            } else {
+                mItemToLocationTextLayout.setVisibility(View.VISIBLE);
+                mItemToLocationTitleTextView.setText("移出库位：");
+                mItemToLocationTextView.setText(fromLocationCode);
+            }
         } else {
             mItemView.setVisibility(View.GONE);
         }

@@ -9,11 +9,12 @@ import com.elianshang.dynamic.internal.DLIntent;
 import com.elianshang.wms.app.procurement.bean.Procurement;
 import com.elianshang.wms.app.procurement.provider.AssignTaskProvider;
 import com.elianshang.wms.app.procurement.provider.FetchTaskProvider;
+import com.elianshang.wms.app.procurement.provider.TaskByToLocationProvider;
 import com.xue.http.impl.DataHull;
 
 public class MainActivity extends DLBasePluginActivity {
 
-    public static void launch(DLBasePluginActivity activity, String uid, String uToken, String zoneId, String taskId) {
+    public static void launch(DLBasePluginActivity activity, String uid, String uToken, String zoneId, String taskId, String locationCode) {
         DLIntent intent = new DLIntent(activity.getPackageName(), MainActivity.class);
         intent.putExtra("uId", uid);
         intent.putExtra("uToken", uToken);
@@ -23,6 +24,10 @@ public class MainActivity extends DLBasePluginActivity {
 
         if (!TextUtils.isEmpty(taskId)) {
             intent.putExtra("taskId", taskId);
+        }
+
+        if (!TextUtils.isEmpty(taskId)) {
+            intent.putExtra("locationCode", locationCode);
         }
         activity.startPluginActivity(intent);
     }
@@ -35,6 +40,8 @@ public class MainActivity extends DLBasePluginActivity {
 
     private String taskId;
 
+    private String locationCode;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +50,8 @@ public class MainActivity extends DLBasePluginActivity {
                 new AssignTask(uId, uToken, taskId).start();
             } else if (!TextUtils.isEmpty(zoneId)) {
                 new FetchProcurementTask(uId, uToken, zoneId).start();
+            } else if (!TextUtils.isEmpty(locationCode)) {
+                new TaskByLocationProcurementTask(uId, uToken, locationCode).start();
             }
         }
     }
@@ -52,6 +61,7 @@ public class MainActivity extends DLBasePluginActivity {
         uToken = getIntent().getStringExtra("uToken");
         zoneId = getIntent().getStringExtra("zoneId");
         taskId = getIntent().getStringExtra("taskId");
+        locationCode = getIntent().getStringExtra("locationCode");
 
         if (TextUtils.isEmpty(uId) || TextUtils.isEmpty(uToken)) {
             finish();
@@ -59,6 +69,53 @@ public class MainActivity extends DLBasePluginActivity {
         }
 
         return true;
+    }
+
+    private class TaskByLocationProcurementTask extends HttpAsyncTask<Procurement> {
+
+        private String uId;
+
+        private String uToken;
+
+        private String locationCode;
+
+
+        public TaskByLocationProcurementTask(String uId, String uToken, String locationCode) {
+            super(MainActivity.this.that, true, true, false, false);
+            this.uId = uId;
+            this.uToken = uToken;
+            this.locationCode = locationCode;
+        }
+
+        @Override
+        public DataHull<Procurement> doInBackground() {
+            return TaskByToLocationProvider.request(context, uId, uToken, locationCode);
+        }
+
+        @Override
+        public void onPostExecute(Procurement result) {
+            ProcurementActivity.launch(MainActivity.this, uId, uToken, result);
+            MainActivity.this.finish();
+        }
+
+
+        @Override
+        public void netErr(String errMsg) {
+            super.netErr(errMsg);
+            MainActivity.this.finish();
+        }
+
+        @Override
+        public void netNull() {
+            super.netNull();
+            MainActivity.this.finish();
+        }
+
+        @Override
+        public void dataNull(String errMsg) {
+            super.dataNull(errMsg);
+            MainActivity.this.finish();
+        }
     }
 
     private class FetchProcurementTask extends HttpAsyncTask<Procurement> {
