@@ -26,7 +26,7 @@ public class MainActivity extends DLBasePluginActivity {
             intent.putExtra("taskId", taskId);
         }
 
-        if (!TextUtils.isEmpty(taskId)) {
+        if (!TextUtils.isEmpty(locationCode)) {
             intent.putExtra("locationCode", locationCode);
         }
         activity.startPluginActivity(intent);
