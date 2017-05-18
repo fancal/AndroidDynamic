@@ -282,6 +282,7 @@
                         android:id="@+id/packName_TextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#ffff0000"
                         android:textSize="14dp" />
                 </LinearLayout>
 
@@ -305,6 +306,7 @@
                         android:id="@+id/allocQty_TextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#ffff0000"
                         android:textSize="14dp" />
                 </LinearLayout>
 
