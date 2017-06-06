@@ -60,6 +60,10 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
 
     private ScanEditText locationCodeEditText;
 
+    private View scanBarcodeLayout;
+
+    private ScanEditText scanBarcodeEditText;
+
     private View qtyLayout;
 
     private QtyEditText umoQtyEditText;
@@ -127,6 +131,8 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
         locationCodeLayout = findViewById(R.id.locationCode_Layout);
         locationCodeEditText = (ScanEditText) findViewById(R.id.locationCode_EditText);
         locationCodeEditText.setCode(true);
+        scanBarcodeLayout = findViewById(R.id.scanBarcode_Layout);
+        scanBarcodeEditText = (ScanEditText) findViewById(R.id.barcode_EditText);
         qtyLayout = findViewById(R.id.qty_Layout);
         umoQtyEditText = (QtyEditText) findViewById(R.id.umoQty_EditText);
         scatterQtyEditText = (QtyEditText) findViewById(R.id.scatterQty_EditText);
@@ -157,6 +163,7 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
         serialNumber = DeviceTool.generateSerialNumber(that, getClass().getName());
 
         locationCodeLayout.setVisibility(View.VISIBLE);
+        scanBarcodeLayout.setVisibility(View.VISIBLE);
         qtyLayout.setVisibility(View.GONE);
         skipButton.setVisibility(View.VISIBLE);
         submitButton.setVisibility(View.GONE);
@@ -170,18 +177,20 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
         locationCodeTextView.setText(curItem.getLocationCode());
         locationCodeEditText.setText("");
         locationCodeEditText.requestFocus();
+        scanBarcodeEditText.setText("");
 
         if (scanEditTextTool != null) {
             scanEditTextTool.release();
             scanEditTextTool = null;
         }
 
-        scanEditTextTool = new ScanEditTextTool(that, locationCodeEditText);
+        scanEditTextTool = new ScanEditTextTool(that, locationCodeEditText, scanBarcodeEditText);
         scanEditTextTool.setComplete(this);
     }
 
     private void fillQtyModeView() {
         locationCodeLayout.setVisibility(View.GONE);
+        scanBarcodeLayout.setVisibility(View.GONE);
         qtyLayout.setVisibility(View.VISIBLE);
         skipButton.setVisibility(View.VISIBLE);
         submitButton.setVisibility(View.VISIBLE);
@@ -278,9 +287,12 @@ public class BackActivity extends DLBasePluginActivity implements ScanManager.On
     @Override
     public void onComplete() {
         final String locationCode = locationCodeEditText.getText().toString();
+        final String barcode = scanBarcodeEditText.getText().toString();
 
         if (!TextUtils.equals(locationCode, curItem.getLocationCode())) {
             ToastTool.show(that, "与指定库位不一致，不能移入");
+        } else if (!TextUtils.equals(barcode, curItem.getBarcode()) && !TextUtils.equals(barcode, curItem.getPackCode()) && !TextUtils.equals(barcode, curItem.getSkuCode())) {
+            ToastTool.show(that, "与指定商品不一致，不能移入");
         } else {
             fillQtyModeView();
         }
