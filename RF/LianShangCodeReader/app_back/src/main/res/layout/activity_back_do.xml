@@ -214,29 +214,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/scanBarcode_Layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="2dp"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="扫描确认商品:"
-                android:textSize="14dp" />
-
-            <com.elianshang.bridge.ui.view.ScanEditText
-                android:id="@+id/barcode_EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14dp" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/qty_Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
