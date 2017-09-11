@@ -343,6 +343,11 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
                 }
                 scanEditTextTool = new ScanEditTextTool(that);
                 scanEditTextTool.setComplete(this);
+
+                for (ViewHolder viewHolder : viewHolderList) {
+                    viewHolder.taskIdEditText.addTextChangedListener(null);
+                }
+
                 viewHolderList.clear();
                 taskLayoutBodyLayout.removeAllViews();
 
@@ -412,6 +417,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         ScanEditText taskIdEditText = (ScanEditText) view.findViewById(R.id.taskId_EditText);
         ScanEditText containerIdEditText = (ScanEditText) view.findViewById(R.id.containerId_EditText);
 
+        taskIdEditText.addTextChangedListener(this);
         taskNoTextView.setText("任务" + (no + 1) + ":");
         if (no == 0) {
             taskNoTextView.setVisibility(View.GONE);
@@ -535,10 +541,6 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
     @Override
     public void onComplete() {
         switch (mCurPage) {
-            case 0:
-                mSubmit.setEnabled(true);
-                taskLayoutAddButton.setEnabled(true);
-                break;
             case 1:
                 String locationCode = locationLayoutConfirmLocationCodeView.getText().toString();
                 if (TextUtils.equals(locationCode, mPick.getAllocPickLocationCode())) {
@@ -563,13 +565,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
     @Override
     public void onError(ContentEditText editText) {
-        switch (mCurPage) {
-            case 0:
-                mSubmit.setEnabled(true);
-                taskLayoutAddButton.setEnabled(true);
-                break;
 
-        }
     }
 
     @Override
@@ -577,6 +573,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
         if (scanEditTextTool == null) {
             return;
         }
+
         scanEditTextTool.setScanText(s);
 
     }
@@ -650,7 +647,7 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
             for (ViewHolder viewHolder : viewHolderList) {
                 String taskId = viewHolder.taskIdEditText.getText().toString();
                 String containerId = viewHolder.containerIdEditText.getText().toString();
-                if (!TextUtils.isEmpty(taskId) && !TextUtils.isEmpty(containerId)) {
+                if (!TextUtils.isEmpty(taskId)) {
                     JSONObject jsonObject = new JSONObject();
                     try {
                         jsonObject.put("taskId", taskId);
@@ -705,14 +702,32 @@ public class PickActivity extends DLBasePluginActivity implements ScanEditTextTo
 
     @Override
     public void afterTextChanged(Editable s) {
-        String realQtyString = locationLayoutQty.getValue();
-        if (!TextUtils.isEmpty(realQtyString)) {
-            float realQty = Float.parseFloat(realQtyString);
-            float qty = Float.parseFloat(mPick.getAllocQty());
+        if (mCurPage == 0) {
+            boolean flag = false;
+            for (ViewHolder viewHolder : viewHolderList) {
+                if (!TextUtils.isEmpty(viewHolder.taskIdEditText.getText())) {
+                    flag = true;
+                    break;
+                }
+            }
 
-            if (realQty > qty) {
-                locationLayoutQty.setText(mPick.getAllocQty());
-                locationLayoutQty.setSelection(mPick.getAllocQty().length());
+            if (flag) {
+                taskLayoutAddButton.setEnabled(true);
+                mSubmit.setEnabled(true);
+            } else {
+                taskLayoutAddButton.setEnabled(false);
+                mSubmit.setEnabled(false);
+            }
+        } else {
+            String realQtyString = locationLayoutQty.getValue();
+            if (!TextUtils.isEmpty(realQtyString)) {
+                float realQty = Float.parseFloat(realQtyString);
+                float qty = Float.parseFloat(mPick.getAllocQty());
+
+                if (realQty > qty) {
+                    locationLayoutQty.setText(mPick.getAllocQty());
+                    locationLayoutQty.setSelection(mPick.getAllocQty().length());
+                }
             }
         }
     }
